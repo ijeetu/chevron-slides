@@ -43,33 +43,82 @@ function SlideShell({
   );
 }
 
-function EdgeAccent() {
+function CornerPatch({
+  className,
+  backgroundImage,
+  backgroundSize,
+  maskImage,
+}: {
+  className: string;
+  backgroundImage: string;
+  backgroundSize: string;
+  maskImage: string;
+}) {
   return (
-    <div className="pointer-events-none absolute inset-0">
-      <div className="absolute right-0 top-0 h-full w-[16vw] min-w-28 bg-[linear-gradient(180deg,rgba(140,159,176,0.12),rgba(140,159,176,0.02))]" />
-      <div className="absolute right-[8vw] top-[18vh] h-24 w-24 border border-ink/8" />
-      <div className="absolute right-[10vw] top-[20vh] h-24 w-24 border border-accent/35" />
-      <div className="absolute bottom-[18vh] right-[8vw] h-px w-[14vw] bg-ink/10" />
-    </div>
+    <div
+      className={`absolute ${className}`}
+      style={{
+        backgroundImage,
+        backgroundSize,
+        maskImage,
+        WebkitMaskImage: maskImage,
+      }}
+    />
   );
 }
 
-function CoverAccent() {
-  return (
-    <div className="pointer-events-none absolute inset-0">
-      <div className="absolute right-0 top-0 h-full w-[22vw] min-w-32 bg-[linear-gradient(180deg,rgba(17,22,28,0.07),rgba(17,22,28,0.015))]" />
-      <div className="absolute right-[8vw] top-[16vh] h-36 w-36 border border-ink/10" />
-      <div className="absolute right-[10vw] top-[18vh] h-36 w-36 border border-accent/40" />
-      <div className="absolute bottom-[16vh] right-[8vw] h-36 w-36 rounded-full border border-ink/10" />
-    </div>
-  );
-}
+function SlideAccent({ number, cover }: { number: number; cover?: boolean }) {
+  const variant = number % 4;
+  const topLeftPattern =
+    variant === 0
+      ? "linear-gradient(rgba(17,22,28,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.06) 1px, transparent 1px), radial-gradient(circle at top left, rgba(140,159,176,0.16), transparent 70%)"
+      : variant === 1
+        ? "linear-gradient(rgba(140,159,176,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.08) 1px, transparent 1px), linear-gradient(135deg, rgba(17,22,28,0.05), transparent 60%)"
+        : variant === 2
+          ? "linear-gradient(rgba(17,22,28,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.05) 1px, transparent 1px), radial-gradient(circle at top left, rgba(17,22,28,0.05), transparent 74%)"
+          : "linear-gradient(rgba(140,159,176,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.09) 1px, transparent 1px), linear-gradient(160deg, rgba(140,159,176,0.13), transparent 66%)";
+  const rightPattern =
+    variant === 0
+      ? "linear-gradient(rgba(17,22,28,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.08) 1px, transparent 1px), linear-gradient(180deg, rgba(140,159,176,0.14), rgba(140,159,176,0.02))"
+      : variant === 1
+        ? "linear-gradient(rgba(140,159,176,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.1) 1px, transparent 1px), radial-gradient(circle at top right, rgba(140,159,176,0.16), transparent 70%)"
+        : variant === 2
+          ? "linear-gradient(rgba(17,22,28,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.06) 1px, transparent 1px), linear-gradient(180deg, rgba(17,22,28,0.05), transparent 68%)"
+          : "linear-gradient(rgba(140,159,176,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.08) 1px, transparent 1px), radial-gradient(circle at top right, rgba(17,22,28,0.06), transparent 72%)";
+  const bottomPattern =
+    variant === 0
+      ? "linear-gradient(rgba(17,22,28,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.05) 1px, transparent 1px), radial-gradient(circle at bottom right, rgba(140,159,176,0.12), transparent 70%)"
+      : variant === 1
+        ? "linear-gradient(rgba(140,159,176,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.08) 1px, transparent 1px), linear-gradient(180deg, transparent, rgba(140,159,176,0.12))"
+        : variant === 2
+          ? "linear-gradient(rgba(17,22,28,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.05) 1px, transparent 1px), radial-gradient(circle at bottom left, rgba(17,22,28,0.05), transparent 72%)"
+          : "linear-gradient(rgba(140,159,176,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.09) 1px, transparent 1px), linear-gradient(180deg, transparent, rgba(17,22,28,0.05))";
+  const thirdCornerIsLeft = variant >= 2;
 
-function StatementAccent() {
   return (
     <div className="pointer-events-none absolute inset-0">
-      <div className="absolute left-[10vw] top-[18vh] hidden h-20 w-20 rotate-45 border border-accent/35 md:block" />
-      <div className="absolute bottom-[18vh] right-[10vw] hidden h-24 w-24 rounded-full border border-ink/10 md:block" />
+      <CornerPatch
+        className={`${cover ? "left-[4.5vw] top-[10vh] h-[22vh] w-[12vw]" : "left-[4.5vw] top-[10vh] h-[18vh] w-[10vw]"} hidden md:block`}
+        backgroundImage={topLeftPattern}
+        backgroundSize="28px 28px, 28px 28px, 100% 100%"
+        maskImage="radial-gradient(circle at top left, rgba(0,0,0,1) 18%, rgba(0,0,0,0.68) 58%, transparent 100%)"
+      />
+      <CornerPatch
+        className={`${cover ? "right-[4.5vw] top-[10vh] h-[28vh] w-[16vw]" : "right-[4.5vw] top-[10vh] h-[22vh] w-[13vw]"} hidden md:block`}
+        backgroundImage={rightPattern}
+        backgroundSize="30px 30px, 30px 30px, 100% 100%"
+        maskImage="radial-gradient(circle at top right, rgba(0,0,0,1) 20%, rgba(0,0,0,0.72) 56%, transparent 100%)"
+      />
+      <CornerPatch
+        className={`${thirdCornerIsLeft ? "left-[4.5vw]" : "right-[4.5vw]"} bottom-[10vh] h-[20vh] w-[12vw] hidden md:block`}
+        backgroundImage={bottomPattern}
+        backgroundSize="26px 26px, 26px 26px, 100% 100%"
+        maskImage={
+          thirdCornerIsLeft
+            ? "radial-gradient(circle at bottom left, rgba(0,0,0,1) 20%, rgba(0,0,0,0.72) 58%, transparent 100%)"
+            : "radial-gradient(circle at bottom right, rgba(0,0,0,1) 20%, rgba(0,0,0,0.72) 58%, transparent 100%)"
+        }
+      />
     </div>
   );
 }
@@ -92,7 +141,9 @@ function TitleBlock({
   return (
     <div className={maxWidth}>
       <SlideLabel label={label} />
-      <h1 className="mt-5 font-display text-4xl leading-[1.02] text-ink md:text-6xl">
+      <h1
+        className="mt-5 font-display text-4xl leading-[1.02] text-ink md:text-6xl [text-wrap:balance]"
+      >
         {title}
       </h1>
     </div>
@@ -111,18 +162,18 @@ function SectionBlock({
       <div className="absolute left-0 top-0 h-full w-1 bg-[linear-gradient(180deg,rgba(140,159,176,0.8),rgba(140,159,176,0.15))]" />
       <div className="pl-3">
         {section.heading ? (
-          <p className="mb-4 text-[0.72rem] uppercase tracking-[0.24em] text-graphite">
+          <p className="mb-5 text-[0.72rem] uppercase tracking-[0.24em] text-graphite">
             {section.heading}
           </p>
         ) : null}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {section.items.map((item) => (
             <p
               key={item}
               className={
                 large
-                  ? "text-xl leading-8 text-ink md:text-[1.45rem] md:leading-10"
-                  : "text-base leading-7 text-ink md:text-lg"
+                  ? "text-xl leading-8 text-ink md:text-[1.38rem] md:leading-9 [text-wrap:pretty]"
+                  : "text-base leading-7 text-ink md:text-lg [text-wrap:pretty]"
               }
             >
               {item}
@@ -151,13 +202,46 @@ function StatementBlock({ statements }: { statements: string[] }) {
   );
 }
 
-function CoverSlide({ slide }: { slide: Slide }) {
+function BalancedSectionGrid({ sections }: { sections: SlideSection[] }) {
+  if (sections.length === 0) return null;
+
+  if (sections.length === 1) {
+    return (
+      <div className="max-w-3xl">
+        <SectionBlock section={sections[0]} large />
+      </div>
+    );
+  }
+
+  if (sections.length === 2) {
+    return (
+      <div className="grid gap-4 md:grid-cols-2">
+        {sections.map((section) => (
+          <SectionBlock key={section.heading ?? section.items.join("-")} section={section} />
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <SlideShell accent={<CoverAccent />}>
+    <div className="grid gap-4 md:grid-cols-2">
+      <div className="md:col-span-2">
+        <SectionBlock section={sections[0]} large />
+      </div>
+      {sections.slice(1).map((section) => (
+        <SectionBlock key={section.heading ?? section.items.join("-")} section={section} />
+      ))}
+    </div>
+  );
+}
+
+function CoverSlide({ slide, number }: { slide: Slide; number: number }) {
+  return (
+    <SlideShell accent={<SlideAccent number={number} cover />}>
       <div className="grid w-full items-center gap-12 md:grid-cols-[1.12fr_0.88fr] md:gap-20">
         <div className="space-y-10">
           <div className="max-w-5xl">
-            <h1 className="mt-5 max-w-5xl font-display text-5xl leading-[0.97] text-ink md:text-[5.8rem]">
+            <h1 className="mt-5 max-w-5xl font-display text-5xl leading-[0.97] text-ink md:text-[5.8rem] [text-wrap:balance]">
               {slide.title}
             </h1>
             {slide.lead ? (
@@ -178,7 +262,7 @@ function CoverSlide({ slide }: { slide: Slide }) {
           ) : null}
         </div>
 
-        <div className="hidden h-[52vh] rounded-[2rem] border border-line bg-white/60 md:block" />
+        <div className="hidden md:block" />
       </div>
     </SlideShell>
   );
@@ -186,7 +270,7 @@ function CoverSlide({ slide }: { slide: Slide }) {
 
 function TimelineSlide({ slide, number }: { slide: Slide; number: number }) {
   return (
-    <SlideShell accent={<EdgeAccent />}>
+    <SlideShell accent={<SlideAccent number={number} />}>
       <div className="grid w-full items-center gap-12 md:grid-cols-[0.88fr_1.12fr] md:gap-20">
         <TitleBlock label={String(number)} title={slide.title} maxWidth="max-w-3xl" />
 
@@ -215,25 +299,15 @@ function TimelineSlide({ slide, number }: { slide: Slide; number: number }) {
 }
 
 function StandardSlide({ slide, number }: { slide: Slide; number: number }) {
-  const heroSection = slide.sections[0];
-  const remainingSections = slide.sections.slice(1);
-
   return (
-    <SlideShell accent={<EdgeAccent />}>
-      <div className="grid w-full items-center gap-12 md:grid-cols-[1.02fr_0.98fr] md:gap-20">
-        <div className="space-y-8">
-          <TitleBlock label={String(number)} title={slide.title} />
-          {heroSection ? (
-            <div className="max-w-3xl">
-              <SectionBlock section={heroSection} large />
-            </div>
-          ) : null}
+    <SlideShell accent={<SlideAccent number={number} />}>
+      <div className="grid w-full items-center gap-12 md:grid-cols-[0.84fr_1.16fr] md:gap-20">
+        <div className="space-y-8 md:pr-4">
+          <TitleBlock label={String(number)} title={slide.title} maxWidth="max-w-3xl" />
         </div>
 
         <div className="space-y-4">
-          {remainingSections.map((section) => (
-            <SectionBlock key={section.heading ?? section.items.join("-")} section={section} />
-          ))}
+          <BalancedSectionGrid sections={slide.sections} />
           {slide.statements.length > 0 ? <StatementBlock statements={slide.statements} /> : null}
         </div>
       </div>
@@ -245,7 +319,7 @@ function StatementSlide({ slide, number }: { slide: Slide; number: number }) {
   const statement = slide.statements[0] ?? "Questions";
 
   return (
-    <SlideShell accent={<StatementAccent />}>
+    <SlideShell accent={<SlideAccent number={number} />}>
       <div className="flex w-full flex-col items-center justify-center text-center">
         <SlideLabel label={String(number)} />
         <h1 className="mt-5 font-display text-5xl leading-none text-ink md:text-8xl">
@@ -309,7 +383,7 @@ export function SlideDeck({ slides }: SlideDeckProps) {
   return (
     <main className="min-h-screen">
       {slide.type === "cover" ? (
-        <CoverSlide slide={slide} />
+        <CoverSlide slide={slide} number={currentIndex + 1} />
       ) : slide.type === "timeline" ? (
         <TimelineSlide slide={slide} number={currentIndex + 1} />
       ) : slide.type === "statement" ? (
