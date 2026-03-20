@@ -41,8 +41,16 @@ function SlideShell({
 }
 
 function SlideLabel({ label }: { label: string }) {
+  const isNumericLabel = /^\d+$/.test(label);
+  const value = isNumericLabel ? `Slide ${label.padStart(2, "0")}` : label;
+
   return (
-    <p className="text-[0.72rem] uppercase tracking-[0.32em] text-mist">{label}</p>
+    <div className="flex items-center gap-4 text-mist">
+      <p className="text-[0.76rem] uppercase tracking-[0.28em]">{value}</p>
+      {isNumericLabel ? (
+        <span className="h-px w-20 bg-[linear-gradient(90deg,rgba(38,49,61,0.45),rgba(38,49,61,0))]" />
+      ) : null}
+    </div>
   );
 }
 
@@ -123,8 +131,8 @@ function SectionBlock({
               key={item}
               className={
                 large
-                  ? "text-xl leading-8 text-ink md:text-[1.38rem] md:leading-9 [text-wrap:pretty]"
-                  : "text-base leading-7 text-ink md:text-lg [text-wrap:pretty]"
+                  ? "text-[1.22rem] leading-9 text-ink md:text-[1.55rem] md:leading-10 [text-wrap:pretty]"
+                  : "text-lg leading-8 text-ink md:text-[1.3rem] md:leading-9 [text-wrap:pretty]"
               }
             >
               {item}
@@ -143,7 +151,7 @@ function StatementBlock({ statements }: { statements: string[] }) {
         {statements.map((statement) => (
           <p
             key={statement}
-            className="border-l-2 border-accent pl-4 text-lg leading-8 text-ink"
+            className="border-l-2 border-accent pl-4 text-xl leading-9 text-ink md:text-[1.35rem] md:leading-10"
           >
             {statement}
           </p>
@@ -166,7 +174,7 @@ function StatementItem({
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-accent/50 text-[0.72rem] font-medium text-graphite">
           {index + 1}
         </div>
-        <p className="pt-0.5 text-base leading-7 text-ink md:text-lg [text-wrap:pretty]">
+        <p className="pt-0.5 text-lg leading-8 text-ink md:text-[1.3rem] md:leading-9 [text-wrap:pretty]">
           {statement}
         </p>
       </div>
@@ -205,7 +213,7 @@ function CoverSlide({ slide, number }: { slide: Slide; number: number }) {
           {slide.statements.length > 0 ? (
             <div className="max-w-xl border-t border-line pt-6">
               {slide.statements.map((statement) => (
-                <p key={statement} className="text-lg leading-8 text-ink md:text-2xl">
+                <p key={statement} className="text-xl leading-9 text-ink md:text-[1.7rem] md:leading-10">
                   {statement}
                 </p>
               ))}
@@ -236,7 +244,7 @@ function TimelineSlide({ slide, number }: { slide: Slide; number: number }) {
               </p>
               <div className="space-y-3">
                 {section.items.map((item) => (
-                  <p key={item} className="text-base leading-7 text-ink md:text-lg">
+                  <p key={item} className="text-lg leading-8 text-ink md:text-[1.3rem] md:leading-9">
                     {item}
                   </p>
                 ))}

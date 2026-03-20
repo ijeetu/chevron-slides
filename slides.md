@@ -6,8 +6,7 @@ By George Partsch IV
 Slide 1
 Why This Meeting / Why Now
 Chevron already has established government, regulatory, and stakeholder channels.
-This meeting is about a separate path:
-a high-level introduction to a new playbook, new rails, and a different mechanism for creating durable outcomes at scale.
+This meeting is about a separate path: a high-level introduction to a new playbook, new rails, and a different mechanism for creating durable outcomes at scale.
 The purpose of this meeting is not to replace Chevron’s existing efforts.
 It is to present a differentiated strategic capability Chevron does not currently have in-house.
  
@@ -74,4 +73,3 @@ If successful, Chevron is positioned early inside a model capable of creating du
 Slide 9
 Evidence on Demand
 Actions / Questions
-
