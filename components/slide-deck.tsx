@@ -29,13 +29,13 @@ function SlideShell({
   return (
     <section className="relative min-h-screen overflow-hidden bg-[var(--panel)]">
       <div className="absolute inset-0 bg-grain opacity-70" />
-      <div className="pointer-events-none absolute inset-x-[5vw] top-[12vh] h-px bg-ink/8" />
-      <div className="pointer-events-none absolute inset-x-[5vw] bottom-[12vh] h-px bg-ink/8" />
-      <div className="pointer-events-none absolute bottom-0 left-[6vw] top-0 w-px bg-ink/6" />
-      <div className="pointer-events-none absolute bottom-0 right-[6vw] top-0 w-px bg-ink/6" />
+      <div className="pointer-events-none absolute inset-x-[10vw] top-[12vh] h-px bg-ink/8" />
+      <div className="pointer-events-none absolute inset-x-[10vw] bottom-[12vh] h-px bg-ink/8" />
+      <div className="pointer-events-none absolute bottom-0 left-[10vw] top-0 w-px bg-ink/6" />
+      <div className="pointer-events-none absolute bottom-0 right-[10vw] top-0 w-px bg-ink/6" />
       {accent}
-      <div className="relative z-10 min-h-screen px-6 py-8 md:px-12 md:py-10">
-        <div className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-[1380px] items-center">
+      <div className="relative z-10 min-h-screen px-[10%] py-8 md:py-10">
+        <div className="flex min-h-[calc(100vh-5rem)] w-full items-center">
           {children}
         </div>
       </div>
@@ -44,22 +44,24 @@ function SlideShell({
 }
 
 function CornerPatch({
-  className,
+  anchor,
   backgroundImage,
   backgroundSize,
   maskImage,
 }: {
-  className: string;
+  anchor: string;
   backgroundImage: string;
   backgroundSize: string;
   maskImage: string;
 }) {
   return (
     <div
-      className={`absolute ${className}`}
+      className="absolute inset-0 opacity-90"
       style={{
         backgroundImage,
         backgroundSize,
+        backgroundPosition: anchor,
+        backgroundRepeat: "no-repeat",
         maskImage,
         WebkitMaskImage: maskImage,
       }}
@@ -71,52 +73,52 @@ function SlideAccent({ number, cover }: { number: number; cover?: boolean }) {
   const variant = number % 4;
   const topLeftPattern =
     variant === 0
-      ? "linear-gradient(rgba(17,22,28,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.06) 1px, transparent 1px), radial-gradient(circle at top left, rgba(140,159,176,0.16), transparent 70%)"
+      ? "linear-gradient(rgba(17,22,28,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.1) 1px, transparent 1px), radial-gradient(circle at top left, rgba(140,159,176,0.22), transparent 72%)"
       : variant === 1
-        ? "linear-gradient(rgba(140,159,176,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.08) 1px, transparent 1px), linear-gradient(135deg, rgba(17,22,28,0.05), transparent 60%)"
+        ? "linear-gradient(rgba(140,159,176,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.12) 1px, transparent 1px), linear-gradient(135deg, rgba(17,22,28,0.08), transparent 62%)"
         : variant === 2
-          ? "linear-gradient(rgba(17,22,28,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.05) 1px, transparent 1px), radial-gradient(circle at top left, rgba(17,22,28,0.05), transparent 74%)"
-          : "linear-gradient(rgba(140,159,176,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.09) 1px, transparent 1px), linear-gradient(160deg, rgba(140,159,176,0.13), transparent 66%)";
+          ? "linear-gradient(rgba(17,22,28,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.09) 1px, transparent 1px), radial-gradient(circle at top left, rgba(17,22,28,0.08), transparent 76%)"
+          : "linear-gradient(rgba(140,159,176,0.13) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.13) 1px, transparent 1px), linear-gradient(160deg, rgba(140,159,176,0.18), transparent 68%)";
   const rightPattern =
     variant === 0
-      ? "linear-gradient(rgba(17,22,28,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.08) 1px, transparent 1px), linear-gradient(180deg, rgba(140,159,176,0.14), rgba(140,159,176,0.02))"
+      ? "linear-gradient(rgba(17,22,28,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.12) 1px, transparent 1px), linear-gradient(180deg, rgba(140,159,176,0.2), rgba(140,159,176,0.03))"
       : variant === 1
-        ? "linear-gradient(rgba(140,159,176,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.1) 1px, transparent 1px), radial-gradient(circle at top right, rgba(140,159,176,0.16), transparent 70%)"
+        ? "linear-gradient(rgba(140,159,176,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.14) 1px, transparent 1px), radial-gradient(circle at top right, rgba(140,159,176,0.22), transparent 72%)"
         : variant === 2
-          ? "linear-gradient(rgba(17,22,28,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.06) 1px, transparent 1px), linear-gradient(180deg, rgba(17,22,28,0.05), transparent 68%)"
-          : "linear-gradient(rgba(140,159,176,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.08) 1px, transparent 1px), radial-gradient(circle at top right, rgba(17,22,28,0.06), transparent 72%)";
+          ? "linear-gradient(rgba(17,22,28,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.1) 1px, transparent 1px), linear-gradient(180deg, rgba(17,22,28,0.08), transparent 70%)"
+          : "linear-gradient(rgba(140,159,176,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.12) 1px, transparent 1px), radial-gradient(circle at top right, rgba(17,22,28,0.09), transparent 74%)";
   const bottomPattern =
     variant === 0
-      ? "linear-gradient(rgba(17,22,28,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.05) 1px, transparent 1px), radial-gradient(circle at bottom right, rgba(140,159,176,0.12), transparent 70%)"
+      ? "linear-gradient(rgba(17,22,28,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.09) 1px, transparent 1px), radial-gradient(circle at bottom right, rgba(140,159,176,0.18), transparent 72%)"
       : variant === 1
-        ? "linear-gradient(rgba(140,159,176,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.08) 1px, transparent 1px), linear-gradient(180deg, transparent, rgba(140,159,176,0.12))"
+        ? "linear-gradient(rgba(140,159,176,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.12) 1px, transparent 1px), linear-gradient(180deg, transparent, rgba(140,159,176,0.18))"
         : variant === 2
-          ? "linear-gradient(rgba(17,22,28,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.05) 1px, transparent 1px), radial-gradient(circle at bottom left, rgba(17,22,28,0.05), transparent 72%)"
-          : "linear-gradient(rgba(140,159,176,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.09) 1px, transparent 1px), linear-gradient(180deg, transparent, rgba(17,22,28,0.05))";
+          ? "linear-gradient(rgba(17,22,28,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(17,22,28,0.09) 1px, transparent 1px), radial-gradient(circle at bottom left, rgba(17,22,28,0.08), transparent 74%)"
+          : "linear-gradient(rgba(140,159,176,0.13) 1px, transparent 1px), linear-gradient(90deg, rgba(140,159,176,0.13) 1px, transparent 1px), linear-gradient(180deg, transparent, rgba(17,22,28,0.09))";
   const thirdCornerIsLeft = variant >= 2;
 
   return (
     <div className="pointer-events-none absolute inset-0">
       <CornerPatch
-        className={`${cover ? "left-[4.5vw] top-[10vh] h-[22vh] w-[12vw]" : "left-[4.5vw] top-[10vh] h-[18vh] w-[10vw]"} hidden md:block`}
+        anchor="left top"
         backgroundImage={topLeftPattern}
-        backgroundSize="28px 28px, 28px 28px, 100% 100%"
-        maskImage="radial-gradient(circle at top left, rgba(0,0,0,1) 18%, rgba(0,0,0,0.68) 58%, transparent 100%)"
+        backgroundSize={cover ? "30px 30px, 30px 30px, 30vw 30vw" : "28px 28px, 28px 28px, 24vw 24vw"}
+        maskImage="radial-gradient(circle at top left, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.82) 16%, rgba(0,0,0,0.46) 30%, transparent 52%)"
       />
       <CornerPatch
-        className={`${cover ? "right-[4.5vw] top-[10vh] h-[28vh] w-[16vw]" : "right-[4.5vw] top-[10vh] h-[22vh] w-[13vw]"} hidden md:block`}
+        anchor="right top"
         backgroundImage={rightPattern}
-        backgroundSize="30px 30px, 30px 30px, 100% 100%"
-        maskImage="radial-gradient(circle at top right, rgba(0,0,0,1) 20%, rgba(0,0,0,0.72) 56%, transparent 100%)"
+        backgroundSize={cover ? "30px 30px, 30px 30px, 34vw 34vw" : "28px 28px, 28px 28px, 26vw 26vw"}
+        maskImage="radial-gradient(circle at top right, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.84) 18%, rgba(0,0,0,0.48) 32%, transparent 54%)"
       />
       <CornerPatch
-        className={`${thirdCornerIsLeft ? "left-[4.5vw]" : "right-[4.5vw]"} bottom-[10vh] h-[20vh] w-[12vw] hidden md:block`}
+        anchor={thirdCornerIsLeft ? "left bottom" : "right bottom"}
         backgroundImage={bottomPattern}
-        backgroundSize="26px 26px, 26px 26px, 100% 100%"
+        backgroundSize="26px 26px, 26px 26px, 22vw 22vw"
         maskImage={
           thirdCornerIsLeft
-            ? "radial-gradient(circle at bottom left, rgba(0,0,0,1) 20%, rgba(0,0,0,0.72) 58%, transparent 100%)"
-            : "radial-gradient(circle at bottom right, rgba(0,0,0,1) 20%, rgba(0,0,0,0.72) 58%, transparent 100%)"
+            ? "radial-gradient(circle at bottom left, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.8) 14%, rgba(0,0,0,0.4) 26%, transparent 46%)"
+            : "radial-gradient(circle at bottom right, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.8) 14%, rgba(0,0,0,0.4) 26%, transparent 46%)"
         }
       />
     </div>
@@ -126,6 +128,40 @@ function SlideAccent({ number, cover }: { number: number; cover?: boolean }) {
 function SlideLabel({ label }: { label: string }) {
   return (
     <p className="text-[0.72rem] uppercase tracking-[0.32em] text-mist">{label}</p>
+  );
+}
+
+function ChevronLeftIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M15 18l-6-6 6-6" />
+    </svg>
+  );
+}
+
+function ChevronRightIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9 18l6-6-6-6" />
+    </svg>
   );
 }
 
@@ -379,6 +415,8 @@ export function SlideDeck({ slides }: SlideDeckProps) {
   }, [currentIndex]);
 
   const slide = slides[currentIndex];
+  const goPrevious = () => setCurrentIndex((index) => clamp(index - 1, total));
+  const goNext = () => setCurrentIndex((index) => clamp(index + 1, total));
 
   return (
     <main className="min-h-screen">
@@ -391,6 +429,26 @@ export function SlideDeck({ slides }: SlideDeckProps) {
       ) : (
         <StandardSlide slide={slide} number={currentIndex + 1} />
       )}
+      <div className="fixed bottom-6 right-6 z-20 flex items-center gap-2 md:bottom-8 md:right-8">
+        <button
+          type="button"
+          aria-label="Previous slide"
+          onClick={goPrevious}
+          className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-white/92 text-xl text-ink shadow-deck transition hover:border-accent hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+          disabled={currentIndex === 0}
+        >
+          <ChevronLeftIcon />
+        </button>
+        <button
+          type="button"
+          aria-label="Next slide"
+          onClick={goNext}
+          className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-white/92 text-xl text-ink shadow-deck transition hover:border-accent hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+          disabled={currentIndex === total - 1}
+        >
+          <ChevronRightIcon />
+        </button>
+      </div>
     </main>
   );
 }
