@@ -22,14 +22,27 @@ body {
   margin: 0;
   min-height: 100%;
   background:
-    radial-gradient(circle at top left, rgba(140, 159, 176, 0.16), transparent 26%),
-    linear-gradient(180deg, #f3f1eb 0%, #f8f6f1 52%, #f5f2ec 100%);
+    radial-gradient(circle at 12% 0%, rgba(72, 88, 104, 0.14), transparent 24%),
+    linear-gradient(135deg, #d7dbd7 0%, #e8e9e5 36%, #d7dde1 100%);
   color: var(--text);
   font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
 }
 
 body {
   min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(17, 22, 28, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 22, 28, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 button,
