@@ -8,6 +8,9 @@ type SlideDeckProps = {
   slides: Slide[];
 };
 
+const SLIDE_EXIT_MS = 180;
+const SLIDE_ENTER_MS = 560;
+
 function clamp(index: number, total: number) {
   return Math.max(0, Math.min(index, total - 1));
 }
@@ -315,31 +318,44 @@ function StatementSlide({ slide, number }: { slide: Slide; number: number }) {
 export function SlideDeck({ slides }: SlideDeckProps) {
   const total = slides.length;
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [displayIndex, setDisplayIndex] = useState(0);
+  const [transitionStage, setTransitionStage] = useState<"idle" | "exit" | "enter">("idle");
+  const [direction, setDirection] = useState<1 | -1>(1);
 
   useEffect(() => {
-    setCurrentIndex(parseHash(total));
+    const initialIndex = parseHash(total);
+    setCurrentIndex(initialIndex);
+    setDisplayIndex(initialIndex);
   }, [total]);
 
   useEffect(() => {
-    const onHashChange = () => setCurrentIndex(parseHash(total));
+    const onHashChange = () => {
+      const nextIndex = parseHash(total);
+      setDirection(nextIndex >= currentIndex ? 1 : -1);
+      setCurrentIndex(nextIndex);
+    };
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
         event.preventDefault();
+        setDirection(1);
         setCurrentIndex((index) => clamp(index + 1, total));
       }
 
       if (event.key === "ArrowLeft" || event.key === "PageUp") {
         event.preventDefault();
+        setDirection(-1);
         setCurrentIndex((index) => clamp(index - 1, total));
       }
 
       if (event.key === "Home") {
         event.preventDefault();
+        setDirection(-1);
         setCurrentIndex(0);
       }
 
       if (event.key === "End") {
         event.preventDefault();
+        setDirection(1);
         setCurrentIndex(total - 1);
       }
     };
@@ -354,30 +370,70 @@ export function SlideDeck({ slides }: SlideDeckProps) {
   }, [total]);
 
   useEffect(() => {
+    if (currentIndex === displayIndex) return;
+
+    setTransitionStage("exit");
+
+    const swapTimer = window.setTimeout(() => {
+      setDisplayIndex(currentIndex);
+      setTransitionStage("enter");
+    }, SLIDE_EXIT_MS);
+
+    const settleTimer = window.setTimeout(() => {
+      setTransitionStage("idle");
+    }, SLIDE_EXIT_MS + SLIDE_ENTER_MS);
+
+    return () => {
+      window.clearTimeout(swapTimer);
+      window.clearTimeout(settleTimer);
+    };
+  }, [currentIndex, displayIndex]);
+
+  useEffect(() => {
     window.history.replaceState(null, "", `#slide-${currentIndex + 1}`);
   }, [currentIndex]);
 
-  const slide = slides[currentIndex];
-  const goPrevious = () => setCurrentIndex((index) => clamp(index - 1, total));
-  const goNext = () => setCurrentIndex((index) => clamp(index + 1, total));
+  const slide = slides[displayIndex];
+  const transitionClass =
+    transitionStage === "exit"
+      ? direction > 0
+        ? "slide-transition-exit-next"
+        : "slide-transition-exit-prev"
+      : transitionStage === "enter"
+        ? direction > 0
+          ? "slide-transition-enter-next"
+          : "slide-transition-enter-prev"
+        : "";
+
+  const goPrevious = () => {
+    setDirection(-1);
+    setCurrentIndex((index) => clamp(index - 1, total));
+  };
+
+  const goNext = () => {
+    setDirection(1);
+    setCurrentIndex((index) => clamp(index + 1, total));
+  };
 
   return (
     <main className="min-h-screen">
-      {slide.type === "cover" ? (
-        <CoverSlide slide={slide} number={currentIndex + 1} />
-      ) : slide.type === "timeline" ? (
-        <TimelineSlide slide={slide} number={currentIndex + 1} />
-      ) : slide.type === "statement" ? (
-        <StatementSlide slide={slide} number={currentIndex + 1} />
-      ) : (
-        <StandardSlide slide={slide} number={currentIndex + 1} />
-      )}
+      <div className={`slide-transition ${transitionClass}`}>
+        {slide.type === "cover" ? (
+          <CoverSlide slide={slide} number={displayIndex + 1} />
+        ) : slide.type === "timeline" ? (
+          <TimelineSlide slide={slide} number={displayIndex + 1} />
+        ) : slide.type === "statement" ? (
+          <StatementSlide slide={slide} number={displayIndex + 1} />
+        ) : (
+          <StandardSlide slide={slide} number={displayIndex + 1} />
+        )}
+      </div>
       <div className="fixed bottom-6 right-6 z-20 flex items-center gap-2 md:bottom-8 md:right-8">
         <button
           type="button"
           aria-label="Previous slide"
           onClick={goPrevious}
-          className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-white/92 text-xl text-ink shadow-deck transition hover:border-accent hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-white/92 text-xl text-ink shadow-deck transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:scale-[1.03] hover:border-accent hover:bg-white hover:shadow-[0_28px_60px_rgba(17,22,28,0.14)] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
           disabled={currentIndex === 0}
         >
           <ChevronLeftIcon />
@@ -386,7 +442,7 @@ export function SlideDeck({ slides }: SlideDeckProps) {
           type="button"
           aria-label="Next slide"
           onClick={goNext}
-          className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-white/92 text-xl text-ink shadow-deck transition hover:border-accent hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-white/92 text-xl text-ink shadow-deck transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:scale-[1.03] hover:border-accent hover:bg-white hover:shadow-[0_28px_60px_rgba(17,22,28,0.14)] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
           disabled={currentIndex === total - 1}
         >
           <ChevronRightIcon />
