@@ -21,8 +21,10 @@ function parseHash(total: number) {
 
 function SlideShell({
   children,
+  slideNumber,
 }: {
   children: React.ReactNode;
+  slideNumber?: number;
 }) {
   return (
     <section className="relative min-h-screen overflow-hidden bg-transparent">
@@ -32,25 +34,19 @@ function SlideShell({
       <div className="absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
       <div className="relative z-10 min-h-screen px-[10%] py-8 md:py-10">
+        {slideNumber ? (
+          <div className="absolute right-6 top-8 flex items-center gap-4 text-mist md:right-8 md:top-10">
+            <p className="text-[0.76rem] uppercase tracking-[0.28em]">
+              {`Slide ${String(slideNumber).padStart(2, "0")}`}
+            </p>
+            <span className="h-px w-20 bg-[linear-gradient(90deg,rgba(38,49,61,0.45),rgba(38,49,61,0))]" />
+          </div>
+        ) : null}
         <div className="flex min-h-[calc(100vh-5rem)] w-full items-center">
           {children}
         </div>
       </div>
     </section>
-  );
-}
-
-function SlideLabel({ label }: { label: string }) {
-  const isNumericLabel = /^\d+$/.test(label);
-  const value = isNumericLabel ? `Slide ${label.padStart(2, "0")}` : label;
-
-  return (
-    <div className="flex items-center gap-4 text-mist">
-      <p className="text-[0.76rem] uppercase tracking-[0.28em]">{value}</p>
-      {isNumericLabel ? (
-        <span className="h-px w-20 bg-[linear-gradient(90deg,rgba(38,49,61,0.45),rgba(38,49,61,0))]" />
-      ) : null}
-    </div>
   );
 }
 
@@ -89,19 +85,16 @@ function ChevronRightIcon() {
 }
 
 function TitleBlock({
-  label,
   title,
   maxWidth = "max-w-4xl",
 }: {
-  label: string;
   title: string;
   maxWidth?: string;
 }) {
   return (
     <div className={maxWidth}>
-      <SlideLabel label={label} />
       <h1
-        className="mt-5 font-display text-4xl leading-[1.02] text-ink md:text-6xl [text-wrap:balance]"
+        className="font-display text-4xl leading-[1.02] text-ink md:text-6xl [text-wrap:balance]"
       >
         {title}
       </h1>
@@ -196,7 +189,7 @@ function BalancedSectionGrid({ sections }: { sections: SlideSection[] }) {
 
 function CoverSlide({ slide, number }: { slide: Slide; number: number }) {
   return (
-    <SlideShell>
+    <SlideShell slideNumber={number}>
       <div className="grid w-full items-center gap-12 md:grid-cols-[1.12fr_0.88fr] md:gap-20">
         <div className="space-y-10">
           <div className="max-w-5xl">
@@ -229,9 +222,9 @@ function CoverSlide({ slide, number }: { slide: Slide; number: number }) {
 
 function TimelineSlide({ slide, number }: { slide: Slide; number: number }) {
   return (
-    <SlideShell>
+    <SlideShell slideNumber={number}>
       <div className="grid w-full items-center gap-12 md:grid-cols-[0.88fr_1.12fr] md:gap-20">
-        <TitleBlock label={String(number)} title={slide.title} maxWidth="max-w-3xl" />
+        <TitleBlock title={slide.title} maxWidth="max-w-3xl" />
 
         <div className="space-y-4">
           {slide.sections.map((section, index) => (
@@ -267,9 +260,9 @@ function StandardSlide({ slide, number }: { slide: Slide; number: number }) {
 
   if (isStatementOnly) {
     return (
-      <SlideShell>
+      <SlideShell slideNumber={number}>
         <div className="flex w-full flex-col justify-center gap-10">
-          <TitleBlock label={String(number)} title={slide.title} maxWidth="max-w-4xl" />
+          <TitleBlock title={slide.title} maxWidth="max-w-4xl" />
           <div
             className={
               useStatementGrid
@@ -287,10 +280,10 @@ function StandardSlide({ slide, number }: { slide: Slide; number: number }) {
   }
 
   return (
-    <SlideShell>
+    <SlideShell slideNumber={number}>
       <div className="grid w-full items-center gap-12 md:grid-cols-[0.84fr_1.16fr] md:gap-20">
         <div className="space-y-8 md:pr-4">
-          <TitleBlock label={String(number)} title={slide.title} maxWidth="max-w-3xl" />
+          <TitleBlock title={slide.title} maxWidth="max-w-3xl" />
         </div>
 
         <div className="space-y-4">
@@ -306,10 +299,9 @@ function StatementSlide({ slide, number }: { slide: Slide; number: number }) {
   const statement = slide.statements[0] ?? "Questions";
 
   return (
-    <SlideShell>
+    <SlideShell slideNumber={number}>
       <div className="flex w-full flex-col items-center justify-center text-center">
-        <SlideLabel label={String(number)} />
-        <h1 className="mt-5 font-display text-5xl leading-none text-ink md:text-8xl">
+        <h1 className="font-display text-5xl leading-none text-ink md:text-8xl">
           {slide.title}
         </h1>
         <p className="mt-8 max-w-2xl text-2xl leading-tight text-ink md:text-4xl">
