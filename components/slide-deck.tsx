@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 
 import type { Slide, SlideSection } from "@/lib/parse-slides";
@@ -17,6 +18,50 @@ function parseHash(total: number) {
   const match = window.location.hash.match(/slide-(\d+)/);
   if (!match) return 0;
   return clamp(Number(match[1]) - 1, total);
+}
+
+const urlMatcher = /(https?:\/\/[^\s]+)/g;
+const buttonLinkMatcher = /^team video:\s*(https?:\/\/\S+)$/i;
+
+function renderInlineLinks(text: string): ReactNode {
+  const buttonMatch = text.match(buttonLinkMatcher);
+
+  if (buttonMatch) {
+    return (
+      <a
+        href={buttonMatch[1]}
+        target="_blank"
+        rel="noreferrer"
+        className="inline-flex items-center rounded-full border border-accent bg-white px-5 py-2 text-sm font-medium uppercase tracking-[0.18em] text-graphite shadow-deck transition-colors hover:bg-panel"
+      >
+        Click Here
+      </a>
+    );
+  }
+
+  const parts = text.split(urlMatcher);
+
+  return parts.map((part, index) => {
+    if (!part) {
+      return null;
+    }
+
+    if (/^https?:\/\//.test(part)) {
+      return (
+        <a
+          key={`${part}-${index}`}
+          href={part}
+          target="_blank"
+          rel="noreferrer"
+          className="underline decoration-accent underline-offset-4 transition-colors hover:text-graphite"
+        >
+          {part}
+        </a>
+      );
+    }
+
+    return <span key={`${part}-${index}`}>{part}</span>;
+  });
 }
 
 function SlideShell({
@@ -128,7 +173,7 @@ function SectionBlock({
                   : "text-lg leading-8 text-ink md:text-[1.3rem] md:leading-9 [text-wrap:pretty]"
               }
             >
-              {item}
+              {renderInlineLinks(item)}
             </p>
           ))}
         </div>
@@ -146,7 +191,7 @@ function StatementBlock({ statements }: { statements: string[] }) {
             key={statement}
             className="border-l-2 border-accent pl-4 text-xl leading-9 text-ink md:text-[1.35rem] md:leading-10"
           >
-            {statement}
+            {renderInlineLinks(statement)}
           </p>
         ))}
       </div>
@@ -168,7 +213,7 @@ function StatementItem({
           {index + 1}
         </div>
         <p className="pt-0.5 text-lg leading-8 text-ink md:text-[1.3rem] md:leading-9 [text-wrap:pretty]">
-          {statement}
+          {renderInlineLinks(statement)}
         </p>
       </div>
     </article>
@@ -180,7 +225,7 @@ function BalancedSectionGrid({ sections }: { sections: SlideSection[] }) {
 
   return (
     <div className="grid max-w-5xl gap-4">
-      {sections.map((section, index) => (
+      {sections.map((section) => (
         <SectionBlock key={section.heading ?? section.items.join("-")} section={section} />
       ))}
     </div>
@@ -204,10 +249,10 @@ function CoverSlide({ slide, number }: { slide: Slide; number: number }) {
           </div>
 
           {slide.statements.length > 0 ? (
-            <div className="max-w-xl border-t border-line pt-6">
+            <div className="max-w-xl space-y-5 border-t border-line pt-6">
               {slide.statements.map((statement) => (
                 <p key={statement} className="text-xl leading-9 text-ink md:text-[1.7rem] md:leading-10">
-                  {statement}
+                  {renderInlineLinks(statement)}
                 </p>
               ))}
             </div>
@@ -238,7 +283,7 @@ function TimelineSlide({ slide, number }: { slide: Slide; number: number }) {
               <div className="space-y-3">
                 {section.items.map((item) => (
                   <p key={item} className="text-lg leading-8 text-ink md:text-[1.3rem] md:leading-9">
-                    {item}
+                    {renderInlineLinks(item)}
                   </p>
                 ))}
               </div>
@@ -305,7 +350,7 @@ function StatementSlide({ slide, number }: { slide: Slide; number: number }) {
           {slide.title}
         </h1>
         <p className="mt-8 max-w-2xl text-2xl leading-tight text-ink md:text-4xl">
-          {statement}
+          {renderInlineLinks(statement)}
         </p>
       </div>
     </SlideShell>
