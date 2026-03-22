@@ -381,7 +381,8 @@ function MapBox({
   className?: string;
 }) {
   return (
-    <div className={`rounded-[1rem] border border-ink/15 bg-white/92 px-5 py-4 text-center shadow-[0_14px_34px_rgba(17,22,28,0.08)] ${className}`}>
+    <div className={`relative overflow-hidden rounded-[1.2rem] border border-ink/10 bg-white/80 px-5 py-3.5 text-center shadow-[0_8px_24px_rgba(17,22,28,0.06)] backdrop-blur-sm transition-all duration-300 hover:shadow-[0_12px_32px_rgba(17,22,28,0.08)] ${className}`}>
+      <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-accent/40 via-accent to-accent/40 opacity-60" />
       {children}
     </div>
   );
@@ -395,8 +396,8 @@ function MapPill({
   className?: string;
 }) {
   return (
-    <div className={`rounded-[0.5rem] border border-[#345aa1] bg-[linear-gradient(180deg,#648cdd,#4d73c6)] px-4 py-2 text-center shadow-[0_14px_30px_rgba(77,115,198,0.24)] ${className}`}>
-      <p className="text-lg font-medium uppercase tracking-[0.03em] text-white md:text-[1.05rem]">
+    <div className={`rounded-full border border-[#345aa1]/40 bg-[linear-gradient(180deg,#648cdd,#4d73c6)] px-5 py-2 text-center shadow-[0_8px_20px_rgba(77,115,198,0.2)] transition-transform duration-300 hover:-translate-y-0.5 ${className}`}>
+      <p className="text-xs font-semibold uppercase tracking-[0.06em] text-white md:text-sm">
         {children}
       </p>
     </div>
@@ -411,8 +412,8 @@ function MiniChip({
   className?: string;
 }) {
   return (
-    <div className={`rounded-full border border-ink/10 bg-white/78 px-3 py-1.5 text-center shadow-sm ${className}`}>
-      <p className="text-[0.78rem] font-medium uppercase tracking-[0.12em] text-ink">
+    <div className={`rounded-full border border-line bg-white/90 px-4 py-1.5 text-center shadow-sm transition-colors duration-300 hover:border-accent/40 hover:bg-white ${className}`}>
+      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-ink/80">
         {children}
       </p>
     </div>
@@ -445,79 +446,60 @@ function MapSlide({ slide, number }: { slide: Slide; number: number }) {
 
   return (
     <SlideShell slideNumber={number}>
-      <div className="flex w-full flex-col justify-center gap-10 py-3 md:gap-12">
-        <div className="mx-auto max-w-6xl text-center">
-          <h1 className="font-display text-4xl leading-[1.02] text-ink md:text-[4.5rem]">
+      <div className="flex w-full flex-col justify-center gap-8 py-3 md:gap-10">
+        <div className="mx-auto max-w-5xl text-center">
+          <h1 className="font-display text-3xl leading-[1.05] text-ink md:text-[3.5rem]">
             <span>{primary}</span>
             {secondary ? <span className="text-mist">{` / ${secondary}`}</span> : null}
           </h1>
           {intro ? (
-            <p className="mx-auto mt-8 max-w-5xl text-xl font-medium leading-8 text-mist md:text-[2rem] md:leading-[2.65rem]">
+            <p className="mx-auto mt-6 max-w-6xl text-lg font-medium leading-relaxed text-mist md:text-[1.35rem] md:leading-[1.85rem]">
               {intro}
             </p>
           ) : null}
           {detail ? (
-            <p className="mx-auto mt-1 max-w-6xl text-xl font-medium leading-8 text-mist md:text-[2rem] md:leading-[2.65rem]">
+            <p className="mx-auto mt-1 max-w-6xl text-lg font-medium leading-relaxed text-mist md:text-[1.35rem] md:leading-[1.85rem]">
               {detail}
             </p>
           ) : null}
           {byline ? (
-            <p className="mt-9 text-2xl font-medium text-ink md:text-[2.05rem]">
+            <p className="mt-8 text-xl font-medium text-ink md:text-[1.4rem]">
               {trimTrailingPeriod(byline)}
             </p>
           ) : null}
         </div>
 
         <div className="relative mx-auto w-full max-w-6xl">
-          <div className="mx-auto w-fit rounded-[999px] border-2 border-[#4d73c6] bg-white/78 px-8 py-4 shadow-[0_18px_40px_rgba(77,115,198,0.14)] md:min-w-[50rem] md:px-20 md:py-5">
-            <p className="font-display text-3xl leading-none text-ink md:text-[3.35rem]">
+          <div className="mx-auto w-fit rounded-[999px] border border-accent/20 bg-white/95 px-8 pt-3 pb-3 shadow-[0_4px_16px_rgba(17,22,28,0.06)] md:min-w-[42rem] md:px-16 md:py-4">
+            <p className="text-center font-display text-2xl font-semibold tracking-tight text-ink md:text-[2.2rem]">
               {hubLabel}
             </p>
           </div>
 
-          <svg
-            viewBox="0 0 1000 180"
-            className="pointer-events-none absolute left-0 right-0 top-[4.75rem] hidden h-[9rem] w-full md:block"
-            aria-hidden="true"
-            fill="none"
-          >
-            <defs>
-              <marker
-                id="map-link-end"
-                viewBox="0 0 10 10"
-                refX="8"
-                refY="5"
-                markerWidth="5"
-                markerHeight="5"
-                orient="auto"
-              >
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#5f84d5" />
-              </marker>
-              <marker
-                id="map-link-start"
-                viewBox="0 0 10 10"
-                refX="2"
-                refY="5"
-                markerWidth="5"
-                markerHeight="5"
-                orient="auto"
-              >
-                <path d="M 10 0 L 0 5 L 10 10 z" fill="#5f84d5" />
-              </marker>
-            </defs>
-            <path d="M500 0 C435 10 295 22 150 106" stroke="#5f84d5" strokeWidth="2" strokeLinecap="round" markerEnd="url(#map-link-end)" />
-            <path d="M500 8 L390 106" stroke="#5f84d5" strokeWidth="2" strokeLinecap="round" markerEnd="url(#map-link-end)" />
-            <path d="M500 8 L610 106" stroke="#5f84d5" strokeWidth="2" strokeLinecap="round" markerEnd="url(#map-link-end)" />
-            <path d="M500 0 C565 10 705 22 850 106" stroke="#5f84d5" strokeWidth="2" strokeLinecap="round" markerEnd="url(#map-link-end)" />
-            <path d="M176 137 H324" stroke="#5f84d5" strokeWidth="2.2" strokeLinecap="round" markerStart="url(#map-link-start)" markerEnd="url(#map-link-end)" />
-            <path d="M426 137 H574" stroke="#5f84d5" strokeWidth="2.2" strokeLinecap="round" markerStart="url(#map-link-start)" markerEnd="url(#map-link-end)" />
-            <path d="M676 137 H824" stroke="#5f84d5" strokeWidth="2.2" strokeLinecap="round" markerStart="url(#map-link-start)" markerEnd="url(#map-link-end)" />
-          </svg>
+          {/* Normal CSS Connecting Lines */}
+          <div className="mx-auto hidden w-full flex-col items-center md:flex md:mb-0">
+            {/* Center line down from Hub */}
+            <div className="h-8 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
+            
+            {/* Horizontal Spanning Line & Vertical Drops */}
+            <div className="w-full" style={{ padding: "0 calc((100% - 4.5rem) / 8)" }}>
+              {/* Spanning Horizontal Line */}
+              <div className="h-[2px] w-full rounded-t-sm bg-[#7a9adb]" />
+              
+              {/* The 4 Vertical Drops */}
+              <div className="flex w-full justify-between">
+                <div className="h-6 w-[2px] rounded-b-sm bg-[#7a9adb]" />
+                <div className="h-6 w-[2px] rounded-b-sm bg-[#7a9adb]" />
+                <div className="h-6 w-[2px] rounded-b-sm bg-[#7a9adb]" />
+                <div className="h-6 w-[2px] rounded-b-sm bg-[#7a9adb]" />
+              </div>
+            </div>
+          </div>
 
-          <div className="mt-16 grid gap-8 md:mt-20 md:grid-cols-4 md:gap-8">
+          <div className="mt-8 grid gap-4 md:mt-4 md:grid-cols-4 md:gap-6">
             <div className="flex flex-col items-center">
               <MapBox className="w-full max-w-[15rem]">
-                <p className="text-xl font-medium uppercase tracking-[0.02em] text-ink md:text-[1.1rem]">
+                <p className="text-sm font-semibold uppercase tracking-[0.04em] text-ink md:text-[0.95rem]">
                   Oil &amp; Gas
                 </p>
               </MapBox>
@@ -533,7 +515,7 @@ function MapSlide({ slide, number }: { slide: Slide; number: number }) {
 
             <div className="flex flex-col items-center">
               <MapBox className="w-full max-w-[15rem]">
-                <p className="text-xl font-medium uppercase tracking-[0.02em] text-ink md:text-[1.1rem]">
+                <p className="text-sm font-semibold uppercase tracking-[0.04em] text-ink md:text-[0.95rem]">
                   Automotive
                 </p>
               </MapBox>
@@ -549,7 +531,7 @@ function MapSlide({ slide, number }: { slide: Slide; number: number }) {
 
             <div className="flex flex-col items-center">
               <MapBox className="w-full max-w-[15rem]">
-                <p className="text-xl font-medium uppercase tracking-[0.02em] text-ink md:text-[1.1rem]">
+                <p className="text-sm font-semibold uppercase tracking-[0.04em] text-ink md:text-[0.95rem]">
                   Medical
                 </p>
               </MapBox>
@@ -565,7 +547,7 @@ function MapSlide({ slide, number }: { slide: Slide; number: number }) {
 
             <div className="flex flex-col items-center">
               <MapBox className="w-full max-w-[15rem]">
-                <p className="text-xl font-medium uppercase tracking-[0.02em] text-ink md:text-[1.1rem]">
+                <p className="text-sm font-semibold uppercase tracking-[0.04em] text-ink md:text-[0.95rem]">
                   Technology
                 </p>
               </MapBox>
