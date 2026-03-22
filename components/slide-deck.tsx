@@ -357,6 +357,232 @@ function StatementSlide({ slide, number }: { slide: Slide; number: number }) {
   );
 }
 
+function splitTitleParts(title: string) {
+  const [primary, secondary] = title.split(/\s*\/\s*/);
+  return {
+    primary: primary?.trim() ?? title,
+    secondary: secondary?.trim(),
+  };
+}
+
+function trimTrailingPeriod(value: string | undefined) {
+  return value?.replace(/\.+$/, "") ?? "";
+}
+
+function findMapSection(slide: Slide, heading: string) {
+  return slide.sections.find((section) => section.heading === heading);
+}
+
+function MapBox({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`rounded-[1rem] border border-ink/15 bg-white/92 px-5 py-4 text-center shadow-[0_14px_34px_rgba(17,22,28,0.08)] ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+function MapPill({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`rounded-[0.5rem] border border-[#345aa1] bg-[linear-gradient(180deg,#648cdd,#4d73c6)] px-4 py-2 text-center shadow-[0_14px_30px_rgba(77,115,198,0.24)] ${className}`}>
+      <p className="text-lg font-medium uppercase tracking-[0.03em] text-white md:text-[1.05rem]">
+        {children}
+      </p>
+    </div>
+  );
+}
+
+function MiniChip({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`rounded-full border border-ink/10 bg-white/78 px-3 py-1.5 text-center shadow-sm ${className}`}>
+      <p className="text-[0.78rem] font-medium uppercase tracking-[0.12em] text-ink">
+        {children}
+      </p>
+    </div>
+  );
+}
+
+function MapSlide({ slide, number }: { slide: Slide; number: number }) {
+  const { primary, secondary } = splitTitleParts(slide.title);
+  const [intro, detail, byline, hubLabelRaw] = slide.statements;
+  const hubLabel = trimTrailingPeriod(hubLabelRaw) || "Step 1 Industry Alliance";
+  const oilSection = findMapSection(slide, "Oil & Gas");
+  const medicalSection = findMapSection(slide, "Medical");
+  const technologySection = findMapSection(slide, "Technology");
+  const automotiveSection = findMapSection(slide, "Automotive");
+
+  const oilLead = trimTrailingPeriod(oilSection?.items[0]);
+  const oilSupport = oilSection?.items
+    .slice(1)
+    .flatMap((item) => trimTrailingPeriod(item).split(/\s+and\s+/i))
+    .filter(Boolean) ?? [];
+  const medicalValue = trimTrailingPeriod(medicalSection?.items[0]);
+  const technologyValue = trimTrailingPeriod(technologySection?.items[0]);
+  const techLead = /samsung/i.test(technologyValue) ? "Samsung" : technologyValue;
+  const techSupport = /aligned technology partners/i.test(technologyValue)
+    ? "Aligned technology partners"
+    : "";
+  const autoItems = automotiveSection?.items.map((item) => trimTrailingPeriod(item)) ?? [];
+  const autoFacilitator = autoItems[autoItems.length - 1] ?? "";
+  const autoBrands = autoItems.slice(0, -1);
+
+  return (
+    <SlideShell slideNumber={number}>
+      <div className="flex w-full flex-col justify-center gap-10 py-3 md:gap-12">
+        <div className="mx-auto max-w-6xl text-center">
+          <h1 className="font-display text-4xl leading-[1.02] text-ink md:text-[4.5rem]">
+            <span>{primary}</span>
+            {secondary ? <span className="text-mist">{` / ${secondary}`}</span> : null}
+          </h1>
+          {intro ? (
+            <p className="mx-auto mt-8 max-w-5xl text-xl font-medium leading-8 text-mist md:text-[2rem] md:leading-[2.65rem]">
+              {intro}
+            </p>
+          ) : null}
+          {detail ? (
+            <p className="mx-auto mt-1 max-w-6xl text-xl font-medium leading-8 text-mist md:text-[2rem] md:leading-[2.65rem]">
+              {detail}
+            </p>
+          ) : null}
+          {byline ? (
+            <p className="mt-9 text-2xl font-medium text-ink md:text-[2.05rem]">
+              {trimTrailingPeriod(byline)}
+            </p>
+          ) : null}
+        </div>
+
+        <div className="relative mx-auto w-full max-w-6xl">
+          <div className="mx-auto w-fit rounded-[999px] border-2 border-[#4d73c6] bg-white/78 px-8 py-4 shadow-[0_18px_40px_rgba(77,115,198,0.14)] md:min-w-[50rem] md:px-20 md:py-5">
+            <p className="font-display text-3xl leading-none text-ink md:text-[3.35rem]">
+              {hubLabel}
+            </p>
+          </div>
+
+          <svg
+            viewBox="0 0 1000 180"
+            className="pointer-events-none absolute left-0 right-0 top-[4.75rem] hidden h-[9rem] w-full md:block"
+            aria-hidden="true"
+            fill="none"
+          >
+            <defs>
+              <marker
+                id="map-link-end"
+                viewBox="0 0 10 10"
+                refX="8"
+                refY="5"
+                markerWidth="5"
+                markerHeight="5"
+                orient="auto"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#5f84d5" />
+              </marker>
+              <marker
+                id="map-link-start"
+                viewBox="0 0 10 10"
+                refX="2"
+                refY="5"
+                markerWidth="5"
+                markerHeight="5"
+                orient="auto"
+              >
+                <path d="M 10 0 L 0 5 L 10 10 z" fill="#5f84d5" />
+              </marker>
+            </defs>
+            <path d="M500 0 C435 10 295 22 150 106" stroke="#5f84d5" strokeWidth="2" strokeLinecap="round" markerEnd="url(#map-link-end)" />
+            <path d="M500 8 L390 106" stroke="#5f84d5" strokeWidth="2" strokeLinecap="round" markerEnd="url(#map-link-end)" />
+            <path d="M500 8 L610 106" stroke="#5f84d5" strokeWidth="2" strokeLinecap="round" markerEnd="url(#map-link-end)" />
+            <path d="M500 0 C565 10 705 22 850 106" stroke="#5f84d5" strokeWidth="2" strokeLinecap="round" markerEnd="url(#map-link-end)" />
+            <path d="M176 137 H324" stroke="#5f84d5" strokeWidth="2.2" strokeLinecap="round" markerStart="url(#map-link-start)" markerEnd="url(#map-link-end)" />
+            <path d="M426 137 H574" stroke="#5f84d5" strokeWidth="2.2" strokeLinecap="round" markerStart="url(#map-link-start)" markerEnd="url(#map-link-end)" />
+            <path d="M676 137 H824" stroke="#5f84d5" strokeWidth="2.2" strokeLinecap="round" markerStart="url(#map-link-start)" markerEnd="url(#map-link-end)" />
+          </svg>
+
+          <div className="mt-16 grid gap-8 md:mt-20 md:grid-cols-4 md:gap-8">
+            <div className="flex flex-col items-center">
+              <MapBox className="w-full max-w-[15rem]">
+                <p className="text-xl font-medium uppercase tracking-[0.02em] text-ink md:text-[1.1rem]">
+                  Oil &amp; Gas
+                </p>
+              </MapBox>
+              {oilLead ? <MapPill className="mt-8 min-w-[9rem]">{oilLead}</MapPill> : null}
+              {oilSupport.length > 0 ? (
+                <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+                  {oilSupport.map((item) => (
+                    <MiniChip key={item}>{item}</MiniChip>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+
+            <div className="flex flex-col items-center">
+              <MapBox className="w-full max-w-[15rem]">
+                <p className="text-xl font-medium uppercase tracking-[0.02em] text-ink md:text-[1.1rem]">
+                  Automotive
+                </p>
+              </MapBox>
+              {autoFacilitator ? <MapPill className="mt-8 min-w-[9rem]">{autoFacilitator}</MapPill> : null}
+              {autoBrands.length > 0 ? (
+                <div className="mt-5 grid w-full max-w-[15rem] grid-cols-2 gap-3">
+                  {autoBrands.map((brand) => (
+                    <MiniChip key={brand}>{brand}</MiniChip>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+
+            <div className="flex flex-col items-center">
+              <MapBox className="w-full max-w-[15rem]">
+                <p className="text-xl font-medium uppercase tracking-[0.02em] text-ink md:text-[1.1rem]">
+                  Medical
+                </p>
+              </MapBox>
+              <MapPill className="mt-8 min-w-[9rem]">
+                {medicalValue ? "Confidential" : "Medical"}
+              </MapPill>
+              {medicalValue ? (
+                <p className="mt-4 max-w-[13rem] text-center text-sm leading-6 text-graphite md:text-[0.98rem]">
+                  {medicalValue}
+                </p>
+              ) : null}
+            </div>
+
+            <div className="flex flex-col items-center">
+              <MapBox className="w-full max-w-[15rem]">
+                <p className="text-xl font-medium uppercase tracking-[0.02em] text-ink md:text-[1.1rem]">
+                  Technology
+                </p>
+              </MapBox>
+              {techLead ? <MapPill className="mt-8 min-w-[9rem]">{techLead}</MapPill> : null}
+              {techSupport ? (
+                <p className="mt-4 max-w-[13rem] text-center text-sm leading-6 text-graphite md:text-[0.98rem]">
+                  {techSupport}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      </div>
+    </SlideShell>
+  );
+}
+
 export function SlideDeck({ slides }: SlideDeckProps) {
   const total = slides.length;
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -421,6 +647,8 @@ export function SlideDeck({ slides }: SlideDeckProps) {
         <CoverSlide slide={slide} number={currentIndex + 1} />
       ) : slide.type === "timeline" ? (
         <TimelineSlide slide={slide} number={currentIndex + 1} />
+      ) : slide.type === "map" ? (
+        <MapSlide slide={slide} number={currentIndex + 1} />
       ) : slide.type === "statement" ? (
         <StatementSlide slide={slide} number={currentIndex + 1} />
       ) : (

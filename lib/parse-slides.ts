@@ -10,7 +10,7 @@ export type Slide = {
   lead?: string;
   sections: SlideSection[];
   statements: string[];
-  type: "cover" | "timeline" | "statement" | "standard";
+  type: "cover" | "timeline" | "statement" | "standard" | "map";
 };
 
 const slideMatcher = /^(Slide\s+[A-Za-z0-9]+)(?:\s+[—-]\s+(.+))?$/;
@@ -121,8 +121,19 @@ export function parseSlides(markdown: string): Slide[] {
       i += 1;
     }
 
-    const type =
-      /timeline/i.test(title) ? "timeline" : sections.length === 0 && statements.length <= 1 ? "statement" : "standard";
+    const isAllianceMap =
+      /special projects initiative/i.test(title) &&
+      /confidential/i.test(title) &&
+      statements.some((statement) => /step 1 industry alliance/i.test(statement)) &&
+      sections.length >= 4;
+
+    const type = isAllianceMap
+      ? "map"
+      : /timeline/i.test(title)
+        ? "timeline"
+        : sections.length === 0 && statements.length <= 1
+          ? "statement"
+          : "standard";
 
     return {
       id: `slide-${index + 1}`,
