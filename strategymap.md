@@ -1,23 +1,17 @@
 Slide 1
-Special Projects Initiative / CONFIDENTIAL
-Built to move where conventional channels have stalled.
-Designed to align industry, public support, and execution to create durable outcomes at scale.
-By George Partsch IV
-Step 1 Industry Alliance.
+Phase 1: Strategic Multi-Industry Legislative Alignment
+Aligning industry-specific priorities into a coordinated legislative package that creates force multiplication at launch.
 Oil & Gas
-Chevron.
-WSPA and CIPA.
+Chevron | WSPA, CIPA | 4.
 Automotive
-Chevrolet.
-Toyota.
-Honda.
-Nissan.
-Hyundai.
-Kia.
-Tesla.
-Dodge.
-Ford.
+Ford | Major Manufacturers | 2.
 Medical
-Confidential medical partner.
+Cancer Treatment & Insurance | Aligned Organizations | 3.
 Technology
-Samsung and aligned technology partners.
+Confidential | Aligned Tech. Organizations | 3.
+Insurance
+Home, Bus. & Auto | Aligned Organizations | 3.
+Goals
+Create the most durable policy possible — structured for long-term stability, protected for a defined duration, and amendable only by a vote of the people.
+Target Completion
+Timed to support a December 2026 legislative roll-out.

@@ -420,6 +420,145 @@ function MiniChip({
   );
 }
 
+function Phase1Slide({ slide, number }: { slide: Slide; number: number }) {
+  const INDUSTRY_NAMES = ["Oil & Gas", "Automotive", "Medical", "Technology", "Insurance"];
+
+  const industries = slide.sections
+    .filter((s) => INDUSTRY_NAMES.includes(s.heading ?? ""))
+    .map((section) => {
+      const raw = (section.items[0] ?? "").replace(/\.$/, "");
+      const parts = raw.split(/\s*\|\s*/);
+      const lead = parts[0]?.trim() ?? "";
+      const orgsRaw = parts[1]?.trim() ?? "";
+      const orgs = orgsRaw ? orgsRaw.split(/,\s*/).filter(Boolean) : [];
+      const policies = parseInt(parts[2] ?? "0") || 0;
+      return { name: section.heading ?? "", lead, orgs, policies };
+    });
+
+  const goalsSection = slide.sections.find((s) => s.heading === "Goals");
+  const targetSection = slide.sections.find((s) => s.heading === "Target Completion");
+  const subtitle = slide.statements[0] ?? "";
+
+  const titleMatch = slide.title.match(/^(Phase \d+):\s*(.+)$/);
+  const phaseLabel = titleMatch?.[1] ?? "Phase 1";
+  const titleRest = titleMatch?.[2] ?? slide.title;
+
+  return (
+    <SlideShell slideNumber={number}>
+      <div className="flex w-full flex-col gap-3 py-1">
+        {/* Title box */}
+        <div className="flex flex-col items-center gap-2">
+          <div className="rounded-xl border border-line bg-white/95 px-7 py-2.5 shadow-sm">
+            <h1 className="text-center font-display text-[1.45rem] font-bold text-ink md:text-[1.8rem]">
+              <span>{phaseLabel}:</span>{" "}
+              <span>{titleRest}</span>
+            </h1>
+          </div>
+          {subtitle ? (
+            <p className="max-w-4xl text-center text-sm text-graphite md:text-base">{subtitle}</p>
+          ) : null}
+        </div>
+
+        {/* Connecting tree lines (aligned with the 5 data columns) */}
+        <div className="mx-auto flex w-full max-w-6xl">
+          <div className="w-36 shrink-0" />
+          <div className="flex flex-1 flex-col items-center">
+            <div className="h-4 w-[2px] bg-[#7a9adb]" />
+            <div className="w-[90%]">
+              <div className="h-[2px] w-full bg-[#7a9adb]" />
+              <div className="flex justify-between">
+                {industries.map((ind) => (
+                  <div key={ind.name} className="h-4 w-[2px] bg-[#7a9adb]" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Data grid: label col + 5 industry cols */}
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-[9rem_1fr_1fr_1fr_1fr_1fr] gap-x-2 gap-y-3">
+          {/* Row: Industries */}
+          <div className="flex items-center">
+            <p className="text-[0.8rem] font-bold leading-tight text-ink">Industries</p>
+          </div>
+          {industries.map((ind) => (
+            <div key={`ind-${ind.name}`} className="flex justify-center">
+              <MapBox className="w-full py-2.5">
+                <p className="text-[0.62rem] font-bold uppercase tracking-[0.07em] text-ink md:text-[0.7rem]">
+                  {ind.name}
+                </p>
+              </MapBox>
+            </div>
+          ))}
+
+          {/* Row: Lead Facilitator */}
+          <div className="flex items-center">
+            <p className="text-[0.8rem] font-bold leading-tight text-ink">
+              George Partsch IV
+              <br />
+              <span className="font-normal text-graphite">– Lead Facilitator</span>
+            </p>
+          </div>
+          {industries.map((ind) => (
+            <div key={`lead-${ind.name}`} className="flex justify-center">
+              <MapPill className="w-full">{ind.lead}</MapPill>
+            </div>
+          ))}
+
+          {/* Row: Orgs Served */}
+          <div className="flex items-center">
+            <p className="text-[0.8rem] font-bold leading-tight text-ink">Orgs. Served</p>
+          </div>
+          {industries.map((ind) => (
+            <div key={`orgs-${ind.name}`} className="flex flex-wrap items-center justify-center gap-1">
+              {ind.orgs.map((org) => (
+                <MiniChip key={org}>{org}</MiniChip>
+              ))}
+            </div>
+          ))}
+
+          {/* Row: Est. Number of Policies */}
+          <div className="flex items-center">
+            <p className="text-[0.8rem] font-bold leading-tight text-ink">
+              Est. Number
+              <br />
+              of Policies
+            </p>
+          </div>
+          {industries.map((ind) => (
+            <div key={`pol-${ind.name}`} className="flex justify-center">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white shadow-sm">
+                <span className="text-sm font-bold text-ink">{ind.policies}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Divider */}
+        <div className="mx-auto w-full max-w-6xl border-t border-line" />
+
+        {/* Goals & Target Completion */}
+        <div className="mx-auto w-full max-w-6xl space-y-2.5">
+          {goalsSection?.items[0] ? (
+            <div className="flex gap-5">
+              <p className="w-36 shrink-0 text-[0.82rem] font-bold text-ink">Goals:</p>
+              <p className="text-[0.82rem] leading-relaxed text-graphite">{goalsSection.items[0]}</p>
+            </div>
+          ) : null}
+          {targetSection?.items[0] ? (
+            <div className="flex items-center gap-5">
+              <p className="w-36 shrink-0 text-[0.82rem] font-bold text-ink">Target Completion:</p>
+              <div className="rounded-full border border-line bg-white/95 px-5 py-2 shadow-sm">
+                <p className="text-[0.82rem] font-bold text-ink">{targetSection.items[0]}</p>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </SlideShell>
+  );
+}
+
 function MapSlide({ slide, number }: { slide: Slide; number: number }) {
   const { primary, secondary } = splitTitleParts(slide.title);
   const [intro, detail, byline, hubLabelRaw] = slide.statements;
@@ -629,6 +768,8 @@ export function SlideDeck({ slides }: SlideDeckProps) {
         <CoverSlide slide={slide} number={currentIndex + 1} />
       ) : slide.type === "timeline" ? (
         <TimelineSlide slide={slide} number={currentIndex + 1} />
+      ) : slide.type === "phase1" ? (
+        <Phase1Slide slide={slide} number={currentIndex + 1} />
       ) : slide.type === "map" ? (
         <MapSlide slide={slide} number={currentIndex + 1} />
       ) : slide.type === "statement" ? (
