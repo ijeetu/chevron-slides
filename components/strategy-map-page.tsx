@@ -41,7 +41,7 @@ const PHASES: Phase[] = [
     number: 1,
     title: "Strategic Multi-Industry Legislative Alignment",
     subtitle:
-      "Aligning industry-specific priorities into a coordinated legislative package that creates force multiplication at launch.",
+      "Aligning industry-specific priorities into a coordinated legislative package that creates force multiplication at scale.",
     industries: [
       { name: "Oil & Gas",  lead: "Chevron",                      orgs: ["WSPA", "CIPA"],          policies: 4, icon: Flame      },
       { name: "Automotive", lead: "Ford",                          orgs: ["Major Manufacturers"],   policies: 2, icon: Car        },
@@ -100,7 +100,7 @@ function PhaseLabel({ number }: { number: number }) {
     <div className="mb-2 rounded-full bg-[linear-gradient(135deg,#7a9adb,#c4d3f0)] p-[1.5px] shadow-[0_4px_20px_rgba(77,115,198,0.18)]">
       <div className="flex items-center gap-2 rounded-full bg-white px-5 py-1.5">
         <span className="h-1.5 w-1.5 rounded-full bg-[linear-gradient(135deg,#7a9adb,#4d73c6)]" />
-        <p className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-graphite">
+        <p className="text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-graphite">
           Phase {String(number).padStart(2, "0")}
         </p>
       </div>
@@ -123,7 +123,7 @@ function PhaseHeader({ number, title, subtitle }: { number: number; title: strin
         </div>
       </div>
       {subtitle ? (
-        <p className="mt-1 max-w-3xl text-center text-sm leading-relaxed text-mist md:text-[0.95rem]">
+        <p className="mt-1 text-center text-sm leading-relaxed text-mist md:text-[0.95rem] whitespace-nowrap">
           {subtitle}
         </p>
       ) : null}
@@ -140,7 +140,7 @@ function TargetRow({ value }: { value: string }) {
       </p>
       <div className="h-3.5 w-px bg-line" />
       <div className="rounded-full border border-[#4d73c6]/25 bg-white/95 px-5 py-1.5 shadow-sm">
-        <p className="text-[0.82rem] font-semibold text-ink">{value}</p>
+        <p className="text-[0.82rem] font-medium text-ink">{value}</p>
       </div>
     </div>
   );
@@ -150,8 +150,8 @@ function TargetRow({ value }: { value: string }) {
 
 function LeadBox({ children }: { children: ReactNode }) {
   return (
-    <div className="w-full rounded-xl border border-[#345aa1]/35 bg-[linear-gradient(160deg,#648cdd,#4260b8)] px-4 py-3 text-center shadow-[0_6px_18px_rgba(77,115,198,0.28)]">
-      <p className="text-xs font-semibold uppercase leading-snug tracking-[0.07em] text-white/95 md:text-[0.78rem]">
+    <div className="flex h-full w-full items-center justify-center rounded-xl border border-[#345aa1]/35 bg-[linear-gradient(160deg,#648cdd,#4260b8)] px-4 py-3 text-center shadow-[0_6px_18px_rgba(77,115,198,0.28)]">
+      <p className="text-[0.82rem] font-semibold uppercase leading-snug tracking-[0.07em] text-white/95">
         {children}
       </p>
     </div>
@@ -161,7 +161,7 @@ function LeadBox({ children }: { children: ReactNode }) {
 function OrgChip({ children }: { children: ReactNode }) {
   return (
     <div className="rounded-full border border-ink/12 bg-white/85 px-3 py-1 text-center shadow-sm">
-      <p className="text-[0.63rem] font-semibold uppercase tracking-[0.1em] text-graphite">
+      <p className="text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-graphite">
         {children}
       </p>
     </div>
@@ -173,7 +173,7 @@ function IndustryBox({ children, icon: Icon }: { children: ReactNode; icon?: Luc
     <div className="relative w-full overflow-hidden rounded-xl border border-ink/10 bg-white/85 px-4 py-3 text-center shadow-[0_4px_16px_rgba(17,22,28,0.06)] backdrop-blur-sm">
       <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-70" />
       {Icon && <Icon size={14} className="mx-auto mb-1.5 text-[#4d73c6]" strokeWidth={1.8} />}
-      <p className="text-[0.62rem] font-bold uppercase tracking-[0.1em] text-ink md:text-[0.7rem]">
+      <p className="text-[0.78rem] font-semibold uppercase tracking-[0.1em] text-ink">
         {children}
       </p>
     </div>
@@ -185,7 +185,7 @@ function RowLabel({ children, icon: Icon }: { children: ReactNode; icon?: Lucide
     <div className="flex items-center gap-2">
       <div className="mr-1 h-full w-[2px] self-stretch rounded-full bg-gradient-to-b from-[#4d73c6]/30 to-transparent" />
       {Icon && <Icon size={13} className="shrink-0 text-[#4d73c6]/70" strokeWidth={1.8} />}
-      <p className="text-[0.78rem] font-bold leading-snug text-ink">{children}</p>
+      <p className="text-[0.78rem] font-semibold leading-snug text-ink">{children}</p>
     </div>
   );
 }
@@ -229,7 +229,7 @@ function IndustryTablePhase({ phase }: { phase: Phase }) {
           <span className="font-normal text-mist">– Lead Facilitator</span>
         </RowLabel>
         {industries.map((ind) => (
-          <div key={`lead-${ind.name}`} className="flex justify-center">
+          <div key={`lead-${ind.name}`} className="flex items-stretch justify-center">
             <LeadBox>{ind.lead}</LeadBox>
           </div>
         ))}
@@ -251,7 +251,7 @@ function IndustryTablePhase({ phase }: { phase: Phase }) {
         {industries.map((ind) => (
           <div key={`pol-${ind.name}`} className="flex justify-center">
             <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#4d73c6]/25 bg-white shadow-sm">
-              <span className="text-sm font-bold text-ink">{ind.policies}</span>
+              <span className="text-sm font-medium text-ink">{ind.policies}</span>
             </div>
           </div>
         ))}
@@ -265,11 +265,11 @@ function IndustryTablePhase({ phase }: { phase: Phase }) {
               <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#4d73c6]/30" />
               <div className="flex items-center gap-1.5">
                 <Target size={12} className="text-[#4d73c6]" strokeWidth={2} />
-                <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-[#4d73c6]">Goals</p>
+                <p className="text-[0.6rem] font-medium uppercase tracking-[0.3em] text-[#4d73c6]">Goals</p>
               </div>
               <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#4d73c6]/30" />
             </div>
-            <p className="text-[0.95rem] leading-relaxed text-ink">{phase.goals}</p>
+            <p className="text-sm leading-relaxed text-ink">{phase.goals}</p>
           </div>
         ) : null}
         {phase.targetCompletion ? <TargetRow value={phase.targetCompletion} /> : null}
@@ -291,7 +291,7 @@ function SummaryPhase({ phase }: { phase: Phase }) {
               className="relative overflow-hidden rounded-2xl border border-line bg-white/90 px-8 py-5 shadow-sm"
             >
               <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4d73c6]/40 to-transparent" />
-              <p className="text-center text-[0.94rem] leading-relaxed text-ink">{desc}</p>
+              <p className="text-center text-sm leading-relaxed text-ink">{desc}</p>
             </article>
           ))}
         </div>
@@ -304,7 +304,7 @@ function SummaryPhase({ phase }: { phase: Phase }) {
             Est. Number of Policies
           </p>
           <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#4d73c6]/30 bg-white shadow-[0_4px_16px_rgba(77,115,198,0.12)]">
-            <span className="font-display text-xl font-bold text-ink">{phase.totalPolicies}</span>
+            <span className="font-display text-xl font-medium text-ink">{phase.totalPolicies}</span>
           </div>
         </div>
       ) : null}
@@ -323,7 +323,7 @@ function FlowBox({ children, icon: Icon }: { children: ReactNode; icon?: LucideI
     <div className="relative min-w-[11rem] overflow-hidden rounded-xl border border-ink/10 bg-white/85 px-6 py-3.5 text-center shadow-[0_4px_16px_rgba(17,22,28,0.06)] backdrop-blur-sm">
       <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-70" />
       {Icon && <Icon size={14} className="mx-auto mb-1.5 text-[#4d73c6]" strokeWidth={1.8} />}
-      <p className="text-[0.88rem] font-medium text-ink">{children}</p>
+      <p className="text-sm font-medium text-ink">{children}</p>
     </div>
   );
 }
@@ -333,7 +333,7 @@ function WideFlowBox({ children, highlight, icon: Icon }: { children: ReactNode;
     return (
       <div className="relative w-full max-w-2xl overflow-hidden rounded-xl border-2 border-[#345aa1]/60 bg-[linear-gradient(160deg,#5a7fd4,#3d5faa)] px-8 py-4 text-center shadow-[0_6px_20px_rgba(77,115,198,0.35)]">
         {Icon && <Icon size={15} className="mx-auto mb-2 text-white/80" strokeWidth={1.8} />}
-        <p className="text-[0.88rem] font-semibold text-white">{children}</p>
+        <p className="text-sm font-semibold text-white">{children}</p>
       </div>
     );
   }
@@ -341,7 +341,7 @@ function WideFlowBox({ children, highlight, icon: Icon }: { children: ReactNode;
     <div className="relative w-full max-w-2xl overflow-hidden rounded-xl border border-ink/10 bg-white/85 px-8 py-4 text-center shadow-[0_4px_16px_rgba(17,22,28,0.06)] backdrop-blur-sm">
       <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-70" />
       {Icon && <Icon size={14} className="mx-auto mb-1.5 text-[#4d73c6]" strokeWidth={1.8} />}
-      <p className="text-[0.88rem] font-medium text-ink">{children}</p>
+      <p className="text-sm font-medium text-ink">{children}</p>
     </div>
   );
 }
@@ -496,7 +496,7 @@ export function StrategyMapWebPage() {
           <div className="mb-2 rounded-full bg-[linear-gradient(135deg,#7a9adb,#c4d3f0)] p-[1.5px] shadow-[0_4px_20px_rgba(77,115,198,0.18)]">
             <div className="flex items-center gap-2 rounded-full bg-white px-5 py-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-[linear-gradient(135deg,#7a9adb,#4d73c6)]" />
-              <p className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-graphite">
+              <p className="text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-graphite">
                 Phase 04
               </p>
             </div>
@@ -513,13 +513,13 @@ export function StrategyMapWebPage() {
         <div className="mx-auto flex flex-col items-center">
           <div className="h-8 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
           <div className="w-full max-w-3xl overflow-hidden rounded-2xl border-2 border-[#4d73c6]/60 bg-white/85 px-8 py-6 text-center shadow-deck">
-            <p className="mb-3 text-[0.98rem] leading-relaxed text-ink">
+            <p className="mb-3 text-sm leading-relaxed text-ink">
               We have four ways of orchestrating a meeting with Elon Musk / xAI.
             </p>
-            <p className="mb-3 text-[0.98rem] leading-relaxed text-ink">
+            <p className="mb-3 text-sm leading-relaxed text-ink">
               We form a strategic alliance with xAI for distribution to launch Viral Fusion.
             </p>
-            <p className="text-[0.98rem] leading-relaxed text-ink">
+            <p className="text-sm leading-relaxed text-ink">
               Our Go-To-Market Strategy is a first in the World.
             </p>
           </div>
