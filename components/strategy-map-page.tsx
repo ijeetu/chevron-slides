@@ -11,22 +11,18 @@ type Industry = {
 
 type FlowRow =
   | { type: "pair"; left: string; right: string }
-  | { type: "single"; text: string };
+  | { type: "single"; text: string; highlight?: boolean };
 
 type Phase = {
   number: number;
   title: string;
   subtitle?: string;
-  // Phase 1 — industry breakdown table
   industries?: Industry[];
   goals?: string;
-  // Phase 2 — bg-patch description cards + total count
   descriptions?: string[];
   totalPolicies?: number;
-  // Phase 3 — flowchart diagram
   flowRows?: FlowRow[];
   summary?: string;
-  // Shared (optional so Phase 3 can omit it)
   targetCompletion?: string;
 };
 
@@ -50,7 +46,7 @@ const PHASES: Phase[] = [
       {
         name: "Technology",
         lead: "Confidential",
-        orgs: ["Aligned Tech. Organizations"],
+        orgs: ["Aligned Organizations"],
         policies: 3,
       },
       {
@@ -83,7 +79,7 @@ const PHASES: Phase[] = [
       { type: "single", text: "Est. Reach: 60% of California's Voters Every Week" },
       {
         type: "single",
-        text: "LTA Secures High-Efficiency, Low-Cost, Petition Signature Hubs",
+        text: "LTA Secures High-Efficiency, Low-Cost, Petition Signature Hubs", highlight: true,
       },
     ],
     summary:
@@ -91,36 +87,22 @@ const PHASES: Phase[] = [
   },
 ];
 
-// ─── Shared primitives ───────────────────────────────────────────────────────
+// ─── Design tokens / shared UI ───────────────────────────────────────────────
 
-function LeadBox({ children }: { children: ReactNode }) {
+const BLUE_LINE = "#7a9adb";
+const BLUE_DEEP = "#4d73c6";
+
+function GradientDivider() {
   return (
-    <div className="w-full rounded-2xl border border-[#345aa1]/40 bg-[linear-gradient(180deg,#648cdd,#4d73c6)] px-4 py-3 text-center shadow-[0_8px_20px_rgba(77,115,198,0.22)]">
-      <p className="text-xs font-semibold uppercase leading-snug tracking-[0.06em] text-white md:text-[0.8rem]">
-        {children}
-      </p>
-    </div>
+    <div className="my-0 h-px w-full bg-[linear-gradient(90deg,transparent,rgba(17,22,28,0.14)_20%,rgba(17,22,28,0.14)_80%,transparent)]" />
   );
 }
 
-function OrgChip({ children }: { children: ReactNode }) {
+function PhaseLabel({ number }: { number: number }) {
   return (
-    <div className="rounded-full border border-ink/15 bg-white/90 px-3 py-1.5 text-center shadow-sm">
-      <p className="text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-ink/80">
-        {children}
-      </p>
-    </div>
-  );
-}
-
-function IndustryBox({ children }: { children: ReactNode }) {
-  return (
-    <div className="relative w-full overflow-hidden rounded-[1.2rem] border border-ink/10 bg-white/80 px-4 py-3 text-center shadow-[0_8px_24px_rgba(17,22,28,0.06)] backdrop-blur-sm">
-      <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-accent/40 via-accent to-accent/40 opacity-60" />
-      <p className="text-[0.62rem] font-bold uppercase tracking-[0.07em] text-ink md:text-[0.7rem]">
-        {children}
-      </p>
-    </div>
+    <p className="mb-3 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-mist">
+      Phase {String(number).padStart(2, "0")}
+    </p>
   );
 }
 
@@ -134,35 +116,78 @@ function PhaseHeader({
   subtitle?: string;
 }) {
   return (
-    <div className="mb-6 flex flex-col items-center gap-2">
-      <div className="rounded-xl border border-line bg-white/95 px-7 py-2.5 shadow-sm">
-        <h2 className="text-center font-display text-[1.35rem] font-bold text-ink md:text-[1.7rem]">
-          Phase {number}: {title}
+    <div className="mb-8 flex flex-col items-center gap-3">
+      <PhaseLabel number={number} />
+      <div className="relative overflow-hidden rounded-[2rem] border border-line bg-white/95 px-8 py-3.5 shadow-deck">
+        <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/30 to-transparent" />
+        <h2 className="text-center font-display text-[1.45rem] font-bold text-ink md:text-[1.85rem]">
+          {title}
         </h2>
       </div>
       {subtitle ? (
-        <p className="max-w-4xl text-center text-sm text-graphite md:text-base">{subtitle}</p>
+        <p className="mt-1 max-w-3xl text-center text-sm leading-relaxed text-mist md:text-[0.95rem]">
+          {subtitle}
+        </p>
       ) : null}
     </div>
   );
 }
 
-function SectionDivider() {
-  return <div className="my-6 border-t border-line" />;
-}
-
 function TargetRow({ value }: { value: string }) {
   return (
-    <div className="flex items-center justify-center gap-6">
-      <p className="shrink-0 text-[0.82rem] font-bold text-ink">Target Completion:</p>
-      <div className="rounded-full border border-line bg-white/95 px-5 py-2 shadow-sm">
-        <p className="text-[0.82rem] font-bold text-ink">{value}</p>
+    <div className="flex flex-wrap items-center justify-center gap-3">
+      <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-graphite">
+        Target Completion
+      </p>
+      <div className="h-3.5 w-px bg-line" />
+      <div className="rounded-full border border-[#4d73c6]/25 bg-white/95 px-6 py-2 shadow-sm">
+        <p className="text-[0.82rem] font-semibold text-ink">{value}</p>
       </div>
     </div>
   );
 }
 
 // ─── Phase 1 — industry table ─────────────────────────────────────────────────
+
+function LeadBox({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-full rounded-2xl border border-[#345aa1]/35 bg-[linear-gradient(160deg,#648cdd,#4260b8)] px-4 py-3 text-center shadow-[0_6px_18px_rgba(77,115,198,0.28)]">
+      <p className="text-xs font-semibold uppercase leading-snug tracking-[0.07em] text-white/95 md:text-[0.78rem]">
+        {children}
+      </p>
+    </div>
+  );
+}
+
+function OrgChip({ children }: { children: ReactNode }) {
+  return (
+    <div className="rounded-full border border-ink/12 bg-white/85 px-3 py-1 text-center shadow-sm">
+      <p className="text-[0.63rem] font-semibold uppercase tracking-[0.1em] text-graphite">
+        {children}
+      </p>
+    </div>
+  );
+}
+
+function IndustryBox({ children }: { children: ReactNode }) {
+  return (
+    <div className="relative w-full overflow-hidden rounded-[1.2rem] border border-ink/10 bg-white/85 px-4 py-3 text-center shadow-[0_4px_16px_rgba(17,22,28,0.06)] backdrop-blur-sm">
+      <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-70" />
+      <p className="text-[0.62rem] font-bold uppercase tracking-[0.1em] text-ink md:text-[0.7rem]">
+        {children}
+      </p>
+    </div>
+  );
+}
+
+function RowLabel({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex items-center">
+      <div className="mr-3 h-full w-[2px] self-stretch rounded-full bg-gradient-to-b from-[#4d73c6]/30 to-transparent" />
+      <p className="text-[0.78rem] font-bold leading-snug text-ink">{children}</p>
+    </div>
+  );
+}
 
 function IndustryTablePhase({ phase }: { phase: Phase }) {
   const industries = phase.industries!;
@@ -175,11 +200,11 @@ function IndustryTablePhase({ phase }: { phase: Phase }) {
       <div className="flex w-full">
         <div className="w-36 shrink-0" />
         <div className="flex flex-1 flex-col items-center">
-          <div className="h-5 w-[2px] bg-[#7a9adb]" />
+          <div className="h-6 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
           <div className="mx-auto h-[2px] bg-[#7a9adb]" style={{ width: lineWidthPct }} />
           <div className="mx-auto flex justify-between" style={{ width: lineWidthPct }}>
             {industries.map((ind) => (
-              <div key={ind.name} className="h-4 w-[2px] bg-[#7a9adb]" />
+              <div key={ind.name} className="h-5 w-[2px] bg-[#7a9adb]" />
             ))}
           </div>
         </div>
@@ -190,69 +215,57 @@ function IndustryTablePhase({ phase }: { phase: Phase }) {
         className="grid gap-x-3 gap-y-4"
         style={{ gridTemplateColumns: `9rem repeat(${colCount}, 1fr)` }}
       >
-        {/* Row: Industries */}
-        <div className="flex items-center">
-          <p className="text-[0.82rem] font-bold text-ink">Industries</p>
-        </div>
+        <RowLabel>Industries</RowLabel>
         {industries.map((ind) => (
           <div key={`ind-${ind.name}`} className="flex justify-center">
             <IndustryBox>{ind.name}</IndustryBox>
           </div>
         ))}
 
-        {/* Row: Lead Facilitator */}
-        <div className="flex items-center">
-          <p className="text-[0.82rem] font-bold leading-snug text-ink">
-            George Partsch IV
-            <br />
-            <span className="font-normal text-graphite">– Lead Facilitator</span>
-          </p>
-        </div>
+        <RowLabel>
+          George Partsch IV
+          <br />
+          <span className="font-normal text-mist">– Lead Facilitator</span>
+        </RowLabel>
         {industries.map((ind) => (
           <div key={`lead-${ind.name}`} className="flex justify-center">
             <LeadBox>{ind.lead}</LeadBox>
           </div>
         ))}
 
-        {/* Row: Orgs Served */}
-        <div className="flex items-center">
-          <p className="text-[0.82rem] font-bold text-ink">Orgs. Served</p>
-        </div>
+        <RowLabel>Orgs. Served</RowLabel>
         {industries.map((ind) => (
-          <div
-            key={`orgs-${ind.name}`}
-            className="flex flex-wrap items-center justify-center gap-1.5"
-          >
+          <div key={`orgs-${ind.name}`} className="flex flex-wrap items-center justify-center gap-1.5">
             {ind.orgs.map((org) => (
               <OrgChip key={org}>{org}</OrgChip>
             ))}
           </div>
         ))}
 
-        {/* Row: Est. Number of Policies */}
-        <div className="flex items-center">
-          <p className="text-[0.82rem] font-bold leading-snug text-ink">
-            Est. Number
-            <br />
-            of Policies
-          </p>
-        </div>
+        <RowLabel>
+          Est. Number
+          <br />
+          of Policies
+        </RowLabel>
         {industries.map((ind) => (
           <div key={`pol-${ind.name}`} className="flex justify-center">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#4d73c6]/25 bg-white shadow-sm">
               <span className="text-sm font-bold text-ink">{ind.policies}</span>
             </div>
           </div>
         ))}
       </div>
 
-      <SectionDivider />
-
-      <div className="space-y-3">
+      {/* Goals + Target */}
+      <div className="mt-8 space-y-3">
         {phase.goals ? (
-          <div className="flex justify-center gap-6">
-            <p className="shrink-0 text-[0.82rem] font-bold text-ink">Goals:</p>
-            <p className="text-[0.82rem] leading-relaxed text-graphite">{phase.goals}</p>
+          <div className="relative overflow-hidden rounded-[1.4rem] border border-line bg-white/80 px-6 py-4 shadow-sm">
+            <div className="flex items-start gap-5">
+              <p className="shrink-0 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-mist">
+                Goals
+              </p>
+              <p className="text-[0.88rem] leading-relaxed text-graphite">{phase.goals}</p>
+            </div>
           </div>
         ) : null}
         {phase.targetCompletion ? <TargetRow value={phase.targetCompletion} /> : null}
@@ -267,28 +280,29 @@ function SummaryPhase({ phase }: { phase: Phase }) {
   return (
     <>
       {phase.descriptions && phase.descriptions.length > 0 ? (
-        <div className="mb-6 space-y-3">
+        <div className="mb-7 space-y-3">
           {phase.descriptions.map((desc, i) => (
             <article
               key={i}
-              className="rounded-[1.4rem] border border-line bg-white/90 px-6 py-4 shadow-sm"
+              className="relative overflow-hidden rounded-[1.4rem] border border-line bg-white/90 px-8 py-5 shadow-sm"
             >
-              <p className="text-center text-[0.92rem] leading-relaxed text-ink">{desc}</p>
+              <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#4d73c6]/40 to-transparent" />
+              <p className="text-center text-[0.94rem] leading-relaxed text-ink">{desc}</p>
             </article>
           ))}
         </div>
       ) : null}
 
       {phase.totalPolicies !== undefined ? (
-        <div className="flex items-center justify-center gap-5">
-          <p className="text-[0.82rem] font-bold text-ink">Est. Number of Policies:</p>
-          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white shadow-sm">
-            <span className="text-lg font-bold text-ink">{phase.totalPolicies}</span>
+        <div className="mb-7 flex items-center justify-center gap-4">
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-graphite">
+            Est. Number of Policies
+          </p>
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#4d73c6]/30 bg-white shadow-[0_4px_16px_rgba(77,115,198,0.12)]">
+            <span className="font-display text-xl font-bold text-ink">{phase.totalPolicies}</span>
           </div>
         </div>
       ) : null}
-
-      <SectionDivider />
 
       {phase.targetCompletion ? <TargetRow value={phase.targetCompletion} /> : null}
     </>
@@ -297,20 +311,28 @@ function SummaryPhase({ phase }: { phase: Phase }) {
 
 // ─── Phase 3 — flowchart diagram ──────────────────────────────────────────────
 
-// Width of the horizontal connector bars — chosen to align drops with pair-box centers
 const CONNECTOR_W = "16rem";
 
 function FlowBox({ children }: { children: ReactNode }) {
   return (
-    <div className="min-w-[11rem] rounded-xl border border-ink/20 bg-white/90 px-6 py-3 text-center shadow-sm">
+    <div className="relative min-w-[11rem] overflow-hidden rounded-[1.2rem] border border-ink/10 bg-white/85 px-6 py-3.5 text-center shadow-[0_4px_16px_rgba(17,22,28,0.06)] backdrop-blur-sm">
+      <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-70" />
       <p className="text-[0.88rem] font-medium text-ink">{children}</p>
     </div>
   );
 }
 
-function WideFlowBox({ children }: { children: ReactNode }) {
+function WideFlowBox({ children, highlight }: { children: ReactNode; highlight?: boolean }) {
+  if (highlight) {
+    return (
+      <div className="relative w-full max-w-2xl overflow-hidden rounded-[1.2rem] border-2 border-[#345aa1]/60 bg-[linear-gradient(160deg,#5a7fd4,#3d5faa)] px-8 py-4 text-center shadow-[0_6px_20px_rgba(77,115,198,0.35)]">
+        <p className="text-[0.88rem] font-semibold text-white">{children}</p>
+      </div>
+    );
+  }
   return (
-    <div className="w-full max-w-2xl rounded-xl border border-ink/20 bg-white/90 px-8 py-3.5 text-center shadow-sm">
+    <div className="relative w-full max-w-2xl overflow-hidden rounded-[1.2rem] border border-ink/10 bg-white/85 px-8 py-4 text-center shadow-[0_4px_16px_rgba(17,22,28,0.06)] backdrop-blur-sm">
+      <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-70" />
       <p className="text-[0.88rem] font-medium text-ink">{children}</p>
     </div>
   );
@@ -320,10 +342,10 @@ function BiArrow() {
   return (
     <div className="flex shrink-0 items-center px-3">
       <svg width="36" height="14" viewBox="0 0 36 14" fill="none" aria-hidden="true">
-        <line x1="0" y1="7" x2="36" y2="7" stroke="#4d73c6" strokeWidth="1.5" />
+        <line x1="0" y1="7" x2="36" y2="7" stroke={BLUE_DEEP} strokeWidth="1.5" />
         <polyline
           points="7,2 0,7 7,12"
-          stroke="#4d73c6"
+          stroke={BLUE_DEEP}
           strokeWidth="1.5"
           fill="none"
           strokeLinejoin="round"
@@ -331,7 +353,7 @@ function BiArrow() {
         />
         <polyline
           points="29,2 36,7 29,12"
-          stroke="#4d73c6"
+          stroke={BLUE_DEEP}
           strokeWidth="1.5"
           fill="none"
           strokeLinejoin="round"
@@ -342,11 +364,10 @@ function BiArrow() {
   );
 }
 
-/** Y-split downward: single center line → horizontal bar → two drops */
 function SplitDown() {
   return (
     <div className="flex flex-col items-center">
-      <div className="h-5 w-[2px] bg-[#7a9adb]" />
+      <div className="h-5 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
       <div className="h-[2px] bg-[#7a9adb]" style={{ width: CONNECTOR_W }} />
       <div className="flex justify-between" style={{ width: CONNECTOR_W }}>
         <div className="h-4 w-[2px] bg-[#7a9adb]" />
@@ -356,7 +377,6 @@ function SplitDown() {
   );
 }
 
-/** Inverted Y: two rises → horizontal bar → single center drop */
 function MergeDown() {
   return (
     <div className="flex flex-col items-center">
@@ -365,14 +385,13 @@ function MergeDown() {
         <div className="h-4 w-[2px] bg-[#7a9adb]" />
       </div>
       <div className="h-[2px] bg-[#7a9adb]" style={{ width: CONNECTOR_W }} />
-      <div className="h-5 w-[2px] bg-[#7a9adb]" />
+      <div className="h-5 w-[2px] bg-gradient-to-b from-[#7a9adb] to-[#4d73c6]" />
     </div>
   );
 }
 
-/** Simple single vertical connector */
 function LineDown() {
-  return <div className="h-8 w-[2px] bg-[#7a9adb]" />;
+  return <div className="h-8 w-[2px] bg-gradient-to-b from-[#7a9adb] to-[#4d73c6]" />;
 }
 
 function FlowchartPhase({ phase }: { phase: Phase }) {
@@ -387,7 +406,6 @@ function FlowchartPhase({ phase }: { phase: Phase }) {
 
           return (
             <div key={i} className="flex flex-col items-center">
-              {/* Connector above this row */}
               {isFirst ? (
                 row.type === "pair" ? <SplitDown /> : <LineDown />
               ) : prev?.type === "pair" ? (
@@ -395,8 +413,6 @@ function FlowchartPhase({ phase }: { phase: Phase }) {
               ) : (
                 <LineDown />
               )}
-
-              {/* Row content */}
               {row.type === "pair" ? (
                 <div className="flex items-center">
                   <FlowBox>{row.left}</FlowBox>
@@ -404,7 +420,7 @@ function FlowchartPhase({ phase }: { phase: Phase }) {
                   <FlowBox>{row.right}</FlowBox>
                 </div>
               ) : (
-                <WideFlowBox>{row.text}</WideFlowBox>
+                <WideFlowBox highlight={row.type === "single" ? row.highlight : undefined}>{row.text}</WideFlowBox>
               )}
             </div>
           );
@@ -412,16 +428,18 @@ function FlowchartPhase({ phase }: { phase: Phase }) {
       </div>
 
       {phase.summary ? (
-        <p className="mx-auto mt-10 max-w-3xl text-center text-xl font-medium leading-relaxed text-ink md:text-[1.25rem]">
-          {phase.summary}
-        </p>
+        <div className="relative mx-auto mt-10 max-w-3xl overflow-hidden rounded-[1.6rem] border border-line bg-white/85 px-10 py-7 text-center shadow-deck">
+          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/25 to-transparent" />
+          <p className="font-display text-xl font-medium leading-relaxed text-ink md:text-[1.25rem]">
+            {phase.summary}
+          </p>
+        </div>
       ) : null}
 
       {phase.targetCompletion ? (
-        <>
-          <SectionDivider />
+        <div className="mt-6">
           <TargetRow value={phase.targetCompletion} />
-        </>
+        </div>
       ) : null}
     </>
   );
@@ -431,16 +449,19 @@ function FlowchartPhase({ phase }: { phase: Phase }) {
 
 function PhaseSection({ phase }: { phase: Phase }) {
   return (
-    <section className="border-t border-line px-[5%] py-10">
-      <PhaseHeader number={phase.number} title={phase.title} subtitle={phase.subtitle} />
-      {phase.industries && phase.industries.length > 0 ? (
-        <IndustryTablePhase phase={phase} />
-      ) : phase.flowRows && phase.flowRows.length > 0 ? (
-        <FlowchartPhase phase={phase} />
-      ) : (
-        <SummaryPhase phase={phase} />
-      )}
-    </section>
+    <>
+      <GradientDivider />
+      <section className="px-[5%] py-12">
+        <PhaseHeader number={phase.number} title={phase.title} subtitle={phase.subtitle} />
+        {phase.industries && phase.industries.length > 0 ? (
+          <IndustryTablePhase phase={phase} />
+        ) : phase.flowRows && phase.flowRows.length > 0 ? (
+          <FlowchartPhase phase={phase} />
+        ) : (
+          <SummaryPhase phase={phase} />
+        )}
+      </section>
+    </>
   );
 }
 
@@ -448,36 +469,69 @@ function PhaseSection({ phase }: { phase: Phase }) {
 
 export function StrategyMapWebPage() {
   return (
-    <div className="relative min-h-screen">
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_12%_0%,rgba(72,88,104,0.16),transparent_24%),linear-gradient(135deg,#d9ddd9_0%,#e8e9e5_34%,#d9dee2_100%)]" />
-      <div className="fixed inset-0 -z-10 opacity-40 [background-image:linear-gradient(rgba(17,22,28,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,22,28,0.05)_1px,transparent_1px)] [background-position:center_center] [background-size:28px_28px]" />
+    <div className="mx-auto max-w-7xl">
+      {/* Header */}
+      <header className="px-[5%] pb-10 pt-12 text-center">
+        <h1 className="font-display text-4xl font-bold leading-[1.02] text-ink md:text-5xl">
+          Special Projects Initiative <span className="text-mist">/ CONFIDENTIAL</span>
+        </h1>
 
-      <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <header className="px-[5%] py-16 text-center">
-          <h1 className="font-display text-4xl font-bold leading-[1.0] text-ink md:text-[4.5rem]">
-            Special Projects Initiative{" "}
-            <span className="text-mist">/ CONFIDENTIAL</span>
-          </h1>
-          <div className="mt-5 space-y-1.5">
-            <p className="text-lg text-graphite md:text-xl">
-              Built to move where conventional channels have stalled.
+        <div className="mt-5 space-y-2">
+          <p className="text-base text-graphite md:text-lg">
+            Built to move where conventional channels have stalled.
+          </p>
+          <p className="text-base text-graphite md:text-lg">
+            Designed to align industry, public support, and execution to create durable outcomes at
+            scale.
+          </p>
+        </div>
+
+        <p className="mt-5 text-[0.82rem] font-semibold uppercase tracking-[0.2em] text-graphite">
+          By George Partsch IV
+        </p>
+      </header>
+
+      {/* Phases */}
+      {PHASES.map((phase) => (
+        <PhaseSection key={phase.number} phase={phase} />
+      ))}
+
+      {/* Phase 4 */}
+      <GradientDivider />
+      <section className="px-[5%] py-12">
+        <div className="mb-8 flex flex-col items-center gap-3">
+          <p className="mb-3 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-mist">
+            Phase 04
+          </p>
+          <div className="relative overflow-hidden rounded-[2rem] bg-[linear-gradient(135deg,#c0392b,#96281b)] px-10 py-4 shadow-[0_8px_24px_rgba(150,40,27,0.35)]">
+            <h2 className="text-center font-display text-[1.45rem] font-bold text-white md:text-[1.85rem]">
+              The Deal
+            </h2>
+          </div>
+        </div>
+        <div className="mx-auto flex flex-col items-center">
+          <div className="h-8 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
+          <div className="w-full max-w-3xl overflow-hidden rounded-[1.6rem] border-2 border-[#4d73c6]/60 bg-white/85 px-8 py-6 text-center shadow-deck">
+            <p className="mb-3 text-[0.98rem] leading-relaxed text-ink">
+              We have four ways of orchestrating a meeting with Elon Musk / xAI.
             </p>
-            <p className="text-lg text-graphite md:text-xl">
-              Designed to align industry, public support, and execution to create durable outcomes
-              at scale.
+            <p className="mb-3 text-[0.98rem] leading-relaxed text-ink">
+              We form a strategic alliance with xAI for distribution to launch Viral Fusion.
+            </p>
+            <p className="text-[0.98rem] leading-relaxed text-ink">
+              Our Go-To-Market Strategy is a first in the World.
             </p>
           </div>
-          <p className="mt-6 text-base font-semibold text-ink">By George Partsch IV</p>
-        </header>
+        </div>
+      </section>
 
-        {/* Phase sections */}
-        {PHASES.map((phase) => (
-          <PhaseSection key={phase.number} phase={phase} />
-        ))}
+      {/* The Fun Begins */}
+      <GradientDivider />
+      <section className="px-[5%] py-12 text-center">
+        <h2 className="font-display text-3xl font-bold text-ink md:text-4xl">The Fun Begins</h2>
+      </section>
 
-        <div className="h-16" />
-      </div>
+      <div className="h-12" />
     </div>
   );
 }
