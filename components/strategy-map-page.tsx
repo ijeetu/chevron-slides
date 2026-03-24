@@ -97,9 +97,14 @@ function GradientDivider() {
 
 function PhaseLabel({ number }: { number: number }) {
   return (
-    <p className="mb-2 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-mist">
-      Phase {String(number).padStart(2, "0")}
-    </p>
+    <div className="mb-2 rounded-full bg-[linear-gradient(135deg,#7a9adb,#c4d3f0)] p-[1.5px] shadow-[0_4px_20px_rgba(77,115,198,0.18)]">
+      <div className="flex items-center gap-2 rounded-full bg-white px-5 py-1.5">
+        <span className="h-1.5 w-1.5 rounded-full bg-[linear-gradient(135deg,#7a9adb,#4d73c6)]" />
+        <p className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-graphite">
+          Phase {String(number).padStart(2, "0")}
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -488,9 +493,14 @@ export function StrategyMapWebPage() {
       <GradientDivider />
       <section className="px-[5%] py-12">
         <div className="mb-8 flex flex-col items-center gap-3">
-          <p className="mb-2 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-mist">
-            Phase 04
-          </p>
+          <div className="mb-2 rounded-full bg-[linear-gradient(135deg,#7a9adb,#c4d3f0)] p-[1.5px] shadow-[0_4px_20px_rgba(77,115,198,0.18)]">
+            <div className="flex items-center gap-2 rounded-full bg-white px-5 py-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[linear-gradient(135deg,#7a9adb,#4d73c6)]" />
+              <p className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-graphite">
+                Phase 04
+              </p>
+            </div>
+          </div>
           <div className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#c0392b,#96281b)] px-10 py-4 shadow-[0_8px_24px_rgba(150,40,27,0.35)]">
             <div className="flex items-center justify-center gap-3">
               <Handshake size={20} className="text-white/80" strokeWidth={1.8} />
