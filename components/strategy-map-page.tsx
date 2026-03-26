@@ -34,6 +34,11 @@ type Phase = {
   targetCompletion?: string;
 };
 
+type RailConfig = {
+  labels: string[];
+  className?: string;
+};
+
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const PHASES: Phase[] = [
@@ -87,11 +92,64 @@ const PHASE_ICONS: Record<number, LucideIcon> = {
   4: Handshake,
 };
 
+const PHASE_RAILS: Record<number, RailConfig> = {
+  1: {
+    labels: ["START", "FORM\nALLIANCES", "DRAFT\nPOLICY"],
+    className: "top-10 bottom-12",
+  },
+  2: {
+    labels: ["PROTECT\nPOLICY", "CREATE\nNOISE"],
+    className: "top-10 bottom-14",
+  },
+  3: {
+    labels: ["DEPLOY\nMEDIA\nRAILS", "SECURE\nLTAs"],
+    className: "top-12 bottom-12",
+  },
+};
+
 // ─── Shared primitives ───────────────────────────────────────────────────────
 
 function GradientDivider() {
   return (
     <div className="h-px w-full bg-[linear-gradient(90deg,transparent,rgba(17,22,28,0.14)_20%,rgba(17,22,28,0.14)_80%,transparent)]" />
+  );
+}
+
+function MilestoneBubble({ label }: { label: string }) {
+  return (
+    <div className="relative z-10 flex h-[7.6rem] w-[7.6rem] items-center justify-center">
+      <div className="absolute -inset-[5px] rounded-full border border-[#2a54a4]/18" />
+      <div className="absolute inset-0 rounded-full bg-[linear-gradient(155deg,#6f98e8_0%,#3f6fc8_55%,#2a54a4_100%)] shadow-[0_16px_38px_rgba(47,92,174,0.22)]" />
+      <div className="absolute inset-[4px] rounded-full border border-white/18 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03))]" />
+      <div className="relative flex h-[6rem] w-[6rem] items-center justify-center rounded-full border border-[#24488f]/55 bg-[radial-gradient(circle_at_50%_28%,#95b7f3_0%,#6f96e6_36%,#4472cb_72%,#345db1_100%)] px-3 text-center">
+        <p className="whitespace-pre-line text-[0.82rem] font-semibold uppercase leading-[1.06] tracking-[0.03em] text-[#08111c]">
+          {label}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function MilestoneRail({
+  labels,
+  className = "top-10 bottom-10",
+}: RailConfig) {
+  return (
+    <div
+      className={`pointer-events-none absolute left-[-8.35rem] hidden w-32 flex-col items-center xl:flex ${className}`}
+      aria-hidden="true"
+    >
+      <div className="absolute bottom-8 left-1/2 top-8 w-[4px] -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,rgba(122,154,219,0.08),#6b93e1_16%,#456dc2_84%,rgba(122,154,219,0.08))]" />
+      <div className="absolute bottom-8 left-1/2 top-8 w-3 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(106,145,226,0.2),transparent_70%)]" />
+      {labels.map((label, index) => (
+        <div key={label} className="flex h-full flex-col items-center">
+          <MilestoneBubble label={label} />
+          {index < labels.length - 1 ? (
+            <div className="my-2.5 w-[3px] flex-1 rounded-full bg-transparent" />
+          ) : null}
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -441,11 +499,12 @@ function FlowchartPhase({ phase }: { phase: Phase }) {
 
 // ─── Phase section wrapper ───────────────────────────────────────────────────
 
-function PhaseSection({ phase }: { phase: Phase }) {
+function PhaseSection({ phase, rail }: { phase: Phase; rail?: RailConfig }) {
   return (
     <>
       <GradientDivider />
-      <section className="px-[5%] py-12">
+      <section className="relative px-[5%] py-12 xl:pl-28">
+        {rail ? <MilestoneRail labels={rail.labels} className={rail.className} /> : null}
         <PhaseHeader number={phase.number} title={phase.title} subtitle={phase.subtitle} />
         {phase.industries && phase.industries.length > 0 ? (
           <IndustryTablePhase phase={phase} />
@@ -463,79 +522,88 @@ function PhaseSection({ phase }: { phase: Phase }) {
 
 export function StrategyMapWebPage() {
   return (
-    <div className="mx-auto max-w-7xl">
-      {/* Header */}
-      <header className="px-[5%] pb-10 pt-12 text-center">
-        <h1 className="font-display text-4xl font-bold leading-[1.02] text-ink md:text-5xl">
-          Special Projects Initiative <span className="text-mist">/ CONFIDENTIAL</span>
-        </h1>
+    <div className="mx-auto w-full max-w-[96rem]">
+      <div className="mx-auto max-w-7xl">
+        {/* Header */}
+        <header className="px-[5%] pb-10 pt-12 text-center">
+          <h1 className="font-display text-4xl font-bold leading-[1.02] text-ink md:text-5xl">
+            Special Projects Initiative <span className="text-mist">/ CONFIDENTIAL</span>
+          </h1>
 
-        <div className="mt-5 space-y-2">
-          <p className="text-base text-graphite md:text-lg">
-            Built to move where conventional channels have stalled.
+          <div className="mt-5 space-y-2">
+            <p className="text-base text-graphite md:text-lg">
+              Built to move where conventional channels have stalled.
+            </p>
+            <p className="text-base text-graphite md:text-lg">
+              Designed to align industry, public support, and execution to create durable outcomes at scale.
+            </p>
+          </div>
+
+          <p className="mt-5 text-[0.82rem] font-semibold uppercase tracking-[0.2em] text-graphite">
+            By George Partsch IV
           </p>
-          <p className="text-base text-graphite md:text-lg">
-            Designed to align industry, public support, and execution to create durable outcomes at scale.
-          </p>
-        </div>
+        </header>
 
-        <p className="mt-5 text-[0.82rem] font-semibold uppercase tracking-[0.2em] text-graphite">
-          By George Partsch IV
-        </p>
-      </header>
+        {/* Phases */}
+        {PHASES.map((phase) => (
+          <PhaseSection key={phase.number} phase={phase} rail={PHASE_RAILS[phase.number]} />
+        ))}
 
-      {/* Phases */}
-      {PHASES.map((phase) => (
-        <PhaseSection key={phase.number} phase={phase} />
-      ))}
-
-      {/* Phase 4 */}
-      <GradientDivider />
-      <section className="px-[5%] py-12">
-        <div className="mb-8 flex flex-col items-center gap-3">
-          <div className="mb-2 rounded-full bg-[linear-gradient(135deg,#7a9adb,#c4d3f0)] p-[1.5px] shadow-[0_4px_20px_rgba(77,115,198,0.18)]">
-            <div className="flex items-center gap-2 rounded-full bg-white px-5 py-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[linear-gradient(135deg,#7a9adb,#4d73c6)]" />
-              <p className="text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-graphite">
-                Phase 04
+        {/* Phase 4 */}
+        <GradientDivider />
+        <section className="relative px-[5%] py-12 xl:pl-28">
+          <MilestoneRail
+            labels={["CREATE\nCONNECTIVITY", "DISTRIBUTION\nDEAL"]}
+            className="top-8 bottom-12"
+          />
+          <div className="mb-8 flex flex-col items-center gap-3">
+            <div className="mb-2 rounded-full bg-[linear-gradient(135deg,#7a9adb,#c4d3f0)] p-[1.5px] shadow-[0_4px_20px_rgba(77,115,198,0.18)]">
+              <div className="flex items-center gap-2 rounded-full bg-white px-5 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[linear-gradient(135deg,#7a9adb,#4d73c6)]" />
+                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-graphite">
+                  Phase 04
+                </p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#c0392b,#96281b)] px-10 py-4 shadow-[0_8px_24px_rgba(150,40,27,0.35)]">
+              <div className="flex items-center justify-center gap-3">
+                <Handshake size={20} className="text-white/80" strokeWidth={1.8} />
+                <h2 className="text-center font-display text-[1.45rem] font-bold text-white md:text-[1.85rem]">
+                  The Deal
+                </h2>
+              </div>
+            </div>
+          </div>
+          <div className="mx-auto flex flex-col items-center">
+            <div className="h-8 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
+            <div className="w-full max-w-3xl overflow-hidden rounded-2xl border-2 border-[#4d73c6]/60 bg-white/85 px-8 py-6 text-center shadow-deck">
+              <p className="mb-3 text-sm leading-relaxed text-ink">
+                We have four ways of orchestrating a meeting with Elon Musk / xAI.
+              </p>
+              <p className="mb-3 text-sm leading-relaxed text-ink">
+                We form a strategic alliance with xAI for distribution to launch Viral Fusion.
+              </p>
+              <p className="text-sm leading-relaxed text-ink">
+                Our Go-To-Market Strategy is a first in the World.
               </p>
             </div>
           </div>
-          <div className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#c0392b,#96281b)] px-10 py-4 shadow-[0_8px_24px_rgba(150,40,27,0.35)]">
-            <div className="flex items-center justify-center gap-3">
-              <Handshake size={20} className="text-white/80" strokeWidth={1.8} />
-              <h2 className="text-center font-display text-[1.45rem] font-bold text-white md:text-[1.85rem]">
-                The Deal
-              </h2>
-            </div>
-          </div>
-        </div>
-        <div className="mx-auto flex flex-col items-center">
-          <div className="h-8 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
-          <div className="w-full max-w-3xl overflow-hidden rounded-2xl border-2 border-[#4d73c6]/60 bg-white/85 px-8 py-6 text-center shadow-deck">
-            <p className="mb-3 text-sm leading-relaxed text-ink">
-              We have four ways of orchestrating a meeting with Elon Musk / xAI.
-            </p>
-            <p className="mb-3 text-sm leading-relaxed text-ink">
-              We form a strategic alliance with xAI for distribution to launch Viral Fusion.
-            </p>
-            <p className="text-sm leading-relaxed text-ink">
-              Our Go-To-Market Strategy is a first in the World.
-            </p>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* The Fun Begins */}
-      <GradientDivider />
-      <section className="px-[5%] py-12 text-center">
-        <div className="flex items-center justify-center gap-3">
-          <Rocket size={26} className="text-[#4d73c6]" strokeWidth={1.8} />
-          <h2 className="font-display text-3xl font-bold text-ink md:text-4xl">The Fun Begins</h2>
-        </div>
-      </section>
+        {/* The Fun Begins */}
+        <GradientDivider />
+        <section className="relative px-[5%] py-12 text-center xl:pl-28">
+          <div className="pointer-events-none absolute left-[-8.35rem] top-1/2 hidden -translate-y-1/2 xl:flex" aria-hidden="true">
+            <MilestoneBubble label={`PREPARE\nTO\nLAUNCH`} />
+          </div>
+          <div className="flex items-center justify-center gap-3">
+            <Rocket size={26} className="text-[#4d73c6]" strokeWidth={1.8} />
+            <h2 className="font-display text-3xl font-bold text-ink md:text-4xl">The Fun Begins</h2>
+          </div>
+        </section>
 
-      <div className="h-12" />
+        <div className="h-12" />
+      </div>
     </div>
   );
 }
