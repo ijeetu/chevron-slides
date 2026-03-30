@@ -76,7 +76,7 @@ const PHASES: Phase[] = [
       { type: "single", text: "LTA Secures High-Efficiency, Low-Cost, Petition Signature Hubs", highlight: true,  icon: Lock                               },
     ],
     summary:
-      "Controlled distribution, direct public reach, narrative control at scale, and thousands of locations to support our signature drives at any time.",
+      "Controlled distribution, direct public reach, narrative control at scale, and thousands of locations to onboard users, support signature drives, and enable the transition to a technology-driven policy model.",
   },
 ];
 
@@ -115,14 +115,15 @@ function GradientDivider() {
   );
 }
 
-function MilestoneBubble({ label }: { label: string }) {
+function MilestoneBubble({ label, variant = "blue" }: { label: string; variant?: "blue" | "red" }) {
+  const isRed = variant === "red";
   return (
     <div className="relative z-10 flex h-[7.6rem] w-[7.6rem] items-center justify-center">
-      <div className="absolute -inset-[5px] rounded-full border border-[#2a54a4]/18" />
-      <div className="absolute inset-0 rounded-full bg-[linear-gradient(155deg,#6f98e8_0%,#3f6fc8_55%,#2a54a4_100%)] shadow-[0_16px_38px_rgba(47,92,174,0.22)]" />
+      <div className={`absolute -inset-[5px] rounded-full border ${isRed ? "border-[#96281b]/18" : "border-[#2a54a4]/18"}`} />
+      <div className={`absolute inset-0 rounded-full ${isRed ? "bg-[linear-gradient(155deg,#e05c4e_0%,#c0392b_55%,#96281b_100%)] shadow-[0_16px_38px_rgba(150,40,27,0.28)]" : "bg-[linear-gradient(155deg,#6f98e8_0%,#3f6fc8_55%,#2a54a4_100%)] shadow-[0_16px_38px_rgba(47,92,174,0.22)]"}`} />
       <div className="absolute inset-[4px] rounded-full border border-white/18 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03))]" />
-      <div className="relative flex h-[6rem] w-[6rem] items-center justify-center rounded-full border border-[#24488f]/55 bg-[radial-gradient(circle_at_50%_28%,#95b7f3_0%,#6f96e6_36%,#4472cb_72%,#345db1_100%)] px-3 text-center">
-        <p className="whitespace-pre-line text-[0.82rem] font-semibold uppercase leading-[1.06] tracking-[0.03em] text-[#08111c]">
+      <div className={`relative flex h-[6rem] w-[6rem] items-center justify-center rounded-full px-3 text-center ${isRed ? "border border-[#7a1c0e]/55 bg-[radial-gradient(circle_at_50%_28%,#f08070_0%,#e04030_36%,#c0392b_72%,#96281b_100%)]" : "border border-[#24488f]/55 bg-[radial-gradient(circle_at_50%_28%,#95b7f3_0%,#6f96e6_36%,#4472cb_72%,#345db1_100%)]"}`}>
+        <p className={`whitespace-pre-line text-[0.82rem] font-semibold uppercase leading-[1.06] tracking-[0.03em] ${isRed ? "text-white" : "text-[#08111c]"}`}>
           {label}
         </p>
       </div>
@@ -578,13 +579,13 @@ export function StrategyMapWebPage() {
             <div className="h-8 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
             <div className="w-full max-w-3xl overflow-hidden rounded-2xl border-2 border-[#4d73c6]/60 bg-white/85 px-8 py-6 text-center shadow-deck">
               <p className="mb-3 text-sm leading-relaxed text-ink">
-                We have four ways of orchestrating a meeting with Elon Musk / xAI.
+                We have identified four distinct pathways to secure a meeting with Elon Musk / xAI.
               </p>
               <p className="mb-3 text-sm leading-relaxed text-ink">
-                We form a strategic alliance with xAI for distribution to launch Viral Fusion.
+                The objective is to establish a strategic alliance with xAI for distribution and the launch of Viral Fusion.
               </p>
               <p className="text-sm leading-relaxed text-ink">
-                Our Go-To-Market Strategy is a first in the World.
+                The go-to-market strategy is a world first, followed by a billion-dollar legislative rollout — another world first — and supported by an aggressive IPO timeline.
               </p>
             </div>
           </div>
@@ -594,7 +595,7 @@ export function StrategyMapWebPage() {
         <GradientDivider />
         <section className="relative px-[5%] py-12 text-center xl:pl-28">
           <div className="pointer-events-none absolute left-[-8.35rem] top-1/2 hidden -translate-y-1/2 xl:flex" aria-hidden="true">
-            <MilestoneBubble label={`PREPARE\nTO\nLAUNCH`} />
+            <MilestoneBubble label={`PREPARE\nTO\nLAUNCH`} variant="red" />
           </div>
           <div className="flex items-center justify-center gap-3">
             <Rocket size={26} className="text-[#4d73c6]" strokeWidth={1.8} />
