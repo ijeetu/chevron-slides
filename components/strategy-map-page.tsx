@@ -4,7 +4,7 @@ import {
   Flame, Car, Heart, Cpu, ShieldCheck,
   Building2, UserCheck, Users, ScrollText,
   MapPin, Megaphone, Lock, Target, CalendarClock,
-  Handshake, Rocket, Network, Shield, Radio,
+  Handshake, Rocket, Network, Shield, Radio, HelpCircle,
 } from "lucide-react";
 
 // ─── Data types ──────────────────────────────────────────────────────────────
@@ -35,7 +35,7 @@ type Phase = {
 };
 
 type RailConfig = {
-  labels: string[];
+  labels: ReactNode[];
   className?: string;
 };
 
@@ -55,7 +55,8 @@ const PHASES: Phase[] = [
       { name: "Insurance",  lead: "Home, Bus. & Auto",             orgs: ["Aligned Organizations"], policies: 3, icon: ShieldCheck },
     ],
     goals:
-      "Create the most durable policy possible — structured for long-term stability, protected for a defined duration, and amendable only by a vote of the people.",
+      "Create the most durable policies possible — structured for long-term stability, protected for a defined duration, and amendable only by a vote of the people.",
+    totalPolicies: 15,
     targetCompletion: "Timed to support a December 2026 legislative roll-out.",
   },
   {
@@ -73,7 +74,7 @@ const PHASES: Phase[] = [
     flowRows: [
       { type: "pair",   left: ">5,000 Locations", right: "Targeted Marketing",                                    leftIcon: MapPin,   rightIcon: Megaphone },
       { type: "single", text: "Est. Reach: 60% of California's Voters Every Week",                                icon: Users                              },
-      { type: "single", text: "LTA Secures High-Efficiency, Low-Cost, Petition Signature Hubs", highlight: true,  icon: Lock                               },
+      { type: "single", text: "LTAs Secures High-Efficiency, Low-Cost, Petition Signature Hubs", highlight: true,  icon: Lock                               },
     ],
     summary:
       "Controlled distribution, direct public reach, narrative control at scale, and thousands of locations to onboard users, support signature drives, and enable the transition to a technology-driven policy model.",
@@ -102,7 +103,7 @@ const PHASE_RAILS: Record<number, RailConfig> = {
     className: "top-10 bottom-14",
   },
   3: {
-    labels: ["DEPLOY\nMEDIA\nRAILS", "SECURE\nLTAs"],
+    labels: ["DEPLOY\nMEDIA\nRAILS", <>{"SECURE\nLTA"}<span style={{ fontSize: "1em", textTransform: "none" }}>s</span></>],
     className: "top-12 bottom-12",
   },
 };
@@ -115,7 +116,7 @@ function GradientDivider() {
   );
 }
 
-function MilestoneBubble({ label, variant = "blue" }: { label: string; variant?: "blue" | "red" }) {
+function MilestoneBubble({ label, variant = "blue" }: { label: ReactNode; variant?: "blue" | "red" }) {
   const isRed = variant === "red";
   return (
     <div className="relative z-10 flex h-[7.6rem] w-[7.6rem] items-center justify-center">
@@ -315,6 +316,19 @@ function IndustryTablePhase({ phase }: { phase: Phase }) {
           </div>
         ))}
       </div>
+
+      {/* Total policies — placement A (below table, above Goals) */}
+      {phase.totalPolicies !== undefined ? (
+        <div className="mt-6 flex items-center justify-center gap-4">
+          <ScrollText size={13} className="text-graphite" strokeWidth={1.8} />
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-graphite">
+            Est. Number of Policies
+          </p>
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#4d73c6]/30 bg-white shadow-[0_4px_16px_rgba(77,115,198,0.12)]">
+            <span className="font-display text-xl font-medium text-ink">{phase.totalPolicies}</span>
+          </div>
+        </div>
+      ) : null}
 
       {/* Goals + Target */}
       <div className="mt-8 space-y-3">
@@ -549,6 +563,42 @@ export function StrategyMapWebPage() {
         {PHASES.map((phase) => (
           <PhaseSection key={phase.number} phase={phase} rail={PHASE_RAILS[phase.number]} />
         ))}
+
+        {/* The Question */}
+        <GradientDivider />
+        <section className="relative px-[5%] py-12 xl:pl-28">
+          <MilestoneRail
+            labels={["THE\nQUESTION"]}
+            className="top-8 bottom-12"
+          />
+          <div className="mb-8 flex flex-col items-center gap-3">
+            <div className="mb-2 rounded-full bg-[linear-gradient(135deg,#7a9adb,#c4d3f0)] p-[1.5px] shadow-[0_4px_20px_rgba(77,115,198,0.18)]">
+              <div className="flex items-center gap-2 rounded-full bg-white px-5 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[linear-gradient(135deg,#7a9adb,#4d73c6)]" />
+                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-graphite">
+                  Before The Deal
+                </p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-2xl border border-line bg-white/95 px-10 py-4 shadow-deck">
+              <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/30 to-transparent" />
+              <div className="flex items-center justify-center gap-3">
+                <HelpCircle size={20} className="text-[#4d73c6]/60" strokeWidth={1.8} />
+                <h2 className="text-center font-display text-[1.45rem] font-bold text-ink md:text-[1.85rem]">
+                  The Question
+                </h2>
+              </div>
+            </div>
+          </div>
+          <div className="mx-auto flex flex-col items-center">
+            <div className="h-8 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
+            <div className="w-full max-w-3xl overflow-hidden rounded-2xl border border-[#4d73c6]/25 bg-white/90 px-10 py-8 text-center shadow-deck">
+              <p className="font-display text-xl font-medium leading-relaxed text-ink md:text-[1.25rem]">
+                If the Phase 1 and Phase 2 ballot measures help stabilize markets, improve EBITDA, and drive revenue growth — creating or protecting billions in value — would these companies be willing to help fund a legislative rollout of this magnitude?
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* Phase 4 */}
         <GradientDivider />
