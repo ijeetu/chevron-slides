@@ -35,7 +35,7 @@ type Phase = {
 };
 
 type RailConfig = {
-  labels: ReactNode[];
+  labels: { key: string; content: ReactNode }[];
   className?: string;
 };
 
@@ -95,15 +95,33 @@ const PHASE_ICONS: Record<number, LucideIcon> = {
 
 const PHASE_RAILS: Record<number, RailConfig> = {
   1: {
-    labels: ["START", "FORM\nALLIANCES", "DRAFT\nPOLICY"],
+    labels: [
+      { key: "start", content: "START" },
+      { key: "form-alliances", content: "FORM\nALLIANCES" },
+      { key: "draft-policy", content: "DRAFT\nPOLICY" },
+    ],
     className: "top-10 bottom-12",
   },
   2: {
-    labels: ["PROTECT\nPOLICY", "CREATE\nNOISE"],
+    labels: [
+      { key: "protect-policy", content: "PROTECT\nPOLICY" },
+      { key: "create-noise", content: "CREATE\nNOISE" },
+    ],
     className: "top-10 bottom-14",
   },
   3: {
-    labels: ["DEPLOY\nMEDIA\nRAILS", <>{"SECURE\nLTA"}<span style={{ fontSize: "1em", textTransform: "none" }}>s</span></>],
+    labels: [
+      { key: "deploy-media-rails", content: "DEPLOY\nMEDIA\nRAILS" },
+      {
+        key: "secure-ltas",
+        content: (
+          <>
+            {"SECURE\nLTA"}
+            <span style={{ fontSize: "1em", textTransform: "none" }}>s</span>
+          </>
+        ),
+      },
+    ],
     className: "top-12 bottom-12",
   },
 };
@@ -143,9 +161,9 @@ function MilestoneRail({
     >
       <div className="absolute bottom-8 left-1/2 top-8 w-[4px] -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,rgba(122,154,219,0.08),#6b93e1_16%,#456dc2_84%,rgba(122,154,219,0.08))]" />
       <div className="absolute bottom-8 left-1/2 top-8 w-3 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(106,145,226,0.2),transparent_70%)]" />
-      {labels.map((label, index) => (
-        <div key={label} className="flex h-full flex-col items-center">
-          <MilestoneBubble label={label} />
+      {labels.map(({ key, content }, index) => (
+        <div key={key} className="flex h-full flex-col items-center">
+          <MilestoneBubble label={content} />
           {index < labels.length - 1 ? (
             <div className="my-2.5 w-[3px] flex-1 rounded-full bg-transparent" />
           ) : null}
@@ -568,7 +586,7 @@ export function StrategyMapWebPage() {
         <GradientDivider />
         <section className="relative px-[5%] py-12 xl:pl-28">
           <MilestoneRail
-            labels={["THE\nQUESTION"]}
+            labels={[{ key: "the-question", content: "THE\nQUESTION" }]}
             className="top-8 bottom-12"
           />
           <div className="mb-8 flex flex-col items-center gap-3">
@@ -604,7 +622,10 @@ export function StrategyMapWebPage() {
         <GradientDivider />
         <section className="relative px-[5%] py-12 xl:pl-28">
           <MilestoneRail
-            labels={["CREATE\nCONNECTIVITY", "DISTRIBUTION\nDEAL"]}
+            labels={[
+              { key: "create-connectivity", content: "CREATE\nCONNECTIVITY" },
+              { key: "distribution-deal", content: "DISTRIBUTION\nDEAL" },
+            ]}
             className="top-8 bottom-12"
           />
           <div className="mb-8 flex flex-col items-center gap-3">
