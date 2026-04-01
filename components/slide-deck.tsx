@@ -22,6 +22,21 @@ function parseHash(total: number) {
 
 const urlMatcher = /(https?:\/\/[^\s]+)/g;
 const buttonLinkMatcher = /^team video:\s*(https?:\/\/\S+)$/i;
+const coverVideoMatcher = /^video:\s*(https?:\/\/\S+)$/i;
+
+function getVimeoEmbedUrl(url: string) {
+  const manageMatch = url.match(/vimeo\.com\/manage\/videos\/(\d+)\/([a-zA-Z0-9]+)/i);
+  if (manageMatch) {
+    return `https://player.vimeo.com/video/${manageMatch[1]}?h=${manageMatch[2]}&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1`;
+  }
+
+  const directMatch = url.match(/vimeo\.com\/(\d+)(?:\?.*)?$/i);
+  if (directMatch) {
+    return `https://player.vimeo.com/video/${directMatch[1]}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1`;
+  }
+
+  return null;
+}
 
 function renderInlineLinks(text: string): ReactNode {
   const buttonMatch = text.match(buttonLinkMatcher);
@@ -233,9 +248,14 @@ function BalancedSectionGrid({ sections }: { sections: SlideSection[] }) {
 }
 
 function CoverSlide({ slide, number }: { slide: Slide; number: number }) {
+  const videoStatement = slide.statements.find((statement) => coverVideoMatcher.test(statement));
+  const videoUrl = videoStatement?.match(coverVideoMatcher)?.[1];
+  const embedUrl = videoUrl ? getVimeoEmbedUrl(videoUrl) : null;
+  const visibleStatements = slide.statements.filter((statement) => !coverVideoMatcher.test(statement));
+
   return (
     <SlideShell slideNumber={number}>
-      <div className="grid w-full items-center gap-12 md:grid-cols-[1.12fr_0.88fr] md:gap-20">
+      <div className="grid w-full items-center gap-8 md:grid-cols-[0.62fr_1.38fr] md:gap-8">
         <div className="space-y-10">
           <div className="max-w-5xl">
             <h1 className="mt-5 max-w-5xl font-display text-5xl leading-[0.97] text-ink md:text-[5.8rem] [text-wrap:balance]">
@@ -248,9 +268,9 @@ function CoverSlide({ slide, number }: { slide: Slide; number: number }) {
             ) : null}
           </div>
 
-          {slide.statements.length > 0 ? (
+          {visibleStatements.length > 0 ? (
             <div className="max-w-xl space-y-5 border-t border-line pt-6">
-              {slide.statements.map((statement) => (
+              {visibleStatements.map((statement) => (
                 <p key={statement} className="text-xl leading-9 text-ink md:text-[1.7rem] md:leading-10">
                   {renderInlineLinks(statement)}
                 </p>
@@ -259,7 +279,24 @@ function CoverSlide({ slide, number }: { slide: Slide; number: number }) {
           ) : null}
         </div>
 
-        <div className="hidden md:block" />
+        {embedUrl ? (
+          <div className="w-full">
+            <div className="overflow-hidden rounded-[2.2rem] border border-white/45 bg-white/80 p-1.5 shadow-deck backdrop-blur-sm">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[1.75rem] border border-black/5 bg-[#11161c]">
+                <iframe
+                  src={embedUrl}
+                  title="Problems We Serve"
+                  className="absolute inset-0 h-full w-full"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="hidden md:block" />
+        )}
       </div>
     </SlideShell>
   );
