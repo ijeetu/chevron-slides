@@ -31,7 +31,9 @@ type Phase = {
   totalPolicies?: number;
   flowRows?: FlowRow[];
   summary?: string;
+  startTiming?: string;
   targetCompletion?: string;
+  targetLabel?: string;
 };
 
 type RailConfig = {
@@ -57,6 +59,7 @@ const PHASES: Phase[] = [
     goals:
       "Create the most durable policies possible — structured for long-term stability, protected for a defined duration, and amendable only by a vote of the people.",
     totalPolicies: 15,
+    startTiming: "April 2026",
     targetCompletion: "Timed to support a December 2026 legislative roll-out.",
   },
   {
@@ -78,6 +81,8 @@ const PHASES: Phase[] = [
     ],
     summary:
       "Controlled distribution, direct public reach, narrative control at scale, and thousands of locations to onboard users, support signature drives, and enable the transition to a technology-driven policy model.",
+    targetLabel: "Initiation Goal",
+    targetCompletion: "December 2026 is the realistic deployment goal. Earlier is beneficial if feasible.",
   },
 ];
 
@@ -209,12 +214,12 @@ function PhaseHeader({ number, title, subtitle }: { number: number; title: strin
   );
 }
 
-function TargetRow({ value }: { value: string }) {
+function TargetRow({ label = "Target Completion", value }: { label?: string; value: string }) {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2.5">
       <CalendarClock size={13} className="text-graphite" strokeWidth={1.8} />
       <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-graphite">
-        Target Completion
+        {label}
       </p>
       <div className="h-3.5 w-px bg-line" />
       <div className="rounded-full border border-[#4d73c6]/25 bg-white/95 px-5 py-1.5 shadow-sm">
@@ -275,6 +280,12 @@ function IndustryTablePhase({ phase }: { phase: Phase }) {
 
   return (
     <>
+      {phase.startTiming ? (
+        <div className="mb-7">
+          <TargetRow label="Start" value={phase.startTiming} />
+        </div>
+      ) : null}
+
       {/* Connecting tree lines */}
       <div className="flex w-full">
         <div className="w-36 shrink-0" />
@@ -363,7 +374,9 @@ function IndustryTablePhase({ phase }: { phase: Phase }) {
             <p className="text-sm leading-relaxed text-ink">{phase.goals}</p>
           </div>
         ) : null}
-        {phase.targetCompletion ? <TargetRow value={phase.targetCompletion} /> : null}
+        {phase.targetCompletion ? (
+          <TargetRow label={phase.targetLabel} value={phase.targetCompletion} />
+        ) : null}
       </div>
     </>
   );
@@ -400,7 +413,9 @@ function SummaryPhase({ phase }: { phase: Phase }) {
         </div>
       ) : null}
 
-      {phase.targetCompletion ? <TargetRow value={phase.targetCompletion} /> : null}
+      {phase.targetCompletion ? (
+        <TargetRow label={phase.targetLabel} value={phase.targetCompletion} />
+      ) : null}
     </>
   );
 }
@@ -523,7 +538,7 @@ function FlowchartPhase({ phase }: { phase: Phase }) {
 
       {phase.targetCompletion ? (
         <div className="mt-6">
-          <TargetRow value={phase.targetCompletion} />
+          <TargetRow label={phase.targetLabel} value={phase.targetCompletion} />
         </div>
       ) : null}
     </>
@@ -667,6 +682,12 @@ export function StrategyMapWebPage() {
                 The go-to-market strategy is a world first, followed by a billion-dollar legislative rollout — another world first — and supported by an aggressive IPO timeline.
               </p>
             </div>
+          </div>
+          <div className="mt-6">
+            <TargetRow
+              label="Initiation Window"
+              value="June-August 2026, with a separate completion timeline."
+            />
           </div>
         </section>
 
