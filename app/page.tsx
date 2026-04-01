@@ -4,19 +4,19 @@ import { ArrowRight, Presentation, BarChart3, Map } from "lucide-react";
 export default function Home() {
   const decks = [
     {
-      title: "Strategic Briefing",
+      title: "TAM",
+      description: "Problems video and global problem framing for the TAM narrative.",
+      href: "/tam",
+      icon: BarChart3,
+    },
+    {
+      title: "Viral Fusion",
       description: "Main presentation covering the core strategic initiatives and market analysis.",
       href: "/presentation",
       icon: Presentation,
     },
     {
-      title: "Executive Summary",
-      description: "High-level summary of the strategic briefing for quick review.",
-      href: "/summary",
-      icon: BarChart3,
-    },
-    {
-      title: "Strategy Map",
+      title: "Strategy",
       description: "Visual map detailing the strategic alliances and partnerships.",
       href: "/strategymap",
       icon: Map,
@@ -57,7 +57,7 @@ export default function Home() {
               <div 
                 className="mt-6 flex items-center text-sm font-medium transition-colors text-accent group-hover:text-ink"
               >
-                View Deck
+                Open
                 <ArrowRight className="w-4 h-4 ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
               </div>
             </Link>

@@ -583,21 +583,12 @@ export function StrategyMapWebPage() {
         ))}
 
         {/* The Question */}
-        <GradientDivider />
-        <section className="relative px-[5%] py-12 xl:pl-28">
+        <section className="relative px-[5%] pb-12 pt-4 xl:pl-28">
           <MilestoneRail
             labels={[{ key: "the-question", content: "THE\nQUESTION" }]}
             className="top-8 bottom-12"
           />
-          <div className="mb-8 flex flex-col items-center gap-3">
-            <div className="mb-2 rounded-full bg-[linear-gradient(135deg,#7a9adb,#c4d3f0)] p-[1.5px] shadow-[0_4px_20px_rgba(77,115,198,0.18)]">
-              <div className="flex items-center gap-2 rounded-full bg-white px-5 py-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[linear-gradient(135deg,#7a9adb,#4d73c6)]" />
-                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-graphite">
-                  Before The Deal
-                </p>
-              </div>
-            </div>
+          <div className="mb-6 flex flex-col items-center">
             <div className="relative overflow-hidden rounded-2xl border border-line bg-white/95 px-10 py-4 shadow-deck">
               <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/30 to-transparent" />
               <div className="flex items-center justify-center gap-3">
@@ -613,6 +604,23 @@ export function StrategyMapWebPage() {
             <div className="w-full max-w-3xl overflow-hidden rounded-2xl border border-[#4d73c6]/25 bg-white/90 px-10 py-8 text-center shadow-deck">
               <p className="font-display text-xl font-medium leading-relaxed text-ink md:text-[1.25rem]">
                 If the Phase 1 and Phase 2 ballot measures help stabilize markets, improve EBITDA, and drive revenue growth — creating or protecting billions in value — would these companies be willing to help fund a legislative rollout of this magnitude?
+              </p>
+            </div>
+          </div>
+          <div className="mx-auto mt-10 flex flex-col items-center">
+            <div className="h-8 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
+            <div className="mb-6 relative overflow-hidden rounded-2xl border border-line bg-white/95 px-10 py-4 shadow-deck">
+              <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/30 to-transparent" />
+              <div className="flex items-center justify-center gap-3">
+                <HelpCircle size={20} className="text-[#4d73c6]/60" strokeWidth={1.8} />
+                <h2 className="text-center font-display text-[1.45rem] font-bold text-ink md:text-[1.85rem]">
+                  Our Hypothesis
+                </h2>
+              </div>
+            </div>
+            <div className="w-full max-w-3xl overflow-hidden rounded-2xl border border-[#4d73c6]/25 bg-white/90 px-10 py-8 text-center shadow-deck">
+              <p className="font-display text-xl font-medium leading-relaxed text-ink md:text-[1.25rem]">
+                “We believe these companies will contribute financially to securing their markets.” - George Partsch IV
               </p>
             </div>
           </div>
