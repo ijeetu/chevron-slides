@@ -235,6 +235,29 @@ function StatementItem({
   );
 }
 
+function NarrativeStatementBlock({ statements }: { statements: string[] }) {
+  return (
+    <article className="relative overflow-hidden rounded-[2rem] border border-white/60 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(245,247,248,0.9))] p-7 shadow-[0_24px_60px_rgba(17,22,28,0.12)] backdrop-blur-sm md:p-10">
+      <div className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,rgba(92,108,123,0.92),rgba(140,159,176,0.28))]" />
+      <div className="absolute right-8 top-8 h-24 w-24 rounded-full bg-[radial-gradient(circle,rgba(140,159,176,0.16),transparent_68%)]" />
+      <div className="relative space-y-6 pl-3 md:space-y-8 md:pl-5">
+        {statements.map((statement, index) => (
+          <p
+            key={statement}
+            className={
+              index === 0
+                ? "text-[1.3rem] leading-8 text-ink md:text-[1.7rem] md:leading-[2.5rem] [text-wrap:pretty]"
+                : "border-t border-line/70 pt-6 text-lg leading-8 text-ink/90 md:text-[1.35rem] md:leading-10 [text-wrap:pretty]"
+            }
+          >
+            {renderInlineLinks(statement)}
+          </p>
+        ))}
+      </div>
+    </article>
+  );
+}
+
 function BalancedSectionGrid({ sections }: { sections: SlideSection[] }) {
   if (sections.length === 0) return null;
 
@@ -339,8 +362,26 @@ function StandardSlide({ slide, number }: { slide: Slide; number: number }) {
     0,
   );
   const useStatementGrid = isStatementOnly && slide.statements.length >= 4 && maxStatementLength < 170;
+  const useNarrativeLayout =
+    isStatementOnly && (maxStatementLength >= 170 || slide.statements.length <= 3);
 
   if (isStatementOnly) {
+    if (useNarrativeLayout) {
+      return (
+        <SlideShell slideNumber={number}>
+          <div className="flex w-full flex-col justify-center gap-10">
+            <div className="space-y-6">
+              <TitleBlock title={slide.title} maxWidth="max-w-5xl" />
+            </div>
+
+            <div className="w-full">
+              <NarrativeStatementBlock statements={slide.statements} />
+            </div>
+          </div>
+        </SlideShell>
+      );
+    }
+
     return (
       <SlideShell slideNumber={number}>
         <div className="flex w-full flex-col justify-center gap-10">
