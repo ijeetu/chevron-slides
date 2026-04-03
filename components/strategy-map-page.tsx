@@ -1,10 +1,14 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
   Flame, Car, Heart, Cpu, ShieldCheck,
   Building2, UserCheck, Users, ScrollText,
   MapPin, Megaphone, Lock, Target, CalendarClock,
   Handshake, Rocket, Network, Shield, Radio, HelpCircle,
+  ChevronLeft, ChevronRight, CircleDollarSign, TrendingUp,
 } from "lucide-react";
 
 // ─── Data types ──────────────────────────────────────────────────────────────
@@ -568,7 +572,7 @@ function PhaseSection({ phase, rail }: { phase: Phase; rail?: RailConfig }) {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
-export function StrategyMapWebPage() {
+function StrategyMapContent() {
   return (
     <div className="mx-auto w-full max-w-[96rem]">
       <div className="mx-auto max-w-7xl">
@@ -706,5 +710,194 @@ export function StrategyMapWebPage() {
         <div className="h-12" />
       </div>
     </div>
+  );
+}
+
+function IntroSlide() {
+  return (
+    <section className="mx-auto flex min-h-screen w-full max-w-6xl items-center px-6 py-20 sm:px-10 lg:px-14">
+      <div className="w-full">
+        <div className="max-w-4xl">
+          <p className="text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-graphite">
+            Strategy Map
+          </p>
+          <h1 className="mt-5 font-display text-5xl leading-[0.95] text-ink md:text-[5.5rem]">
+            Three Goals
+          </h1>
+        </div>
+
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {[
+            "Form a strategic alliance across key industries.",
+            "Draft durable legislation.",
+            "Launch the largest citizen-led legislative rollout in United States history.",
+          ].map((goal, index) => (
+            <article
+              key={goal}
+              className="relative overflow-hidden rounded-[1.8rem] border border-line bg-white/92 p-7 shadow-deck"
+            >
+              <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/45 to-transparent" />
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/35 bg-[linear-gradient(145deg,#eef4ff,#dfe9fb)] text-sm font-semibold text-ink">
+                  {index + 1}
+                </div>
+                <p className="pt-1 text-xl leading-8 text-ink md:text-[1.45rem] md:leading-10">
+                  {goal}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-10 max-w-4xl overflow-hidden rounded-[1.8rem] border border-[#4d73c6]/20 bg-white/88 p-8 shadow-deck">
+          <div className="flex items-start gap-4">
+            <div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(145deg,#5d84d2,#3e62b8)] text-white shadow-[0_10px_24px_rgba(77,115,198,0.26)]">
+              <CircleDollarSign size={20} strokeWidth={1.8} />
+            </div>
+            <div>
+              <p className="text-[0.76rem] font-semibold uppercase tracking-[0.24em] text-graphite">
+                Funding Principle
+              </p>
+              <p className="mt-3 text-xl leading-8 text-ink md:text-[1.45rem] md:leading-10">
+                Align the stakeholders who benefit to fund the effort.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SuccessSlide() {
+  return (
+    <section className="mx-auto flex min-h-screen w-full max-w-6xl items-center px-6 py-20 sm:px-10 lg:px-14">
+      <div className="w-full">
+        <div className="max-w-4xl">
+          <p className="text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-graphite">
+            Strategy Map
+          </p>
+          <h1 className="mt-5 font-display text-5xl leading-[0.95] text-ink md:text-[5.1rem]">
+            Why We Will Succeed
+          </h1>
+        </div>
+
+        <div className="mt-12 grid gap-5">
+          {[
+            "We have built a scalable, cost-effective model for passing legislation at scale.",
+            "Our distribution partner has direct upside in helping the model succeed.",
+            "The model opens billion-dollar verticals aligned with long-term business growth.",
+          ].map((statement) => (
+            <article
+              key={statement}
+              className="relative overflow-hidden rounded-[1.8rem] border border-line bg-white/92 p-7 shadow-deck"
+            >
+              <div className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,rgba(92,108,123,0.9),rgba(140,159,176,0.25))]" />
+              <div className="flex items-start gap-4 pl-2">
+                <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(145deg,#edf6ef,#d8ecdd)] text-[#3b6b4b]">
+                  <TrendingUp size={18} strokeWidth={1.9} />
+                </div>
+                <p className="text-xl leading-8 text-ink md:text-[1.45rem] md:leading-10">
+                  {statement}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const STRATEGY_MAP_STEPS = [
+  {
+    key: "intro",
+    label: "Three Goals",
+    render: <IntroSlide />,
+  },
+  {
+    key: "map",
+    label: "Strategy Map",
+    render: (
+      <section className="px-4 py-8 md:px-6">
+        <StrategyMapContent />
+      </section>
+    ),
+  },
+  {
+    key: "success",
+    label: "Why We Will Succeed",
+    render: <SuccessSlide />,
+  },
+] as const;
+
+export function StrategyMapWebPage() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const total = STRATEGY_MAP_STEPS.length;
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+        event.preventDefault();
+        setCurrentStep((step) => Math.min(step + 1, total - 1));
+      }
+
+      if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        event.preventDefault();
+        setCurrentStep((step) => Math.max(step - 1, 0));
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [total]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentStep]);
+
+  return (
+    <main className="relative min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_12%_0%,rgba(72,88,104,0.16),transparent_24%),linear-gradient(135deg,#d9ddd9_0%,#e8e9e5_34%,#d9dee2_100%)]">
+      <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(17,22,28,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,22,28,0.05)_1px,transparent_1px)] [background-position:center_center] [background-size:28px_28px]" />
+      <div className="pointer-events-none absolute inset-y-0 left-[6%] w-px bg-[linear-gradient(180deg,transparent,rgba(17,22,28,0.18),transparent)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
+
+      <div className="relative z-10">{STRATEGY_MAP_STEPS[currentStep].render}</div>
+
+      <div className="fixed bottom-6 right-6 z-20 flex items-center gap-2 rounded-full border border-line bg-white/92 px-2 py-1.5 shadow-deck md:bottom-8 md:right-8">
+        <button
+          type="button"
+          aria-label="Previous step"
+          onClick={() => setCurrentStep((step) => Math.max(step - 1, 0))}
+          disabled={currentStep === 0}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink transition-all hover:-translate-y-0.5 hover:border-accent disabled:cursor-not-allowed disabled:opacity-35"
+        >
+          <ChevronLeft size={17} strokeWidth={2.1} />
+        </button>
+        <div className="flex items-center gap-1.5 px-1">
+          {STRATEGY_MAP_STEPS.map((step, index) => (
+            <button
+              key={step.key}
+              type="button"
+              aria-label={`Go to ${step.label}`}
+              onClick={() => setCurrentStep(index)}
+              className={`h-2 rounded-full transition-all ${
+                currentStep === index ? "w-6 bg-[#4d73c6]" : "w-2 bg-[#9fb2d4]"
+              }`}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          aria-label="Next step"
+          onClick={() => setCurrentStep((step) => Math.min(step + 1, total - 1))}
+          disabled={currentStep === total - 1}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink transition-all hover:-translate-y-0.5 hover:border-accent disabled:cursor-not-allowed disabled:opacity-35"
+        >
+          <ChevronRight size={17} strokeWidth={2.1} />
+        </button>
+      </div>
+    </main>
   );
 }

@@ -5,14 +5,47 @@ Video: https://vimeo.com/manage/videos/1160310972/9fde73efd4
 
 Slide 1
 Global Problems
-The people's voice, backed on chain, could challenge government information monopolies and expose the gap between official narratives and public sentiment. In countries such as Iran, and even in democracies such as Britain, Ireland, and Sweden, that creates a broader global market around election integrity, democratic accountability, and decentralized civic infrastructure.
-
-A system that helps people communicate securely, document conditions, verify consensus, and show credible public preferences could strengthen lawful civic coordination under pressure. In Iran specifically, recurring internet shutdowns, surveillance, and blackouts during crackdowns weaken the public's ability to organize and verify events, which makes resilient communications and trustworthy public signal materially valuable.
-
-Our technology and strategy could improve internal coordination, preserve evidence of what people actually want, help the diaspora and outside actors distinguish regime claims from public sentiment, and create pressure for defections, strikes, or negotiated change. The broader Viral Fusion stack can introduce unexpected noise into closed decision systems and force new outcomes without depending on violent escalation.
+In countries where governments control information, surveillance, and communications, the people's voice, secured on-chain, could become a powerful disruptive force. In places such as Iran, a system that helps people communicate securely, document conditions, verify consensus, and show credible public preferences could make it harder for a regime to monopolize information and easier for civil resistance to organize around verifiable truth.
+Viral Fusion could help weaken regime control and strengthen nonviolent internal pressure through anti-censorship communication, consensus proof, atrocity documentation, strike coordination, diaspora support, and transition legitimacy.
+At its core, our technology and strategy could improve internal coordination, preserve evidence of what people actually want, help outside actors distinguish regime claims from real public sentiment, and create pressure for defections, strikes, or negotiated change.
+These same tools could also be adapted in other countries to disrupt OODA loop cycles, create unexpected noise, and generate new outcomes.
+Supporting this framework, the U.S. Treasury's Iran General License D-2 was expanded to support internet-freedom services and related technology for Iranians: https://home.treasury.gov/news/press-releases/jy0974?utm_source=chatgpt.com
 
 Slide 2
-Framed As
-A lawful, resilient civilian communications layer: licensed humanitarian internet access, diaspora-supported secure messaging, censorship circumvention tools, offline mesh networking, satellite-enabled emergency hubs in permitted jurisdictions, and systems for documenting public sentiment and abuses nonviolently.
+Future Outlook
+Support from POTUS
+Vision for technology dominance and decentralization.
+Secure Elections
+From the people, for the citizens.
+We take control of the process.
+Provide a Layer of Democracy
+Make government representatives accountable to the people they serve.
+Lead by example and show what creative minds can deliver.
 
-There is also a legal backdrop. The U.S. Treasury's Iran General License D-2 was expanded to support internet-freedom services and related technology for Iranians, which is part of why these kinds of communications tools have been discussed in this context.
+Slide 3
+MVP for Coding
+Consensus Management System 2/16/26
+
+Slide 4
+Consensus Management System 2/16/26
+Registration Classification
+Adult or minor; citizen or non-citizen.
+Personal Data Capture
+Required for all submissions.
+Verification Process
+ID.me, Experian, or third-party citizen validation.
+Notes
+Would submission classification increase the value of our IP?
+Submission Classification
+Legislation: state or federal.
+Proposed new legislation that does not exist.
+Existing legislation with a proposed amendment.
+Existing legislation to nullify or replace entirely.
+Not sure.
+Sentiment sensory evaluation: hedonic, CATA, and RATA.
+Whistleblower: student, teacher, and employee submissions across state, federal, private, and union contexts.
+Sentiment capture: photo or artwork, ballot submission, and portfolio Life-Lok.
+
+Slide 5
+Closing Video
+Video link pending.

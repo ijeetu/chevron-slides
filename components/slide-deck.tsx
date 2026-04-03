@@ -165,26 +165,36 @@ function TitleBlock({
 function SectionBlock({
   section,
   large,
+  compact,
+  className = "",
 }: {
   section: SlideSection;
   large?: boolean;
+  compact?: boolean;
+  className?: string;
 }) {
   return (
-    <article className="relative overflow-hidden rounded-[1.6rem] border border-line bg-white/90 p-6 shadow-deck">
+    <article
+      className={`relative overflow-hidden rounded-[1.6rem] border border-line bg-white/90 shadow-deck ${
+        compact ? "p-4 md:p-5" : "p-6"
+      } ${className}`}
+    >
       <div className="absolute left-0 top-0 h-full w-1 bg-[linear-gradient(180deg,rgba(140,159,176,0.8),rgba(140,159,176,0.15))]" />
       <div className="pl-3">
         {section.heading ? (
-          <p className="mb-5 text-[0.72rem] uppercase tracking-[0.24em] text-graphite">
+          <p className={`uppercase tracking-[0.24em] text-graphite ${compact ? "mb-3 text-[0.62rem]" : "mb-5 text-[0.72rem]"}`}>
             {section.heading}
           </p>
         ) : null}
-        <div className="space-y-4">
+        <div className={compact ? "space-y-2.5" : "space-y-4"}>
           {section.items.map((item) => (
             <p
               key={item}
               className={
                 large
                   ? "text-[1.22rem] leading-9 text-ink md:text-[1.55rem] md:leading-10 [text-wrap:pretty]"
+                  : compact
+                    ? "text-[0.95rem] leading-6 text-ink md:text-[1.02rem] md:leading-7 [text-wrap:pretty]"
                   : "text-lg leading-8 text-ink md:text-[1.3rem] md:leading-9 [text-wrap:pretty]"
               }
             >
@@ -235,19 +245,33 @@ function StatementItem({
   );
 }
 
-function NarrativeStatementBlock({ statements }: { statements: string[] }) {
+function NarrativeStatementBlock({
+  statements,
+  compact,
+}: {
+  statements: string[];
+  compact?: boolean;
+}) {
   return (
-    <article className="relative overflow-hidden rounded-[2rem] border border-white/60 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(245,247,248,0.9))] p-7 shadow-[0_24px_60px_rgba(17,22,28,0.12)] backdrop-blur-sm md:p-10">
+    <article
+      className={`relative overflow-hidden rounded-[2rem] border border-white/60 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(245,247,248,0.9))] shadow-[0_24px_60px_rgba(17,22,28,0.12)] backdrop-blur-sm ${
+        compact ? "p-5 md:p-7" : "p-7 md:p-10"
+      }`}
+    >
       <div className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,rgba(92,108,123,0.92),rgba(140,159,176,0.28))]" />
       <div className="absolute right-8 top-8 h-24 w-24 rounded-full bg-[radial-gradient(circle,rgba(140,159,176,0.16),transparent_68%)]" />
-      <div className="relative space-y-6 pl-3 md:space-y-8 md:pl-5">
+      <div className={`relative pl-3 md:pl-5 ${compact ? "space-y-4 md:space-y-5" : "space-y-6 md:space-y-8"}`}>
         {statements.map((statement, index) => (
           <p
             key={statement}
             className={
               index === 0
-                ? "text-[1.3rem] leading-8 text-ink md:text-[1.7rem] md:leading-[2.5rem] [text-wrap:pretty]"
-                : "border-t border-line/70 pt-6 text-lg leading-8 text-ink/90 md:text-[1.35rem] md:leading-10 [text-wrap:pretty]"
+                ? compact
+                  ? "text-[1.02rem] leading-7 text-ink md:text-[1.18rem] md:leading-8 [text-wrap:pretty]"
+                  : "text-[1.3rem] leading-8 text-ink md:text-[1.7rem] md:leading-[2.5rem] [text-wrap:pretty]"
+                : compact
+                  ? "border-t border-line/70 pt-4 text-[0.95rem] leading-6 text-ink/90 md:text-[1.05rem] md:leading-7 [text-wrap:pretty]"
+                  : "border-t border-line/70 pt-6 text-lg leading-8 text-ink/90 md:text-[1.35rem] md:leading-10 [text-wrap:pretty]"
             }
           >
             {renderInlineLinks(statement)}
@@ -265,6 +289,27 @@ function BalancedSectionGrid({ sections }: { sections: SlideSection[] }) {
     <div className="grid max-w-5xl gap-4">
       {sections.map((section) => (
         <SectionBlock key={section.heading ?? section.items.join("-")} section={section} />
+      ))}
+    </div>
+  );
+}
+
+function CompactSectionGrid({ sections }: { sections: SlideSection[] }) {
+  if (sections.length === 0) return null;
+
+  return (
+    <div className="grid max-w-6xl gap-3 md:grid-cols-2">
+      {sections.map((section) => (
+        <SectionBlock
+          key={section.heading ?? section.items.join("-")}
+          section={section}
+          compact
+          className={
+            /submission classification/i.test(section.heading ?? "")
+              ? "md:col-span-2"
+              : ""
+          }
+        />
       ))}
     </div>
   );
@@ -361,6 +406,8 @@ function StandardSlide({ slide, number }: { slide: Slide; number: number }) {
     (max, statement) => Math.max(max, statement.length),
     0,
   );
+  const compactNarrative = /global problems/i.test(slide.title);
+  const compactStandard = /consensus management system 2\/16\/26/i.test(slide.title);
   const useStatementGrid = isStatementOnly && slide.statements.length >= 4 && maxStatementLength < 170;
   const useNarrativeLayout =
     isStatementOnly && (maxStatementLength >= 170 || slide.statements.length <= 3);
@@ -371,11 +418,17 @@ function StandardSlide({ slide, number }: { slide: Slide; number: number }) {
         <SlideShell slideNumber={number}>
           <div className="flex w-full flex-col justify-center gap-10">
             <div className="space-y-6">
-              <TitleBlock title={slide.title} maxWidth="max-w-5xl" />
+              <TitleBlock
+                title={slide.title}
+                maxWidth={compactNarrative ? "max-w-4xl" : "max-w-5xl"}
+              />
             </div>
 
             <div className="w-full">
-              <NarrativeStatementBlock statements={slide.statements} />
+              <NarrativeStatementBlock
+                statements={slide.statements}
+                compact={compactNarrative}
+              />
             </div>
           </div>
         </SlideShell>
@@ -404,13 +457,26 @@ function StandardSlide({ slide, number }: { slide: Slide; number: number }) {
 
   return (
     <SlideShell slideNumber={number}>
-      <div className="grid w-full items-center gap-12 md:grid-cols-[0.84fr_1.16fr] md:gap-20">
-        <div className="space-y-8 md:pr-4">
-          <TitleBlock title={slide.title} maxWidth="max-w-3xl" />
+      <div
+        className={
+          compactStandard
+            ? "grid w-full items-center gap-8 md:grid-cols-[0.7fr_1.3fr] md:gap-10"
+            : "grid w-full items-center gap-12 md:grid-cols-[0.84fr_1.16fr] md:gap-20"
+        }
+      >
+        <div className={compactStandard ? "space-y-6 md:pr-2" : "space-y-8 md:pr-4"}>
+          <TitleBlock
+            title={slide.title}
+            maxWidth={compactStandard ? "max-w-2xl" : "max-w-3xl"}
+          />
         </div>
 
         <div className="space-y-4">
-          <BalancedSectionGrid sections={slide.sections} />
+          {compactStandard ? (
+            <CompactSectionGrid sections={slide.sections} />
+          ) : (
+            <BalancedSectionGrid sections={slide.sections} />
+          )}
           {slide.statements.length > 0 ? <StatementBlock statements={slide.statements} /> : null}
         </div>
       </div>
