@@ -14,7 +14,7 @@ type Deck = {
 
 const decks: Deck[] = [
   {
-    title: "TAM",
+    title: "Proms video and opportunities",
     description: "Problems video and global problem framing for the TAM narrative.",
     href: "/tam",
     icon: BarChart3,
@@ -25,7 +25,7 @@ const decks: Deck[] = [
       "bg-[linear-gradient(145deg,rgba(245,239,227,0.98),rgba(230,216,187,0.94))] text-[#6c5835] border-[#cbbd9f]/50",
   },
   {
-    title: "Viral Fusion",
+    title: "Strategic initiatives and sustainability",
     description: "Main presentation covering the core strategic initiatives and market analysis.",
     href: "/presentation",
     icon: Presentation,
@@ -36,7 +36,7 @@ const decks: Deck[] = [
       "bg-[linear-gradient(145deg,rgba(233,240,247,0.98),rgba(189,205,223,0.94))] text-[#37567b] border-[#98aec4]/50",
   },
   {
-    title: "Strategy",
+    title: "Strategic alliances for success",
     description: "Visual map detailing the strategic alliances and partnerships.",
     href: "/strategymap",
     icon: Map,
@@ -64,7 +64,7 @@ function DeckCard({ deck }: { deck: Deck }) {
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-mist">
               {deck.eyebrow}
             </p>
-            <h2 className="mt-4 font-display text-[2rem] leading-[0.95] text-ink">
+            <h2 className="mt-4 font-display text-[1.75rem] leading-[0.95] text-ink">
               {deck.title}
             </h2>
           </div>
@@ -76,7 +76,7 @@ function DeckCard({ deck }: { deck: Deck }) {
           </div>
         </div>
 
-        <p className="mt-6 max-w-sm text-[0.98rem] leading-7 text-graphite">
+        <p className="mt-6 max-w-sm text-[0.94rem] leading-7 text-graphite">
           {deck.description}
         </p>
 

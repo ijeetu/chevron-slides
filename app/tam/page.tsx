@@ -7,7 +7,7 @@ import { SlideDeck } from "@/components/slide-deck";
 import { parseSlides } from "@/lib/parse-slides";
 
 export const metadata: Metadata = {
-  title: "TAM",
+  title: "Proms video and opportunities",
   description: "Problems video and global problem framing.",
 };
 

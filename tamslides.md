@@ -1,5 +1,5 @@
 Cover Slide
-TAM
+Proms video and opportunities
 Watch (Problems Video)
 Video: https://vimeo.com/manage/videos/1160310972/9fde73efd4
 
@@ -16,36 +16,7 @@ Future Outlook
 Support from POTUS
 Vision for technology dominance and decentralization.
 Secure Elections
-From the people, for the citizens.
 We take control of the process.
 Provide a Layer of Democracy
 Make government representatives accountable to the people they serve.
 Lead by example and show what creative minds can deliver.
-
-Slide 3
-MVP for Coding
-Consensus Management System 2/16/26
-
-Slide 4
-Consensus Management System 2/16/26
-Registration Classification
-Adult or minor; citizen or non-citizen.
-Personal Data Capture
-Required for all submissions.
-Verification Process
-ID.me, Experian, or third-party citizen validation.
-Notes
-Would submission classification increase the value of our IP?
-Submission Classification
-Legislation: state or federal.
-Proposed new legislation that does not exist.
-Existing legislation with a proposed amendment.
-Existing legislation to nullify or replace entirely.
-Not sure.
-Sentiment sensory evaluation: hedonic, CATA, and RATA.
-Whistleblower: student, teacher, and employee submissions across state, federal, private, and union contexts.
-Sentiment capture: photo or artwork, ballot submission, and portfolio Life-Lok.
-
-Slide 5
-Closing Video
-Video link pending.

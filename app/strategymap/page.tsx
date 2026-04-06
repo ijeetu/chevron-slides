@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { StrategyMapWebPage } from "@/components/strategy-map-page";
 
 export const metadata: Metadata = {
-  title: "Chevron Strategy Map",
+  title: "Strategic alliances for success",
   description: "Strategic alliance map — Special Projects Initiative",
 };
 
