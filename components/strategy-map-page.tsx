@@ -50,7 +50,7 @@ type RailConfig = {
 const PHASES: Phase[] = [
   {
     number: 1,
-    title: "Strategic Multi-Industry Legislative Alignment",
+    title: "Strategic Multi-Industry Legislative Alliance",
     subtitle:
       "Aligning industry-specific priorities into a coordinated legislative package that creates force multiplication at scale.",
     industries: [
@@ -859,7 +859,6 @@ export function StrategyMapWebPage() {
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_12%_0%,rgba(72,88,104,0.16),transparent_24%),linear-gradient(135deg,#d9ddd9_0%,#e8e9e5_34%,#d9dee2_100%)]">
       <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(17,22,28,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,22,28,0.05)_1px,transparent_1px)] [background-position:center_center] [background-size:28px_28px]" />
-      <div className="pointer-events-none absolute inset-y-0 left-[6%] w-px bg-[linear-gradient(180deg,transparent,rgba(17,22,28,0.18),transparent)]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
 

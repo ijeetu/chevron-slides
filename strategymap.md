@@ -1,5 +1,5 @@
 Slide 1
-Phase 1: Strategic Multi-Industry Legislative Alignment
+Phase 1: Strategic Multi-Industry Legislative Alliance
 Aligning industry-specific priorities into a coordinated legislative package that creates force multiplication at launch.
 Oil & Gas
 Chevron | WSPA, CIPA | 4.
