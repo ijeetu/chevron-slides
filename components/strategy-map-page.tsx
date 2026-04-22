@@ -676,14 +676,17 @@ function StrategyMapContent() {
           <div className="mx-auto flex flex-col items-center">
             <div className="h-8 w-[2px] bg-gradient-to-b from-[#4d73c6] to-[#7a9adb]" />
             <div className="w-full max-w-3xl overflow-hidden rounded-2xl border-2 border-[#4d73c6]/60 bg-white/85 px-8 py-6 text-center shadow-deck">
-              <p className="mb-3 text-sm leading-relaxed text-ink">
-                We have identified four distinct pathways to secure a meeting with Elon Musk / xAI.
+              <h3 className="mb-1 font-display text-base font-bold text-ink">Strategic Access</h3>
+              <p className="mb-4 text-sm leading-relaxed text-ink">
+                We have established multiple pathways to secure exclusive distribution with a key partner, providing instant access to over 500 million lives.
               </p>
-              <p className="mb-3 text-sm leading-relaxed text-ink">
-                The objective is to establish a strategic alliance with xAI for distribution and the launch of Viral Fusion.
+              <h3 className="mb-1 font-display text-base font-bold text-ink">Voter Integrity</h3>
+              <p className="mb-4 text-sm leading-relaxed text-ink">
+                Our technology integration is designed to ensure voter integrity within this historic legislative rollout.
               </p>
+              <h3 className="mb-1 font-display text-base font-bold text-ink">Transformative Scale</h3>
               <p className="text-sm leading-relaxed text-ink">
-                The go-to-market strategy is a world first, followed by a billion-dollar legislative rollout — another world first — and supported by an aggressive IPO timeline.
+                This initiative combines a first-of-its-kind go-to-market strategy with a subsequent billion-dollar legislative expansion—providing the newly elected Governor the capacity to represent the interests of 'We the People' and vital industry stakeholders like Chevron and the automotive sector.
               </p>
             </div>
           </div>
