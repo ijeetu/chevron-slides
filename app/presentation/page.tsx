@@ -4,20 +4,18 @@ import { ArrowLeft, ArrowRight, FileText, Layers3 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Core Presentation",
-  description: "Choose the main deck or the special projects initiative.",
+  description: "View the Viral Fusion deck or the MVP presentation.",
 };
 
 const options = [
   {
-    title: "Main Deck",
+    title: "Viral Fusion Deck",
     href: "/presentation/main-deck",
-    description: "Open the Viral Fusion PDF as slides.",
     icon: FileText,
   },
   {
-    title: "Special Projects Initiative",
+    title: "MVP",
     href: "/presentation/special-projects",
-    description: "Open the initiative presentation.",
     icon: Layers3,
   },
 ];
@@ -26,7 +24,7 @@ export default function PresentationPage() {
   return (
     <div className="relative min-h-screen overflow-hidden px-6 py-10 sm:px-10 lg:px-14">
       <Link
-        href="/"
+        href="/library"
         className="absolute left-6 top-6 z-20 inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/30 px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-mist backdrop-blur-sm transition-colors hover:bg-white/45 hover:text-graphite sm:left-10 sm:top-8 lg:left-14"
       >
         <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2.1} />
@@ -35,11 +33,8 @@ export default function PresentationPage() {
 
       <main className="relative z-10 mx-auto flex min-h-[calc(100vh-5rem)] max-w-4xl flex-col justify-center">
         <header className="text-center">
-          <p className="text-[0.72rem] font-semibold uppercase tracking-[0.26em] text-mist">
+          <h1 className="font-display text-6xl leading-none text-ink sm:text-7xl lg:text-[5.4rem]">
             Core Presentation
-          </p>
-          <h1 className="mt-4 font-display text-5xl leading-none text-ink sm:text-6xl">
-            Choose a Deck
           </h1>
         </header>
 
@@ -60,9 +55,6 @@ export default function PresentationPage() {
                   <h2 className="mt-5 font-display text-3xl leading-none text-ink">
                     {option.title}
                   </h2>
-                  <p className="mt-3 text-sm leading-6 text-mist">
-                    {option.description}
-                  </p>
                 </div>
 
                 <div className="mt-8 flex items-center justify-between rounded-[1.15rem] border border-white/70 bg-white/65 px-4 py-3">
