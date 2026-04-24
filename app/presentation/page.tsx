@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, FileText, Layers3 } from "lucide-react";
+import { ArrowLeft, ArrowRight, FileText, Layers3 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Core Presentation",
@@ -25,6 +25,14 @@ const options = [
 export default function PresentationPage() {
   return (
     <div className="relative min-h-screen overflow-hidden px-6 py-10 sm:px-10 lg:px-14">
+      <Link
+        href="/"
+        className="absolute left-6 top-6 z-20 inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/30 px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-mist backdrop-blur-sm transition-colors hover:bg-white/45 hover:text-graphite sm:left-10 sm:top-8 lg:left-14"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2.1} />
+        <span>Back</span>
+      </Link>
+
       <main className="relative z-10 mx-auto flex min-h-[calc(100vh-5rem)] max-w-4xl flex-col justify-center">
         <header className="text-center">
           <p className="text-[0.72rem] font-semibold uppercase tracking-[0.26em] text-mist">
