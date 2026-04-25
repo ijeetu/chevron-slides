@@ -7,7 +7,6 @@ type Deck = {
   description: string;
   href: string;
   icon: LucideIcon;
-  eyebrow: string;
   tone: string;
   iconTone: string;
 };
@@ -15,10 +14,9 @@ type Deck = {
 const decks: Deck[] = [
   {
     title: "Problems & Opportunities",
-    description: "Problems video and global problem framing for the TAM narrative.",
+    description: "Problem framing and opportunity sizing for the TAM narrative.",
     href: "/tam",
     icon: BarChart3,
-    eyebrow: "Problem Framing",
     tone:
       "bg-[linear-gradient(145deg,rgba(255,255,255,0.94),rgba(241,236,225,0.88))] hover:border-[#c9bb9a]/85 hover:shadow-[0_24px_55px_rgba(108,89,52,0.14)]",
     iconTone:
@@ -26,10 +24,9 @@ const decks: Deck[] = [
   },
   {
     title: "Core Presentation",
-    description: "Main presentation covering the core strategic initiatives and market analysis.",
+    description: "Main deck covering the core strategic initiatives and market analysis.",
     href: "/presentation",
     icon: Presentation,
-    eyebrow: "Core Presentation",
     tone:
       "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(228,235,244,0.9))] hover:border-[#94aac2]/85 hover:shadow-[0_24px_60px_rgba(59,88,129,0.16)]",
     iconTone:
@@ -37,10 +34,9 @@ const decks: Deck[] = [
   },
   {
     title: "Strategy Map",
-    description: "Visual map detailing the strategic alliances and partnerships.",
+    description: "Visual map of the strategic alliances and partnerships.",
     href: "/strategymap",
     icon: Map,
-    eyebrow: "Alliance Map",
     tone:
       "bg-[linear-gradient(145deg,rgba(255,255,255,0.95),rgba(231,238,235,0.9))] hover:border-[#a8b9b3]/85 hover:shadow-[0_24px_55px_rgba(66,97,89,0.14)]",
     iconTone:
@@ -61,10 +57,7 @@ function DeckCard({ deck }: { deck: Deck }) {
       <div className="relative flex h-full flex-col">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-mist">
-              {deck.eyebrow}
-            </p>
-            <h2 className="mt-4 font-display text-[1.75rem] leading-[0.95] text-ink">
+            <h2 className="font-display text-[1.75rem] leading-[0.95] text-ink">
               {deck.title}
             </h2>
           </div>
