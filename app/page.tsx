@@ -6,8 +6,15 @@ import { ArrowRight } from "lucide-react";
 
 function getVisionVideoEmbedUrl() {
   const markdown = fs.readFileSync(path.join(process.cwd(), "tamslides.md"), "utf8");
-  const match = markdown.match(/^Video:\s*(https?:\/\/\S+)$/im);
-  const url = match?.[1];
+  
+  // First try Vision Video field, then fall back to Video field
+  let match = markdown.match(/^Vision Video:\s*(https?:\/\/\S+)$/im);
+  let url = match?.[1];
+  
+  if (!url) {
+    match = markdown.match(/^Video:\s*(https?:\/\/\S+)$/im);
+    url = match?.[1];
+  }
 
   if (!url) {
     return null;
