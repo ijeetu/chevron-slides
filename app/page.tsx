@@ -25,9 +25,11 @@ function getVisionVideoEmbedUrl() {
     return `https://player.vimeo.com/video/${manageMatch[1]}?h=${manageMatch[2]}&badge=0&autopause=0&player_id=0&app_id=58479`;
   }
 
-  const directMatch = url.match(/vimeo\.com\/(\d+)(?:\?.*)?$/i);
+  const directMatch = url.match(/vimeo\.com\/(\d+)(?:\/([a-zA-Z0-9]+))?(?:\?.*)?$/i);
   if (directMatch) {
-    return `https://player.vimeo.com/video/${directMatch[1]}?badge=0&autopause=0&player_id=0&app_id=58479`;
+    const hash = directMatch[2];
+    const hashQuery = hash ? `h=${hash}&` : "";
+    return `https://player.vimeo.com/video/${directMatch[1]}?${hashQuery}badge=0&autopause=0&player_id=0&app_id=58479`;
   }
 
   return url;
