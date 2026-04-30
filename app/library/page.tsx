@@ -13,7 +13,7 @@ type Deck = {
 
 const decks: Deck[] = [
   {
-    title: "Problems & Opportunities",
+    title: "Problems",
     description: "Problem framing and opportunity sizing for the TAM narrative.",
     href: "/tam",
     icon: BarChart3,
@@ -24,7 +24,7 @@ const decks: Deck[] = [
   },
   {
     title: "Core Presentation",
-    description: "Main deck covering the core strategic initiatives and market analysis.",
+    description: "Main deck covering the core strategic initiatives.",
     href: "/presentation",
     icon: Presentation,
     tone:
