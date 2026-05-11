@@ -2,13 +2,14 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
   Flame, Car, Heart, Cpu, ShieldCheck,
   Building2, UserCheck, Users, ScrollText,
   MapPin, Megaphone, Lock, Target, CalendarClock,
   Handshake, Rocket, Network, Shield, Radio, HelpCircle,
-  ChevronLeft, ChevronRight, CircleDollarSign, TrendingUp,
+  ArrowLeft, ChevronLeft, ChevronRight, CircleDollarSign, TrendingUp,
 } from "lucide-react";
 
 // ─── Data types ──────────────────────────────────────────────────────────────
@@ -864,6 +865,14 @@ export function StrategyMapWebPage() {
       <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(17,22,28,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,22,28,0.05)_1px,transparent_1px)] [background-position:center_center] [background-size:28px_28px]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
+
+      <Link
+        href="/library"
+        className="fixed left-6 top-6 z-20 inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/78 px-4 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-graphite shadow-deck backdrop-blur-sm transition-colors hover:bg-white md:left-8 md:top-8"
+      >
+        <ArrowLeft className="h-4 w-4" strokeWidth={2.1} />
+        <span>Home</span>
+      </Link>
 
       <div className="relative z-10">{STRATEGY_MAP_STEPS[currentStep].render}</div>
 

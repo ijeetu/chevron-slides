@@ -230,16 +230,17 @@ export function PdfSlideViewer({ file, title }: PdfSlideViewerProps) {
       <div className="absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
 
       <div className="relative z-10 flex h-full min-h-0 flex-col overflow-hidden px-5 py-5 md:px-8 md:py-6">
-        <header className="flex items-center justify-between gap-4 text-graphite">
+        <header className="relative flex items-center justify-end text-graphite">
           <Link
-            href="/presentation"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white/75 transition-colors hover:bg-white"
-            aria-label="Back to presentation options"
+            href="/library"
+            className="fixed left-6 top-6 z-20 inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/78 px-4 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-graphite shadow-deck backdrop-blur-sm transition-colors hover:bg-white md:left-8 md:top-8"
+            aria-label="Back to home"
           >
             <ArrowLeft className="h-4 w-4" strokeWidth={2.1} />
+            <span>Home</span>
           </Link>
 
-          <div className="min-w-0 text-center">
+          <div className="pointer-events-none absolute left-1/2 min-w-0 -translate-x-1/2 text-center">
             <p className="truncate text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-mist">
               {title}
             </p>
