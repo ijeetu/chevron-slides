@@ -10,7 +10,7 @@ export type Slide = {
   lead?: string;
   sections: SlideSection[];
   statements: string[];
-  type: "cover" | "timeline" | "statement" | "standard" | "map" | "phase1";
+  type: "cover" | "timeline" | "statement" | "standard" | "map" | "phase1" | "globalMarket";
 };
 
 const slideMatcher = /^(Slide\s+[A-Za-z0-9]+)(?:\s+[—-]\s+(.+))?$/;
@@ -129,10 +129,17 @@ export function parseSlides(markdown: string): Slide[] {
       statements.some((statement) => /step 1 industry alliance/i.test(statement)) &&
       sections.length >= 4;
 
+    const isGlobalMarket =
+      /global opportunities/i.test(title) &&
+      statements.length >= 2 &&
+      /people'?s voice|surveillance|communications/i.test(statements[0] ?? "");
+
     const type = isPhase1
       ? "phase1"
       : isAllianceMap
       ? "map"
+      : isGlobalMarket
+      ? "globalMarket"
       : /timeline/i.test(title)
         ? "timeline"
         : sections.length === 0 && statements.length <= 1

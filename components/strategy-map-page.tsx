@@ -867,7 +867,7 @@ export function StrategyMapWebPage() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
 
       <Link
-        href="/library"
+        href="/"
         className="fixed left-6 top-6 z-20 inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/78 px-4 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-graphite shadow-deck backdrop-blur-sm transition-colors hover:bg-white md:left-8 md:top-8"
       >
         <ArrowLeft className="h-4 w-4" strokeWidth={2.1} />

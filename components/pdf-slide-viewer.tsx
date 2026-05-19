@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import type {
   PDFDocumentProxy,
+  PDFDocumentLoadingTask,
   PDFPageProxy,
   RenderTask,
 } from "pdfjs-dist/types/src/display/api";
@@ -18,6 +19,10 @@ import type {
 type PdfSlideViewerProps = {
   file: string;
   title: string;
+  backHref?: string;
+  backLabel?: string;
+  continueHref?: string;
+  continueLabel?: string;
 };
 
 const MAX_RENDER_PIXEL_RATIO = 1.5;
@@ -32,7 +37,14 @@ function parseHash() {
   return match ? Math.max(1, Number(match[1])) : 1;
 }
 
-export function PdfSlideViewer({ file, title }: PdfSlideViewerProps) {
+export function PdfSlideViewer({
+  file,
+  title,
+  backHref = "/",
+  backLabel = "Home",
+  continueHref,
+  continueLabel,
+}: PdfSlideViewerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const pageCacheRef = useRef<Map<number, Promise<PDFPageProxy>>>(new Map());
@@ -80,19 +92,23 @@ export function PdfSlideViewer({ file, title }: PdfSlideViewerProps) {
   useEffect(() => {
     let cancelled = false;
     let loadedPdf: PDFDocumentProxy | null = null;
+    let documentTask: PDFDocumentLoadingTask | null = null;
+    let worker: Worker | null = null;
 
     async function loadPdf() {
       try {
         setIsLoading(true);
         setError("");
-        const pdfjs = await import("pdfjs-dist");
+        const pdfjs = await import("pdfjs-dist/build/pdf.mjs");
 
-        pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-          "pdfjs-dist/build/pdf.worker.mjs",
-          import.meta.url,
-        ).toString();
-
-        const documentTask = pdfjs.getDocument(file);
+        worker = new Worker(
+          new URL("pdfjs-dist/build/pdf.worker.mjs", import.meta.url),
+          { type: "module" },
+        );
+        pdfjs.GlobalWorkerOptions.workerPort = worker;
+        documentTask = pdfjs.getDocument({
+          url: file,
+        });
         loadedPdf = await documentTask.promise;
 
         if (cancelled) {
@@ -104,7 +120,8 @@ export function PdfSlideViewer({ file, title }: PdfSlideViewerProps) {
         setTotalPages(loadedPdf.numPages);
         pageCacheRef.current.clear();
         setPageNumber(clamp(parseHash(), loadedPdf.numPages));
-      } catch {
+      } catch (loadError) {
+        console.error("PDF load failed", loadError);
         setError("Could not load the PDF.");
       } finally {
         if (!cancelled) {
@@ -117,6 +134,8 @@ export function PdfSlideViewer({ file, title }: PdfSlideViewerProps) {
 
     return () => {
       cancelled = true;
+      documentTask?.destroy?.();
+      worker?.terminate();
       if (loadedPdf) {
         void loadedPdf.destroy();
       }
@@ -232,12 +251,12 @@ export function PdfSlideViewer({ file, title }: PdfSlideViewerProps) {
       <div className="relative z-10 flex h-full min-h-0 flex-col overflow-hidden px-5 py-5 md:px-8 md:py-6">
         <header className="relative flex items-center justify-end text-graphite">
           <Link
-            href="/library"
+            href={backHref}
             className="fixed left-6 top-6 z-20 inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/78 px-4 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-graphite shadow-deck backdrop-blur-sm transition-colors hover:bg-white md:left-8 md:top-8"
-            aria-label="Back to home"
+            aria-label={`Back to ${backLabel.toLowerCase()}`}
           >
             <ArrowLeft className="h-4 w-4" strokeWidth={2.1} />
-            <span>Home</span>
+            <span>{backLabel}</span>
           </Link>
 
           <div className="pointer-events-none absolute left-1/2 min-w-0 -translate-x-1/2 text-center">
@@ -288,31 +307,43 @@ export function PdfSlideViewer({ file, title }: PdfSlideViewerProps) {
           </div>
         </div>
 
-        <nav className="mx-auto flex items-center gap-3 rounded-full border border-white/70 bg-white/76 p-2 shadow-deck backdrop-blur">
-          <button
-            type="button"
-            onClick={() => goToPage(pageNumber - 1)}
-            disabled={pageNumber <= 1}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-graphite transition-colors hover:bg-panel disabled:cursor-not-allowed disabled:opacity-35"
-            aria-label="Previous slide"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
+        <div className="mx-auto flex flex-col items-center gap-4">
+          <nav className="flex items-center gap-3 rounded-full border border-white/70 bg-white/76 p-2 shadow-deck backdrop-blur">
+            <button
+              type="button"
+              onClick={() => goToPage(pageNumber - 1)}
+              disabled={pageNumber <= 1}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-graphite transition-colors hover:bg-panel disabled:cursor-not-allowed disabled:opacity-35"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
 
-          <div className="min-w-24 text-center text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-graphite">
-            {pageNumber} / {totalPages || "-"}
-          </div>
+            <div className="min-w-24 text-center text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-graphite">
+              {pageNumber} / {totalPages || "-"}
+            </div>
 
-          <button
-            type="button"
-            onClick={() => goToPage(pageNumber + 1)}
-            disabled={!totalPages || pageNumber >= totalPages}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-graphite transition-colors hover:bg-panel disabled:cursor-not-allowed disabled:opacity-35"
-            aria-label="Next slide"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
-        </nav>
+            <button
+              type="button"
+              onClick={() => goToPage(pageNumber + 1)}
+              disabled={!totalPages || pageNumber >= totalPages}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-graphite transition-colors hover:bg-panel disabled:cursor-not-allowed disabled:opacity-35"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </nav>
+
+          {continueHref && continueLabel && totalPages > 0 && pageNumber === totalPages ? (
+            <Link
+              href={continueHref}
+              className="inline-flex items-center gap-3 rounded-full border border-white/70 bg-white/82 px-6 py-3 text-[0.76rem] font-semibold uppercase tracking-[0.18em] text-ink shadow-deck backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:bg-white"
+            >
+              <span>Continue</span>
+              <span className="text-graphite">{continueLabel}</span>
+            </Link>
+          ) : null}
+        </div>
       </div>
     </section>
   );
