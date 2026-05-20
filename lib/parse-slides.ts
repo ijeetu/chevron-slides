@@ -130,9 +130,8 @@ export function parseSlides(markdown: string): Slide[] {
       sections.length >= 4;
 
     const isGlobalMarket =
-      /global opportunities/i.test(title) &&
-      statements.length >= 2 &&
-      /people'?s voice|surveillance|communications/i.test(statements[0] ?? "");
+      /^global opportunities$/i.test(title) &&
+      (statements.length > 0 || sections.length > 0);
 
     const type = isPhase1
       ? "phase1"

@@ -12,7 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default function GlobalOpportunitiesPage() {
-  const markdown = fs.readFileSync(path.join(process.cwd(), "tamslides.md"), "utf8");
+  const markdown = fs.readFileSync(
+    path.join(process.cwd(), "global-opportunities-slides.md"),
+    "utf8",
+  );
   const slides = parseSlides(markdown);
 
   return <SlideDeck slides={slides} />;

@@ -93,19 +93,12 @@ export function PdfSlideViewer({
     let cancelled = false;
     let loadedPdf: PDFDocumentProxy | null = null;
     let documentTask: PDFDocumentLoadingTask | null = null;
-    let worker: Worker | null = null;
 
     async function loadPdf() {
       try {
         setIsLoading(true);
         setError("");
-        const pdfjs = await import("pdfjs-dist/build/pdf.mjs");
-
-        worker = new Worker(
-          new URL("pdfjs-dist/build/pdf.worker.mjs", import.meta.url),
-          { type: "module" },
-        );
-        pdfjs.GlobalWorkerOptions.workerPort = worker;
+        const pdfjs = await import("pdfjs-dist/webpack.mjs");
         documentTask = pdfjs.getDocument({
           url: file,
         });
@@ -135,7 +128,6 @@ export function PdfSlideViewer({
     return () => {
       cancelled = true;
       documentTask?.destroy?.();
-      worker?.terminate();
       if (loadedPdf) {
         void loadedPdf.destroy();
       }
@@ -193,7 +185,7 @@ export function PdfSlideViewer({
       context.setTransform(1, 0, 0, 1, 0, 0);
       context.clearRect(0, 0, canvas.width, canvas.height);
 
-      renderTask = page.render({ canvas, viewport });
+      renderTask = page.render({ canvasContext: context, viewport });
       await renderTask.promise;
     }
 

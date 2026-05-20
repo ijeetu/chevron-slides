@@ -7,12 +7,12 @@ import { SlideDeck } from "@/components/slide-deck";
 import { parseSlides } from "@/lib/parse-slides";
 
 export const metadata: Metadata = {
-  title: "Problems video and opportunities",
+  title: "Problems video",
   description: "Problems video and global problem framing.",
 };
 
 export default function TamPage() {
-  const markdown = fs.readFileSync(path.join(process.cwd(), "tamslides.md"), "utf8");
+  const markdown = fs.readFileSync(path.join(process.cwd(), "problems-slides.md"), "utf8");
   const slides = parseSlides(markdown);
 
   return <SlideDeck slides={slides} />;

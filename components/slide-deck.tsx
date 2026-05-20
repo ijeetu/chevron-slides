@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import { GitHubGlobe } from "@/components/github-globe";
 import type { Slide, SlideSection } from "@/lib/parse-slides";
 
 type SlideDeckProps = {
@@ -567,151 +568,70 @@ function MiniChip({
   );
 }
 
-const GLOBAL_MARKETS = [
-  { name: "Iran", region: "Middle East", x: "63%", y: "38%" },
-  { name: "India", region: "South Asia", x: "72%", y: "46%" },
-  { name: "Indonesia", region: "Southeast Asia", x: "81%", y: "58%" },
-  { name: "Nigeria", region: "West Africa", x: "52%", y: "55%" },
-  { name: "Brazil", region: "Latin America", x: "31%", y: "68%" },
-  { name: "Mexico", region: "North America", x: "20%", y: "42%" },
-];
-
-function GlobalMarketBadge({
-  market,
-}: {
-  market: { name: string; region: string; x: string; y: string };
-}) {
-  return (
-    <div
-      className="absolute -translate-x-1/2 -translate-y-1/2"
-      style={{ left: market.x, top: market.y }}
-    >
-      <div className="relative flex flex-col items-center gap-2">
-        <div className="h-3.5 w-3.5 rounded-full border-2 border-white bg-[#4067bc] shadow-[0_0_0_6px_rgba(77,115,198,0.18)]" />
-        <div className="rounded-2xl border border-white/80 bg-white/92 px-3 py-2 text-center shadow-[0_10px_22px_rgba(17,22,28,0.1)] backdrop-blur-sm">
-          <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-ink">
-            {market.name}
-          </p>
-          <p className="mt-0.5 text-[0.64rem] uppercase tracking-[0.08em] text-graphite">
-            {market.region}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function GlobalMarketSlide({ slide, number }: { slide: Slide; number: number }) {
-  const [intro, detail] = slide.statements;
+  const showSlide1Globe = number === 1;
+  const showSlide2Image = number === 2;
+  const showRightVisual = showSlide1Globe || showSlide2Image;
 
   return (
     <SlideShell slideNumber={number}>
-      <div className="grid w-full items-center gap-10 md:grid-cols-[0.78fr_1.22fr] md:gap-12">
-        <div className="space-y-8">
-          <div className="space-y-5">
-            <p className="text-[0.78rem] font-semibold uppercase tracking-[0.26em] text-graphite">
-              Global Expansion Surface
-            </p>
-            <TitleBlock title={slide.title} maxWidth="max-w-3xl" />
-          </div>
-
+      <div
+        className={
+          showRightVisual
+            ? "grid w-full items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-6"
+            : "flex w-full justify-start"
+        }
+      >
+        <div className="w-full space-y-7 md:space-y-8">
           <div className="space-y-4">
-            {intro ? (
-              <p className="max-w-2xl text-[1.08rem] leading-8 text-ink md:text-[1.28rem] md:leading-9 [text-wrap:pretty]">
-                {renderInlineLinks(intro)}
-              </p>
-            ) : null}
-            {detail ? (
-              <p className="max-w-2xl text-[0.98rem] leading-7 text-graphite md:text-[1.08rem] md:leading-8 [text-wrap:pretty]">
-                {renderInlineLinks(detail)}
-              </p>
-            ) : null}
+            <TitleBlock title={slide.title} maxWidth={showRightVisual ? "max-w-3xl" : "max-w-4xl"} />
+            <div className="h-px w-24 bg-[linear-gradient(90deg,rgba(52,90,161,0.95),rgba(52,90,161,0))]" />
           </div>
 
-          <div className="grid max-w-2xl gap-3 sm:grid-cols-2">
-            <MapBox>
-              <p className="text-[0.68rem] uppercase tracking-[0.18em] text-graphite">
-                Priority Regions
-              </p>
-              <p className="mt-2 text-base font-semibold text-ink md:text-[1.08rem]">
-                Middle East, Africa, South Asia, Southeast Asia, Latin America
-              </p>
-            </MapBox>
-            <MapBox>
-              <p className="text-[0.68rem] uppercase tracking-[0.18em] text-graphite">
-                Strategic Reach
-              </p>
-              <p className="mt-2 text-base font-semibold text-ink md:text-[1.08rem]">
-                Multi-country deployment where trust, coordination, and proof are fragile
-              </p>
-            </MapBox>
+          <div className={`grid ${showRightVisual ? "max-w-3xl gap-4" : "max-w-5xl gap-4 md:gap-5"}`}>
+            {slide.statements.map((statement, index) => (
+              <article
+                key={statement}
+                className={`relative overflow-hidden rounded-[1.8rem] border border-white/70 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(243,246,248,0.9))] shadow-[0_18px_48px_rgba(17,22,28,0.1)] ${
+                  index === 0 ? "p-5 md:p-6" : "p-5 md:p-6"
+                }`}
+              >
+                <div className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,rgba(52,90,161,0.92),rgba(140,159,176,0.24))]" />
+                <p
+                  className={
+                    index === 0
+                      ? "max-w-4xl pl-4 text-[1rem] leading-7 text-ink md:text-[1.18rem] md:leading-8 [text-wrap:pretty]"
+                      : "max-w-4xl pl-4 text-[0.97rem] leading-7 text-ink/90 md:text-[1.04rem] md:leading-8 [text-wrap:pretty]"
+                  }
+                >
+                  {renderInlineLinks(statement)}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
 
-        <div className="relative">
-          <div className="relative overflow-hidden rounded-[2.25rem] border border-white/70 bg-[linear-gradient(160deg,rgba(255,255,255,0.96),rgba(234,240,247,0.92))] p-6 shadow-[0_28px_70px_rgba(17,22,28,0.14)]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(77,115,198,0.16),transparent_28%),radial-gradient(circle_at_82%_22%,rgba(99,140,221,0.14),transparent_24%),radial-gradient(circle_at_50%_82%,rgba(72,88,104,0.08),transparent_26%)]" />
-            <div className="relative">
-              <div className="mb-5 flex items-end justify-between gap-4">
-                <div>
-                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-graphite">
-                    Opportunity Map
-                  </p>
-                  <h2 className="mt-2 font-display text-2xl leading-none text-ink md:text-[2.2rem]">
-                    A Scalable Global Footprint
-                  </h2>
-                </div>
-                <div className="rounded-full border border-[#4d73c6]/20 bg-white/92 px-4 py-2 shadow-sm">
-                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#345aa1]">
-                    High-Leverage Markets
-                  </p>
+        {showRightVisual ? (
+          <>
+            {showSlide1Globe ? (
+              <div className="hidden lg:flex h-full w-[calc(100%+10vw)] items-center justify-end self-stretch lg:mr-[-10vw]">
+                <GitHubGlobe />
+              </div>
+            ) : null}
+
+            {showSlide2Image ? (
+              <div className="hidden lg:flex h-full w-full items-center justify-end self-stretch">
+                <div className="w-full overflow-hidden rounded-[2rem] border border-white/70 bg-white/82 p-3 shadow-[0_18px_48px_rgba(17,22,28,0.1)] backdrop-blur-sm">
+                  <img
+                    src="/GOslide2.png"
+                    alt="Global Opportunities slide 2 visual"
+                    className="max-h-[calc(100vh-9.5rem)] w-full max-w-full rounded-[1.4rem] object-contain object-right"
+                  />
                 </div>
               </div>
-
-              <div className="relative h-[25rem] overflow-hidden rounded-[1.8rem] border border-white/75 bg-[linear-gradient(180deg,rgba(219,229,239,0.82),rgba(241,245,248,0.92))]">
-                <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(rgba(77,115,198,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(77,115,198,0.08)_1px,transparent_1px)] [background-size:36px_36px]" />
-
-                <div className="absolute left-[8%] top-[18%] h-[18%] w-[22%] rounded-[45%] bg-[#c5d6ea]/90 blur-[2px]" />
-                <div className="absolute left-[16%] top-[38%] h-[24%] w-[14%] rounded-[45%] bg-[#c5d6ea]/90 blur-[2px]" />
-                <div className="absolute left-[41%] top-[18%] h-[16%] w-[17%] rounded-[45%] bg-[#c5d6ea]/90 blur-[2px]" />
-                <div className="absolute left-[44%] top-[36%] h-[24%] w-[17%] rounded-[45%] bg-[#c5d6ea]/90 blur-[2px]" />
-                <div className="absolute left-[60%] top-[24%] h-[16%] w-[22%] rounded-[45%] bg-[#c5d6ea]/90 blur-[2px]" />
-                <div className="absolute left-[72%] top-[50%] h-[10%] w-[12%] rounded-[45%] bg-[#c5d6ea]/90 blur-[2px]" />
-
-                {GLOBAL_MARKETS.map((market) => (
-                  <GlobalMarketBadge key={market.name} market={market} />
-                ))}
-
-                <div className="absolute bottom-4 left-4 right-4 grid gap-3 md:grid-cols-3">
-                  <MapBox className="bg-white/88 px-4 py-3">
-                    <p className="text-[0.66rem] uppercase tracking-[0.18em] text-graphite">
-                      Market Signal
-                    </p>
-                    <p className="mt-1 text-sm font-semibold text-ink md:text-[0.98rem]">
-                      High-friction environments with weak trusted coordination
-                    </p>
-                  </MapBox>
-                  <MapBox className="bg-white/88 px-4 py-3">
-                    <p className="text-[0.66rem] uppercase tracking-[0.18em] text-graphite">
-                      Product Fit
-                    </p>
-                    <p className="mt-1 text-sm font-semibold text-ink md:text-[0.98rem]">
-                      Consensus proof, secure communication, evidence capture
-                    </p>
-                  </MapBox>
-                  <MapBox className="bg-white/88 px-4 py-3">
-                    <p className="text-[0.66rem] uppercase tracking-[0.18em] text-graphite">
-                      Expansion Logic
-                    </p>
-                    <p className="mt-1 text-sm font-semibold text-ink md:text-[0.98rem]">
-                      Repeatable rollout across multiple countries and regions
-                    </p>
-                  </MapBox>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+            ) : null}
+          </>
+        ) : null}
       </div>
     </SlideShell>
   );
