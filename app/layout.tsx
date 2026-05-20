@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { FloatingLinksMenu } from "@/components/floating-links-menu";
 import { PasscodeGate } from "@/components/passcode-gate";
 
 import "./globals.css";
@@ -17,7 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <PasscodeGate>{children}</PasscodeGate>
+        <PasscodeGate>
+          {children}
+          <FloatingLinksMenu />
+        </PasscodeGate>
       </body>
     </html>
   );
