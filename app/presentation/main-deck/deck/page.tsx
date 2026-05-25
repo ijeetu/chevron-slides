@@ -24,21 +24,27 @@ async function ensureSlidesAreFresh() {
 
   try {
     const raw = await fs.readFile(manifestPath, "utf8");
-    const manifest = JSON.parse(raw) as { sourceMtimeMs?: number; sourceSize?: number };
+    const manifest = JSON.parse(raw) as { sourceSize?: number; slides?: string[] };
 
     if (
-      manifest.sourceMtimeMs === pdfStat.mtimeMs &&
-      manifest.sourceSize === pdfStat.size
+      manifest.sourceSize === pdfStat.size &&
+      Array.isArray(manifest.slides) &&
+      manifest.slides.length > 0
     ) {
       return;
     }
   } catch {
-    // Fall through and regenerate below.
+    // Fall through and attempt regeneration below.
   }
 
-  await execFileAsync("node", ["scripts/render-pdf-slides.mjs"], {
-    cwd: process.cwd(),
-  });
+  try {
+    await execFileAsync("node", ["scripts/render-pdf-slides.mjs"], {
+      cwd: process.cwd(),
+    });
+  } catch {
+    // Regeneration tools (pdftoppm/pdfinfo) may not be available in production.
+    // The page will still serve any pre-rendered slides that already exist.
+  }
 }
 
 async function getSlides() {
