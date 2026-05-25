@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -9,23 +9,16 @@ import {
   ExternalLink,
   Loader2,
 } from "lucide-react";
-import type {
-  PDFDocumentProxy,
-  PDFDocumentLoadingTask,
-  PDFPageProxy,
-  RenderTask,
-} from "pdfjs-dist/types/src/display/api";
 
 type PdfSlideViewerProps = {
   file: string;
+  slides: string[];
   title: string;
   backHref?: string;
   backLabel?: string;
   continueHref?: string;
   continueLabel?: string;
 };
-
-const MAX_RENDER_PIXEL_RATIO = 1.5;
 
 function clamp(page: number, total: number) {
   return Math.max(1, Math.min(page, total || 1));
@@ -39,21 +32,17 @@ function parseHash() {
 
 export function PdfSlideViewer({
   file,
+  slides,
   title,
   backHref = "/",
   backLabel = "Home",
   continueHref,
   continueLabel,
 }: PdfSlideViewerProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const frameRef = useRef<HTMLDivElement>(null);
-  const pageCacheRef = useRef<Map<number, Promise<PDFPageProxy>>>(new Map());
-  const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [frameSize, setFrameSize] = useState({ width: 0, height: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const totalPages = slides.length;
 
   const goToPage = useCallback(
     (nextPage: number) => {
@@ -61,23 +50,6 @@ export function PdfSlideViewer({
       setPageNumber(clamp(nextPage, totalPages));
     },
     [totalPages],
-  );
-
-  const getPdfPage = useCallback(
-    (targetPage: number) => {
-      if (!pdf) return null;
-      const safePage = clamp(targetPage, pdf.numPages);
-      const cachedPage = pageCacheRef.current.get(safePage);
-
-      if (cachedPage) {
-        return cachedPage;
-      }
-
-      const pagePromise = pdf.getPage(safePage);
-      pageCacheRef.current.set(safePage, pagePromise);
-      return pagePromise;
-    },
-    [pdf],
   );
 
   useEffect(() => {
@@ -90,130 +62,21 @@ export function PdfSlideViewer({
   }, []);
 
   useEffect(() => {
-    let cancelled = false;
-    let loadedPdf: PDFDocumentProxy | null = null;
-    let documentTask: PDFDocumentLoadingTask | null = null;
+    setPageNumber(clamp(parseHash(), totalPages));
 
-    async function loadPdf() {
-      try {
-        setIsLoading(true);
-        setError("");
-        const pdfjs = await import("pdfjs-dist/webpack.mjs");
-        documentTask = pdfjs.getDocument({
-          url: file,
-        });
-        loadedPdf = await documentTask.promise;
-
-        if (cancelled) {
-          await loadedPdf.destroy();
-          return;
-        }
-
-        setPdf(loadedPdf);
-        setTotalPages(loadedPdf.numPages);
-        pageCacheRef.current.clear();
-        setPageNumber(clamp(parseHash(), loadedPdf.numPages));
-      } catch (loadError) {
-        console.error("PDF load failed", loadError);
-        setError("Could not load the PDF.");
-      } finally {
-        if (!cancelled) {
-          setIsLoading(false);
-        }
-      }
+    function handleHashChange() {
+      setPageNumber(clamp(parseHash(), totalPages));
     }
 
-    loadPdf();
-
-    return () => {
-      cancelled = true;
-      documentTask?.destroy?.();
-      if (loadedPdf) {
-        void loadedPdf.destroy();
-      }
-    };
-  }, [file]);
-
-  useEffect(() => {
-    const frame = frameRef.current;
-    if (!frame) return;
-
-    const observer = new ResizeObserver(([entry]) => {
-      const { width, height } = entry.contentRect;
-      setFrameSize({ width, height });
-    });
-
-    observer.observe(frame);
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!pdf || !canvasRef.current || !frameSize.width || !frameSize.height) {
-      return;
-    }
-
-    let cancelled = false;
-    let renderTask: RenderTask | null = null;
-    const currentGetPdfPage = getPdfPage;
-
-    async function renderPage() {
-      const page = await currentGetPdfPage(pageNumber);
-      if (!page) return;
-      if (cancelled || !canvasRef.current) return;
-
-      const canvas = canvasRef.current;
-      const context = canvas.getContext("2d");
-      if (!context) return;
-
-      const baseViewport = page.getViewport({ scale: 1 });
-      const scale = Math.min(
-        frameSize.width / baseViewport.width,
-        frameSize.height / baseViewport.height,
-      );
-      const outputScale = Math.min(
-        window.devicePixelRatio || 1,
-        MAX_RENDER_PIXEL_RATIO,
-      );
-      const viewport = page.getViewport({ scale: scale * outputScale });
-
-      canvas.width = Math.floor(viewport.width);
-      canvas.height = Math.floor(viewport.height);
-      canvas.style.width = `${Math.floor(viewport.width / outputScale)}px`;
-      canvas.style.height = `${Math.floor(viewport.height / outputScale)}px`;
-
-      context.setTransform(1, 0, 0, 1, 0, 0);
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      renderTask = page.render({ canvasContext: context, viewport });
-      await renderTask.promise;
-    }
-
-    renderPage().catch((renderError) => {
-      if (!cancelled && renderError instanceof Error && renderError.name !== "RenderingCancelledException") {
-        setError("Could not render this page.");
-      }
-    });
-
-    return () => {
-      cancelled = true;
-      renderTask?.cancel();
-    };
-  }, [frameSize, getPdfPage, pageNumber, pdf]);
-
-  useEffect(() => {
-    if (!pdf || !totalPages) return;
-
-    [pageNumber + 1, pageNumber - 1, pageNumber + 2].forEach((targetPage) => {
-      if (targetPage >= 1 && targetPage <= totalPages) {
-        void getPdfPage(targetPage);
-      }
-    });
-  }, [getPdfPage, pageNumber, pdf, totalPages]);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, [totalPages]);
 
   useEffect(() => {
     if (!totalPages) return;
     window.history.replaceState(null, "", `#page-${pageNumber}`);
+    setIsLoading(true);
+    setError("");
   }, [pageNumber, totalPages]);
 
   useEffect(() => {
@@ -232,6 +95,25 @@ export function PdfSlideViewer({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goToPage, pageNumber]);
+
+  useEffect(() => {
+    if (!totalPages) {
+      setIsLoading(false);
+      setError("Slide images are not available yet.");
+    }
+  }, [totalPages]);
+
+  useEffect(() => {
+    [pageNumber - 1, pageNumber + 1].forEach((targetPage) => {
+      const slideSrc = slides[targetPage - 1];
+      if (!slideSrc) return;
+
+      const image = new window.Image();
+      image.src = slideSrc;
+    });
+  }, [pageNumber, slides]);
+
+  const activeSlide = useMemo(() => slides[pageNumber - 1] ?? "", [pageNumber, slides]);
 
   return (
     <section className="relative h-[100dvh] overflow-hidden bg-transparent">
@@ -269,49 +151,70 @@ export function PdfSlideViewer({
         </header>
 
         <div className="flex min-h-0 flex-1 items-center justify-center py-4 md:py-5">
-          <div
-            ref={frameRef}
-            className="flex h-full min-h-0 w-full items-center justify-center"
-          >
-            <div className="flex h-full w-full items-center justify-center">
-              <div className="relative flex h-full w-full items-center justify-center">
-                <canvas
-                  ref={canvasRef}
+          <div className="flex h-full min-h-0 w-full items-center justify-center">
+            <div className="relative flex h-full w-full items-center justify-center">
+              {activeSlide ? (
+                <img
+                  key={activeSlide}
+                  src={activeSlide}
+                  alt={`${title} slide ${pageNumber}`}
                   className="max-h-full max-w-full rounded-[1rem] bg-white shadow-[0_28px_70px_rgba(17,22,28,0.18)]"
+                  onLoad={() => {
+                    setIsLoading(false);
+                    setError("");
+                  }}
+                  onError={() => {
+                    setIsLoading(false);
+                    setError("Could not load the slide image.");
+                  }}
+                  draggable={false}
                 />
+              ) : null}
 
-                {isLoading || error ? (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="rounded-[1.4rem] border border-white/70 bg-white/88 px-6 py-5 text-center shadow-deck backdrop-blur">
-                      {error ? (
-                        <p className="text-sm font-medium text-[#a74343]">{error}</p>
-                      ) : (
-                        <div className="flex items-center gap-3 text-sm font-medium text-graphite">
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                          Loading deck
-                        </div>
-                      )}
-                    </div>
+              {isLoading || error ? (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="rounded-[1.4rem] border border-white/70 bg-white/88 px-6 py-5 text-center shadow-deck backdrop-blur">
+                    {error ? (
+                      <p className="text-sm font-medium text-[#a74343]">{error}</p>
+                    ) : (
+                      <div className="flex items-center gap-3 text-sm font-medium text-graphite">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Loading deck
+                      </div>
+                    )}
                   </div>
-                ) : null}
-              </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
 
+        {error ? (
+          <div className="mx-auto -mt-2 text-center text-sm text-graphite">
+            <a
+              href={file}
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-ink underline underline-offset-4"
+            >
+              Open the PDF directly
+            </a>
+          </div>
+        ) : null}
+
         <div className="mx-auto flex flex-col items-center gap-4">
-          <nav className="flex items-center gap-3 rounded-full border border-white/70 bg-white/76 p-2 shadow-deck backdrop-blur">
+          <nav className="flex items-center gap-2 rounded-full border border-white/70 bg-white/76 p-1.5 shadow-deck backdrop-blur">
             <button
               type="button"
               onClick={() => goToPage(pageNumber - 1)}
               disabled={pageNumber <= 1}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-graphite transition-colors hover:bg-panel disabled:cursor-not-allowed disabled:opacity-35"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-graphite transition-colors hover:bg-panel disabled:cursor-not-allowed disabled:opacity-35"
               aria-label="Previous slide"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4" />
             </button>
 
-            <div className="min-w-24 text-center text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-graphite">
+            <div className="min-w-20 text-center text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-graphite">
               {pageNumber} / {totalPages || "-"}
             </div>
 
@@ -319,10 +222,10 @@ export function PdfSlideViewer({
               type="button"
               onClick={() => goToPage(pageNumber + 1)}
               disabled={!totalPages || pageNumber >= totalPages}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-graphite transition-colors hover:bg-panel disabled:cursor-not-allowed disabled:opacity-35"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-graphite transition-colors hover:bg-panel disabled:cursor-not-allowed disabled:opacity-35"
               aria-label="Next slide"
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4" />
             </button>
           </nav>
 

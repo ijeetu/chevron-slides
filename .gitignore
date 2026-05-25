@@ -3,3 +3,7 @@
 .DS_Store
 node_modules
 npm-debug.log*
+tsconfig.tsbuildinfo
+.tmp-poppler
+public/streamdocs
+public/viral-fusion-slides
