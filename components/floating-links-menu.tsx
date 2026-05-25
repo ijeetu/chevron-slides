@@ -78,7 +78,7 @@ export function FloatingLinksMenu() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 left-4 z-[70] inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/70 bg-[#11161c]/88 text-white shadow-[0_18px_38px_rgba(17,22,28,0.32)] backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-[#11161c] sm:bottom-6 sm:left-6"
+        className="fixed bottom-4 left-4 z-[70] inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-[#11161c] text-white shadow-[0_18px_38px_rgba(17,22,28,0.32)] backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-[#1e2730] sm:bottom-6 sm:left-6"
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls="resources-modal"
