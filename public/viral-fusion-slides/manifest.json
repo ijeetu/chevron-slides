@@ -1,0 +1,24 @@
+{
+  "sourceFile": "Viral Fusion.pdf",
+  "sourceMtimeMs": 1779735883212.4504,
+  "sourceSize": 17038182,
+  "pageCount": 15,
+  "slides": [
+    "viral-fusion-slides/slide-01.png",
+    "viral-fusion-slides/slide-02.png",
+    "viral-fusion-slides/slide-03.png",
+    "viral-fusion-slides/slide-04.png",
+    "viral-fusion-slides/slide-05.png",
+    "viral-fusion-slides/slide-06.png",
+    "viral-fusion-slides/slide-07.png",
+    "viral-fusion-slides/slide-08.png",
+    "viral-fusion-slides/slide-09.png",
+    "viral-fusion-slides/slide-10.png",
+    "viral-fusion-slides/slide-11.png",
+    "viral-fusion-slides/slide-12.png",
+    "viral-fusion-slides/slide-13.png",
+    "viral-fusion-slides/slide-14.png",
+    "viral-fusion-slides/slide-15.png"
+  ],
+  "renderer": "pdftoppm 300dpi"
+}

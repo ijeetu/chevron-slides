@@ -65,21 +65,23 @@ async function clearRenderedSlides() {
 
 async function renderSlides() {
   const pdfStat = await fs.stat(pdfPath);
-  const pageCount = await getPdfPageCount();
   const existingManifest = await readManifest();
 
+  // Check manifest before invoking any binaries — git doesn't preserve mtime,
+  // so we use file size as the cache key instead.
   if (
     existingManifest &&
-    existingManifest.sourceMtimeMs === pdfStat.mtimeMs &&
     existingManifest.sourceSize === pdfStat.size &&
     existingManifest.renderer === rendererName &&
-    existingManifest.pageCount === pageCount &&
     Array.isArray(existingManifest.slides) &&
+    existingManifest.slides.length > 0 &&
     (await hasAllSlides(existingManifest.slides))
   ) {
     console.log("Slides are up to date.");
     return;
   }
+
+  const pageCount = await getPdfPageCount();
 
   await clearRenderedSlides();
 
@@ -127,7 +129,6 @@ async function renderSlides() {
 
   const manifest = {
     sourceFile: "Viral Fusion.pdf",
-    sourceMtimeMs: pdfStat.mtimeMs,
     sourceSize: pdfStat.size,
     pageCount: slides.length,
     slides,
