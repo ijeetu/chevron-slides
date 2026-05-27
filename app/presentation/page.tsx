@@ -4,12 +4,12 @@ import { ArrowLeft, ArrowRight, FileText, Layers3 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Core Presentation",
-  description: "View the Viral Fusion deck or the MVP presentation.",
+  description: "View Viral Fusion or the MVP presentation.",
 };
 
 const options = [
   {
-    title: "Viral Fusion Deck",
+    title: "Viral Fusion",
     href: "/presentation/main-deck",
     icon: FileText,
   },
