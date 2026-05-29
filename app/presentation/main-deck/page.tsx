@@ -7,7 +7,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Viral Fusion Deck",
-  description: "Vision video intro for the Viral Fusion deck.",
+  description: "Intro video for the Viral Fusion deck.",
 };
 
 function getVisionVideoEmbedUrl() {
@@ -65,7 +65,7 @@ export default function MainDeckIntroPage() {
               Vision Intro
             </p>
             <h1 className="mt-4 font-display text-5xl leading-none text-ink sm:text-6xl lg:text-[4.5rem]">
-              Viral Fusion Vision
+              Viral Fusion
             </h1>
           </div>
 
