@@ -1,6 +1,13 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
-import { ArrowRight, BarChart3, Map, Presentation } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart3,
+  Globe2,
+  Map,
+  Presentation,
+  TrendingUp,
+} from "lucide-react";
 
 type Deck = {
   title: string;
@@ -9,6 +16,7 @@ type Deck = {
   icon: LucideIcon;
   tone: string;
   iconTone: string;
+  placementClass?: string;
 };
 
 const decks: Deck[] = [
@@ -42,6 +50,28 @@ const decks: Deck[] = [
     iconTone:
       "bg-[linear-gradient(145deg,rgba(233,241,238,0.98),rgba(194,211,205,0.94))] text-[#476961] border-[#adc0b8]/50",
   },
+  {
+    title: "Global Opportunities",
+    description: "TAM (Total Available Market)",
+    href: "/presentation/global-opportunities",
+    icon: Globe2,
+    placementClass: "xl:col-start-2 xl:col-span-2",
+    tone:
+      "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(221,238,233,0.96))] hover:border-[#6fa391]/85 hover:shadow-[0_24px_60px_rgba(42,109,88,0.18)]",
+    iconTone:
+      "bg-[linear-gradient(145deg,rgba(236,248,244,0.98),rgba(162,208,191,0.96))] text-[#24584b] border-[#7fb19e]/55",
+  },
+  {
+    title: "Driven to win",
+    description: "Purpose fuels performance",
+    href: "/presentation/tam",
+    icon: TrendingUp,
+    placementClass: "xl:col-start-4 xl:col-span-2",
+    tone:
+      "bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(248,228,218,0.95))] hover:border-[#d18a66]/85 hover:shadow-[0_24px_60px_rgba(154,88,44,0.18)]",
+    iconTone:
+      "bg-[linear-gradient(145deg,rgba(252,240,234,0.98),rgba(238,182,145,0.95))] text-[#8f4c24] border-[#db9a73]/55",
+  },
 ];
 
 function DeckCard({ deck }: { deck: Deck }) {
@@ -50,7 +80,7 @@ function DeckCard({ deck }: { deck: Deck }) {
   return (
     <Link
       href={deck.href}
-      className={`group relative flex min-h-[19rem] flex-col overflow-hidden rounded-[1.9rem] border border-white/75 p-7 transition-all duration-300 ease-out hover:-translate-y-1 ${deck.tone}`}
+      className={`group relative flex min-h-[17.25rem] flex-col overflow-hidden rounded-[1.9rem] border border-white/75 p-6 transition-all duration-300 ease-out hover:-translate-y-1 xl:col-span-2 ${deck.placementClass ?? ""} ${deck.tone}`}
     >
       <div className="pointer-events-none absolute inset-x-6 top-0 h-20 bg-gradient-to-r from-white/60 via-white/20 to-transparent blur-2xl" />
 
@@ -69,12 +99,12 @@ function DeckCard({ deck }: { deck: Deck }) {
           </div>
         </div>
 
-        <p className="mt-6 max-w-sm text-[0.94rem] leading-7 text-graphite">
+        <p className="mt-5 max-w-sm text-[0.92rem] leading-6 text-graphite">
           {deck.description}
         </p>
 
-        <div className="mt-auto pt-8">
-          <div className="flex items-center justify-between rounded-[1.25rem] border border-white/70 bg-white/55 px-4 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-sm transition-all duration-300 group-hover:bg-white/72">
+        <div className="mt-auto w-full pt-6">
+          <div className="flex items-center justify-between rounded-[1.25rem] border border-white/70 bg-white/55 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-sm transition-all duration-300 group-hover:bg-white/72">
             <span className="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-graphite">
               Open deck
             </span>
@@ -103,7 +133,7 @@ export function LibraryPage() {
           </h1>
         </header>
 
-        <section className="mt-12 grid gap-6 md:grid-cols-3">
+        <section className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6">
           {decks.map((deck) => (
             <DeckCard key={deck.href} deck={deck} />
           ))}

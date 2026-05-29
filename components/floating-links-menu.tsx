@@ -36,6 +36,11 @@ const quickLinks: QuickLink[] = [
     description: "Market opportunity slides",
   },
   {
+    href: "/presentation/tam",
+    label: "Driven to win",
+    description: "Purpose fuels performance",
+  },
+  {
     href: "/presentation/special-projects",
     label: "MVP",
     description: "Special projects deck",
