@@ -1,5 +1,6 @@
 import { execFile } from "node:child_process";
 import fs from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
@@ -13,9 +14,9 @@ const projectRoot = path.resolve(__dirname, "..");
 const pdfPath = path.join(projectRoot, "public", "Viral Fusion.pdf");
 const outputDir = path.join(projectRoot, "public", "viral-fusion-slides");
 const manifestPath = path.join(outputDir, "manifest.json");
-const outputPrefix = path.join(outputDir, "slide");
-const outputDpi = "300";
-const rendererName = `pdftoppm ${outputDpi}dpi`;
+const outputDpi = "150";
+const outputQuality = "85";
+const rendererName = `pdftoppm ${outputDpi}dpi -> cwebp q${outputQuality}`;
 
 async function getPdfPageCount() {
   const { stdout } = await execFileAsync("pdfinfo", [pdfPath]);
@@ -82,60 +83,70 @@ async function renderSlides() {
   }
 
   const pageCount = await getPdfPageCount();
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "viral-fusion-slides-"));
+  const tempPrefix = path.join(tempDir, "slide");
 
-  await clearRenderedSlides();
+  try {
+    await clearRenderedSlides();
 
-  await execFileAsync("pdftoppm", [
-    "-png",
-    "-r",
-    outputDpi,
-    "-f",
-    "1",
-    "-l",
-    String(pageCount),
-    pdfPath,
-    outputPrefix,
-  ]);
+    await execFileAsync("pdftoppm", [
+      "-png",
+      "-r",
+      outputDpi,
+      "-f",
+      "1",
+      "-l",
+      String(pageCount),
+      pdfPath,
+      tempPrefix,
+    ]);
 
-  const generatedFiles = (await fs.readdir(outputDir))
-    .filter((fileName) => /^slide-\d+\.png$/.test(fileName))
-    .sort((left, right) => {
-      const leftNumber = Number.parseInt(left.match(/\d+/)?.[0] ?? "0", 10);
-      const rightNumber = Number.parseInt(right.match(/\d+/)?.[0] ?? "0", 10);
-      return leftNumber - rightNumber;
-    });
+    const generatedFiles = (await fs.readdir(tempDir))
+      .filter((fileName) => /^slide-\d+\.png$/.test(fileName))
+      .sort((left, right) => {
+        const leftNumber = Number.parseInt(left.match(/\d+/)?.[0] ?? "0", 10);
+        const rightNumber = Number.parseInt(right.match(/\d+/)?.[0] ?? "0", 10);
+        return leftNumber - rightNumber;
+      });
 
-  const slides = [];
+    const slides = [];
 
-  if (generatedFiles.length !== pageCount) {
-    throw new Error(
-      `Expected ${pageCount} rendered slides, got ${generatedFiles.length}.`,
-    );
-  }
-
-  for (const [index, fileName] of generatedFiles.entries()) {
-    const targetFileName = `slide-${String(index + 1).padStart(2, "0")}.png`;
-
-    if (fileName !== targetFileName) {
-      await fs.rename(
-        path.join(outputDir, fileName),
-        path.join(outputDir, targetFileName),
+    if (generatedFiles.length !== pageCount) {
+      throw new Error(
+        `Expected ${pageCount} rendered slides, got ${generatedFiles.length}.`,
       );
     }
 
-    slides.push(`viral-fusion-slides/${targetFileName}`);
-    console.log(`Rendered ${targetFileName}`);
+    for (const [index, fileName] of generatedFiles.entries()) {
+      const sourcePath = path.join(tempDir, fileName);
+      const targetFileName = `slide-${String(index + 1).padStart(2, "0")}.webp`;
+      const targetPath = path.join(outputDir, targetFileName);
+
+      await execFileAsync("cwebp", [
+        "-quiet",
+        "-q",
+        outputQuality,
+        sourcePath,
+        "-o",
+        targetPath,
+      ]);
+
+      slides.push(`viral-fusion-slides/${targetFileName}`);
+      console.log(`Rendered ${targetFileName}`);
+    }
+
+    const manifest = {
+      sourceFile: "Viral Fusion.pdf",
+      sourceSize: pdfStat.size,
+      pageCount: slides.length,
+      slides,
+      renderer: rendererName,
+    };
+
+    await fs.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  } finally {
+    await fs.rm(tempDir, { recursive: true, force: true });
   }
-
-  const manifest = {
-    sourceFile: "Viral Fusion.pdf",
-    sourceSize: pdfStat.size,
-    pageCount: slides.length,
-    slides,
-    renderer: rendererName,
-  };
-
-  await fs.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
 }
 
 renderSlides().catch((error) => {

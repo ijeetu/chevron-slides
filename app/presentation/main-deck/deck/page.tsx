@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import { PdfSlideViewer } from "@/components/pdf-slide-viewer";
 
 export const dynamic = "force-dynamic";
+const expectedRenderer = "pdftoppm 150dpi -> cwebp q85";
 
 export const metadata: Metadata = {
   title: "Viral Fusion Main Deck",
@@ -24,12 +25,18 @@ async function ensureSlidesAreFresh() {
 
   try {
     const raw = await fs.readFile(manifestPath, "utf8");
-    const manifest = JSON.parse(raw) as { sourceSize?: number; slides?: string[] };
+    const manifest = JSON.parse(raw) as {
+      sourceSize?: number;
+      slides?: string[];
+      renderer?: string;
+    };
 
     if (
       manifest.sourceSize === pdfStat.size &&
       Array.isArray(manifest.slides) &&
-      manifest.slides.length > 0
+      manifest.slides.length > 0 &&
+      manifest.renderer === expectedRenderer &&
+      manifest.slides.every((slide) => slide.endsWith(".webp"))
     ) {
       return;
     }
