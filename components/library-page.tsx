@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   BarChart3,
+  ChevronLeft,
+  ChevronRight,
   Globe2,
   Map,
   Presentation,
@@ -19,7 +24,8 @@ type Deck = {
   placementClass?: string;
 };
 
-const decks: Deck[] = [
+const deckPages: Deck[][] = [
+  [
   {
     title: "Problems",
     description: "Problem framing and opportunity sizing for the TAM narrative.",
@@ -50,7 +56,9 @@ const decks: Deck[] = [
     iconTone:
       "bg-[linear-gradient(145deg,rgba(233,241,238,0.98),rgba(194,211,205,0.94))] text-[#476961] border-[#adc0b8]/50",
   },
-  {
+  ],
+  [
+    {
     title: "Global Opportunities",
     description: "TAM (Total Available Market)",
     href: "/presentation/global-opportunities",
@@ -61,7 +69,7 @@ const decks: Deck[] = [
     iconTone:
       "bg-[linear-gradient(145deg,rgba(236,248,244,0.98),rgba(162,208,191,0.96))] text-[#24584b] border-[#7fb19e]/55",
   },
-  {
+    {
     title: "Driven to win",
     description: "Purpose fuels performance",
     href: "/presentation/tam",
@@ -71,7 +79,8 @@ const decks: Deck[] = [
       "bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(248,228,218,0.95))] hover:border-[#d18a66]/85 hover:shadow-[0_24px_60px_rgba(154,88,44,0.18)]",
     iconTone:
       "bg-[linear-gradient(145deg,rgba(252,240,234,0.98),rgba(238,182,145,0.95))] text-[#8f4c24] border-[#db9a73]/55",
-  },
+    },
+  ],
 ];
 
 function DeckCard({ deck }: { deck: Deck }) {
@@ -118,7 +127,50 @@ function DeckCard({ deck }: { deck: Deck }) {
   );
 }
 
+function PlaceholderCtaPage() {
+  return (
+    <section className="mt-10 flex min-h-[27rem] items-center justify-center">
+      <article className="relative w-full max-w-4xl overflow-hidden rounded-[2rem] border border-white/80 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(230,236,243,0.9))] px-8 py-12 text-center shadow-[0_24px_60px_rgba(59,88,129,0.14)] sm:px-12 sm:py-16">
+        <div className="pointer-events-none absolute inset-x-10 top-0 h-24 bg-gradient-to-r from-transparent via-white/65 to-transparent blur-2xl" />
+        <p className="text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-graphite">
+          CTA
+        </p>
+        <h2 className="mt-5 font-display text-4xl leading-[0.95] text-ink sm:text-5xl">
+          Call to action
+        </h2>
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-graphite sm:text-lg">
+          We will add content here later.
+        </p>
+      </article>
+    </section>
+  );
+}
+
 export function LibraryPage() {
+  const [currentPage, setCurrentPage] = useState(0);
+  const totalPages = deckPages.length + 1;
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+        event.preventDefault();
+        setCurrentPage((page) => Math.min(page + 1, totalPages - 1));
+      }
+
+      if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        event.preventDefault();
+        setCurrentPage((page) => Math.max(page - 1, 0));
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [totalPages]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
+
   return (
     <div className="relative min-h-screen overflow-hidden px-6 py-10 sm:px-10 lg:px-14">
       <div className="pointer-events-none absolute inset-0">
@@ -133,12 +185,53 @@ export function LibraryPage() {
           </h1>
         </header>
 
-        <section className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6">
-          {decks.map((deck) => (
-            <DeckCard key={deck.href} deck={deck} />
-          ))}
-        </section>
+        {currentPage < deckPages.length ? (
+          <section
+            key={currentPage}
+            className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
+          >
+            {deckPages[currentPage].map((deck) => (
+              <DeckCard key={deck.href} deck={deck} />
+            ))}
+          </section>
+        ) : (
+          <PlaceholderCtaPage />
+        )}
       </main>
+
+      <div className="fixed bottom-6 right-6 z-20 flex items-center gap-2 rounded-full border border-line bg-white/92 px-2 py-1.5 shadow-deck md:bottom-8 md:right-8">
+        <button
+          type="button"
+          aria-label="Previous page"
+          onClick={() => setCurrentPage((page) => Math.max(page - 1, 0))}
+          disabled={currentPage === 0}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink transition-all hover:-translate-y-0.5 hover:border-accent disabled:cursor-not-allowed disabled:opacity-35"
+        >
+          <ChevronLeft size={17} strokeWidth={2.1} />
+        </button>
+        <div className="flex items-center gap-1.5 px-1">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={`library-page-${index + 1}`}
+              type="button"
+              aria-label={`Go to page ${index + 1}`}
+              onClick={() => setCurrentPage(index)}
+              className={`h-2 rounded-full transition-all ${
+                currentPage === index ? "w-6 bg-[#4d73c6]" : "w-2 bg-[#9fb2d4]"
+              }`}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          aria-label="Next page"
+          onClick={() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1))}
+          disabled={currentPage === totalPages - 1}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink transition-all hover:-translate-y-0.5 hover:border-accent disabled:cursor-not-allowed disabled:opacity-35"
+        >
+          <ChevronRight size={17} strokeWidth={2.1} />
+        </button>
+      </div>
     </div>
   );
 }
