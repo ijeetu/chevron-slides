@@ -575,13 +575,7 @@ function GlobalMarketSlide({ slide, number }: { slide: Slide; number: number }) 
 
   return (
     <SlideShell slideNumber={number}>
-      <div
-        className={
-          showRightVisual
-            ? "grid w-full items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-6"
-            : "flex w-full justify-start"
-        }
-      >
+      <div className="grid w-full items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-6">
         <div className="w-full space-y-7 md:space-y-8">
           <div className="space-y-4">
             <TitleBlock title={slide.title} maxWidth={showRightVisual ? "max-w-3xl" : "max-w-4xl"} />
@@ -611,26 +605,29 @@ function GlobalMarketSlide({ slide, number }: { slide: Slide; number: number }) 
           </div>
         </div>
 
-        {showRightVisual ? (
-          <>
-            {showSlide1Globe ? (
-              <div className="hidden lg:flex h-full w-[calc(100%+10vw)] items-center justify-end self-stretch lg:mr-[-10vw]">
-                <GitHubGlobe />
-              </div>
-            ) : null}
+        {showSlide1Globe ? (
+          <div className="hidden lg:flex h-full w-[calc(100%+10vw)] items-center justify-end self-stretch lg:mr-[-10vw]">
+            <GitHubGlobe />
+          </div>
+        ) : null}
 
-            {showSlide2Image ? (
-              <div className="hidden lg:flex h-full w-full items-center justify-end self-stretch">
-                <div className="w-full overflow-hidden rounded-[2rem] border border-white/70 bg-white/82 p-3 shadow-[0_18px_48px_rgba(17,22,28,0.1)] backdrop-blur-sm">
-                  <img
-                    src="/GOslide2.png"
-                    alt="Global Opportunities slide 2 visual"
-                    className="max-h-[calc(100vh-9.5rem)] w-full max-w-full rounded-[1.4rem] object-contain object-right"
-                  />
-                </div>
-              </div>
-            ) : null}
-          </>
+        {showSlide2Image ? (
+          <div className="hidden lg:flex h-full w-full items-center justify-end self-stretch">
+            <div className="w-full overflow-hidden rounded-[2rem] border border-white/70 bg-white/82 p-3 shadow-[0_18px_48px_rgba(17,22,28,0.1)] backdrop-blur-sm">
+              <img
+                src="/GOslide2.png"
+                alt="Global Opportunities slide 2 visual"
+                className="max-h-[calc(100vh-9.5rem)] w-full max-w-full rounded-[1.4rem] object-contain object-right"
+              />
+            </div>
+          </div>
+        ) : null}
+
+        {!showRightVisual ? (
+          <div
+            aria-hidden="true"
+            className="hidden lg:block h-[calc(100vh-9.5rem)] w-full"
+          />
         ) : null}
       </div>
     </SlideShell>
