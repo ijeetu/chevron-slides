@@ -28,7 +28,7 @@ const deckPages: Deck[][] = [
   [
     {
       title: "Problems",
-      description: "Problem framing and opportunity sizing for the TAM narrative.",
+      description: "Opportunity for the TAM Narrative",
       href: "/tam",
       icon: BarChart3,
       tone:
@@ -38,7 +38,7 @@ const deckPages: Deck[][] = [
     },
     {
       title: "Core Presentation",
-      description: "Main deck covering the core strategic initiatives.",
+      description: "Vision Video and Strategic Initiatives",
       href: "/presentation",
       icon: Presentation,
       tone:
@@ -48,7 +48,7 @@ const deckPages: Deck[][] = [
     },
     {
       title: "Strategy Map",
-      description: "Visual map of the strategic alliances and partnerships.",
+      description: "Strategic Alliance and Partnership Landscape",
       href: "/strategymap",
       icon: Map,
       tone:
@@ -115,7 +115,7 @@ function DeckCard({ deck }: { deck: Deck }) {
         <div className="mt-auto w-full pt-6">
           <div className="flex items-center justify-between rounded-[1.25rem] border border-white/70 bg-white/55 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-sm transition-all duration-300 group-hover:bg-white/72">
             <span className="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-graphite">
-              Open deck
+              OPEN DECK
             </span>
             <div className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 bg-white/80 text-ink transition-transform duration-300 group-hover:translate-x-0.5">
               <ArrowRight className="h-4 w-4" strokeWidth={2.1} />

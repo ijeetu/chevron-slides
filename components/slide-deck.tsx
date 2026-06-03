@@ -615,7 +615,7 @@ function GlobalMarketSlide({ slide, number }: { slide: Slide; number: number }) 
           <div className="hidden lg:flex h-full w-full items-center justify-end self-stretch">
             <div className="w-full overflow-hidden rounded-[2rem] border border-white/70 bg-white/82 p-3 shadow-[0_18px_48px_rgba(17,22,28,0.1)] backdrop-blur-sm">
               <img
-                src="/GOslide2.png"
+                src="/go-slide-2.jpg"
                 alt="Global Opportunities slide 2 visual"
                 className="max-h-[calc(100vh-9.5rem)] w-full max-w-full rounded-[1.4rem] object-contain object-right"
               />
