@@ -9,7 +9,7 @@ import {
   Building2, UserCheck, Users, ScrollText,
   MapPin, Megaphone, Lock, Target, CalendarClock,
   Handshake, Rocket, Network, Shield, Radio, HelpCircle,
-  ArrowLeft, ChevronLeft, ChevronRight, CircleDollarSign, TrendingUp,
+  ArrowLeft, ChevronLeft, ChevronRight, CircleDollarSign,
 } from "lucide-react";
 
 // ─── Data types ──────────────────────────────────────────────────────────────
@@ -773,46 +773,6 @@ function IntroSlide() {
   );
 }
 
-function SuccessSlide() {
-  return (
-    <section className="mx-auto flex min-h-screen w-full max-w-6xl items-center px-6 py-20 sm:px-10 lg:px-14">
-      <div className="w-full">
-        <div className="max-w-4xl">
-          <p className="text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-graphite">
-            Strategy Map
-          </p>
-          <h1 className="mt-5 font-display text-5xl leading-[0.95] text-ink md:text-[5.1rem]">
-            Why We Will Succeed
-          </h1>
-        </div>
-
-        <div className="mt-12 grid gap-5">
-          {[
-            "We have built a scalable, cost-effective model for passing legislation at scale.",
-            "Our distribution partner has direct upside in helping the model succeed.",
-            "The model opens billion-dollar verticals aligned with long-term business growth.",
-          ].map((statement) => (
-            <article
-              key={statement}
-              className="relative overflow-hidden rounded-[1.8rem] border border-line bg-white/92 p-7 shadow-deck"
-            >
-              <div className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,rgba(92,108,123,0.9),rgba(140,159,176,0.25))]" />
-              <div className="flex items-start gap-4 pl-2">
-                <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(145deg,#edf6ef,#d8ecdd)] text-[#3b6b4b]">
-                  <TrendingUp size={18} strokeWidth={1.9} />
-                </div>
-                <p className="text-xl leading-8 text-ink md:text-[1.45rem] md:leading-10">
-                  {statement}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 const STRATEGY_MAP_STEPS = [
   {
     key: "intro",
@@ -827,11 +787,6 @@ const STRATEGY_MAP_STEPS = [
         <StrategyMapContent />
       </section>
     ),
-  },
-  {
-    key: "success",
-    label: "Why We Will Succeed",
-    render: <SuccessSlide />,
   },
 ] as const;
 

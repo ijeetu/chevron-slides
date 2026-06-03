@@ -26,59 +26,59 @@ type Deck = {
 
 const deckPages: Deck[][] = [
   [
-  {
-    title: "Problems",
-    description: "Problem framing and opportunity sizing for the TAM narrative.",
-    href: "/tam",
-    icon: BarChart3,
-    tone:
-      "bg-[linear-gradient(145deg,rgba(255,255,255,0.94),rgba(241,236,225,0.88))] hover:border-[#c9bb9a]/85 hover:shadow-[0_24px_55px_rgba(108,89,52,0.14)]",
-    iconTone:
-      "bg-[linear-gradient(145deg,rgba(245,239,227,0.98),rgba(230,216,187,0.94))] text-[#6c5835] border-[#cbbd9f]/50",
-  },
-  {
-    title: "Core Presentation",
-    description: "Main deck covering the core strategic initiatives.",
-    href: "/presentation",
-    icon: Presentation,
-    tone:
-      "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(228,235,244,0.9))] hover:border-[#94aac2]/85 hover:shadow-[0_24px_60px_rgba(59,88,129,0.16)]",
-    iconTone:
-      "bg-[linear-gradient(145deg,rgba(233,240,247,0.98),rgba(189,205,223,0.94))] text-[#37567b] border-[#98aec4]/50",
-  },
-  {
-    title: "Strategy Map",
-    description: "Visual map of the strategic alliances and partnerships.",
-    href: "/strategymap",
-    icon: Map,
-    tone:
-      "bg-[linear-gradient(145deg,rgba(255,255,255,0.95),rgba(231,238,235,0.9))] hover:border-[#a8b9b3]/85 hover:shadow-[0_24px_55px_rgba(66,97,89,0.14)]",
-    iconTone:
-      "bg-[linear-gradient(145deg,rgba(233,241,238,0.98),rgba(194,211,205,0.94))] text-[#476961] border-[#adc0b8]/50",
-  },
+    {
+      title: "Problems",
+      description: "Problem framing and opportunity sizing for the TAM narrative.",
+      href: "/tam",
+      icon: BarChart3,
+      tone:
+        "bg-[linear-gradient(145deg,rgba(255,255,255,0.94),rgba(241,236,225,0.88))] hover:border-[#c9bb9a]/85 hover:shadow-[0_24px_55px_rgba(108,89,52,0.14)]",
+      iconTone:
+        "bg-[linear-gradient(145deg,rgba(245,239,227,0.98),rgba(230,216,187,0.94))] text-[#6c5835] border-[#cbbd9f]/50",
+    },
+    {
+      title: "Core Presentation",
+      description: "Main deck covering the core strategic initiatives.",
+      href: "/presentation",
+      icon: Presentation,
+      tone:
+        "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(228,235,244,0.9))] hover:border-[#94aac2]/85 hover:shadow-[0_24px_60px_rgba(59,88,129,0.16)]",
+      iconTone:
+        "bg-[linear-gradient(145deg,rgba(233,240,247,0.98),rgba(189,205,223,0.94))] text-[#37567b] border-[#98aec4]/50",
+    },
+    {
+      title: "Strategy Map",
+      description: "Visual map of the strategic alliances and partnerships.",
+      href: "/strategymap",
+      icon: Map,
+      tone:
+        "bg-[linear-gradient(145deg,rgba(255,255,255,0.95),rgba(231,238,235,0.9))] hover:border-[#a8b9b3]/85 hover:shadow-[0_24px_55px_rgba(66,97,89,0.14)]",
+      iconTone:
+        "bg-[linear-gradient(145deg,rgba(233,241,238,0.98),rgba(194,211,205,0.94))] text-[#476961] border-[#adc0b8]/50",
+    },
   ],
   [
     {
-    title: "Global Opportunities",
-    description: "TAM (Total Available Market)",
-    href: "/presentation/global-opportunities",
-    icon: Globe2,
-    placementClass: "xl:col-start-2 xl:col-span-2",
-    tone:
-      "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(221,238,233,0.96))] hover:border-[#6fa391]/85 hover:shadow-[0_24px_60px_rgba(42,109,88,0.18)]",
-    iconTone:
-      "bg-[linear-gradient(145deg,rgba(236,248,244,0.98),rgba(162,208,191,0.96))] text-[#24584b] border-[#7fb19e]/55",
-  },
+      title: "Global Opportunities",
+      description: "TAM (Total Available Market)",
+      href: "/presentation/global-opportunities",
+      icon: Globe2,
+      placementClass: "xl:col-start-2 xl:col-span-2",
+      tone:
+        "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(221,238,233,0.96))] hover:border-[#6fa391]/85 hover:shadow-[0_24px_60px_rgba(42,109,88,0.18)]",
+      iconTone:
+        "bg-[linear-gradient(145deg,rgba(236,248,244,0.98),rgba(162,208,191,0.96))] text-[#24584b] border-[#7fb19e]/55",
+    },
     {
-    title: "Driven to win",
-    description: "Purpose fuels performance",
-    href: "/presentation/tam",
-    icon: TrendingUp,
-    placementClass: "xl:col-start-4 xl:col-span-2",
-    tone:
-      "bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(248,228,218,0.95))] hover:border-[#d18a66]/85 hover:shadow-[0_24px_60px_rgba(154,88,44,0.18)]",
-    iconTone:
-      "bg-[linear-gradient(145deg,rgba(252,240,234,0.98),rgba(238,182,145,0.95))] text-[#8f4c24] border-[#db9a73]/55",
+      title: "Driven to win",
+      description: "Purpose fuels performance",
+      href: "/presentation/tam",
+      icon: TrendingUp,
+      placementClass: "xl:col-start-4 xl:col-span-2",
+      tone:
+        "bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(248,228,218,0.95))] hover:border-[#d18a66]/85 hover:shadow-[0_24px_60px_rgba(154,88,44,0.18)]",
+      iconTone:
+        "bg-[linear-gradient(145deg,rgba(252,240,234,0.98),rgba(238,182,145,0.95))] text-[#8f4c24] border-[#db9a73]/55",
     },
   ],
 ];
@@ -146,9 +146,27 @@ function PlaceholderCtaPage() {
   );
 }
 
+function AgendaPage() {
+  return (
+    <>
+      <header className="mx-auto max-w-3xl text-center">
+        <h1 className="font-display text-6xl leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
+          Agenda
+        </h1>
+      </header>
+
+      <section className="mt-10 flex min-h-[12rem] items-start justify-center">
+        <p className="max-w-2xl text-center text-base leading-7 text-graphite sm:text-lg">
+          Agenda content will be added here later.
+        </p>
+      </section>
+    </>
+  );
+}
+
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
-  const totalPages = deckPages.length + 1;
+  const totalPages = deckPages.length + 2;
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -179,21 +197,24 @@ export function LibraryPage() {
       </div>
 
       <main className="relative z-10 mx-auto flex min-h-[calc(100vh-5rem)] max-w-6xl flex-col justify-center">
-        <header className="mx-auto max-w-3xl text-center">
-          <h1 className="font-display text-6xl leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
-            Viral Fusion
-          </h1>
-        </header>
-
-        {currentPage < deckPages.length ? (
-          <section
-            key={currentPage}
-            className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
-          >
-            {deckPages[currentPage].map((deck) => (
-              <DeckCard key={deck.href} deck={deck} />
-            ))}
-          </section>
+        {currentPage === 0 ? (
+          <AgendaPage />
+        ) : currentPage <= deckPages.length ? (
+          <>
+            <header className="mx-auto max-w-3xl text-center">
+              <h1 className="font-display text-6xl leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
+                Viral Fusion
+              </h1>
+            </header>
+            <section
+              key={currentPage}
+              className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
+            >
+              {deckPages[currentPage - 1].map((deck) => (
+                <DeckCard key={deck.href} deck={deck} />
+              ))}
+            </section>
+          </>
         ) : (
           <PlaceholderCtaPage />
         )}
