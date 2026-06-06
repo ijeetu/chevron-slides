@@ -224,10 +224,10 @@ function ManifestoPage() {
               <Shield className="h-5 w-5" strokeWidth={2} />
               <span className="h-px w-16 bg-[linear-gradient(90deg,rgba(77,115,198,0.55),rgba(77,115,198,0))]" />
             </div>
-            <h1 className="font-display text-[2rem] leading-[0.9] text-ink sm:text-[2.9rem] lg:text-[3.8rem]">
+            <h1 className="font-display text-[2rem] font-bold leading-[0.9] text-ink sm:text-[2.9rem] lg:text-[3.8rem] [text-shadow:0.006em_0_0_currentColor,-0.006em_0_0_currentColor]">
               STOP DISCUSSING THE PAST.
             </h1>
-            <h2 className="font-display text-[2rem] leading-[0.9] text-[#4d73c6] sm:text-[2.9rem] lg:text-[3.8rem]">
+            <h2 className="font-display text-[2rem] font-bold leading-[0.9] text-[#4d73c6] sm:text-[2.9rem] lg:text-[3.8rem] [text-shadow:0.006em_0_0_currentColor,-0.006em_0_0_currentColor]">
               START BUILDING THE FUTURE.
             </h2>
           </div>
