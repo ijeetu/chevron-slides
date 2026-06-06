@@ -9,15 +9,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Cpu,
-  Eye,
   Globe2,
   Map,
   Megaphone,
   Presentation,
-  Radio,
   Rocket,
   Shield,
-  Target,
   TrendingUp,
   Zap,
 } from "lucide-react";
@@ -123,33 +120,6 @@ const manifestoStatements: ManifestoStatement[] = [
   },
 ];
 
-const deliveryBlueprint = [
-  {
-    title: "The Slam",
-    icon: Radio,
-    tone:
-      "border-[#4d73c6]/18 bg-[linear-gradient(145deg,rgba(236,243,255,0.96),rgba(220,232,252,0.92))]",
-    body:
-      'Read the first two lines ("Stop discussing... Start building...") with high energy, then stop talking for two full seconds. Let the screen do the work. Let the audience read it.',
-  },
-  {
-    title: "The Contrast",
-    icon: Target,
-    tone:
-      "border-[#6b7f9e]/18 bg-[linear-gradient(145deg,rgba(242,245,249,0.97),rgba(226,233,241,0.93))]",
-    body:
-      'Drop your voice to a lower, highly confident tone when you say, "True sovereignty..." This tonal shift changes the energy from a critique into an authoritative strategy.',
-  },
-  {
-    title: "The Call",
-    icon: Eye,
-    tone:
-      "border-[#3e62b8]/24 bg-[linear-gradient(145deg,rgba(229,238,255,0.98),rgba(204,222,250,0.94))]",
-    body:
-      'Look directly into the main camera lens, not at your slides or the host, when you deliver the final line: "Step through it and help us lead." Treat that camera like it is his eyes.',
-  },
-];
-
 function DeckCard({ deck }: { deck: Deck }) {
   const Icon = deck.icon;
 
@@ -238,89 +208,53 @@ function ManifestoPage() {
             const Icon = statement.icon;
 
             return (
-            <article
-              key={statement.text}
-              className={`relative overflow-hidden rounded-2xl border px-6 py-5 shadow-sm md:px-8 md:py-6 ${
-                index === manifestoStatements.length - 1
-                  ? "border-[#4d73c6]/35 bg-[linear-gradient(160deg,#5d84d2,#3e62b8)] shadow-[0_8px_24px_rgba(77,115,198,0.28)]"
-                  : "border-line bg-white/90"
-              }`}
-            >
-              <div
-                className={`absolute inset-x-0 top-0 h-[3px] ${
-                  index === manifestoStatements.length - 1
-                    ? "bg-gradient-to-r from-transparent via-white/45 to-transparent"
-                    : "bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent"
-                }`}
-              />
-              <div className="flex flex-col items-center gap-4 text-center">
-                <div
-                  className={`flex h-12 w-12 items-center justify-center rounded-full border ${
-                    index === manifestoStatements.length - 1
-                      ? "border-white/25 bg-white/10 text-white"
-                      : "border-[#4d73c6]/20 bg-[linear-gradient(145deg,#eef4ff,#dfe9fb)] text-[#4d73c6]"
-                  }`}
-                >
-                  <Icon className="h-5 w-5" strokeWidth={2} />
-                </div>
-                <p
-                  className={`text-center font-display text-[1.35rem] leading-relaxed md:text-[1.55rem] md:leading-[1.8] ${
-                    index === manifestoStatements.length - 1 ? "text-white" : "text-ink"
-                  }`}
-                >
-                  {statement.emphasis ? (
-                    <>
-                      {statement.prefix}
-                      <br />
-                      <span className="mt-2 inline-block text-[1.7rem] leading-none md:text-[2.05rem]">
-                        {statement.emphasis}
-                      </span>
-                    </>
-                  ) : (
-                    statement.text
-                  )}
-                </p>
-              </div>
-            </article>
-          )})}
-        </div>
-
-        <div className="my-10 h-px w-full bg-[linear-gradient(90deg,transparent,rgba(17,22,28,0.14)_20%,rgba(17,22,28,0.14)_80%,transparent)]" />
-
-        <section className="space-y-4">
-          <div className="mx-auto w-fit rounded-full bg-[linear-gradient(135deg,#7a9adb,#c4d3f0)] p-[1.5px] shadow-[0_4px_20px_rgba(77,115,198,0.18)]">
-            <div className="flex items-center gap-2 rounded-full bg-white px-5 py-1.5">
-              <Radio className="h-4 w-4 text-[#4d73c6]" strokeWidth={2} />
-              <p className="text-[0.82rem] font-semibold uppercase tracking-[0.32em] text-graphite">
-                Broadcast Delivery Blueprint
-              </p>
-            </div>
-          </div>
-
-          <div className="grid gap-4 lg:grid-cols-3">
-            {deliveryBlueprint.map((item) => {
-              const Icon = item.icon;
-
-              return (
               <article
-                key={item.title}
-                className={`relative overflow-hidden rounded-2xl border px-6 py-5 shadow-sm ${item.tone}`}
+                key={statement.text}
+                className={`relative overflow-hidden rounded-2xl border px-6 py-5 shadow-sm md:px-8 md:py-6 ${
+                  index === manifestoStatements.length - 1
+                    ? "border-[#4d73c6]/35 bg-[linear-gradient(160deg,#5d84d2,#3e62b8)] shadow-[0_8px_24px_rgba(77,115,198,0.28)]"
+                    : "border-line bg-white/90"
+                }`}
               >
-                <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent" />
-                <div className="pointer-events-none absolute right-0 top-0 h-24 w-24 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.6),transparent_68%)] blur-2xl" />
-                <div className="flex items-center justify-center gap-2 text-[#4d73c6]">
-                  <Icon className="h-4.5 w-4.5" strokeWidth={2} />
-                  <p className="text-center text-[0.92rem] font-semibold uppercase tracking-[0.22em] text-[#4d73c6]">
-                    {item.title}
+                <div
+                  className={`absolute inset-x-0 top-0 h-[3px] ${
+                    index === manifestoStatements.length - 1
+                      ? "bg-gradient-to-r from-transparent via-white/45 to-transparent"
+                      : "bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent"
+                  }`}
+                />
+                <div className="flex flex-col items-center gap-4 text-center">
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center rounded-full border ${
+                      index === manifestoStatements.length - 1
+                        ? "border-white/25 bg-white/10 text-white"
+                        : "border-[#4d73c6]/20 bg-[linear-gradient(145deg,#eef4ff,#dfe9fb)] text-[#4d73c6]"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" strokeWidth={2} />
+                  </div>
+                  <p
+                    className={`text-center font-display text-[1.35rem] leading-relaxed md:text-[1.55rem] md:leading-[1.8] ${
+                      index === manifestoStatements.length - 1 ? "text-white" : "text-ink"
+                    }`}
+                  >
+                    {statement.emphasis ? (
+                      <>
+                        {statement.prefix}
+                        <br />
+                        <span className="mt-2 inline-block text-[1.7rem] leading-none md:text-[2.05rem]">
+                          {statement.emphasis}
+                        </span>
+                      </>
+                    ) : (
+                      statement.text
+                    )}
                   </p>
                 </div>
-                <p className="mt-4 text-[1rem] leading-8 text-ink md:text-[1.08rem]">
-                  {item.body}
-                </p>
               </article>
-            )})}
-          </div>
-        </section>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
