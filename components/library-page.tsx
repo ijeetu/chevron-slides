@@ -262,7 +262,7 @@ function ManifestoPage() {
 
 function PlaceholderCtaPage() {
   return (
-    <section className="mt-10 flex min-h-[27rem] items-center justify-center">
+    <section className="flex min-h-full items-center justify-center py-8">
       <article className="relative w-full max-w-4xl overflow-hidden rounded-[2rem] border border-white/80 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(230,236,243,0.9))] px-8 py-12 text-center shadow-[0_24px_60px_rgba(59,88,129,0.14)] sm:px-12 sm:py-16">
         <div className="pointer-events-none absolute inset-x-10 top-0 h-24 bg-gradient-to-r from-transparent via-white/65 to-transparent blur-2xl" />
         <p className="text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-graphite">
@@ -281,19 +281,19 @@ function PlaceholderCtaPage() {
 
 function AgendaPage() {
   return (
-    <>
-      <header className="mx-auto max-w-3xl text-center">
+    <section className="flex min-h-full flex-col items-center justify-center py-8 text-center">
+      <header className="mx-auto max-w-3xl">
         <h1 className="font-display text-6xl leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
           Agenda
         </h1>
       </header>
 
-      <section className="mt-10 flex min-h-[12rem] items-start justify-center">
+      <div className="mt-10 flex justify-center">
         <p className="max-w-2xl text-center text-base leading-7 text-graphite sm:text-lg">
           Agenda content will be added here later.
         </p>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -339,8 +339,8 @@ export function LibraryPage() {
           ) : currentPage === 1 ? (
             <AgendaPage />
           ) : currentPage <= deckPages.length + 1 ? (
-            <>
-              <header className="mx-auto max-w-3xl pt-8 text-center">
+            <section className="flex min-h-full flex-col justify-center py-8">
+              <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
                   Viral Fusion
                 </h1>
@@ -353,7 +353,7 @@ export function LibraryPage() {
                   <DeckCard key={deck.href} deck={deck} />
                 ))}
               </section>
-            </>
+            </section>
           ) : (
             <PlaceholderCtaPage />
           )}
