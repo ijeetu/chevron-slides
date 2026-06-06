@@ -55,3 +55,24 @@ select {
 ::selection {
   background: rgba(143, 167, 191, 0.35);
 }
+
+.presentation-scroll {
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(55, 86, 123, 0.55) rgba(255, 255, 255, 0.28);
+}
+
+.presentation-scroll::-webkit-scrollbar {
+  width: 12px;
+}
+
+.presentation-scroll::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.presentation-scroll::-webkit-scrollbar-thumb {
+  border: 3px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(55, 86, 123, 0.72), rgba(92, 122, 157, 0.82));
+}
