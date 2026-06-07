@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
@@ -34,6 +35,12 @@ type ManifestoStatement = {
   icon: LucideIcon;
   prefix?: string;
   emphasis?: string;
+};
+
+type FoundingFather = {
+  name: string;
+  imageSrc: string;
+  accentClass: string;
 };
 
 const deckPages: Deck[][] = [
@@ -120,6 +127,19 @@ const manifestoStatements: ManifestoStatement[] = [
   },
 ];
 
+const foundingFathers: FoundingFather[] = [
+  {
+    name: "George Washington",
+    imageSrc: "/founding-fathers/george-washington.jpg",
+    accentClass: "from-[#123a82]/92 via-[#244f9b]/78 to-[#c9d8ff]/18",
+  },
+  {
+    name: "Thomas Jefferson",
+    imageSrc: "/founding-fathers/thomas-jefferson.jpg",
+    accentClass: "from-[#7e1425]/92 via-[#b92c42]/76 to-[#ffd0d6]/18",
+  },
+];
+
 function DeckCard({ deck }: { deck: Deck }) {
   const Icon = deck.icon;
 
@@ -161,6 +181,100 @@ function DeckCard({ deck }: { deck: Deck }) {
         </div>
       </div>
     </Link>
+  );
+}
+
+function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
+  const Icon = statement.icon;
+
+  return (
+    <article className="relative overflow-hidden rounded-[2.4rem] border border-[#ebd7a8]/70 bg-[linear-gradient(145deg,#efe2b9,#b68d3d)] p-[1px] shadow-[0_28px_80px_rgba(19,38,74,0.28)]">
+      <div className="relative overflow-hidden rounded-[calc(2.4rem-1px)] bg-[#f7f2e9] px-5 py-6 sm:px-7 sm:py-8 lg:px-8">
+        <Image
+          src="/american-flag-ai-generated_268835-11226.avif"
+          alt="American flag background"
+          fill
+          priority
+          sizes="100vw"
+          className="pointer-events-none absolute inset-0 object-cover"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(7,20,44,0.42),rgba(7,20,44,0.12)_24%,rgba(246,241,232,0.66)_38%,rgba(248,244,236,0.84)_50%,rgba(246,241,232,0.66)_62%,rgba(9,24,48,0.12)_76%,rgba(9,24,48,0.4))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_14%,rgba(255,255,255,0.28),transparent_16%),radial-gradient(circle_at_84%_18%,rgba(255,255,255,0.16),transparent_16%),linear-gradient(180deg,rgba(255,255,255,0.18),rgba(255,255,255,0.03)_28%,rgba(8,15,29,0.18)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0)_30%,rgba(255,255,255,0.12)_46%,rgba(255,255,255,0)_60%,rgba(9,17,32,0.18)_100%)] mix-blend-soft-light" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-full bg-[radial-gradient(120%_75%_at_50%_-10%,rgba(255,255,255,0.18),transparent_50%),radial-gradient(120%_95%_at_50%_110%,rgba(7,14,27,0.16),transparent_52%)]" />
+        <div className="pointer-events-none absolute inset-y-0 left-[29%] hidden w-px bg-white/18 xl:block" />
+        <div className="pointer-events-none absolute inset-y-0 right-[29%] hidden w-px bg-[#173f8e]/10 xl:block" />
+
+        <div className="relative grid gap-5 xl:grid-cols-[minmax(0,17rem)_1fr_minmax(0,17rem)] xl:items-center">
+          {foundingFathers.map((father, index) => (
+            <aside
+              key={father.name}
+              className={`group relative overflow-hidden rounded-[1.8rem] border border-white/18 bg-[rgba(7,19,42,0.16)] shadow-[0_20px_44px_rgba(7,19,42,0.2)] ${
+                index === 0 ? "xl:order-1" : "xl:order-3"
+              }`}
+            >
+              <div className="relative h-[18rem] sm:h-[21rem] xl:h-[24rem]">
+                <Image
+                  src={father.imageSrc}
+                  alt={father.name}
+                  fill
+                  sizes="(min-width: 1280px) 17rem, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+                <div
+                  className={`absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.06),rgba(8,17,34,0.38)_46%,rgba(5,10,20,0.88)_100%)]`}
+                />
+                <div className={`absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t ${father.accentClass}`} />
+                <div className="absolute bottom-0 left-0 right-0 px-4 pb-5 pt-10 text-white">
+                  <p className="font-display text-[1.55rem] leading-none drop-shadow-[0_8px_18px_rgba(0,0,0,0.4)]">
+                    {father.name}
+                  </p>
+                </div>
+              </div>
+            </aside>
+          ))}
+
+          <div className="relative overflow-hidden rounded-[2rem] border border-[#d7bc7d]/55 bg-[linear-gradient(165deg,rgba(255,255,255,0.96),rgba(247,241,227,0.93)_56%,rgba(234,241,255,0.94)_100%)] px-6 py-8 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_24px_60px_rgba(17,22,28,0.12)] sm:px-8 md:px-10 md:py-10 xl:order-2">
+            <div className="pointer-events-none absolute inset-x-8 top-0 h-20 bg-gradient-to-r from-transparent via-white/85 to-transparent blur-2xl" />
+            <div className="pointer-events-none absolute left-1/2 top-7 h-16 w-16 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.95),rgba(255,255,255,0))] blur-xl" />
+
+            <div className="relative mx-auto flex max-w-3xl flex-col items-center">
+              <div className="mb-5 inline-flex items-center gap-3 rounded-full border border-[#173f8e]/12 bg-white/78 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#173f8e] shadow-[0_10px_24px_rgba(23,63,142,0.09)]">
+                <span className="text-[#c5293d]">★</span>
+                America First Blueprint
+                <span className="text-[#c5293d]">★</span>
+              </div>
+
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[#173f8e]/15 bg-[radial-gradient(circle_at_30%_30%,#2a58b5_0%,#153d88_55%,#0e2a60_100%)] text-white shadow-[0_18px_34px_rgba(20,55,125,0.28)]">
+                <Icon className="h-7 w-7" strokeWidth={2.1} />
+              </div>
+
+              <p className="max-w-2xl text-[0.78rem] font-semibold uppercase tracking-[0.34em] text-[#8b2132]">
+                Built with conviction, discipline, and momentum
+              </p>
+
+              <p className="mt-5 max-w-3xl font-display text-[1.9rem] leading-[1.18] text-ink sm:text-[2.35rem] md:text-[2.8rem]">
+                {statement.prefix}
+              </p>
+
+              <div className="mt-6 flex items-center gap-3 text-[#173f8e]">
+                <span className="h-px w-12 bg-[linear-gradient(90deg,rgba(23,63,142,0),rgba(23,63,142,0.6))]" />
+                <span className="text-[0.78rem] font-semibold uppercase tracking-[0.34em] text-[#173f8e]">
+                  Forward Motion
+                </span>
+                <span className="h-px w-12 bg-[linear-gradient(90deg,rgba(23,63,142,0.6),rgba(23,63,142,0))]" />
+              </div>
+
+              <div className="mt-6 rounded-[1.6rem] border border-[#c5293d]/14 bg-[linear-gradient(145deg,rgba(198,41,61,0.08),rgba(23,63,142,0.06))] px-6 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+                <span className="font-display text-[2.5rem] leading-none text-[#173f8e] sm:text-[3rem] md:text-[3.55rem]">
+                  {statement.emphasis}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -207,48 +321,28 @@ function ManifestoPage() {
           {manifestoStatements.map((statement, index) => {
             const Icon = statement.icon;
 
+            if (index === manifestoStatements.length - 1) {
+              return <FoundersCtaCard key={statement.text} statement={statement} />;
+            }
+
             return (
               <article
                 key={statement.text}
                 className={`relative overflow-hidden rounded-2xl border px-6 py-5 shadow-sm md:px-8 md:py-6 ${
-                  index === manifestoStatements.length - 1
-                    ? "border-[#4d73c6]/35 bg-[linear-gradient(160deg,#5d84d2,#3e62b8)] shadow-[0_8px_24px_rgba(77,115,198,0.28)]"
-                    : "border-line bg-white/90"
+                  "border-line bg-white/90"
                 }`}
               >
                 <div
-                  className={`absolute inset-x-0 top-0 h-[3px] ${
-                    index === manifestoStatements.length - 1
-                      ? "bg-gradient-to-r from-transparent via-white/45 to-transparent"
-                      : "bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent"
-                  }`}
+                  className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent"
                 />
                 <div className="flex flex-col items-center gap-4 text-center">
                   <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-full border ${
-                      index === manifestoStatements.length - 1
-                        ? "border-white/25 bg-white/10 text-white"
-                        : "border-[#4d73c6]/20 bg-[linear-gradient(145deg,#eef4ff,#dfe9fb)] text-[#4d73c6]"
-                    }`}
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-[#4d73c6]/20 bg-[linear-gradient(145deg,#eef4ff,#dfe9fb)] text-[#4d73c6]"
                   >
                     <Icon className="h-5 w-5" strokeWidth={2} />
                   </div>
-                  <p
-                    className={`text-center font-display text-[1.35rem] leading-relaxed md:text-[1.55rem] md:leading-[1.8] ${
-                      index === manifestoStatements.length - 1 ? "text-white" : "text-ink"
-                    }`}
-                  >
-                    {statement.emphasis ? (
-                      <>
-                        {statement.prefix}
-                        <br />
-                        <span className="mt-2 inline-block text-[1.7rem] leading-none md:text-[2.05rem]">
-                          {statement.emphasis}
-                        </span>
-                      </>
-                    ) : (
-                      statement.text
-                    )}
+                  <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
+                    {statement.text}
                   </p>
                 </div>
               </article>
