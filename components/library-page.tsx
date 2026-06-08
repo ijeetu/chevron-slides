@@ -277,6 +277,67 @@ function ManifestoPage() {
           </div>
         </div>
 
+        <section className="pb-12">
+          <div className="mx-auto max-w-6xl space-y-6">
+            <div className="space-y-6">
+              <article className="relative overflow-hidden rounded-[2rem] border border-[#d9c29a]/65 bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(245,238,223,0.92))] px-8 py-8 shadow-[0_24px_60px_rgba(59,88,129,0.12)] sm:px-10">
+                <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#8b2132]/35 to-transparent" />
+                <p className="text-center font-display text-[1.85rem] leading-[1.12] text-ink sm:text-[2.3rem]">
+                  Out of all the podcasts your team and you have conducted, does the
+                  future look brighter?
+                </p>
+              </article>
+
+              <article className="relative overflow-hidden rounded-[1.75rem] border border-line bg-white/90 px-6 py-6 shadow-sm">
+                <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent" />
+                <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
+                  Is validating a glimpse of the fraud enough?
+                </p>
+              </article>
+
+              <article className="relative overflow-hidden rounded-[1.75rem] border border-line bg-white/90 px-6 py-6 shadow-sm">
+                <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent" />
+                <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
+                  How important is accountability for the future of our republic?
+                </p>
+              </article>
+            </div>
+
+            <div className="space-y-6">
+              <article className="overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
+                <div className="relative h-[22rem] sm:h-[28rem]">
+                  <Image
+                    src="/child-trafficking-pink.webp"
+                    alt="Portrait of a young girl"
+                    fill
+                    sizes="(min-width: 1280px) 48vw, 92vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.08),rgba(8,17,34,0.22)_46%,rgba(5,10,20,0.78)_100%)]" />
+                  <div className="absolute inset-x-0 bottom-0 px-6 pb-7 pt-16 text-center sm:px-8 sm:pb-9">
+                    <p className="font-display text-[2.3rem] leading-[1.15] text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.5)] sm:text-[3.1rem]">
+                      Are the children protected?
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article className="overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
+                <div className="relative h-[22rem] sm:h-[28rem]">
+                  <Image
+                    src="/maga.png"
+                    alt="Creative showing the division between MAGA and the Democratic Party"
+                    fill
+                    sizes="(min-width: 1280px) 48vw, 92vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.1),rgba(8,17,34,0.18)_38%,rgba(5,10,20,0.72)_100%)]" />
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
         <header className="pb-8 text-center">
           <div className="mx-auto max-w-6xl space-y-3">
             <div className="flex items-center justify-center gap-3 text-[#4d73c6]">
@@ -311,21 +372,6 @@ function ManifestoPage() {
                     </p>
                   </div>
                 </article>
-
-                {index === 3 ? (
-                  <article className="overflow-hidden rounded-2xl border border-line bg-white/90 p-3 shadow-sm sm:p-4">
-                    <div className="overflow-hidden rounded-[1.35rem]">
-                      <Image
-                        src="/america-first-blueprint.webp"
-                        alt="America First blueprint"
-                        width={1670}
-                        height={942}
-                        sizes="(min-width: 1280px) 72rem, 92vw"
-                        className="h-auto w-full object-cover"
-                      />
-                    </div>
-                  </article>
-                ) : null}
               </div>
             );
           })}
