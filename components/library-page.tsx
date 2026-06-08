@@ -104,11 +104,11 @@ const deckPages: Deck[][] = [
 
 const manifestoStatements: ManifestoStatement[] = [
   {
-    text: "True sovereignty in the digital age is about moving faster than the competition can think.",
+    text: "True sovereignty in the digital age is about moving faster, smarter, and more efficiently.",
     icon: Shield,
   },
   {
-    text: "We don't need more committees, talk, or permission.",
+    text: "We don't need more expert opinions, committees, or permission.",
     icon: Megaphone,
   },
   {
@@ -120,9 +120,9 @@ const manifestoStatements: ManifestoStatement[] = [
     icon: Zap,
   },
   {
-    text: "Step through it and help us lead. We have the America First blueprint. Let's begin.",
+    text: "We have the America First blueprint. Let's begin.",
     icon: Rocket,
-    prefix: "Step through it and help us lead. We have the America First blueprint.",
+    prefix: "We have the America First blueprint.",
     emphasis: "Let's begin.",
   },
 ];
@@ -185,8 +185,6 @@ function DeckCard({ deck }: { deck: Deck }) {
 }
 
 function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
-  const Icon = statement.icon;
-
   return (
     <article className="relative overflow-hidden rounded-[2.4rem] border border-[#ebd7a8]/70 bg-[linear-gradient(145deg,#efe2b9,#b68d3d)] p-[1px] shadow-[0_28px_80px_rgba(19,38,74,0.28)]">
       <div className="relative overflow-hidden rounded-[calc(2.4rem-1px)] bg-[#f7f2e9] px-5 py-6 sm:px-7 sm:py-8 lg:px-8">
@@ -225,7 +223,7 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
                   className={`absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.06),rgba(8,17,34,0.38)_46%,rgba(5,10,20,0.88)_100%)]`}
                 />
                 <div className={`absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t ${father.accentClass}`} />
-                <div className="absolute bottom-0 left-0 right-0 px-4 pb-5 pt-10 text-white">
+                <div className="absolute bottom-0 left-0 right-0 px-4 pb-5 pt-10 text-center text-white">
                   <p className="font-display text-[1.55rem] leading-none drop-shadow-[0_8px_18px_rgba(0,0,0,0.4)]">
                     {father.name}
                   </p>
@@ -239,33 +237,11 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
             <div className="pointer-events-none absolute left-1/2 top-7 h-16 w-16 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.95),rgba(255,255,255,0))] blur-xl" />
 
             <div className="relative mx-auto flex max-w-3xl flex-col items-center">
-              <div className="mb-5 inline-flex items-center gap-3 rounded-full border border-[#173f8e]/12 bg-white/78 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#173f8e] shadow-[0_10px_24px_rgba(23,63,142,0.09)]">
-                <span className="text-[#c5293d]">★</span>
-                America First Blueprint
-                <span className="text-[#c5293d]">★</span>
-              </div>
-
-              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[#173f8e]/15 bg-[radial-gradient(circle_at_30%_30%,#2a58b5_0%,#153d88_55%,#0e2a60_100%)] text-white shadow-[0_18px_34px_rgba(20,55,125,0.28)]">
-                <Icon className="h-7 w-7" strokeWidth={2.1} />
-              </div>
-
-              <p className="max-w-2xl text-[0.78rem] font-semibold uppercase tracking-[0.34em] text-[#8b2132]">
-                Built with conviction, discipline, and momentum
-              </p>
-
-              <p className="mt-5 max-w-3xl font-display text-[1.9rem] leading-[1.18] text-ink sm:text-[2.35rem] md:text-[2.8rem]">
+              <p className="max-w-3xl font-display text-[1.9rem] leading-[1.18] text-ink sm:text-[2.35rem] md:text-[2.8rem]">
                 {statement.prefix}
               </p>
 
-              <div className="mt-6 flex items-center gap-3 text-[#173f8e]">
-                <span className="h-px w-12 bg-[linear-gradient(90deg,rgba(23,63,142,0),rgba(23,63,142,0.6))]" />
-                <span className="text-[0.78rem] font-semibold uppercase tracking-[0.34em] text-[#173f8e]">
-                  Forward Motion
-                </span>
-                <span className="h-px w-12 bg-[linear-gradient(90deg,rgba(23,63,142,0.6),rgba(23,63,142,0))]" />
-              </div>
-
-              <div className="mt-6 rounded-[1.6rem] border border-[#c5293d]/14 bg-[linear-gradient(145deg,rgba(198,41,61,0.08),rgba(23,63,142,0.06))] px-6 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+              <div className="mt-5 rounded-[1.6rem] border border-[#c5293d]/14 bg-[linear-gradient(145deg,rgba(198,41,61,0.08),rgba(23,63,142,0.06))] px-6 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
                 <span className="font-display text-[2.5rem] leading-none text-[#173f8e] sm:text-[3rem] md:text-[3.55rem]">
                   {statement.emphasis}
                 </span>
@@ -305,47 +281,52 @@ function ManifestoPage() {
           <div className="mx-auto max-w-6xl space-y-3">
             <div className="flex items-center justify-center gap-3 text-[#4d73c6]">
               <span className="h-px w-16 bg-[linear-gradient(90deg,rgba(77,115,198,0),rgba(77,115,198,0.55))]" />
-              <Shield className="h-5 w-5" strokeWidth={2} />
               <span className="h-px w-16 bg-[linear-gradient(90deg,rgba(77,115,198,0.55),rgba(77,115,198,0))]" />
             </div>
             <h1 className="font-display text-[2rem] font-bold leading-[0.9] text-ink sm:text-[2.9rem] lg:text-[3.8rem] [text-shadow:0.006em_0_0_currentColor,-0.006em_0_0_currentColor]">
-              STOP DISCUSSING THE PAST.
+              Discussing the Past is Not Enough
             </h1>
-            <h2 className="font-display text-[2rem] font-bold leading-[0.9] text-[#4d73c6] sm:text-[2.9rem] lg:text-[3.8rem] [text-shadow:0.006em_0_0_currentColor,-0.006em_0_0_currentColor]">
-              START BUILDING THE FUTURE.
-            </h2>
           </div>
         </header>
 
         <div className="space-y-6">
           {manifestoStatements.map((statement, index) => {
-            const Icon = statement.icon;
-
             if (index === manifestoStatements.length - 1) {
               return <FoundersCtaCard key={statement.text} statement={statement} />;
             }
 
             return (
-              <article
-                key={statement.text}
-                className={`relative overflow-hidden rounded-2xl border px-6 py-5 shadow-sm md:px-8 md:py-6 ${
-                  "border-line bg-white/90"
-                }`}
-              >
-                <div
-                  className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent"
-                />
-                <div className="flex flex-col items-center gap-4 text-center">
+              <div key={statement.text} className="space-y-6">
+                <article
+                  className={`relative overflow-hidden rounded-2xl border px-6 py-5 shadow-sm md:px-8 md:py-6 ${
+                    "border-line bg-white/90"
+                  }`}
+                >
                   <div
-                    className="flex h-12 w-12 items-center justify-center rounded-full border border-[#4d73c6]/20 bg-[linear-gradient(145deg,#eef4ff,#dfe9fb)] text-[#4d73c6]"
-                  >
-                    <Icon className="h-5 w-5" strokeWidth={2} />
+                    className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent"
+                  />
+                  <div className="flex flex-col items-center gap-4 text-center">
+                    <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
+                      {statement.text}
+                    </p>
                   </div>
-                  <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
-                    {statement.text}
-                  </p>
-                </div>
-              </article>
+                </article>
+
+                {index === 3 ? (
+                  <article className="overflow-hidden rounded-2xl border border-line bg-white/90 p-3 shadow-sm sm:p-4">
+                    <div className="overflow-hidden rounded-[1.35rem]">
+                      <Image
+                        src="/america-first-blueprint.webp"
+                        alt="America First blueprint"
+                        width={1670}
+                        height={942}
+                        sizes="(min-width: 1280px) 72rem, 92vw"
+                        className="h-auto w-full object-cover"
+                      />
+                    </div>
+                  </article>
+                ) : null}
+              </div>
             );
           })}
         </div>
