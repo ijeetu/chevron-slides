@@ -297,14 +297,14 @@ function QuestionsPage() {
 
 function GirlPage() {
   return (
-    <section className="flex min-h-full items-center justify-center py-8">
-      <article className="w-full max-w-5xl overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
-        <div className="relative h-[72vh] min-h-[26rem]">
+    <section className="flex min-h-full flex-col items-center py-8">
+      <article className="flex min-h-0 w-full max-w-7xl flex-1 overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
+        <div className="relative w-full">
           <Image
             src="/girlchild.webp"
             alt="Portrait of a young girl"
             fill
-            sizes="(min-width: 1280px) 70vw, 92vw"
+            sizes="(min-width: 1280px) 80vw, 92vw"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.08),rgba(8,17,34,0.22)_46%,rgba(5,10,20,0.78)_100%)]" />
@@ -321,14 +321,14 @@ function GirlPage() {
 
 function MagaPage() {
   return (
-    <section className="flex min-h-full items-center justify-center py-8">
-      <article className="w-full max-w-5xl overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
-        <div className="relative h-[72vh] min-h-[26rem]">
+    <section className="flex min-h-full flex-col items-center py-8">
+      <article className="flex min-h-0 w-full max-w-7xl flex-1 overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
+        <div className="relative w-full">
           <Image
             src="/maga.png"
             alt="Creative showing the division between MAGA and the Democratic Party"
             fill
-            sizes="(min-width: 1280px) 70vw, 92vw"
+            sizes="(min-width: 1280px) 80vw, 92vw"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.1),rgba(8,17,34,0.18)_38%,rgba(5,10,20,0.72)_100%)]" />
