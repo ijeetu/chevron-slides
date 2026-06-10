@@ -9,7 +9,6 @@ import {
   BarChart3,
   ChevronLeft,
   ChevronRight,
-  Cpu,
   Globe2,
   Map,
   Megaphone,
@@ -17,7 +16,6 @@ import {
   Rocket,
   Shield,
   TrendingUp,
-  Zap,
 } from "lucide-react";
 
 type Deck = {
@@ -110,14 +108,6 @@ const manifestoStatements: ManifestoStatement[] = [
   {
     text: "We don't need more expert opinions, committees, or permission.",
     icon: Megaphone,
-  },
-  {
-    text: "We have the winning strategy, the architecture, and we are executing right now.",
-    icon: Cpu,
-  },
-  {
-    text: "The door is open, but it won't stay open for long.",
-    icon: Zap,
   },
   {
     text: "We have the America First blueprint. Let's begin.",
@@ -241,11 +231,13 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
                 {statement.prefix}
               </p>
 
-              <div className="mt-5 rounded-[1.6rem] border border-[#c5293d]/14 bg-[linear-gradient(145deg,rgba(198,41,61,0.08),rgba(23,63,142,0.06))] px-6 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
-                <span className="font-display text-[2.5rem] leading-none text-[#173f8e] sm:text-[3rem] md:text-[3.55rem]">
-                  {statement.emphasis}
-                </span>
-              </div>
+              {statement.emphasis && (
+                <div className="mt-5 rounded-[1.6rem] border border-[#c5293d]/14 bg-[linear-gradient(145deg,rgba(198,41,61,0.08),rgba(23,63,142,0.06))] px-6 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+                  <span className="font-display text-[2.5rem] leading-none text-[#173f8e] sm:text-[3rem] md:text-[3.55rem]">
+                    {statement.emphasis}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -254,128 +246,138 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
   );
 }
 
-function ManifestoPage() {
+function QuestionsPage() {
   return (
-    <section className="relative px-[5%] py-10 xl:pl-28">
-      <div className="mx-auto w-full max-w-none">
-        <div
-          className="pointer-events-none absolute left-[-8.35rem] top-10 hidden w-32 flex-col items-center xl:flex"
-          aria-hidden="true"
-        >
-          <div className="absolute left-1/2 top-8 h-[calc(100%-6rem)] w-[4px] -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,rgba(122,154,219,0.08),#6b93e1_16%,#456dc2_84%,rgba(122,154,219,0.08))]" />
-          <div className="relative z-10 flex h-[7.6rem] w-[7.6rem] items-center justify-center">
-            <div className="absolute -inset-[5px] rounded-full border border-[#2a54a4]/18" />
-            <div className="absolute inset-0 rounded-full bg-[linear-gradient(155deg,#6f98e8_0%,#3f6fc8_55%,#2a54a4_100%)] shadow-[0_16px_38px_rgba(47,92,174,0.22)]" />
-            <div className="absolute inset-[4px] rounded-full border border-white/18 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03))]" />
-            <div className="relative flex h-[6rem] w-[6rem] items-center justify-center rounded-full border border-[#24488f]/55 bg-[radial-gradient(circle_at_50%_28%,#95b7f3_0%,#6f96e6_36%,#4472cb_72%,#345db1_100%)] px-3 text-center">
-              <p className="whitespace-pre-line text-[0.82rem] font-semibold uppercase leading-[1.06] tracking-[0.03em] text-[#08111c]">
-                LET&apos;S
-                <br />
-                BEGIN
-              </p>
-            </div>
+    <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
+      <div
+        className="pointer-events-none absolute left-[-8.35rem] top-1/2 hidden w-32 -translate-y-1/2 flex-col items-center xl:flex"
+        aria-hidden="true"
+      >
+        <div className="absolute left-1/2 top-8 h-[calc(100%-6rem)] w-[4px] -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,rgba(122,154,219,0.08),#6b93e1_16%,#456dc2_84%,rgba(122,154,219,0.08))]" />
+        <div className="relative z-10 flex h-[7.6rem] w-[7.6rem] items-center justify-center">
+          <div className="absolute -inset-[5px] rounded-full border border-[#2a54a4]/18" />
+          <div className="absolute inset-0 rounded-full bg-[linear-gradient(155deg,#6f98e8_0%,#3f6fc8_55%,#2a54a4_100%)] shadow-[0_16px_38px_rgba(47,92,174,0.22)]" />
+          <div className="absolute inset-[4px] rounded-full border border-white/18 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03))]" />
+          <div className="relative flex h-[6rem] w-[6rem] items-center justify-center rounded-full border border-[#24488f]/55 bg-[radial-gradient(circle_at_50%_28%,#95b7f3_0%,#6f96e6_36%,#4472cb_72%,#345db1_100%)] px-3 text-center">
+            <p className="whitespace-pre-line text-[0.82rem] font-semibold uppercase leading-[1.06] tracking-[0.03em] text-[#08111c]">
+              LET&apos;S
+              <br />
+              BEGIN
+            </p>
           </div>
         </div>
+      </div>
 
-        <section className="pb-12">
-          <div className="mx-auto max-w-6xl space-y-6">
-            <div className="space-y-6">
-              <article className="relative overflow-hidden rounded-[2rem] border border-[#d9c29a]/65 bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(245,238,223,0.92))] px-8 py-8 shadow-[0_24px_60px_rgba(59,88,129,0.12)] sm:px-10">
-                <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#8b2132]/35 to-transparent" />
-                <p className="text-center font-display text-[1.85rem] leading-[1.12] text-ink sm:text-[2.3rem]">
-                  Out of all the podcasts your team and you have conducted, does the
-                  future look brighter?
-                </p>
-              </article>
+      <div className="mx-auto flex w-full max-w-6xl flex-col justify-center gap-12 sm:gap-16">
+        <article className="relative overflow-hidden rounded-[2rem] border border-[#d9c29a]/65 bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(245,238,223,0.92))] px-8 py-8 shadow-[0_24px_60px_rgba(59,88,129,0.12)] sm:px-10">
+          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#8b2132]/35 to-transparent" />
+          <p className="text-center font-display text-[1.85rem] leading-[1.12] text-ink sm:text-[2.3rem]">
+            Having spoken with so many guests on your podcast, do you and your
+            team feel more hopeful about the future?
+          </p>
+        </article>
 
-              <article className="relative overflow-hidden rounded-[1.75rem] border border-line bg-white/90 px-6 py-6 shadow-sm">
-                <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent" />
-                <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
-                  Is validating a glimpse of the fraud enough?
-                </p>
-              </article>
+        <article className="relative overflow-hidden rounded-[1.75rem] border border-line bg-white/90 px-6 py-6 shadow-sm">
+          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent" />
+          <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
+            Is validating a glimpse of the fraud enough?
+          </p>
+        </article>
 
-              <article className="relative overflow-hidden rounded-[1.75rem] border border-line bg-white/90 px-6 py-6 shadow-sm">
-                <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent" />
-                <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
-                  How important is accountability for the future of our republic?
-                </p>
-              </article>
-            </div>
+        <article className="relative overflow-hidden rounded-[1.75rem] border border-line bg-white/90 px-6 py-6 shadow-sm">
+          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent" />
+          <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
+            How important is accountability for the future of our republic?
+          </p>
+        </article>
+      </div>
+    </section>
+  );
+}
 
-            <div className="space-y-6">
-              <article className="overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
-                <div className="relative h-[22rem] sm:h-[28rem]">
-                  <Image
-                    src="/child-trafficking-pink.webp"
-                    alt="Portrait of a young girl"
-                    fill
-                    sizes="(min-width: 1280px) 48vw, 92vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.08),rgba(8,17,34,0.22)_46%,rgba(5,10,20,0.78)_100%)]" />
-                  <div className="absolute inset-x-0 bottom-0 px-6 pb-7 pt-16 text-center sm:px-8 sm:pb-9">
-                    <p className="font-display text-[2.3rem] leading-[1.15] text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.5)] sm:text-[3.1rem]">
-                      Are the children protected?
-                    </p>
-                  </div>
-                </div>
-              </article>
-
-              <article className="overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
-                <div className="relative h-[22rem] sm:h-[28rem]">
-                  <Image
-                    src="/maga.png"
-                    alt="Creative showing the division between MAGA and the Democratic Party"
-                    fill
-                    sizes="(min-width: 1280px) 48vw, 92vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.1),rgba(8,17,34,0.18)_38%,rgba(5,10,20,0.72)_100%)]" />
-                </div>
-              </article>
-            </div>
+function GirlPage() {
+  return (
+    <section className="flex min-h-full items-center justify-center py-8">
+      <article className="w-full max-w-5xl overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
+        <div className="relative h-[72vh] min-h-[26rem]">
+          <Image
+            src="/girlchild.webp"
+            alt="Portrait of a young girl"
+            fill
+            sizes="(min-width: 1280px) 70vw, 92vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.08),rgba(8,17,34,0.22)_46%,rgba(5,10,20,0.78)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 px-6 pb-7 pt-16 text-center sm:px-8 sm:pb-9">
+            <p className="font-display text-[2.3rem] leading-[1.15] text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.5)] sm:text-[3.1rem]">
+              Are the children protected?
+            </p>
           </div>
-        </section>
-
-        <header className="pb-8 text-center">
-          <div className="mx-auto max-w-6xl space-y-3">
-            <div className="flex items-center justify-center gap-3 text-[#4d73c6]">
-              <span className="h-px w-16 bg-[linear-gradient(90deg,rgba(77,115,198,0),rgba(77,115,198,0.55))]" />
-              <span className="h-px w-16 bg-[linear-gradient(90deg,rgba(77,115,198,0.55),rgba(77,115,198,0))]" />
-            </div>
-            <h1 className="font-display text-[2rem] font-bold leading-[0.9] text-ink sm:text-[2.9rem] lg:text-[3.8rem] [text-shadow:0.006em_0_0_currentColor,-0.006em_0_0_currentColor]">
-              Discussing the Past is Not Enough
-            </h1>
-          </div>
-        </header>
-
-        <div className="space-y-6">
-          {manifestoStatements.map((statement, index) => {
-            if (index === manifestoStatements.length - 1) {
-              return <FoundersCtaCard key={statement.text} statement={statement} />;
-            }
-
-            return (
-              <div key={statement.text} className="space-y-6">
-                <article
-                  className={`relative overflow-hidden rounded-2xl border px-6 py-5 shadow-sm md:px-8 md:py-6 ${
-                    "border-line bg-white/90"
-                  }`}
-                >
-                  <div
-                    className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent"
-                  />
-                  <div className="flex flex-col items-center gap-4 text-center">
-                    <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
-                      {statement.text}
-                    </p>
-                  </div>
-                </article>
-              </div>
-            );
-          })}
         </div>
+      </article>
+    </section>
+  );
+}
+
+function MagaPage() {
+  return (
+    <section className="flex min-h-full items-center justify-center py-8">
+      <article className="w-full max-w-5xl overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
+        <div className="relative h-[72vh] min-h-[26rem]">
+          <Image
+            src="/maga.png"
+            alt="Creative showing the division between MAGA and the Democratic Party"
+            fill
+            sizes="(min-width: 1280px) 70vw, 92vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.1),rgba(8,17,34,0.18)_38%,rgba(5,10,20,0.72)_100%)]" />
+        </div>
+      </article>
+    </section>
+  );
+}
+
+function ManifestoStatementsPage() {
+  return (
+    <section className="flex min-h-full flex-col justify-center py-10">
+      <header className="pb-8 text-center">
+        <div className="mx-auto max-w-6xl space-y-3">
+          <div className="flex items-center justify-center gap-3 text-[#4d73c6]">
+            <span className="h-px w-16 bg-[linear-gradient(90deg,rgba(77,115,198,0),rgba(77,115,198,0.55))]" />
+            <span className="h-px w-16 bg-[linear-gradient(90deg,rgba(77,115,198,0.55),rgba(77,115,198,0))]" />
+          </div>
+          <h1 className="font-display text-[2rem] font-bold leading-[0.9] text-ink sm:text-[2.9rem] lg:text-[3.8rem] [text-shadow:0.006em_0_0_currentColor,-0.006em_0_0_currentColor]">
+            Discussing the Past is Not Enough
+          </h1>
+        </div>
+      </header>
+
+      <div className="mx-auto w-full max-w-5xl space-y-6">
+        {manifestoStatements.map((statement, index) => {
+          if (index === manifestoStatements.length - 1) {
+            return <FoundersCtaCard key={statement.text} statement={statement} />;
+          }
+
+          return (
+            <div key={statement.text} className="space-y-6">
+              <article
+                className={`relative overflow-hidden rounded-2xl border px-6 py-5 shadow-sm md:px-8 md:py-6 ${
+                  "border-line bg-white/90"
+                }`}
+              >
+                <div
+                  className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent"
+                />
+                <div className="flex flex-col items-center gap-4 text-center">
+                  <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
+                    {statement.text}
+                  </p>
+                </div>
+              </article>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
@@ -421,7 +423,7 @@ function AgendaPage() {
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 3;
+  const totalPages = deckPages.length + 6;
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -453,13 +455,19 @@ export function LibraryPage() {
       <main className="relative z-10 mx-auto flex h-[calc(100vh-5rem)] w-[90%] max-w-none flex-col px-6 py-10 sm:px-10 lg:px-14">
         <div
           ref={pageContainerRef}
-          className="presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pr-1 md:pb-28 md:pr-2"
+          className="presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
         >
           {currentPage === 0 ? (
-            <ManifestoPage />
+            <QuestionsPage />
           ) : currentPage === 1 ? (
+            <GirlPage />
+          ) : currentPage === 2 ? (
+            <MagaPage />
+          ) : currentPage === 3 ? (
+            <ManifestoStatementsPage />
+          ) : currentPage === 4 ? (
             <AgendaPage />
-          ) : currentPage <= deckPages.length + 1 ? (
+          ) : currentPage <= deckPages.length + 4 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -470,7 +478,7 @@ export function LibraryPage() {
                 key={currentPage}
                 className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
-                {deckPages[currentPage - 2].map((deck) => (
+                {deckPages[currentPage - 5].map((deck) => (
                   <DeckCard key={deck.href} deck={deck} />
                 ))}
               </section>
