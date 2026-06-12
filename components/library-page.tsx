@@ -14,7 +14,10 @@ import {
   Megaphone,
   Presentation,
   Rocket,
+  Scale,
   Shield,
+  ShieldCheck,
+  Sparkles,
   TrendingUp,
 } from "lucide-react";
 
@@ -39,6 +42,15 @@ type FoundingFather = {
   name: string;
   imageSrc: string;
   accentClass: string;
+};
+
+type PromiseItem = {
+  title: string;
+  description: string;
+  label: string;
+  icon: LucideIcon;
+  accent: string;
+  iconTone: string;
 };
 
 const deckPages: Deck[][] = [
@@ -135,6 +147,33 @@ const openingQuestions = [
   "Is validating a glimpse of the fraud enough?",
   "How important is accountability for the future of our republic?",
 ] as const;
+
+const promiseItems: PromiseItem[] = [
+  {
+    title: "Defend Sovereignty",
+    description: "For our families and future generations.",
+    label: "Sovereignty",
+    icon: ShieldCheck,
+    accent: "from-[#173f8e] via-[#4d73c6] to-[#9eb7e5]",
+    iconTone: "border-[#7f9ed8]/45 bg-[#e9f0fc] text-[#244f9b]",
+  },
+  {
+    title: "Enforce Accountability",
+    description: "Bringing real justice to light.",
+    label: "Accountability",
+    icon: Scale,
+    accent: "from-[#a42639] via-[#c84b5d] to-[#e6a1aa]",
+    iconTone: "border-[#d78a96]/45 bg-[#faeaed] text-[#9a2638]",
+  },
+  {
+    title: "Secure the Future",
+    description: "Protecting our children and changing the world.",
+    label: "Legacy",
+    icon: Sparkles,
+    accent: "from-[#9a742a] via-[#c39a47] to-[#e6d29d]",
+    iconTone: "border-[#d2b66d]/50 bg-[#faf3df] text-[#7b5b1d]",
+  },
+];
 
 function DeckCard({ deck }: { deck: Deck }) {
   const Icon = deck.icon;
@@ -387,6 +426,66 @@ function ManifestoStatementsPage() {
   );
 }
 
+function PromisePage() {
+  return (
+    <section className="flex min-h-full flex-col justify-center py-8">
+      <header className="mx-auto max-w-4xl text-center">
+        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
+          The Promise
+        </h1>
+        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(77,115,198,0.75),transparent)]" />
+      </header>
+
+      <article className="relative mx-auto mt-10 w-full max-w-7xl overflow-hidden rounded-[2.5rem] border border-white/75 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(239,243,247,0.92))] shadow-[0_30px_80px_rgba(17,22,28,0.14)]">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_10%,rgba(77,115,198,0.11),transparent_25%),radial-gradient(circle_at_88%_90%,rgba(183,139,56,0.1),transparent_25%)]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-[linear-gradient(90deg,#173f8e_0%,#4d73c6_32%,#f6f2e9_50%,#c84b5d_68%,#9a2638_100%)]" />
+
+        <div className="relative grid md:grid-cols-3">
+          {promiseItems.map((item, index) => {
+            const Icon = item.icon;
+
+            return (
+              <section
+                key={item.title}
+                className={`relative flex min-h-[23rem] flex-col px-7 py-8 sm:px-9 sm:py-10 lg:px-11 ${
+                  index > 0 ? "border-t border-line/70 md:border-l md:border-t-0" : ""
+                }`}
+              >
+                <div className="flex items-start justify-between gap-5">
+                  <div
+                    className={`flex h-16 w-16 items-center justify-center rounded-[1.35rem] border shadow-[0_14px_30px_rgba(17,22,28,0.08)] ${item.iconTone}`}
+                  >
+                    <Icon className="h-7 w-7" strokeWidth={1.8} />
+                  </div>
+                  <span className="font-display text-4xl leading-none text-ink/10">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+
+                <div className={`mt-9 h-1 w-14 rounded-full bg-gradient-to-r ${item.accent}`} />
+
+                <h2 className="mt-6 max-w-sm font-display text-[2rem] font-semibold leading-[1.02] text-ink sm:text-[2.25rem]">
+                  {item.title}
+                </h2>
+                <p className="mt-5 max-w-sm text-lg leading-8 text-graphite">
+                  {item.description}
+                </p>
+
+                <div className="mt-auto pt-8">
+                  <div className="flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-mist">
+                    <span className={`h-px flex-1 bg-gradient-to-r ${item.accent}`} />
+                    {item.label}
+                  </div>
+                </div>
+              </section>
+            );
+          })}
+        </div>
+      </article>
+    </section>
+  );
+}
+
 function PlaceholderCtaPage() {
   return (
     <section className="flex min-h-full items-center justify-center py-8">
@@ -427,7 +526,7 @@ function AgendaPage() {
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 8;
+  const totalPages = deckPages.length + 9;
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -473,8 +572,10 @@ export function LibraryPage() {
           ) : currentPage === 5 ? (
             <ManifestoStatementsPage />
           ) : currentPage === 6 ? (
+            <PromisePage />
+          ) : currentPage === 7 ? (
             <AgendaPage />
-          ) : currentPage <= deckPages.length + 6 ? (
+          ) : currentPage <= deckPages.length + 7 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -485,7 +586,7 @@ export function LibraryPage() {
                 key={currentPage}
                 className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
-                {deckPages[currentPage - 7].map((deck) => (
+                {deckPages[currentPage - 8].map((deck) => (
                   <DeckCard key={deck.href} deck={deck} />
                 ))}
               </section>
