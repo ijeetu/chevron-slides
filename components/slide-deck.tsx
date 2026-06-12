@@ -3,6 +3,25 @@
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import type { LucideIcon } from "lucide-react";
+import {
+  AtSign,
+  BadgeCheck,
+  CalendarDays,
+  Check,
+  CircleCheck,
+  ContactRound,
+  FileCheck2,
+  IdCard,
+  KeyRound,
+  LockKeyhole,
+  ScanFace,
+  SlidersHorizontal,
+  UserCheck,
+  UserRoundCheck,
+  UsersRound,
+  Workflow,
+} from "lucide-react";
 
 import {
   floatingControlButtonClass,
@@ -325,9 +344,15 @@ function CompactSectionGrid({ sections }: { sections: SlideSection[] }) {
 }
 
 function CoverSlide({ slide, number }: { slide: Slide; number: number }) {
-  const videoStatement = slide.statements.find((statement) => coverVideoMatcher.test(statement));
+  const coverLines = [slide.title, slide.lead, ...slide.statements].filter(
+    (line): line is string => Boolean(line),
+  );
+  const videoStatement = coverLines.find((statement) => coverVideoMatcher.test(statement));
   const videoUrl = videoStatement?.match(coverVideoMatcher)?.[1];
   const embedUrl = videoUrl ? getVimeoEmbedUrl(videoUrl) : null;
+  const visibleTitle = coverVideoMatcher.test(slide.title) ? "" : slide.title;
+  const visibleLead = slide.lead && coverVideoMatcher.test(slide.lead) ? "" : slide.lead;
+  const compactTitle = /registration classification demo/i.test(visibleTitle);
   const visibleStatements = slide.statements.filter((statement) => !coverVideoMatcher.test(statement));
 
   return (
@@ -335,12 +360,18 @@ function CoverSlide({ slide, number }: { slide: Slide; number: number }) {
       <div className="grid w-full items-center gap-8 md:grid-cols-[0.62fr_1.38fr] md:gap-8">
         <div className="space-y-10">
           <div className="max-w-5xl">
-            <h1 className="mt-5 max-w-5xl font-display text-5xl leading-[0.97] text-ink md:text-[5.8rem] [text-wrap:balance]">
-              {slide.title}
-            </h1>
-            {slide.lead ? (
+            {visibleTitle ? (
+              <h1
+                className={`mt-5 max-w-5xl font-display leading-[0.97] text-ink [text-wrap:balance] ${
+                  compactTitle ? "text-4xl md:text-[4.25rem]" : "text-5xl md:text-[5.8rem]"
+                }`}
+              >
+                {visibleTitle}
+              </h1>
+            ) : null}
+            {visibleLead ? (
               <p className="mt-6 text-[0.78rem] uppercase tracking-[0.3em] text-graphite">
-                {slide.lead}
+                {visibleLead}
               </p>
             ) : null}
           </div>
@@ -409,7 +440,269 @@ function TimelineSlide({ slide, number }: { slide: Slide; number: number }) {
   );
 }
 
+function parseFieldSpec(item: string) {
+  const colonIndex = item.indexOf(":");
+  if (colonIndex === -1) {
+    return null;
+  }
+
+  return {
+    label: item.slice(0, colonIndex).trim(),
+    detail: item.slice(colonIndex + 1).trim(),
+  };
+}
+
+function getProcessSectionDescriptor(section: SlideSection) {
+  const count = section.items.length;
+  const allItemsAreFields = section.items.every((item) => parseFieldSpec(item));
+
+  if (/status choice/i.test(section.heading ?? "")) {
+    return `${count} choices`;
+  }
+
+  if (allItemsAreFields) {
+    return `${count} fields`;
+  }
+
+  return `${count} requirements`;
+}
+
+function getProcessSectionIcon(heading: string | undefined): LucideIcon {
+  if (/adult path/i.test(heading ?? "")) return UserRoundCheck;
+  if (/minor path/i.test(heading ?? "")) return UsersRound;
+  if (/required inputs/i.test(heading ?? "")) return ContactRound;
+  if (/account setup/i.test(heading ?? "")) return KeyRound;
+  if (/optional profile/i.test(heading ?? "")) return SlidersHorizontal;
+  if (/status choice/i.test(heading ?? "")) return UserCheck;
+  if (/citizen validation/i.test(heading ?? "")) return BadgeCheck;
+  if (/identity proof/i.test(heading ?? "")) return IdCard;
+  if (/biometric match/i.test(heading ?? "")) return ScanFace;
+  if (/status specific proof/i.test(heading ?? "")) return FileCheck2;
+  return Workflow;
+}
+
+function getProcessFieldIcon(label: string): LucideIcon {
+  if (/email|phone|username|handle/i.test(label)) return AtSign;
+  if (/date of birth/i.test(label)) return CalendarDays;
+  if (/password/i.test(label)) return LockKeyhole;
+  if (/display name|name/i.test(label)) return ContactRound;
+  return Check;
+}
+
+function ProcessBulletList({ items }: { items: string[] }) {
+  return (
+    <div className="space-y-1">
+      {items.map((item, index) => (
+        <div
+          key={item}
+          className={`grid gap-3 py-3 md:grid-cols-[1.5rem_1fr] ${index > 0 ? "border-t border-line/60" : ""}`}
+        >
+          <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#4d73c6]/18 bg-[#edf2f9] text-[#4d73c6] shadow-sm">
+            <CircleCheck className="h-3.5 w-3.5" strokeWidth={2.1} />
+          </span>
+          <p className="flex-1 text-[0.98rem] leading-7 text-ink/92 md:text-[1.05rem] md:leading-7">
+            {renderInlineLinks(item)}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ProcessFieldList({ items }: { items: string[] }) {
+  return (
+    <div className="space-y-0">
+      {items.map((item, index) => {
+        const field = parseFieldSpec(item);
+
+        if (!field) {
+          return (
+            <div
+              key={item}
+              className={`grid gap-2 py-3 ${index > 0 ? "border-t border-line/65" : ""}`}
+            >
+              <p className="text-[0.98rem] leading-7 text-ink/92 md:text-[1.05rem] md:leading-7">
+                {renderInlineLinks(item)}
+              </p>
+            </div>
+          );
+        }
+
+        const FieldIcon = getProcessFieldIcon(field.label);
+
+        return (
+          <div
+            key={item}
+            className={`grid gap-2 py-3 md:grid-cols-[minmax(0,11.5rem)_1fr] md:gap-5 ${index > 0 ? "border-t border-line/60" : ""}`}
+          >
+            <div className="flex items-center gap-2.5 pt-3">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-[#4d73c6]/16 bg-[#edf2f9] text-[#4d73c6]">
+                <FieldIcon className="h-3.5 w-3.5" strokeWidth={2} />
+              </span>
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-graphite">
+                {field.label}
+              </p>
+            </div>
+            <div className="rounded-[1.1rem] border border-[#d9e1e8] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(246,248,250,0.96))] px-4 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+              <p className="text-[0.98rem] leading-7 text-ink/92 md:text-[1.05rem] md:leading-7">
+                {renderInlineLinks(field.detail)}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ProcessChoiceList({ items }: { items: string[] }) {
+  return (
+    <div className="space-y-0">
+      {items.map((item, index) => {
+        const field = parseFieldSpec(item);
+        const title = field?.label ?? item;
+        const detail = field?.detail;
+
+        return (
+          <div
+            key={item}
+            className={`rounded-[1.2rem] px-3 py-3.5 ${index > 0 ? "mt-2" : ""} border border-transparent transition-colors hover:border-[#d9e2eb] hover:bg-white/55`}
+          >
+            <div className="flex items-start gap-4">
+              <span className="mt-1.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#597181]/50 bg-white shadow-sm">
+                <span className="h-2 w-2 rounded-full bg-[#597181]" />
+              </span>
+              <div className="space-y-1">
+                <p className="text-[0.96rem] font-semibold uppercase tracking-[0.08em] text-ink">
+                  {title}
+                </p>
+                {detail ? (
+                  <p className="text-[0.95rem] leading-7 text-ink/80 md:text-[1rem]">
+                    {renderInlineLinks(detail)}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ProcessSectionBody({ section }: { section: SlideSection }) {
+  const allItemsAreFields = section.items.every((item) => parseFieldSpec(item));
+
+  if (/status choice/i.test(section.heading ?? "")) {
+    return <ProcessChoiceList items={section.items} />;
+  }
+
+  if (allItemsAreFields) {
+    return <ProcessFieldList items={section.items} />;
+  }
+
+  return <ProcessBulletList items={section.items} />;
+}
+
+function ProcessFormSlide({ slide, number }: { slide: Slide; number: number }) {
+  return (
+    <SlideShell slideNumber={number}>
+      <div className="w-full space-y-4 py-1">
+        <header className="pr-24">
+          <h1 className="font-display text-4xl leading-none text-ink md:text-[3.8rem]">
+            {slide.title}
+          </h1>
+          <div className="mt-3 h-px w-28 bg-[linear-gradient(90deg,rgba(52,90,161,0.9),rgba(52,90,161,0))]" />
+        </header>
+
+        <div className="relative overflow-hidden rounded-[2.35rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(245,247,249,0.94))] shadow-[0_28px_76px_rgba(17,22,28,0.13)] backdrop-blur-sm">
+          <div className="absolute inset-x-0 top-0 h-1.5 bg-[linear-gradient(90deg,rgba(77,115,198,0.98),rgba(124,156,220,0.75),rgba(77,115,198,0.25))]" />
+          <div className="absolute right-[-6rem] top-[-4rem] h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(124,156,220,0.16),transparent_66%)]" />
+          <div className="absolute left-[-5rem] bottom-[-6rem] h-44 w-44 rounded-full bg-[radial-gradient(circle,rgba(140,159,176,0.13),transparent_66%)]" />
+
+          <div className="relative border-b border-line/70 px-6 py-3 md:px-8">
+            <h2 className="font-display text-[1.55rem] leading-none text-ink md:text-[1.8rem]">
+              Guided Intake
+            </h2>
+          </div>
+
+          <div className="relative grid border-b border-line/70 md:grid-cols-5">
+            {slide.sections.map((section, index) => {
+              const SectionIcon = getProcessSectionIcon(section.heading);
+
+              return (
+                <div
+                  key={`progress-${section.heading ?? index}`}
+                  className={`flex items-center gap-3 px-4 py-3.5 ${
+                    index > 0 ? "border-t border-line/60 md:border-l md:border-t-0" : ""
+                  }`}
+                >
+                  <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#4d73c6]/20 bg-[linear-gradient(180deg,#ffffff,#edf2f9)] text-[#4d73c6] shadow-sm">
+                    <SectionIcon className="h-4 w-4" strokeWidth={1.9} />
+                    <span className="absolute -right-1.5 -top-1.5 flex h-[1.125rem] w-[1.125rem] items-center justify-center rounded-full bg-[#345aa1] text-[0.48rem] font-bold text-white ring-2 ring-white">
+                      {index + 1}
+                    </span>
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-ink">
+                      {section.heading}
+                    </p>
+                    <p className="mt-0.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-mist">
+                      {getProcessSectionDescriptor(section)}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="relative divide-y divide-line/70">
+            {slide.sections.map((section, index) => {
+              const SectionIcon = getProcessSectionIcon(section.heading);
+
+              return (
+                <div
+                  key={section.heading ?? index}
+                  className="grid gap-4 px-6 py-3.5 md:grid-cols-[3.5rem_1fr] md:px-7 md:py-4"
+                >
+                  <div className="relative flex justify-center md:justify-start">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#4d73c6]/20 bg-[linear-gradient(145deg,#ffffff,#e9eff8)] text-[#345aa1] shadow-[0_8px_20px_rgba(52,90,161,0.1)]">
+                      <SectionIcon className="h-5 w-5" strokeWidth={1.9} />
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex flex-col gap-1.5 border-b border-line/60 pb-2.5 md:flex-row md:items-end md:justify-between">
+                      <div>
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-mist">
+                          Stage {String(index + 1).padStart(2, "0")}
+                        </p>
+                        <h2 className="mt-1 font-display text-[1.4rem] leading-tight text-ink md:text-[1.65rem]">
+                          {section.heading}
+                        </h2>
+                      </div>
+                      <p className="inline-flex items-center gap-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-mist">
+                        <Check className="h-3.5 w-3.5 text-[#4d73c6]" strokeWidth={2.2} />
+                        {getProcessSectionDescriptor(section)}
+                      </p>
+                    </div>
+
+                    <ProcessSectionBody section={section} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </SlideShell>
+  );
+}
+
 function StandardSlide({ slide, number }: { slide: Slide; number: number }) {
+  const processFormStandard =
+    /registration classification/i.test(slide.title) ||
+    /verification process/i.test(slide.title);
   const isStatementOnly = slide.sections.length === 0 && slide.statements.length > 0;
   const maxStatementLength = slide.statements.reduce(
     (max, statement) => Math.max(max, statement.length),
@@ -420,6 +713,10 @@ function StandardSlide({ slide, number }: { slide: Slide; number: number }) {
   const useStatementGrid = isStatementOnly && slide.statements.length >= 4 && maxStatementLength < 170;
   const useNarrativeLayout =
     isStatementOnly && (maxStatementLength >= 170 || slide.statements.length <= 3);
+
+  if (processFormStandard) {
+    return <ProcessFormSlide slide={slide} number={number} />;
+  }
 
   if (isStatementOnly) {
     if (useNarrativeLayout) {
