@@ -4,6 +4,11 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import {
+  floatingControlButtonClass,
+  floatingControlMetaClass,
+  floatingControlSurfaceClass,
+} from "@/components/floating-controls";
 import { GitHubGlobe } from "@/components/github-globe";
 import type { Slide, SlideSection } from "@/lib/parse-slides";
 
@@ -1000,21 +1005,26 @@ export function SlideDeck({ slides }: SlideDeckProps) {
       ) : (
         <StandardSlide slide={slide} number={currentIndex + 1} />
       )}
-      <div className="fixed bottom-6 right-6 z-20 flex items-center gap-2 md:bottom-8 md:right-8">
+      <div
+        className={`fixed bottom-6 right-6 z-20 ${floatingControlSurfaceClass} md:bottom-8 md:right-8`}
+      >
         <button
           type="button"
           aria-label="Previous slide"
           onClick={goPrevious}
-          className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-white/92 text-xl text-ink shadow-deck transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:scale-[1.03] hover:border-accent hover:bg-white hover:shadow-[0_28px_60px_rgba(17,22,28,0.14)] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+          className={floatingControlButtonClass}
           disabled={currentIndex === 0}
         >
           <ChevronLeftIcon />
         </button>
+        <div className={floatingControlMetaClass}>
+          {String(currentIndex + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+        </div>
         <button
           type="button"
           aria-label="Next slide"
           onClick={goNext}
-          className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-white/92 text-xl text-ink shadow-deck transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:scale-[1.03] hover:border-accent hover:bg-white hover:shadow-[0_28px_60px_rgba(17,22,28,0.14)] active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+          className={floatingControlButtonClass}
           disabled={currentIndex === total - 1}
         >
           <ChevronRightIcon />

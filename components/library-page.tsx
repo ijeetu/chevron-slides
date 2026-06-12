@@ -130,6 +130,12 @@ const foundingFathers: FoundingFather[] = [
   },
 ];
 
+const openingQuestions = [
+  "Having spoken with so many guests on your podcast, do you and your team feel more hopeful about the future?",
+  "Is validating a glimpse of the fraud enough?",
+  "How important is accountability for the future of our republic?",
+] as const;
+
 function DeckCard({ deck }: { deck: Deck }) {
   const Icon = deck.icon;
 
@@ -246,48 +252,41 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
   );
 }
 
-function QuestionsPage() {
+function QuestionSlide({
+  question,
+  showRail = false,
+}: {
+  question: string;
+  showRail?: boolean;
+}) {
   return (
     <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
-      <div
-        className="pointer-events-none absolute left-[-8.35rem] top-1/2 hidden w-32 -translate-y-1/2 flex-col items-center xl:flex"
-        aria-hidden="true"
-      >
-        <div className="absolute left-1/2 top-8 h-[calc(100%-6rem)] w-[4px] -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,rgba(122,154,219,0.08),#6b93e1_16%,#456dc2_84%,rgba(122,154,219,0.08))]" />
-        <div className="relative z-10 flex h-[7.6rem] w-[7.6rem] items-center justify-center">
-          <div className="absolute -inset-[5px] rounded-full border border-[#2a54a4]/18" />
-          <div className="absolute inset-0 rounded-full bg-[linear-gradient(155deg,#6f98e8_0%,#3f6fc8_55%,#2a54a4_100%)] shadow-[0_16px_38px_rgba(47,92,174,0.22)]" />
-          <div className="absolute inset-[4px] rounded-full border border-white/18 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03))]" />
-          <div className="relative flex h-[6rem] w-[6rem] items-center justify-center rounded-full border border-[#24488f]/55 bg-[radial-gradient(circle_at_50%_28%,#95b7f3_0%,#6f96e6_36%,#4472cb_72%,#345db1_100%)] px-3 text-center">
-            <p className="whitespace-pre-line text-[0.82rem] font-semibold uppercase leading-[1.06] tracking-[0.03em] text-[#08111c]">
-              LET&apos;S
-              <br />
-              BEGIN
-            </p>
+      {showRail ? (
+        <div
+          className="pointer-events-none absolute left-[-8.35rem] top-1/2 hidden w-32 -translate-y-1/2 flex-col items-center xl:flex"
+          aria-hidden="true"
+        >
+          <div className="absolute left-1/2 top-8 h-[calc(100%-6rem)] w-[4px] -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,rgba(122,154,219,0.08),#6b93e1_16%,#456dc2_84%,rgba(122,154,219,0.08))]" />
+          <div className="relative z-10 flex h-[7.6rem] w-[7.6rem] items-center justify-center">
+            <div className="absolute -inset-[5px] rounded-full border border-[#2a54a4]/18" />
+            <div className="absolute inset-0 rounded-full bg-[linear-gradient(155deg,#6f98e8_0%,#3f6fc8_55%,#2a54a4_100%)] shadow-[0_16px_38px_rgba(47,92,174,0.22)]" />
+            <div className="absolute inset-[4px] rounded-full border border-white/18 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03))]" />
+            <div className="relative flex h-[6rem] w-[6rem] items-center justify-center rounded-full border border-[#24488f]/55 bg-[radial-gradient(circle_at_50%_28%,#95b7f3_0%,#6f96e6_36%,#4472cb_72%,#345db1_100%)] px-3 text-center">
+              <p className="whitespace-pre-line text-[0.82rem] font-semibold uppercase leading-[1.06] tracking-[0.03em] text-[#08111c]">
+                LET&apos;S
+                <br />
+                BEGIN
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
 
-      <div className="mx-auto flex w-full max-w-6xl flex-col justify-center gap-12 sm:gap-16">
+      <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
         <article className="relative overflow-hidden rounded-[2rem] border border-[#d9c29a]/65 bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(245,238,223,0.92))] px-8 py-8 shadow-[0_24px_60px_rgba(59,88,129,0.12)] sm:px-10">
           <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#8b2132]/35 to-transparent" />
           <p className="text-center font-display text-[1.85rem] leading-[1.12] text-ink sm:text-[2.3rem]">
-            Having spoken with so many guests on your podcast, do you and your
-            team feel more hopeful about the future?
-          </p>
-        </article>
-
-        <article className="relative overflow-hidden rounded-[1.75rem] border border-line bg-white/90 px-6 py-6 shadow-sm">
-          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent" />
-          <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
-            Is validating a glimpse of the fraud enough?
-          </p>
-        </article>
-
-        <article className="relative overflow-hidden rounded-[1.75rem] border border-line bg-white/90 px-6 py-6 shadow-sm">
-          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent" />
-          <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
-            How important is accountability for the future of our republic?
+            {question}
           </p>
         </article>
       </div>
@@ -428,7 +427,7 @@ function AgendaPage() {
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 6;
+  const totalPages = deckPages.length + 8;
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -457,22 +456,25 @@ export function LibraryPage() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
 
-      <main className="relative z-10 mx-auto flex h-[calc(100vh-5rem)] w-[90%] max-w-none flex-col px-6 py-10 sm:px-10 lg:px-14">
+      <main className="relative z-10 mx-auto flex h-[100dvh] w-[90%] max-w-none flex-col px-6 py-10 sm:px-10 lg:px-14">
         <div
           ref={pageContainerRef}
           className="presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
         >
-          {currentPage === 0 ? (
-            <QuestionsPage />
-          ) : currentPage === 1 ? (
-            <GirlPage />
-          ) : currentPage === 2 ? (
-            <MagaPage />
+          {currentPage <= 2 ? (
+            <QuestionSlide
+              question={openingQuestions[currentPage]}
+              showRail={currentPage === 0}
+            />
           ) : currentPage === 3 ? (
-            <ManifestoStatementsPage />
+            <GirlPage />
           ) : currentPage === 4 ? (
+            <MagaPage />
+          ) : currentPage === 5 ? (
+            <ManifestoStatementsPage />
+          ) : currentPage === 6 ? (
             <AgendaPage />
-          ) : currentPage <= deckPages.length + 4 ? (
+          ) : currentPage <= deckPages.length + 6 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -483,7 +485,7 @@ export function LibraryPage() {
                 key={currentPage}
                 className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
-                {deckPages[currentPage - 5].map((deck) => (
+                {deckPages[currentPage - 7].map((deck) => (
                   <DeckCard key={deck.href} deck={deck} />
                 ))}
               </section>

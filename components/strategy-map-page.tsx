@@ -12,6 +12,11 @@ import {
   ArrowLeft, ChevronLeft, ChevronRight, CircleDollarSign,
 } from "lucide-react";
 
+import {
+  floatingControlButtonClass,
+  floatingControlSurfaceClass,
+} from "@/components/floating-controls";
+
 // ─── Data types ──────────────────────────────────────────────────────────────
 
 type Industry = {
@@ -831,13 +836,15 @@ export function StrategyMapWebPage() {
 
       <div className="relative z-10">{STRATEGY_MAP_STEPS[currentStep].render}</div>
 
-      <div className="fixed bottom-6 right-6 z-20 flex items-center gap-2 rounded-full border border-line bg-white/92 px-2 py-1.5 shadow-deck md:bottom-8 md:right-8">
+      <div
+        className={`fixed bottom-6 right-6 z-20 ${floatingControlSurfaceClass} md:bottom-8 md:right-8`}
+      >
         <button
           type="button"
           aria-label="Previous step"
           onClick={() => setCurrentStep((step) => Math.max(step - 1, 0))}
           disabled={currentStep === 0}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink transition-all hover:-translate-y-0.5 hover:border-accent disabled:cursor-not-allowed disabled:opacity-35"
+          className={floatingControlButtonClass}
         >
           <ChevronLeft size={17} strokeWidth={2.1} />
         </button>
@@ -859,7 +866,7 @@ export function StrategyMapWebPage() {
           aria-label="Next step"
           onClick={() => setCurrentStep((step) => Math.min(step + 1, total - 1))}
           disabled={currentStep === total - 1}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink transition-all hover:-translate-y-0.5 hover:border-accent disabled:cursor-not-allowed disabled:opacity-35"
+          className={floatingControlButtonClass}
         >
           <ChevronRight size={17} strokeWidth={2.1} />
         </button>

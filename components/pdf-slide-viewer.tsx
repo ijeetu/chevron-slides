@@ -10,6 +10,13 @@ import {
   Loader2,
 } from "lucide-react";
 
+import {
+  floatingActionPillClass,
+  floatingControlButtonClass,
+  floatingControlMetaClass,
+  floatingControlSurfaceClass,
+} from "@/components/floating-controls";
+
 type PdfSlideViewerProps = {
   file: string;
   slides: string[];
@@ -150,7 +157,7 @@ export function PdfSlideViewer({
           </a>
         </header>
 
-        <div className="flex min-h-0 flex-1 items-center justify-center py-4 md:py-5">
+        <div className="flex min-h-0 flex-1 items-center justify-center py-2 md:py-3">
           <div className="flex h-full min-h-0 w-full items-center justify-center">
             <div className="relative flex h-full w-full items-center justify-center">
               {activeSlide ? (
@@ -201,44 +208,42 @@ export function PdfSlideViewer({
             </a>
           </div>
         ) : null}
+      </div>
 
-        <div className="mx-auto flex flex-col items-center gap-4">
-          <nav className="flex items-center gap-2 rounded-full border border-white/70 bg-white/76 p-1.5 shadow-deck backdrop-blur">
-            <button
-              type="button"
-              onClick={() => goToPage(pageNumber - 1)}
-              disabled={pageNumber <= 1}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-graphite transition-colors hover:bg-panel disabled:cursor-not-allowed disabled:opacity-35"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
+      <div className="fixed bottom-6 right-6 z-20 flex items-center gap-3 md:bottom-8 md:right-8">
+        {continueHref && continueLabel && totalPages > 0 && pageNumber === totalPages ? (
+          <Link href={continueHref} className={floatingActionPillClass}>
+            <span>Continue</span>
+            <span className="text-graphite">{continueLabel}</span>
+          </Link>
+        ) : null}
 
-            <div className="min-w-20 text-center text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-graphite">
-              {pageNumber} / {totalPages || "-"}
-            </div>
+        <nav className={floatingControlSurfaceClass} aria-label="PDF slide navigation">
+          <button
+            type="button"
+            onClick={() => goToPage(pageNumber - 1)}
+            disabled={pageNumber <= 1}
+            className={floatingControlButtonClass}
+            aria-label="Previous slide"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
 
-            <button
-              type="button"
-              onClick={() => goToPage(pageNumber + 1)}
-              disabled={!totalPages || pageNumber >= totalPages}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-graphite transition-colors hover:bg-panel disabled:cursor-not-allowed disabled:opacity-35"
-              aria-label="Next slide"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </nav>
+          <div className={floatingControlMetaClass}>
+            {String(pageNumber).padStart(2, "0")} /{" "}
+            {totalPages ? String(totalPages).padStart(2, "0") : "--"}
+          </div>
 
-          {continueHref && continueLabel && totalPages > 0 && pageNumber === totalPages ? (
-            <Link
-              href={continueHref}
-              className="inline-flex items-center gap-3 rounded-full border border-white/70 bg-white/82 px-6 py-3 text-[0.76rem] font-semibold uppercase tracking-[0.18em] text-ink shadow-deck backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:bg-white"
-            >
-              <span>Continue</span>
-              <span className="text-graphite">{continueLabel}</span>
-            </Link>
-          ) : null}
-        </div>
+          <button
+            type="button"
+            onClick={() => goToPage(pageNumber + 1)}
+            disabled={!totalPages || pageNumber >= totalPages}
+            className={floatingControlButtonClass}
+            aria-label="Next slide"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </nav>
       </div>
     </section>
   );

@@ -27,8 +27,8 @@ const config: Config = {
           "radial-gradient(circle at top, rgba(140,159,176,0.16), transparent 30%), linear-gradient(135deg, rgba(140,159,176,0.08), transparent 42%)",
       },
       fontFamily: {
-        display: ["Iowan Old Style", "Palatino Linotype", "Book Antiqua", "serif"],
-        sans: ["Avenir Next", "Segoe UI", "Helvetica Neue", "sans-serif"],
+        display: ["var(--font-plus-jakarta)", "Segoe UI", "Helvetica Neue", "sans-serif"],
+        sans: ["var(--font-plus-jakarta)", "Segoe UI", "Helvetica Neue", "sans-serif"],
       },
     },
   },

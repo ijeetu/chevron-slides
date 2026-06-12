@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { BookOpenText, ExternalLink, X } from "lucide-react";
 
+import { floatingTriggerButtonClass } from "@/components/floating-controls";
+
 type QuickLink = {
   href: string;
   label: string;
@@ -83,7 +85,7 @@ export function FloatingLinksMenu() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 left-4 z-[70] inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-[#11161c] text-white shadow-[0_18px_38px_rgba(17,22,28,0.32)] backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-[#1e2730] sm:bottom-6 sm:left-6"
+        className={`fixed bottom-6 left-6 z-[70] ${floatingTriggerButtonClass} md:bottom-8 md:left-8`}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls="resources-modal"
