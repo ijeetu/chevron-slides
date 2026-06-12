@@ -64,7 +64,7 @@ export default function MainDeckIntroPage() {
             <p className="text-[0.78rem] font-semibold uppercase tracking-[0.22em] text-graphite">
               Vision Intro
             </p>
-            <h1 className="mt-4 font-display text-5xl leading-none text-ink sm:text-6xl lg:text-[4.5rem]">
+            <h1 className="mt-4 font-display text-5xl font-semibold leading-none text-ink sm:text-6xl lg:text-[4.5rem]">
               Viral Fusion
             </h1>
           </div>

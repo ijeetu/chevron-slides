@@ -410,7 +410,7 @@ function AgendaPage() {
   return (
     <section className="flex min-h-full flex-col items-center justify-center py-8 text-center">
       <header className="mx-auto max-w-3xl">
-        <h1 className="font-display text-6xl leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
+        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
           Agenda
         </h1>
       </header>
@@ -477,7 +477,7 @@ export function LibraryPage() {
           ) : currentPage <= deckPages.length + 6 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
-                <h1 className="font-display text-6xl leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
+                <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
                   Viral Fusion
                 </h1>
               </header>
