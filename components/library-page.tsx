@@ -222,7 +222,7 @@ function DeckCard({ deck }: { deck: Deck }) {
 function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
   return (
     <article className="relative overflow-hidden rounded-[2.4rem] border border-[#ebd7a8]/70 bg-[linear-gradient(145deg,#efe2b9,#b68d3d)] p-[1px] shadow-[0_28px_80px_rgba(19,38,74,0.28)]">
-      <div className="relative overflow-hidden rounded-[calc(2.4rem-1px)] bg-[#f7f2e9] px-5 py-6 sm:px-7 sm:py-8 lg:px-8">
+      <div className="relative overflow-hidden rounded-[calc(2.4rem-1px)] bg-[#f7f2e9] px-5 py-5 sm:px-7 sm:py-6 lg:px-8">
         <Image
           src="/american-flag-ai-generated_268835-11226.avif"
           alt="American flag background"
@@ -246,7 +246,7 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
                 index === 0 ? "xl:order-1" : "xl:order-3"
               }`}
             >
-              <div className="relative h-[18rem] sm:h-[21rem] xl:h-[24rem]">
+              <div className="relative h-[16rem] sm:h-[18rem] xl:h-[20rem]">
                 <Image
                   src={father.imageSrc}
                   alt={father.name}
@@ -267,18 +267,18 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
             </aside>
           ))}
 
-          <div className="relative overflow-hidden rounded-[2rem] border border-[#d7bc7d]/55 bg-[linear-gradient(165deg,rgba(255,255,255,0.96),rgba(247,241,227,0.93)_56%,rgba(234,241,255,0.94)_100%)] px-6 py-8 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_24px_60px_rgba(17,22,28,0.12)] sm:px-8 md:px-10 md:py-10 xl:order-2">
+          <div className="relative overflow-hidden rounded-[2rem] border border-[#d7bc7d]/55 bg-[linear-gradient(165deg,rgba(255,255,255,0.96),rgba(247,241,227,0.93)_56%,rgba(234,241,255,0.94)_100%)] px-6 py-7 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_24px_60px_rgba(17,22,28,0.12)] sm:px-8 md:px-10 md:py-8 xl:order-2">
             <div className="pointer-events-none absolute inset-x-8 top-0 h-20 bg-gradient-to-r from-transparent via-white/85 to-transparent blur-2xl" />
             <div className="pointer-events-none absolute left-1/2 top-7 h-16 w-16 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.95),rgba(255,255,255,0))] blur-xl" />
 
             <div className="relative mx-auto flex max-w-3xl flex-col items-center">
-              <p className="max-w-3xl font-display text-[1.9rem] leading-[1.18] text-ink sm:text-[2.35rem] md:text-[2.8rem]">
+              <p className="max-w-3xl font-display text-[1.75rem] leading-[1.18] text-ink sm:text-[2.1rem] md:text-[2.45rem]">
                 {statement.prefix}
               </p>
 
               {statement.emphasis && (
-                <div className="mt-5 rounded-[1.6rem] border border-[#c5293d]/14 bg-[linear-gradient(145deg,rgba(198,41,61,0.08),rgba(23,63,142,0.06))] px-6 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
-                  <span className="font-display text-[2.5rem] leading-none text-[#173f8e] sm:text-[3rem] md:text-[3.55rem]">
+                <div className="mt-4 rounded-[1.6rem] border border-[#c5293d]/14 bg-[linear-gradient(145deg,rgba(198,41,61,0.08),rgba(23,63,142,0.06))] px-6 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+                  <span className="font-display text-[2.25rem] leading-none text-[#173f8e] sm:text-[2.7rem] md:text-[3.1rem]">
                     {statement.emphasis}
                   </span>
                 </div>
@@ -381,31 +381,42 @@ function MagaPage() {
   );
 }
 
+function PastIsNotEnoughPage() {
+  return (
+    <section className="relative flex min-h-full items-center justify-center overflow-hidden py-8 text-center">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[30rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(77,115,198,0.14),transparent_68%)] blur-2xl" />
+
+      <div className="relative mx-auto max-w-6xl">
+        <div className="mx-auto mb-6 flex items-center justify-center gap-4">
+          <span className="h-px w-20 bg-[linear-gradient(90deg,transparent,rgba(77,115,198,0.75))]" />
+          <span className="h-2.5 w-2.5 rotate-45 border border-[#4d73c6]/60 bg-white/70" />
+          <span className="h-px w-20 bg-[linear-gradient(90deg,rgba(77,115,198,0.75),transparent)]" />
+        </div>
+
+        <h1 className="font-display text-[3rem] font-bold leading-[0.96] text-ink sm:text-[4rem] lg:text-[5.35rem] [text-shadow:0.006em_0_0_currentColor,-0.006em_0_0_currentColor]">
+          Discussing the Past
+          <span className="mt-2 block text-[#345aa1]">is Not Enough</span>
+        </h1>
+
+        <div className="mx-auto mt-8 h-px w-48 bg-[linear-gradient(90deg,transparent,rgba(154,38,56,0.72),transparent)]" />
+      </div>
+    </section>
+  );
+}
+
 function ManifestoStatementsPage() {
   return (
-    <section className="flex min-h-full flex-col justify-center py-10">
-      <header className="pb-8 text-center">
-        <div className="mx-auto max-w-6xl space-y-3">
-          <div className="flex items-center justify-center gap-3 text-[#4d73c6]">
-            <span className="h-px w-16 bg-[linear-gradient(90deg,rgba(77,115,198,0),rgba(77,115,198,0.55))]" />
-            <span className="h-px w-16 bg-[linear-gradient(90deg,rgba(77,115,198,0.55),rgba(77,115,198,0))]" />
-          </div>
-          <h1 className="font-display text-[2rem] font-bold leading-[0.9] text-ink sm:text-[2.9rem] lg:text-[3.8rem] [text-shadow:0.006em_0_0_currentColor,-0.006em_0_0_currentColor]">
-            Discussing the Past is Not Enough
-          </h1>
-        </div>
-      </header>
-
-      <div className="mx-auto w-full max-w-5xl space-y-6">
+    <section className="flex min-h-full items-center justify-center py-5">
+      <div className="my-auto w-full max-w-5xl space-y-4">
         {manifestoStatements.map((statement, index) => {
           if (index === manifestoStatements.length - 1) {
             return <FoundersCtaCard key={statement.text} statement={statement} />;
           }
 
           return (
-            <div key={statement.text} className="space-y-6">
+            <div key={statement.text}>
               <article
-                className={`relative overflow-hidden rounded-2xl border px-6 py-5 shadow-sm md:px-8 md:py-6 ${
+                className={`relative overflow-hidden rounded-2xl border px-6 py-4 shadow-sm md:px-8 md:py-5 ${
                   "border-line bg-white/90"
                 }`}
               >
@@ -526,7 +537,7 @@ function AgendaPage() {
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 9;
+  const totalPages = deckPages.length + 10;
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -570,12 +581,14 @@ export function LibraryPage() {
           ) : currentPage === 4 ? (
             <MagaPage />
           ) : currentPage === 5 ? (
-            <ManifestoStatementsPage />
+            <PastIsNotEnoughPage />
           ) : currentPage === 6 ? (
-            <PromisePage />
+            <ManifestoStatementsPage />
           ) : currentPage === 7 ? (
+            <PromisePage />
+          ) : currentPage === 8 ? (
             <AgendaPage />
-          ) : currentPage <= deckPages.length + 7 ? (
+          ) : currentPage <= deckPages.length + 8 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -586,7 +599,7 @@ export function LibraryPage() {
                 key={currentPage}
                 className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
-                {deckPages[currentPage - 8].map((deck) => (
+                {deckPages[currentPage - 9].map((deck) => (
                   <DeckCard key={deck.href} deck={deck} />
                 ))}
               </section>
