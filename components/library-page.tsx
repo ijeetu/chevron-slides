@@ -278,9 +278,12 @@ function QuestionSlide({
       ) : null}
 
       <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
-        <article className="relative overflow-hidden rounded-[2rem] border border-[#d9c29a]/65 bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(245,238,223,0.92))] px-8 py-8 shadow-[0_24px_60px_rgba(59,88,129,0.12)] sm:px-10">
-          <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#8b2132]/35 to-transparent" />
-          <p className="text-center font-display text-[1.85rem] leading-[1.12] text-ink sm:text-[2.3rem]">
+        <article className="relative overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_48%,rgba(14,27,39,0.98))] px-8 py-10 shadow-[0_34px_90px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-12 sm:py-12">
+          <div className="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/85 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(1,199,243,0.17),transparent_42%),linear-gradient(115deg,rgba(255,255,255,0.045),transparent_28%,transparent_72%,rgba(1,199,243,0.04))]" />
+          <div className="pointer-events-none absolute -left-px top-10 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/50 to-transparent" />
+          <div className="pointer-events-none absolute -right-px bottom-10 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
+          <p className="relative text-center font-display text-[2rem] leading-[1.12] text-[#b9f2ff] sm:text-[2.65rem]">
             {question}
           </p>
         </article>
@@ -374,15 +377,18 @@ function PromisePage() {
   return (
     <section className="flex min-h-full flex-col justify-center py-8">
       <header className="mx-auto max-w-4xl text-center">
-        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
+        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
           The Promise
         </h1>
-        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(77,115,198,0.75),transparent)]" />
+        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
 
-      <article className="relative mx-auto mt-10 w-full max-w-7xl overflow-hidden rounded-[2.5rem] border border-white/75 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(239,243,247,0.92))] shadow-[0_30px_80px_rgba(17,22,28,0.14)]">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_10%,rgba(77,115,198,0.11),transparent_25%),radial-gradient(circle_at_88%_90%,rgba(183,139,56,0.1),transparent_25%)]" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-[linear-gradient(90deg,#173f8e_0%,#4d73c6_32%,#f6f2e9_50%,#c84b5d_68%,#9a2638_100%)]" />
+      <article className="relative mx-auto mt-10 w-full max-w-7xl overflow-hidden rounded-[2.65rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_46%,rgba(14,27,39,0.98))] shadow-[0_38px_100px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)]">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(143,168,189,0.14),transparent_30%),radial-gradient(circle_at_90%_100%,rgba(1,199,243,0.11),transparent_30%),linear-gradient(115deg,rgba(255,255,255,0.04),transparent_28%,transparent_72%,rgba(1,199,243,0.035))]" />
+        <div className="pointer-events-none absolute inset-x-20 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.88),transparent)]" />
+        <div className="pointer-events-none absolute inset-x-28 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(143,168,189,0.32),transparent)]" />
+        <div className="pointer-events-none absolute -left-px top-16 h-24 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/42 to-transparent" />
+        <div className="pointer-events-none absolute -right-px bottom-16 h-24 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
 
         <div className="relative grid md:grid-cols-3">
           {promiseItems.map((item, index) => {
@@ -390,20 +396,20 @@ function PromisePage() {
               <section
                 key={item.title}
                 className={`relative flex min-h-[18.5rem] flex-col px-7 py-7 sm:px-9 sm:py-8 lg:px-11 ${
-                  index > 0 ? "border-t border-line/70 md:border-l md:border-t-0" : ""
+                  index > 0 ? "border-t border-white/10 md:border-l md:border-t-0" : ""
                 }`}
               >
                 <div className="flex items-start justify-end">
-                  <span className="font-display text-4xl leading-none text-ink/10">
+                  <span className="font-display text-4xl leading-none text-[#8fa8bd]/30">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
 
                 <div className="mt-6 max-w-sm space-y-4">
-                  <h2 className="font-display text-[2rem] font-semibold leading-[1.02] text-ink sm:text-[2.25rem]">
+                  <h2 className="font-display text-[2rem] font-semibold leading-[1.02] text-[#f4f2ec] sm:text-[2.25rem]">
                     {item.title}
                   </h2>
-                  <p className="text-lg leading-8 text-graphite">
+                  <p className="text-lg leading-8 text-[#aebdca]">
                     {item.description}
                   </p>
                 </div>
@@ -439,13 +445,18 @@ function AgendaPage() {
   return (
     <section className="flex min-h-full flex-col items-center justify-center py-8 text-center">
       <header className="mx-auto max-w-3xl">
-        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
+        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
           Agenda
         </h1>
+        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
 
-      <div className="mt-10 flex justify-center">
-        <p className="max-w-2xl text-center text-base leading-7 text-graphite sm:text-lg">
+      <div className="relative mt-10 flex w-full max-w-4xl justify-center overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.94),rgba(20,35,48,0.97)_50%,rgba(14,27,39,0.97))] px-8 py-10 shadow-[0_34px_90px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.04)]">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-30%,rgba(1,199,243,0.15),transparent_45%),linear-gradient(115deg,rgba(255,255,255,0.04),transparent_30%,transparent_70%,rgba(1,199,243,0.035))]" />
+        <div className="pointer-events-none absolute inset-x-20 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.82),transparent)]" />
+        <div className="pointer-events-none absolute -left-px top-8 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/42 to-transparent" />
+        <div className="pointer-events-none absolute -right-px bottom-8 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
+        <p className="relative max-w-2xl text-center text-base leading-7 text-[#91a3b2] sm:text-lg">
           Agenda content will be added here later.
         </p>
       </div>
@@ -457,6 +468,8 @@ export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const pageContainerRef = useRef<HTMLDivElement>(null);
   const totalPages = deckPages.length + 9;
+  const isCameraOpeningSlide =
+    currentPage <= 2 || currentPage === 6 || currentPage === 7;
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -480,10 +493,34 @@ export function LibraryPage() {
   }, [currentPage]);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_12%_0%,rgba(72,88,104,0.16),transparent_24%),linear-gradient(135deg,#d9ddd9_0%,#e8e9e5_34%,#d9dee2_100%)]">
-      <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(17,22,28,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,22,28,0.05)_1px,transparent_1px)] [background-position:center_center] [background-size:28px_28px]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
+    <div
+      className={`relative min-h-screen overflow-x-hidden transition-colors duration-500 ${
+        isCameraOpeningSlide
+          ? "bg-[radial-gradient(circle_at_50%_-10%,rgba(49,76,99,0.58),transparent_42%),linear-gradient(145deg,#101b26_0%,#142330_48%,#0e1822_100%)]"
+          : "bg-[radial-gradient(circle_at_12%_0%,rgba(72,88,104,0.16),transparent_24%),linear-gradient(135deg,#d9ddd9_0%,#e8e9e5_34%,#d9dee2_100%)]"
+      }`}
+    >
+      <div
+        className={`pointer-events-none absolute inset-0 [background-position:center_center] [background-size:28px_28px] ${
+          isCameraOpeningSlide
+            ? "opacity-20 [background-image:linear-gradient(rgba(184,203,218,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(184,203,218,0.08)_1px,transparent_1px)]"
+            : "opacity-40 [background-image:linear-gradient(rgba(17,22,28,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,22,28,0.05)_1px,transparent_1px)]"
+        }`}
+      />
+      <div
+        className={`pointer-events-none absolute inset-x-0 top-0 h-36 ${
+          isCameraOpeningSlide
+            ? "bg-[linear-gradient(180deg,rgba(143,168,189,0.08),transparent)]"
+            : "bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]"
+        }`}
+      />
+      <div
+        className={`pointer-events-none absolute inset-x-0 bottom-0 h-40 ${
+          isCameraOpeningSlide
+            ? "bg-[linear-gradient(0deg,rgba(0,0,0,0.16),transparent)]"
+            : "bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]"
+        }`}
+      />
 
       <main className="relative z-10 mx-auto flex h-[100dvh] w-[90%] max-w-none flex-col px-6 py-10 sm:px-10 lg:px-14">
         <div
@@ -527,13 +564,23 @@ export function LibraryPage() {
         </div>
       </main>
 
-      <div className="fixed bottom-6 right-6 z-20 flex items-center gap-2 rounded-full border border-line bg-white/92 px-2 py-1.5 shadow-deck md:bottom-8 md:right-8">
+      <div
+        className={`fixed bottom-6 right-6 z-20 flex items-center gap-2 rounded-full px-2 py-1.5 shadow-deck md:bottom-8 md:right-8 ${
+          isCameraOpeningSlide
+            ? "border border-white/10 bg-[#172534]/92"
+            : "border border-line bg-white/92"
+        }`}
+      >
         <button
           type="button"
           aria-label="Previous page"
           onClick={() => setCurrentPage((page) => Math.max(page - 1, 0))}
           disabled={currentPage === 0}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink transition-all hover:-translate-y-0.5 hover:border-accent disabled:cursor-not-allowed disabled:opacity-35"
+          className={`flex h-9 w-9 items-center justify-center rounded-full border transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 ${
+            isCameraOpeningSlide
+              ? "border-white/10 bg-white/5 text-[#f4f2ec] hover:border-[#01c7f3]/65"
+              : "border-line bg-white text-ink hover:border-accent"
+          }`}
         >
           <ChevronLeft size={17} strokeWidth={2.1} />
         </button>
@@ -545,7 +592,9 @@ export function LibraryPage() {
               aria-label={`Go to page ${index + 1}`}
               onClick={() => setCurrentPage(index)}
               className={`h-2 rounded-full transition-all ${
-                currentPage === index ? "w-6 bg-[#4d73c6]" : "w-2 bg-[#9fb2d4]"
+                currentPage === index
+                  ? `w-6 ${isCameraOpeningSlide ? "bg-[#01c7f3]" : "bg-[#4d73c6]"}`
+                  : `w-2 ${isCameraOpeningSlide ? "bg-[#60788c]" : "bg-[#9fb2d4]"}`
               }`}
             />
           ))}
@@ -555,7 +604,11 @@ export function LibraryPage() {
           aria-label="Next page"
           onClick={() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1))}
           disabled={currentPage === totalPages - 1}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink transition-all hover:-translate-y-0.5 hover:border-accent disabled:cursor-not-allowed disabled:opacity-35"
+          className={`flex h-9 w-9 items-center justify-center rounded-full border transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 ${
+            isCameraOpeningSlide
+              ? "border-white/10 bg-white/5 text-[#f4f2ec] hover:border-[#01c7f3]/65"
+              : "border-line bg-white text-ink hover:border-accent"
+          }`}
         >
           <ChevronRight size={17} strokeWidth={2.1} />
         </button>
