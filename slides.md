@@ -3,7 +3,7 @@ Registration Classification Demo
 Video: https://vimeo.com/1199989619/8c5654cc42?fl=ip&fe=ec
  
 Slide 1
-Registration Classification
+Registration Process
 Adult Path
 Adult 18 or older: continue with direct registration.
 Minor Path
@@ -23,7 +23,7 @@ Interests or topics to shape the initial timeline.
 Contacts syncing permission to find known people.
 
 Slide 2
-Verification Process
+Validation Process
 Status Choice
 Non-citizen: standard non-citizen path.
 Citizen: continue to third-party validation.

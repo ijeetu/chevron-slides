@@ -604,15 +604,36 @@ function ProcessSectionBody({ section }: { section: SlideSection }) {
   return <ProcessBulletList items={section.items} />;
 }
 
+function getProcessEstimate(title: string) {
+  if (/registration process/i.test(title)) return "~3.5 minutes";
+  if (/validation process/i.test(title)) return "~5-10 minutes";
+  return null;
+}
+
 function ProcessFormSlide({ slide, number }: { slide: Slide; number: number }) {
+  const estimatedTime = getProcessEstimate(slide.title);
+
   return (
     <SlideShell slideNumber={number}>
       <div className="w-full space-y-4 py-1">
-        <header className="pr-24">
-          <h1 className="font-display text-4xl leading-none text-ink md:text-[3.8rem]">
-            {slide.title}
-          </h1>
-          <div className="mt-3 h-px w-28 bg-[linear-gradient(90deg,rgba(52,90,161,0.9),rgba(52,90,161,0))]" />
+        <header className="flex flex-col gap-4 pr-24 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h1 className="font-display text-4xl leading-none text-ink md:text-[3.8rem]">
+              {slide.title}
+            </h1>
+            <div className="mt-3 h-px w-28 bg-[linear-gradient(90deg,rgba(52,90,161,0.9),rgba(52,90,161,0))]" />
+          </div>
+
+          {estimatedTime ? (
+            <div className="w-fit rounded-[1.15rem] bg-white/70 px-4 py-3 shadow-[0_10px_30px_rgba(17,22,28,0.08),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-sm">
+              <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-mist">
+                EST. Time
+              </p>
+              <p className="mt-1 text-sm font-semibold text-[#345aa1] md:text-base">
+                {estimatedTime}
+              </p>
+            </div>
+          ) : null}
         </header>
 
         <div className="relative overflow-hidden rounded-[2.35rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(245,247,249,0.94))] shadow-[0_28px_76px_rgba(17,22,28,0.13)] backdrop-blur-sm">
@@ -701,8 +722,8 @@ function ProcessFormSlide({ slide, number }: { slide: Slide; number: number }) {
 
 function StandardSlide({ slide, number }: { slide: Slide; number: number }) {
   const processFormStandard =
-    /registration classification/i.test(slide.title) ||
-    /verification process/i.test(slide.title);
+    /registration (classification|process)/i.test(slide.title) ||
+    /(verification|validation) process/i.test(slide.title);
   const isStatementOnly = slide.sections.length === 0 && slide.statements.length > 0;
   const maxStatementLength = slide.statements.reduce(
     (max, statement) => Math.max(max, statement.length),
