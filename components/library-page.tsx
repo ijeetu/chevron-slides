@@ -11,8 +11,10 @@ import {
   ChevronRight,
   Globe2,
   Map,
+  NotebookText,
   Presentation,
   TrendingUp,
+  X,
 } from "lucide-react";
 
 type Deck = {
@@ -37,7 +39,6 @@ type FoundingFather = {
 
 type PromiseItem = {
   title: string;
-  description: string;
 };
 
 const deckPages: Deck[][] = [
@@ -101,7 +102,7 @@ const deckPages: Deck[][] = [
 
 const manifestoStatements: ManifestoStatement[] = [
   {
-    text: "We have the America First blueprint.",
+    text: "While others talk about America First, we have the blueprint.",
   },
 ];
 
@@ -121,23 +122,29 @@ const foundingFathers: FoundingFather[] = [
 const openingQuestions = [
   "Having spoken with so many guests on your podcast, do you and your team feel more hopeful about the future?",
   "Is validating a glimpse of the fraud enough?",
-  "How important is accountability for the future of our republic?",
+  "How vital is accountability to the survival of the American republic?",
 ] as const;
 
 const promiseItems: PromiseItem[] = [
   {
     title: "Defend Sovereignty",
-    description: "For our families and future generations.",
   },
   {
     title: "Enforce Accountability",
-    description: "Bringing real justice to light.",
   },
   {
     title: "Secure the Future",
-    description: "Protecting our children and changing the world.",
   },
 ];
+
+const promiseNotes = [
+  "You have interviewed countless people and uncovered massive problems, and I know your audience is looking for a genuine spark of hope.",
+  "I want your guests and your supporters to know that right now, there are people working on real solutions. People who care deeply about humanity, sovereignty, and the future of our families.",
+  "If your team supports the efforts we are putting forward today, we will pass historic legislation no previous representatives ever could.",
+  "We will hold those accountable for the crimes they have committed. We will strengthen our society, and we will protect the children.",
+  "Today, I am going to lay out exactly what is possible when you give creativity and tools to the few willing to use them.",
+  "My promise to you is that together, we will change the world.",
+] as const;
 
 function DeckCard({ deck }: { deck: Deck }) {
   const Icon = deck.icon;
@@ -292,10 +299,25 @@ function QuestionSlide({
   );
 }
 
+function FullScreenImageSlide() {
+  return (
+    <section className="fixed inset-0 z-0 bg-black">
+      <Image
+        src="/chatgpt-image-jun-16-2026-03-14-08-pm.webp"
+        alt="Presentation opening visual"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
+    </section>
+  );
+}
+
 function GirlPage() {
   return (
     <section className="flex min-h-full flex-col items-center py-8">
-      <article className="flex min-h-0 w-full max-w-7xl flex-1 overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
+      <article className="flex min-h-0 w-full max-w-7xl flex-1 overflow-hidden rounded-[2rem] border-[5px] border-[#01c7f3] bg-white/92 shadow-[0_0_0_2px_rgba(185,242,255,0.34),0_28px_80px_rgba(1,84,142,0.32)]">
         <div className="relative w-full">
           <Image
             src="/girlchild.webp"
@@ -319,7 +341,7 @@ function GirlPage() {
 function MagaPage() {
   return (
     <section className="flex min-h-full flex-col items-center py-8">
-      <article className="flex min-h-0 w-full max-w-7xl flex-1 overflow-hidden rounded-[2rem] border border-line bg-white/92 shadow-[0_24px_60px_rgba(59,88,129,0.12)]">
+      <article className="flex min-h-0 w-full max-w-7xl flex-1 overflow-hidden rounded-[2rem] border-[5px] border-[#01c7f3] bg-white/92 shadow-[0_0_0_2px_rgba(185,242,255,0.34),0_28px_80px_rgba(1,84,142,0.32)]">
         <div className="relative w-full">
           <Image
             src="/maga.png"
@@ -331,7 +353,7 @@ function MagaPage() {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.1),rgba(8,17,34,0.18)_38%,rgba(5,10,20,0.72)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 px-6 pb-7 pt-16 text-center sm:px-8 sm:pb-9">
             <p className="font-display text-[2.3rem] leading-[1.15] text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.5)] sm:text-[3.1rem]">
-              The People Are Ready for Something Greater
+              Are the people ready for something greater?
             </p>
           </div>
         </div>
@@ -342,40 +364,15 @@ function MagaPage() {
 
 function ManifestoStatementsPage() {
   return (
-    <section className="flex min-h-full items-center justify-center py-8">
-      <div className="my-auto w-full max-w-6xl">
-        {manifestoStatements.map((statement, index) => {
-          if (index === manifestoStatements.length - 1) {
-            return <FoundersCtaCard key={statement.text} statement={statement} />;
-          }
-
-          return (
-            <div key={statement.text}>
-              <article
-                className={`relative overflow-hidden rounded-2xl border px-6 py-4 shadow-sm md:px-8 md:py-5 ${
-                  "border-line bg-white/90"
-                }`}
-              >
-                <div
-                  className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/35 to-transparent"
-                />
-                <div className="flex flex-col items-center gap-4 text-center">
-                  <p className="text-center font-display text-[1.35rem] leading-relaxed text-ink md:text-[1.55rem] md:leading-[1.8]">
-                    {statement.text}
-                  </p>
-                </div>
-              </article>
-            </div>
-          );
-        })}
-      </div>
-    </section>
+    <QuestionSlide question={manifestoStatements[0].text} />
   );
 }
 
 function PromisePage() {
+  const [showNotes, setShowNotes] = useState(false);
+
   return (
-    <section className="flex min-h-full flex-col justify-center py-8">
+    <section className="flex min-h-full flex-col justify-center py-6">
       <header className="mx-auto max-w-4xl text-center">
         <h1 className="font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
           The Promise
@@ -383,7 +380,7 @@ function PromisePage() {
         <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
 
-      <article className="relative mx-auto mt-10 w-full max-w-7xl overflow-hidden rounded-[2.65rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_46%,rgba(14,27,39,0.98))] shadow-[0_38px_100px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)]">
+      <article className="relative mx-auto mt-8 w-full max-w-7xl overflow-hidden rounded-[2.35rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_46%,rgba(14,27,39,0.98))] shadow-[0_38px_100px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(143,168,189,0.14),transparent_30%),radial-gradient(circle_at_90%_100%,rgba(1,199,243,0.11),transparent_30%),linear-gradient(115deg,rgba(255,255,255,0.04),transparent_28%,transparent_72%,rgba(1,199,243,0.035))]" />
         <div className="pointer-events-none absolute inset-x-20 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.88),transparent)]" />
         <div className="pointer-events-none absolute inset-x-28 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(143,168,189,0.32),transparent)]" />
@@ -395,7 +392,7 @@ function PromisePage() {
             return (
               <section
                 key={item.title}
-                className={`relative flex min-h-[18.5rem] flex-col px-7 py-7 sm:px-9 sm:py-8 lg:px-11 ${
+                className={`relative flex min-h-[14.5rem] flex-col justify-between px-6 py-6 sm:px-8 sm:py-7 lg:px-10 ${
                   index > 0 ? "border-t border-white/10 md:border-l md:border-t-0" : ""
                 }`}
               >
@@ -405,18 +402,59 @@ function PromisePage() {
                   </span>
                 </div>
 
-                <div className="mt-6 max-w-sm space-y-4">
-                  <h2 className="font-display text-[2rem] font-semibold leading-[1.02] text-[#f4f2ec] sm:text-[2.25rem]">
+                <div className="mt-6 max-w-sm">
+                  <h2 className="font-display text-[2.2rem] font-semibold leading-[0.98] text-[#f4f2ec] sm:text-[2.55rem] lg:text-[2.85rem]">
                     {item.title}
                   </h2>
-                  <p className="text-lg leading-8 text-[#aebdca]">
-                    {item.description}
-                  </p>
                 </div>
               </section>
             );
           })}
         </div>
+
+        <button
+          type="button"
+          aria-label={showNotes ? "Hide Promise notes" : "Show Promise notes"}
+          title={showNotes ? "Hide notes" : "Show notes"}
+          onClick={() => setShowNotes((value) => !value)}
+          className="absolute bottom-5 right-5 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-[#01c7f3]/60 bg-[#0f1d2a]/88 text-[#b9f2ff] shadow-[0_14px_34px_rgba(0,0,0,0.28)] transition-all hover:-translate-y-0.5 hover:border-[#01c7f3]"
+        >
+          {showNotes ? <X size={18} strokeWidth={2.2} /> : <NotebookText size={18} strokeWidth={2.1} />}
+        </button>
+
+        {showNotes ? (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#050b12]/64 px-5 py-8 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Promise notes"
+          >
+            <div className="relative max-h-[82vh] w-full max-w-4xl overflow-hidden rounded-[1.4rem] border border-[#01c7f3]/55 bg-[#0d1823] shadow-[0_34px_100px_rgba(0,0,0,0.48)]">
+              <div className="flex items-center justify-end border-b border-white/10 px-5 py-4 sm:px-6">
+                <button
+                  type="button"
+                  aria-label="Close Promise notes"
+                  onClick={() => setShowNotes(false)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d8edf6] transition-colors hover:border-[#01c7f3]/60 hover:text-[#b9f2ff]"
+                >
+                  <X size={17} strokeWidth={2.2} />
+                </button>
+              </div>
+              <div className="max-h-[calc(82vh-4.5rem)] overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
+                <div className="space-y-4">
+                  {promiseNotes.map((note) => (
+                    <p
+                      key={note}
+                      className="text-[1rem] leading-7 text-[#d8edf6] sm:text-[1.12rem] sm:leading-8"
+                    >
+                      {note}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </article>
     </section>
   );
@@ -467,9 +505,13 @@ function AgendaPage() {
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 9;
+  const totalPages = deckPages.length + 10;
   const isCameraOpeningSlide =
-    currentPage <= 2 || currentPage === 6 || currentPage === 7;
+    currentPage === 0 ||
+    (currentPage >= 1 && currentPage <= 3) ||
+    currentPage === 6 ||
+    currentPage === 7 ||
+    currentPage === 8;
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -491,6 +533,16 @@ export function LibraryPage() {
   useEffect(() => {
     pageContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
+
+  useEffect(() => {
+    document.documentElement.dataset.resourcesTone = isCameraOpeningSlide
+      ? "dark"
+      : "light";
+
+    return () => {
+      delete document.documentElement.dataset.resourcesTone;
+    };
+  }, [isCameraOpeningSlide]);
 
   return (
     <div
@@ -527,22 +579,24 @@ export function LibraryPage() {
           ref={pageContainerRef}
           className="presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
         >
-          {currentPage <= 2 ? (
+          {currentPage === 0 ? (
+            <FullScreenImageSlide />
+          ) : currentPage <= 3 ? (
             <QuestionSlide
-              question={openingQuestions[currentPage]}
-              showRail={currentPage === 0}
+              question={openingQuestions[currentPage - 1]}
+              showRail={currentPage === 1}
             />
-          ) : currentPage === 3 ? (
-            <GirlPage />
           ) : currentPage === 4 ? (
-            <MagaPage />
+            <GirlPage />
           ) : currentPage === 5 ? (
-            <ManifestoStatementsPage />
+            <MagaPage />
           ) : currentPage === 6 ? (
-            <PromisePage />
+            <ManifestoStatementsPage />
           ) : currentPage === 7 ? (
+            <PromisePage />
+          ) : currentPage === 8 ? (
             <AgendaPage />
-          ) : currentPage <= deckPages.length + 7 ? (
+          ) : currentPage <= deckPages.length + 8 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -553,7 +607,7 @@ export function LibraryPage() {
                 key={currentPage}
                 className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
-                {deckPages[currentPage - 8].map((deck) => (
+                {deckPages[currentPage - 9].map((deck) => (
                   <DeckCard key={deck.href} deck={deck} />
                 ))}
               </section>

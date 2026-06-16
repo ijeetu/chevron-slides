@@ -58,12 +58,28 @@ const quickLinks: QuickLink[] = [
 export function FloatingLinksMenu() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [isDarkPage, setIsDarkPage] = useState(false);
 
   const linkCountLabel = useMemo(() => `${quickLinks.length} links`, []);
 
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const updateTone = () => {
+      setIsDarkPage(document.documentElement.dataset.resourcesTone === "dark");
+    };
+
+    updateTone();
+
+    const observer = new MutationObserver(updateTone);
+    observer.observe(document.documentElement, {
+      attributeFilter: ["data-resources-tone"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!isOpen) {
@@ -85,13 +101,20 @@ export function FloatingLinksMenu() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 left-6 z-[70] ${floatingTriggerButtonClass} md:bottom-8 md:left-8`}
+        className={`fixed bottom-6 left-6 z-[70] ${floatingTriggerButtonClass} ${
+          isDarkPage
+            ? "border-white/10 bg-[#172534]/92 text-[#f4f2ec] shadow-deck hover:border-[#01c7f3]/65 hover:bg-[#172534]/92"
+            : ""
+        } md:bottom-8 md:left-8`}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls="resources-modal"
         aria-label="Open resources"
       >
-        <BookOpenText className="h-4 w-4" strokeWidth={2} />
+        <BookOpenText
+          className={`h-4 w-4 ${isDarkPage ? "text-[#f4f2ec]" : "text-ink"}`}
+          strokeWidth={2}
+        />
       </button>
 
       {isOpen ? (
