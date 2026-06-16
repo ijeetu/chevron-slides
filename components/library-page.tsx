@@ -64,27 +64,27 @@ const deckPages: Deck[][] = [
         "bg-[linear-gradient(145deg,rgba(233,240,247,0.98),rgba(189,205,223,0.94))] text-[#37567b] border-[#98aec4]/50",
     },
     {
-      title: "Strategy Map",
-      description: "Strategic Alliance and Partnership Landscape",
-      href: "/strategymap",
-      icon: Map,
-      tone:
-        "bg-[linear-gradient(145deg,rgba(255,255,255,0.95),rgba(231,238,235,0.9))] hover:border-[#a8b9b3]/85 hover:shadow-[0_24px_55px_rgba(66,97,89,0.14)]",
-      iconTone:
-        "bg-[linear-gradient(145deg,rgba(233,241,238,0.98),rgba(194,211,205,0.94))] text-[#476961] border-[#adc0b8]/50",
-    },
-  ],
-  [
-    {
       title: "Global Opportunities",
       description: "TAM (Total Available Market)",
       href: "/presentation/global-opportunities",
       icon: Globe2,
-      placementClass: "xl:col-start-2 xl:col-span-2",
       tone:
         "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(221,238,233,0.96))] hover:border-[#6fa391]/85 hover:shadow-[0_24px_60px_rgba(42,109,88,0.18)]",
       iconTone:
         "bg-[linear-gradient(145deg,rgba(236,248,244,0.98),rgba(162,208,191,0.96))] text-[#24584b] border-[#7fb19e]/55",
+    },
+  ],
+  [
+    {
+      title: "Strategy Map",
+      description: "Strategic Alliance and Partnership Landscape",
+      href: "/strategymap",
+      icon: Map,
+      placementClass: "xl:col-start-2 xl:col-span-2",
+      tone:
+        "bg-[linear-gradient(145deg,rgba(255,255,255,0.95),rgba(231,238,235,0.9))] hover:border-[#a8b9b3]/85 hover:shadow-[0_24px_55px_rgba(66,97,89,0.14)]",
+      iconTone:
+        "bg-[linear-gradient(145deg,rgba(233,241,238,0.98),rgba(194,211,205,0.94))] text-[#476961] border-[#adc0b8]/50",
     },
     {
       title: "Driven to win",
@@ -104,8 +104,8 @@ const deckPageHashes: Record<string, number> = {
   "#problems": 9,
   "#decks": 9,
   "#presentation": 9,
-  "#strategymap": 9,
-  "#global-opportunities": 10,
+  "#global-opportunities": 9,
+  "#strategymap": 10,
   "#driven-to-win": 10,
 };
 
@@ -153,6 +153,17 @@ const promiseNotes = [
   "We will hold those accountable for the crimes they have committed. We will strengthen our society, and we will protect the children.",
   "Today, I am going to lay out exactly what is possible when you give creativity and tools to the few willing to use them.",
   "My promise to you is that together, we will change the world.",
+] as const;
+
+const agendaItems = [
+  "Problems & Opportunities",
+  "Future Outlook",
+  "Viral Fusion Vision Intro",
+  "Deck",
+  "X-POLL",
+  "Global Opportunities",
+  "Strategy Map",
+  "Driven to Win",
 ] as const;
 
 function DeckCard({ deck }: { deck: Deck }) {
@@ -498,14 +509,31 @@ function AgendaPage() {
         <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
 
-      <div className="relative mt-10 flex w-full max-w-4xl justify-center overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.94),rgba(20,35,48,0.97)_50%,rgba(14,27,39,0.97))] px-8 py-10 shadow-[0_34px_90px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.04)]">
+      <div className="relative mt-10 w-full max-w-4xl overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.94),rgba(20,35,48,0.97)_50%,rgba(14,27,39,0.97))] px-7 py-8 text-left shadow-[0_34px_90px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-9 sm:py-10">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-30%,rgba(1,199,243,0.15),transparent_45%),linear-gradient(115deg,rgba(255,255,255,0.04),transparent_30%,transparent_70%,rgba(1,199,243,0.035))]" />
         <div className="pointer-events-none absolute inset-x-20 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.82),transparent)]" />
         <div className="pointer-events-none absolute -left-px top-8 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/42 to-transparent" />
         <div className="pointer-events-none absolute -right-px bottom-8 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
-        <p className="relative max-w-2xl text-center text-base leading-7 text-[#91a3b2] sm:text-lg">
-          Agenda content will be added here later.
-        </p>
+        <div className="relative mx-auto max-w-2xl">
+          <p className="text-[0.76rem] font-semibold uppercase tracking-[0.26em] text-[#8ecfe1]">
+            TAM
+          </p>
+          <ol className="mt-6 space-y-3">
+            {agendaItems.map((item, index) => (
+              <li
+                key={item}
+                className="grid grid-cols-[2.5rem_1fr] items-center gap-4 border-b border-white/8 pb-3 last:border-b-0 last:pb-0"
+              >
+                <span className="text-right text-[0.74rem] font-semibold text-[#6f8798]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="font-display text-2xl leading-none text-[#f4f2ec] sm:text-[1.85rem]">
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );
