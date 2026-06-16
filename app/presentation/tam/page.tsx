@@ -18,5 +18,11 @@ The model opens billion-dollar verticals aligned with long-term business growth.
 `.trim();
   const slides = parseSlides(markdown);
 
-  return <SlideDeck slides={slides} />;
+  return (
+    <SlideDeck
+      slides={slides}
+      backHref="/#driven-to-win"
+      preferHistoryBack={false}
+    />
+  );
 }

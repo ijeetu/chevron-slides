@@ -18,5 +18,11 @@ export default function GlobalOpportunitiesPage() {
   );
   const slides = parseSlides(markdown);
 
-  return <SlideDeck slides={slides} />;
+  return (
+    <SlideDeck
+      slides={slides}
+      backHref="/#global-opportunities"
+      preferHistoryBack={false}
+    />
+  );
 }

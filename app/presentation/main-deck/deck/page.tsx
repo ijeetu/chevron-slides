@@ -80,7 +80,7 @@ export default async function MainDeckPage() {
       slides={slides}
       title="Viral Fusion Deck"
       backHref="/presentation/main-deck"
-      backLabel="Vision Intro"
+      backLabel="Back"
       continueHref="/presentation/global-opportunities"
       continueLabel="Global Opportunities"
     />

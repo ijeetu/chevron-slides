@@ -2,16 +2,16 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
   Flame, Car, Heart, Cpu, ShieldCheck,
   Building2, UserCheck, Users, ScrollText,
   MapPin, Megaphone, Lock, Target, CalendarClock,
   Handshake, Rocket, Network, Shield, Radio, HelpCircle,
-  ArrowLeft, ChevronLeft, ChevronRight, CircleDollarSign,
+  ChevronLeft, ChevronRight, CircleDollarSign,
 } from "lucide-react";
 
+import { BackButton } from "@/components/back-button";
 import {
   floatingControlButtonClass,
   floatingControlSurfaceClass,
@@ -826,13 +826,7 @@ export function StrategyMapWebPage() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
 
-      <Link
-        href="/"
-        className="fixed left-6 top-6 z-20 inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/78 px-4 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-graphite shadow-deck backdrop-blur-sm transition-colors hover:bg-white md:left-8 md:top-8"
-      >
-        <ArrowLeft className="h-4 w-4" strokeWidth={2.1} />
-        <span>Home</span>
-      </Link>
+      <BackButton fallbackHref="/#strategymap" preferHistory={false} />
 
       <div className="relative z-10">{STRATEGY_MAP_STEPS[currentStep].render}</div>
 

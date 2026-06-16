@@ -2,7 +2,6 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
   AtSign,
@@ -28,11 +27,14 @@ import {
   floatingControlMetaClass,
   floatingControlSurfaceClass,
 } from "@/components/floating-controls";
+import { BackButton } from "@/components/back-button";
 import { GitHubGlobe } from "@/components/github-globe";
 import type { Slide, SlideSection } from "@/lib/parse-slides";
 
 type SlideDeckProps = {
   slides: Slide[];
+  backHref?: string;
+  preferHistoryBack?: boolean;
 };
 
 function clamp(index: number, total: number) {
@@ -1241,7 +1243,11 @@ function MapSlide({ slide, number }: { slide: Slide; number: number }) {
   );
 }
 
-export function SlideDeck({ slides }: SlideDeckProps) {
+export function SlideDeck({
+  slides,
+  backHref = "/",
+  preferHistoryBack = true,
+}: SlideDeckProps) {
   const total = slides.length;
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -1301,13 +1307,7 @@ export function SlideDeck({ slides }: SlideDeckProps) {
 
   return (
     <main className="min-h-screen">
-      <Link
-        href="/"
-        className="fixed left-6 top-6 z-20 inline-flex items-center gap-2 rounded-full border border-white/45 bg-white/78 px-4 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-graphite shadow-deck backdrop-blur-sm transition-colors hover:bg-white md:left-8 md:top-8"
-      >
-        <ChevronLeftIcon />
-        <span>Home</span>
-      </Link>
+      <BackButton fallbackHref={backHref} preferHistory={preferHistoryBack} />
       {slide.type === "cover" ? (
         <CoverSlide slide={slide} number={currentIndex + 1} />
       ) : slide.type === "timeline" ? (

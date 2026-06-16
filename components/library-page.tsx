@@ -100,6 +100,15 @@ const deckPages: Deck[][] = [
   ],
 ];
 
+const deckPageHashes: Record<string, number> = {
+  "#problems": 9,
+  "#decks": 9,
+  "#presentation": 9,
+  "#strategymap": 9,
+  "#global-opportunities": 10,
+  "#driven-to-win": 10,
+};
+
 const manifestoStatements: ManifestoStatement[] = [
   {
     text: "While others talk about America First, we have the blueprint.",
@@ -512,6 +521,20 @@ export function LibraryPage() {
     currentPage === 6 ||
     currentPage === 7 ||
     currentPage === 8;
+
+  useEffect(() => {
+    const applyHashPage = () => {
+      const page = deckPageHashes[window.location.hash];
+
+      if (typeof page === "number") {
+        setCurrentPage(page);
+      }
+    };
+
+    applyHashPage();
+    window.addEventListener("hashchange", applyHashPage);
+    return () => window.removeEventListener("hashchange", applyHashPage);
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {

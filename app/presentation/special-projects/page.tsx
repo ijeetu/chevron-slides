@@ -15,5 +15,5 @@ export default function SpecialProjectsPage() {
   const markdown = fs.readFileSync(path.join(process.cwd(), "slides.md"), "utf8");
   const slides = parseSlides(markdown);
 
-  return <SlideDeck slides={slides} />;
+  return <SlideDeck slides={slides} backHref="/presentation" preferHistoryBack={false} />;
 }

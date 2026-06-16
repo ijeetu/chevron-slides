@@ -1,8 +1,6 @@
 Cover Slide
-Problems video
-Watch (Problems Video)
-Video: https://vimeo.com/manage/videos/1160310972/9fde73efd4
-Vision Video: https://vimeo.com/1195380154/5278129b85?share=copy&fl=sv&fe=ci
+Problems and Opportunities
+Video: https://vimeo.com/1195380154/5278129b85?share=copy&fl=sv&fe=ci
 
 Slide 1
 Future Outlook

@@ -15,5 +15,5 @@ export default function SummaryPage() {
   const markdown = fs.readFileSync(path.join(process.cwd(), "summaryslides.md"), "utf8");
   const slides = parseSlides(markdown);
 
-  return <SlideDeck slides={slides} />;
+  return <SlideDeck slides={slides} backHref="/#decks" preferHistoryBack={false} />;
 }
