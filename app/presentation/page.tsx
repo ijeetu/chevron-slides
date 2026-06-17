@@ -6,7 +6,7 @@ import { BackButton } from "@/components/back-button";
 
 export const metadata: Metadata = {
   title: "Core Presentation",
-  description: "View Viral Fusion or the MVP presentation.",
+  description: "View Viral Fusion or the Demonstration presentation.",
 };
 
 const options = [
@@ -16,7 +16,7 @@ const options = [
     icon: FileText,
   },
   {
-    title: "MVP",
+    title: "Demonstration",
     href: "/presentation/special-projects",
     icon: Layers3,
   },

@@ -44,7 +44,7 @@ const quickLinks: QuickLink[] = [
   },
   {
     href: "/presentation/special-projects",
-    label: "MVP",
+    label: "Demonstration",
     description: "Special projects deck",
   },
   {

@@ -66,9 +66,11 @@ async function getSlides() {
   const raw = await fs.readFile(manifestPath, "utf8");
   const manifest = JSON.parse(raw) as { slides?: string[] };
 
-  return Array.isArray(manifest.slides)
+  const pdfSlides = Array.isArray(manifest.slides)
     ? manifest.slides.map((slide) => `/${slide}`)
     : [];
+
+  return pdfSlides;
 }
 
 export default async function MainDeckPage() {

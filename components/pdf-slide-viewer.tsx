@@ -37,6 +37,10 @@ function parseHash() {
   return match ? Math.max(1, Number(match[1])) : 1;
 }
 
+function isVideoSlide(slideSrc: string) {
+  return /\.(mp4|webm|mov)(?:\?.*)?$/i.test(slideSrc);
+}
+
 export function PdfSlideViewer({
   file,
   slides,
@@ -113,7 +117,7 @@ export function PdfSlideViewer({
   useEffect(() => {
     [pageNumber - 1, pageNumber + 1].forEach((targetPage) => {
       const slideSrc = slides[targetPage - 1];
-      if (!slideSrc) return;
+      if (!slideSrc || isVideoSlide(slideSrc)) return;
 
       const image = new window.Image();
       image.src = slideSrc;
@@ -121,6 +125,7 @@ export function PdfSlideViewer({
   }, [pageNumber, slides]);
 
   const activeSlide = useMemo(() => slides[pageNumber - 1] ?? "", [pageNumber, slides]);
+  const activeSlideIsVideo = isVideoSlide(activeSlide);
 
   return (
     <section className="relative h-[100dvh] overflow-hidden bg-transparent">
@@ -153,7 +158,25 @@ export function PdfSlideViewer({
         <div className="flex min-h-0 flex-1 items-center justify-center py-2 md:py-3">
           <div className="flex h-full min-h-0 w-full items-center justify-center">
             <div className="relative flex h-full w-full items-center justify-center">
-              {activeSlide ? (
+              {activeSlide && activeSlideIsVideo ? (
+                <video
+                  key={activeSlide}
+                  src={activeSlide}
+                  className="max-h-full max-w-full rounded-[1rem] bg-black shadow-[0_28px_70px_rgba(17,22,28,0.18)]"
+                  autoPlay
+                  muted
+                  playsInline
+                  controls
+                  onLoadedData={() => {
+                    setIsLoading(false);
+                    setError("");
+                  }}
+                  onError={() => {
+                    setIsLoading(false);
+                    setError("Could not load the slide video.");
+                  }}
+                />
+              ) : activeSlide ? (
                 <img
                   key={activeSlide}
                   src={activeSlide}

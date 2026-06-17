@@ -76,3 +76,39 @@ select {
   border-radius: 999px;
   background: linear-gradient(180deg, rgba(55, 86, 123, 0.72), rgba(92, 122, 157, 0.82));
 }
+
+.intro-year {
+  opacity: 0;
+  animation: intro-year-fade 2.25s ease-in-out forwards;
+}
+
+.question-after-year {
+  opacity: 0;
+  animation: question-after-year-fade 0.75s ease-out 2.25s forwards;
+}
+
+@keyframes intro-year-fade {
+  0% {
+    opacity: 0;
+  }
+  28% {
+    opacity: 1;
+  }
+  68% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes question-after-year-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

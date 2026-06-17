@@ -101,13 +101,29 @@ const deckPages: Deck[][] = [
 ];
 
 const deckPageHashes: Record<string, number> = {
-  "#problems": 9,
-  "#decks": 9,
-  "#presentation": 9,
-  "#global-opportunities": 9,
-  "#strategymap": 10,
-  "#driven-to-win": 10,
+  "#problems": 10,
+  "#decks": 10,
+  "#presentation": 10,
+  "#global-opportunities": 10,
+  "#strategymap": 11,
+  "#driven-to-win": 11,
 };
+
+function getPageFromHash(hash: string, totalPages: number) {
+  const mappedPage = deckPageHashes[hash];
+
+  if (typeof mappedPage === "number") {
+    return Math.max(0, Math.min(mappedPage, totalPages - 1));
+  }
+
+  const match = hash.match(/^#page-(\d+)$/);
+
+  if (!match) {
+    return null;
+  }
+
+  return Math.max(0, Math.min(Number(match[1]) - 1, totalPages - 1));
+}
 
 const manifestoStatements: ManifestoStatement[] = [
   {
@@ -310,9 +326,39 @@ function QuestionSlide({
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(1,199,243,0.17),transparent_42%),linear-gradient(115deg,rgba(255,255,255,0.045),transparent_28%,transparent_72%,rgba(1,199,243,0.04))]" />
           <div className="pointer-events-none absolute -left-px top-10 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/50 to-transparent" />
           <div className="pointer-events-none absolute -right-px bottom-10 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
-          <p className="relative text-center font-display text-[2rem] leading-[1.12] text-[#b9f2ff] sm:text-[2.65rem]">
+          {showRail ? (
+            <p className="intro-year absolute inset-0 flex items-center justify-center font-display text-[5.5rem] font-black leading-none tracking-[0.06em] text-[#f4f2ec] sm:text-[7rem]">
+              2026
+            </p>
+          ) : null}
+          <p
+            className={`relative text-center font-display text-[2rem] leading-[1.12] text-[#b9f2ff] sm:text-[2.65rem] ${
+              showRail ? "question-after-year" : ""
+            }`}
+          >
             {question}
           </p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function DogeQuestionSlide() {
+  return (
+    <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
+      <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
+        <article className="relative overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_48%,rgba(14,27,39,0.98))] px-8 py-10 shadow-[0_34px_90px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-12 sm:py-12">
+          <div className="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/85 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(1,199,243,0.17),transparent_42%),linear-gradient(115deg,rgba(255,255,255,0.045),transparent_28%,transparent_72%,rgba(1,199,243,0.04))]" />
+          <div className="pointer-events-none absolute -left-px top-10 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/50 to-transparent" />
+          <div className="pointer-events-none absolute -right-px bottom-10 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
+
+          <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
+            <p className="font-display text-[5.5rem] font-black leading-none tracking-[0.04em] text-[#f4f2ec] sm:text-[7rem]">
+              DOGE
+            </p>
+          </div>
         </article>
       </div>
     </section>
@@ -322,13 +368,12 @@ function QuestionSlide({
 function FullScreenImageSlide() {
   return (
     <section className="fixed inset-0 z-0 bg-black">
-      <Image
-        src="/chatgpt-image-jun-16-2026-03-14-08-pm.webp"
-        alt="Presentation opening visual"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
+      <video
+        src="/flag.webm"
+        className="h-full w-full object-cover"
+        autoPlay
+        muted
+        playsInline
       />
     </section>
   );
@@ -542,17 +587,17 @@ function AgendaPage() {
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 10;
+  const totalPages = deckPages.length + 11;
   const isCameraOpeningSlide =
     currentPage === 0 ||
-    (currentPage >= 1 && currentPage <= 3) ||
-    currentPage === 6 ||
+    (currentPage >= 1 && currentPage <= 4) ||
     currentPage === 7 ||
-    currentPage === 8;
+    currentPage === 8 ||
+    currentPage === 9;
 
   useEffect(() => {
     const applyHashPage = () => {
-      const page = deckPageHashes[window.location.hash];
+      const page = getPageFromHash(window.location.hash, totalPages);
 
       if (typeof page === "number") {
         setCurrentPage(page);
@@ -562,7 +607,7 @@ export function LibraryPage() {
     applyHashPage();
     window.addEventListener("hashchange", applyHashPage);
     return () => window.removeEventListener("hashchange", applyHashPage);
-  }, []);
+  }, [totalPages]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -583,6 +628,12 @@ export function LibraryPage() {
 
   useEffect(() => {
     pageContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+
+    const nextHash = `#page-${currentPage + 1}`;
+
+    if (window.location.hash !== nextHash) {
+      window.history.replaceState(null, "", nextHash);
+    }
   }, [currentPage]);
 
   useEffect(() => {
@@ -631,23 +682,24 @@ export function LibraryPage() {
           className="presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
         >
           {currentPage === 0 ? (
+            <QuestionSlide question={openingQuestions[0]} showRail />
+          ) : currentPage === 1 ? (
             <FullScreenImageSlide />
-          ) : currentPage <= 3 ? (
-            <QuestionSlide
-              question={openingQuestions[currentPage - 1]}
-              showRail={currentPage === 1}
-            />
-          ) : currentPage === 4 ? (
-            <GirlPage />
+          ) : currentPage === 2 ? (
+            <DogeQuestionSlide />
+          ) : currentPage <= 4 ? (
+            <QuestionSlide question={openingQuestions[currentPage - 2]} />
           ) : currentPage === 5 ? (
-            <MagaPage />
+            <GirlPage />
           ) : currentPage === 6 ? (
-            <ManifestoStatementsPage />
+            <MagaPage />
           ) : currentPage === 7 ? (
-            <PromisePage />
+            <ManifestoStatementsPage />
           ) : currentPage === 8 ? (
+            <PromisePage />
+          ) : currentPage === 9 ? (
             <AgendaPage />
-          ) : currentPage <= deckPages.length + 8 ? (
+          ) : currentPage <= deckPages.length + 9 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -658,7 +710,7 @@ export function LibraryPage() {
                 key={currentPage}
                 className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
-                {deckPages[currentPage - 9].map((deck) => (
+                {deckPages[currentPage - 10].map((deck) => (
                   <DeckCard key={deck.href} deck={deck} />
                 ))}
               </section>
