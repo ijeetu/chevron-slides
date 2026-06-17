@@ -125,6 +125,10 @@ function getPageFromHash(hash: string, totalPages: number) {
   return Math.max(0, Math.min(Number(match[1]) - 1, totalPages - 1));
 }
 
+function namedHashMatchesPage(hash: string, page: number) {
+  return deckPageHashes[hash] === page;
+}
+
 const manifestoStatements: ManifestoStatement[] = [
   {
     text: "While others talk about America First, we have the blueprint.",
@@ -586,6 +590,7 @@ function AgendaPage() {
 
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
+  const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
   const totalPages = deckPages.length + 11;
   const isCameraOpeningSlide =
@@ -602,6 +607,8 @@ export function LibraryPage() {
       if (typeof page === "number") {
         setCurrentPage(page);
       }
+
+      setHasResolvedInitialHash(true);
     };
 
     applyHashPage();
@@ -629,12 +636,20 @@ export function LibraryPage() {
   useEffect(() => {
     pageContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
 
+    if (!hasResolvedInitialHash) {
+      return;
+    }
+
     const nextHash = `#page-${currentPage + 1}`;
+
+    if (namedHashMatchesPage(window.location.hash, currentPage)) {
+      return;
+    }
 
     if (window.location.hash !== nextHash) {
       window.history.replaceState(null, "", nextHash);
     }
-  }, [currentPage]);
+  }, [currentPage, hasResolvedInitialHash]);
 
   useEffect(() => {
     document.documentElement.dataset.resourcesTone = isCameraOpeningSlide
