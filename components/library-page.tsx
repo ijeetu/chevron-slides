@@ -177,9 +177,9 @@ const promiseNotes = [
 
 const agendaItems = [
   "Problems & Opportunities",
-  "Future Outlook",
   "Viral Fusion Vision Intro",
   "Deck",
+  "Future Outlook",
   "X-POLL",
   "Global Opportunities",
   "Strategy Map",

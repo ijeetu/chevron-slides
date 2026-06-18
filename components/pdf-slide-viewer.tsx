@@ -11,7 +11,6 @@ import {
 
 import { BackButton } from "@/components/back-button";
 import {
-  floatingActionPillClass,
   floatingControlButtonClass,
   floatingControlMetaClass,
   floatingControlSurfaceClass,
@@ -226,11 +225,14 @@ export function PdfSlideViewer({
         ) : null}
       </div>
 
-      <div className="fixed bottom-6 right-6 z-20 flex items-center gap-3 md:bottom-8 md:right-8">
+      <div className="fixed bottom-6 right-6 z-20 flex flex-col items-end gap-3 md:bottom-8 md:right-8">
         {continueHref && continueLabel && totalPages > 0 && pageNumber === totalPages ? (
-          <Link href={continueHref} className={floatingActionPillClass}>
-            <span>Continue</span>
-            <span className="text-graphite">{continueLabel}</span>
+          <Link
+            href={continueHref}
+            className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-3.5 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-ink shadow-deck transition-all duration-300 hover:-translate-y-0.5 hover:border-accent"
+          >
+            <span>{continueLabel}</span>
+            <ChevronRight className="h-3.5 w-3.5" />
           </Link>
         ) : null}
 

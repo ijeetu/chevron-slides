@@ -83,8 +83,8 @@ export default async function MainDeckPage() {
       title="Viral Fusion Deck"
       backHref="/presentation/main-deck"
       backLabel="Back"
-      continueHref="/presentation/global-opportunities"
-      continueLabel="Global Opportunities"
+      continueHref="/presentation/main-deck/future-outlook"
+      continueLabel="Future Outlook"
     />
   );
 }
