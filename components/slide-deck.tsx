@@ -893,10 +893,67 @@ function MiniChip({
   );
 }
 
+function GlobalMarketImageSlide({ slide, number }: { slide: Slide; number: number }) {
+  return (
+    <section className="relative min-h-screen overflow-hidden bg-[#0a0e14]">
+      <img
+        src="/go-slide-2.jpg"
+        alt="Global Opportunities visual"
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,9,14,0.94)_0%,rgba(6,9,14,0.82)_34%,rgba(6,9,14,0.42)_64%,rgba(6,9,14,0.22)_100%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-[linear-gradient(0deg,rgba(6,9,14,0.7),transparent)]" />
+
+      <div className="relative z-10 min-h-screen px-[10%] py-8 md:py-10">
+        <div className="absolute right-6 top-8 flex items-center gap-4 text-white/55 md:right-8 md:top-10">
+          <p className="text-[0.76rem] uppercase tracking-[0.28em]">
+            {`Slide ${String(number).padStart(2, "0")}`}
+          </p>
+          <span className="h-px w-20 bg-[linear-gradient(90deg,rgba(255,255,255,0.5),rgba(255,255,255,0))]" />
+        </div>
+
+        <div className="flex min-h-[calc(100vh-5rem)] w-full items-center">
+          <div className="w-full max-w-3xl space-y-7 md:space-y-8">
+            <div className="space-y-4">
+              <h1 className="font-display text-4xl leading-[1.02] text-white [text-wrap:balance] md:text-6xl">
+                {slide.title}
+              </h1>
+              <div className="h-px w-24 bg-[linear-gradient(90deg,rgba(255,255,255,0.85),rgba(255,255,255,0))]" />
+            </div>
+
+            <div className="grid max-w-2xl gap-4">
+              {slide.statements.map((statement, index) => (
+                <article
+                  key={statement}
+                  className="relative overflow-hidden rounded-[1.6rem] border border-white/15 bg-white/10 p-5 shadow-[0_18px_48px_rgba(0,0,0,0.35)] backdrop-blur-md md:p-6"
+                >
+                  <div className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,rgba(124,156,220,0.95),rgba(255,255,255,0.18))]" />
+                  <p
+                    className={
+                      index === 0
+                        ? "pl-4 text-[1.02rem] leading-7 text-white md:text-[1.2rem] md:leading-8 [text-wrap:pretty]"
+                        : "pl-4 text-[0.97rem] leading-7 text-white/90 md:text-[1.06rem] md:leading-8 [text-wrap:pretty]"
+                    }
+                  >
+                    {renderInlineLinks(statement)}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function GlobalMarketSlide({ slide, number }: { slide: Slide; number: number }) {
+  if (number === 2) {
+    return <GlobalMarketImageSlide slide={slide} number={number} />;
+  }
+
   const showSlide1Globe = number === 1;
-  const showSlide2Image = number === 2;
-  const showRightVisual = showSlide1Globe || showSlide2Image;
+  const showRightVisual = showSlide1Globe;
 
   return (
     <SlideShell slideNumber={number}>
@@ -934,26 +991,12 @@ function GlobalMarketSlide({ slide, number }: { slide: Slide; number: number }) 
           <div className="hidden lg:flex h-full w-[calc(100%+10vw)] items-center justify-end self-stretch lg:mr-[-10vw]">
             <GitHubGlobe />
           </div>
-        ) : null}
-
-        {showSlide2Image ? (
-          <div className="hidden lg:flex h-full w-full items-center justify-end self-stretch">
-            <div className="w-full overflow-hidden rounded-[2rem] border border-white/70 bg-white/82 p-3 shadow-[0_18px_48px_rgba(17,22,28,0.1)] backdrop-blur-sm">
-              <img
-                src="/go-slide-2.jpg"
-                alt="Global Opportunities slide 2 visual"
-                className="max-h-[calc(100vh-9.5rem)] w-full max-w-full rounded-[1.4rem] object-contain object-right"
-              />
-            </div>
-          </div>
-        ) : null}
-
-        {!showRightVisual ? (
+        ) : (
           <div
             aria-hidden="true"
             className="hidden lg:block h-[calc(100vh-9.5rem)] w-full"
           />
-        ) : null}
+        )}
       </div>
     </SlideShell>
   );

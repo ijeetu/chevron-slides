@@ -104,8 +104,8 @@ export function GitHubGlobe() {
   const allPoints = useMemo(() => [...points, ...focusPoints], [focusPoints]);
 
   const overlayOffset = size > 680
-    ? { x: 168, y: -146, lineAngle: -36 }
-    : { x: 138, y: -126, lineAngle: -34 };
+    ? { x: 128, y: -146, lineAngle: -36 }
+    : { x: 104, y: -126, lineAngle: -34 };
 
   const globeMaterial = useMemo(() => {
     const material = new THREE.MeshPhongMaterial();
