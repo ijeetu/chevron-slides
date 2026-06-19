@@ -12,8 +12,11 @@ import {
   Globe2,
   Map,
   NotebookText,
+  Pause,
+  Play,
   Presentation,
   TrendingUp,
+  Volume2,
   X,
 } from "lucide-react";
 
@@ -101,12 +104,12 @@ const deckPages: Deck[][] = [
 ];
 
 const deckPageHashes: Record<string, number> = {
-  "#problems": 10,
-  "#decks": 10,
-  "#presentation": 10,
-  "#global-opportunities": 10,
-  "#strategymap": 11,
-  "#driven-to-win": 11,
+  "#problems": 11,
+  "#decks": 11,
+  "#presentation": 11,
+  "#global-opportunities": 11,
+  "#strategymap": 15,
+  "#driven-to-win": 15,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -185,6 +188,18 @@ const agendaItems = [
   "Strategy Map",
   "Driven to Win",
 ] as const;
+
+function formatAudioTime(seconds: number) {
+  if (!Number.isFinite(seconds) || seconds <= 0) {
+    return "0:00";
+  }
+
+  const totalSeconds = Math.floor(seconds);
+  const minutes = Math.floor(totalSeconds / 60);
+  const remainingSeconds = totalSeconds % 60;
+
+  return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+}
 
 function DeckCard({ deck }: { deck: Deck }) {
   const Icon = deck.icon;
@@ -296,52 +311,59 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
 
 function QuestionSlide({
   question,
-  showRail = false,
 }: {
   question: string;
-  showRail?: boolean;
 }) {
   return (
     <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
-      {showRail ? (
-        <div
-          className="pointer-events-none absolute left-[-8.35rem] top-1/2 hidden w-32 -translate-y-1/2 flex-col items-center xl:flex"
-          aria-hidden="true"
-        >
-          <div className="absolute left-1/2 top-8 h-[calc(100%-6rem)] w-[4px] -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,rgba(122,154,219,0.08),#6b93e1_16%,#456dc2_84%,rgba(122,154,219,0.08))]" />
-          <div className="relative z-10 flex h-[7.6rem] w-[7.6rem] items-center justify-center">
-            <div className="absolute -inset-[5px] rounded-full border border-[#2a54a4]/18" />
-            <div className="absolute inset-0 rounded-full bg-[linear-gradient(155deg,#6f98e8_0%,#3f6fc8_55%,#2a54a4_100%)] shadow-[0_16px_38px_rgba(47,92,174,0.22)]" />
-            <div className="absolute inset-[4px] rounded-full border border-white/18 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03))]" />
-            <div className="relative flex h-[6rem] w-[6rem] items-center justify-center rounded-full border border-[#24488f]/55 bg-[radial-gradient(circle_at_50%_28%,#95b7f3_0%,#6f96e6_36%,#4472cb_72%,#345db1_100%)] px-3 text-center">
-              <p className="whitespace-pre-line text-[0.82rem] font-semibold uppercase leading-[1.06] tracking-[0.03em] text-[#08111c]">
-                LET&apos;S
-                <br />
-                BEGIN
-              </p>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
       <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
         <article className="relative overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_48%,rgba(14,27,39,0.98))] px-8 py-10 shadow-[0_34px_90px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-12 sm:py-12">
           <div className="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/85 to-transparent" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(1,199,243,0.17),transparent_42%),linear-gradient(115deg,rgba(255,255,255,0.045),transparent_28%,transparent_72%,rgba(1,199,243,0.04))]" />
           <div className="pointer-events-none absolute -left-px top-10 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/50 to-transparent" />
           <div className="pointer-events-none absolute -right-px bottom-10 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
-          {showRail ? (
-            <p className="intro-year absolute inset-0 flex items-center justify-center font-display text-[5.5rem] font-black leading-none tracking-[0.06em] text-[#f4f2ec] sm:text-[7rem]">
-              2026
-            </p>
-          ) : null}
-          <p
-            className={`relative text-center font-display text-[2rem] leading-[1.12] text-[#b9f2ff] sm:text-[2.65rem] ${
-              showRail ? "question-after-year" : ""
-            }`}
-          >
+          <p className="relative text-center font-display text-[2rem] leading-[1.12] text-[#b9f2ff] sm:text-[2.65rem]">
             {question}
           </p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function YearIntroSlide() {
+  return (
+    <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
+      <div
+        className="pointer-events-none absolute left-[-8.35rem] top-1/2 hidden w-32 -translate-y-1/2 flex-col items-center xl:flex"
+        aria-hidden="true"
+      >
+        <div className="absolute left-1/2 top-8 h-[calc(100%-6rem)] w-[4px] -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,rgba(122,154,219,0.08),#6b93e1_16%,#456dc2_84%,rgba(122,154,219,0.08))]" />
+        <div className="relative z-10 flex h-[7.6rem] w-[7.6rem] items-center justify-center">
+          <div className="absolute -inset-[5px] rounded-full border border-[#2a54a4]/18" />
+          <div className="absolute inset-0 rounded-full bg-[linear-gradient(155deg,#6f98e8_0%,#3f6fc8_55%,#2a54a4_100%)] shadow-[0_16px_38px_rgba(47,92,174,0.22)]" />
+          <div className="absolute inset-[4px] rounded-full border border-white/18 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03))]" />
+          <div className="relative flex h-[6rem] w-[6rem] items-center justify-center rounded-full border border-[#24488f]/55 bg-[radial-gradient(circle_at_50%_28%,#95b7f3_0%,#6f96e6_36%,#4472cb_72%,#345db1_100%)] px-3 text-center">
+            <p className="whitespace-pre-line text-[0.82rem] font-semibold uppercase leading-[1.06] tracking-[0.03em] text-[#08111c]">
+              LET&apos;S
+              <br />
+              BEGIN
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
+        <article className="relative overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_48%,rgba(14,27,39,0.98))] px-8 py-16 shadow-[0_34px_90px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-12 sm:py-20">
+          <div className="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/85 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(1,199,243,0.17),transparent_42%),linear-gradient(115deg,rgba(255,255,255,0.045),transparent_28%,transparent_72%,rgba(1,199,243,0.04))]" />
+          <div className="pointer-events-none absolute -left-px top-10 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/50 to-transparent" />
+          <div className="pointer-events-none absolute -right-px bottom-10 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
+          <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
+            <p className="font-display text-[5.5rem] font-black leading-none tracking-[0.06em] text-[#f4f2ec] sm:text-[7rem] lg:text-[8.5rem]">
+              2026
+            </p>
+          </div>
         </article>
       </div>
     </section>
@@ -378,6 +400,21 @@ function FullScreenImageSlide() {
         autoPlay
         muted
         playsInline
+      />
+    </section>
+  );
+}
+
+function BlackSwanSlide() {
+  return (
+    <section className="flex min-h-full items-center justify-center py-0">
+      <Image
+        src="/BLACKSWAN.webp"
+        alt="Black Swan"
+        width={3218}
+        height={2001}
+        sizes="90vw"
+        className="mx-auto max-h-[64vh] w-auto max-w-[82vw] object-contain"
       />
     </section>
   );
@@ -588,17 +625,140 @@ function AgendaPage() {
   );
 }
 
+function SectionTitleSlide({
+  title,
+  voiceoverSrc,
+}: {
+  title: string;
+  voiceoverSrc?: string;
+}) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const toggleVoiceover = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+      return;
+    }
+
+    try {
+      await audio.play();
+      setIsPlaying(true);
+    } catch {
+      setIsPlaying(false);
+    }
+  };
+
+  const seekVoiceover = (value: string) => {
+    const audio = audioRef.current;
+    const nextTime = Number(value);
+
+    if (!audio || !Number.isFinite(nextTime)) return;
+
+    audio.currentTime = nextTime;
+    setCurrentTime(nextTime);
+  };
+
+  return (
+    <section className="flex min-h-full flex-col justify-center py-6">
+      <header className="mx-auto max-w-4xl text-center">
+        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
+          {title}
+        </h1>
+        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
+
+        {voiceoverSrc ? (
+          <div className="mx-auto mt-9 w-full max-w-xl">
+            <div className="relative overflow-hidden rounded-[1.7rem] border border-[#01c7f3]/45 bg-[linear-gradient(145deg,rgba(15,29,42,0.92),rgba(10,20,31,0.96))] p-4 text-left shadow-[0_18px_48px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-sm sm:p-5">
+              <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.9),transparent)]" />
+              <div className="relative flex items-center gap-4">
+                <button
+                  type="button"
+                  aria-label={isPlaying ? "Pause manifesto preview" : "Play manifesto preview"}
+                  onClick={toggleVoiceover}
+                  className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[#01c7f3]/65 bg-[#15283a] text-[#b9f2ff] shadow-[0_14px_34px_rgba(0,0,0,0.28)] transition-all hover:-translate-y-0.5 hover:border-[#01c7f3] hover:bg-[#1a3349]"
+                >
+                  {isPlaying ? (
+                    <Pause className="h-5 w-5" strokeWidth={2.4} />
+                  ) : (
+                    <Play className="ml-0.5 h-5 w-5" strokeWidth={2.4} />
+                  )}
+                </button>
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="min-w-0">
+                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8ecfe1]">
+                        Manifesto Preview
+                      </p>
+                      <p className="mt-1 truncate font-display text-[1.35rem] leading-none text-[#f4f2ec]">
+                        Project 2026
+                      </p>
+                    </div>
+                    <Volume2 className="hidden h-5 w-5 shrink-0 text-[#8fa8bd] sm:block" strokeWidth={2.1} />
+                  </div>
+
+                  <div className="mt-4">
+                    <input
+                      type="range"
+                      aria-label="Manifesto preview progress"
+                      min="0"
+                      max={duration || 0}
+                      step="0.1"
+                      value={Math.min(currentTime, duration || currentTime)}
+                      onChange={(event) => seekVoiceover(event.target.value)}
+                      className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-[#274257] accent-[#01c7f3]"
+                    />
+                    <div className="mt-2 flex items-center justify-between font-mono text-[0.72rem] text-[#8fa8bd]">
+                      <span>{formatAudioTime(currentTime)}</span>
+                      <span>{formatAudioTime(duration)}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <audio
+              ref={audioRef}
+              src={voiceoverSrc}
+              preload="metadata"
+              onDurationChange={(event) => setDuration(event.currentTarget.duration)}
+              onEnded={() => {
+                setIsPlaying(false);
+                setCurrentTime(0);
+              }}
+              onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
+              onPause={() => setIsPlaying(false)}
+              onPlay={() => setIsPlaying(true)}
+              onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+            />
+          </div>
+        ) : null}
+      </header>
+    </section>
+  );
+}
+
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 11;
+  const totalPages = deckPages.length + 15;
   const isCameraOpeningSlide =
     currentPage === 0 ||
     (currentPage >= 1 && currentPage <= 4) ||
-    currentPage === 7 ||
+    currentPage === 5 ||
     currentPage === 8 ||
-    currentPage === 9;
+    currentPage === 9 ||
+    currentPage === 10 ||
+    currentPage === 12 ||
+    currentPage === 13 ||
+    currentPage === 14;
 
   useEffect(() => {
     const applyHashPage = () => {
@@ -697,24 +857,26 @@ export function LibraryPage() {
           className="presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
         >
           {currentPage === 0 ? (
-            <QuestionSlide question={openingQuestions[0]} showRail />
+            <YearIntroSlide />
           ) : currentPage === 1 ? (
-            <FullScreenImageSlide />
+            <QuestionSlide question={openingQuestions[0]} />
           ) : currentPage === 2 ? (
+            <FullScreenImageSlide />
+          ) : currentPage === 3 ? (
             <DogeQuestionSlide />
-          ) : currentPage <= 4 ? (
-            <QuestionSlide question={openingQuestions[currentPage - 2]} />
-          ) : currentPage === 5 ? (
-            <GirlPage />
+          ) : currentPage <= 5 ? (
+            <QuestionSlide question={openingQuestions[currentPage - 3]} />
           ) : currentPage === 6 ? (
-            <MagaPage />
+            <GirlPage />
           ) : currentPage === 7 ? (
-            <ManifestoStatementsPage />
+            <MagaPage />
           ) : currentPage === 8 ? (
-            <PromisePage />
+            <ManifestoStatementsPage />
           ) : currentPage === 9 ? (
+            <PromisePage />
+          ) : currentPage === 10 ? (
             <AgendaPage />
-          ) : currentPage <= deckPages.length + 9 ? (
+          ) : currentPage === 11 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -725,7 +887,29 @@ export function LibraryPage() {
                 key={currentPage}
                 className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
-                {deckPages[currentPage - 10].map((deck) => (
+                {deckPages[0].map((deck) => (
+                  <DeckCard key={deck.href} deck={deck} />
+                ))}
+              </section>
+            </section>
+          ) : currentPage === 12 ? (
+            <SectionTitleSlide title="Solution" />
+          ) : currentPage === 13 ? (
+            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa.mp3" />
+          ) : currentPage === 14 ? (
+            <BlackSwanSlide />
+          ) : currentPage === 15 ? (
+            <section className="flex min-h-full flex-col justify-center py-8">
+              <header className="mx-auto max-w-3xl text-center">
+                <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
+                  Viral Fusion
+                </h1>
+              </header>
+              <section
+                key={currentPage}
+                className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
+              >
+                {deckPages[1].map((deck) => (
                   <DeckCard key={deck.href} deck={deck} />
                 ))}
               </section>

@@ -901,6 +901,16 @@ function GlobalMarketImageSlide({ slide, number }: { slide: Slide; number: numbe
         alt="Global Opportunities visual"
         className="absolute inset-0 h-full w-full object-cover object-center"
       />
+      <img
+        src="/palestine-destroyed.webp"
+        alt="Destroyed buildings in Palestine"
+        className="global-opportunities-devastation absolute inset-0 h-full w-full object-cover object-center"
+      />
+      <img
+        src="/gaza-before-after.jpg"
+        alt="Before and after view of destruction in Gaza"
+        className="global-opportunities-aftermath absolute inset-0 h-full w-full object-cover object-center"
+      />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,9,14,0.94)_0%,rgba(6,9,14,0.82)_34%,rgba(6,9,14,0.42)_64%,rgba(6,9,14,0.22)_100%)]" />
       <div className="absolute inset-x-0 bottom-0 h-48 bg-[linear-gradient(0deg,rgba(6,9,14,0.7),transparent)]" />
 
@@ -913,7 +923,7 @@ function GlobalMarketImageSlide({ slide, number }: { slide: Slide; number: numbe
         </div>
 
         <div className="flex min-h-[calc(100vh-5rem)] w-full items-center">
-          <div className="w-full max-w-3xl space-y-7 md:space-y-8">
+          <div className="w-full max-w-5xl space-y-7 md:space-y-8">
             <div className="space-y-4">
               <h1 className="font-display text-4xl leading-[1.02] text-white [text-wrap:balance] md:text-6xl">
                 {slide.title}
@@ -921,7 +931,7 @@ function GlobalMarketImageSlide({ slide, number }: { slide: Slide; number: numbe
               <div className="h-px w-24 bg-[linear-gradient(90deg,rgba(255,255,255,0.85),rgba(255,255,255,0))]" />
             </div>
 
-            <div className="grid max-w-2xl gap-4">
+            <div className="grid max-w-5xl gap-4">
               {slide.statements.map((statement, index) => (
                 <article
                   key={statement}
@@ -947,9 +957,65 @@ function GlobalMarketImageSlide({ slide, number }: { slide: Slide; number: numbe
   );
 }
 
+function GlobalMarketPositionedSlide({ slide, number }: { slide: Slide; number: number }) {
+  return (
+    <section className="relative min-h-screen overflow-hidden bg-transparent">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(72,88,104,0.16),transparent_24%),linear-gradient(135deg,#d9ddd9_0%,#e8e9e5_34%,#d9dee2_100%)]" />
+      <div className="absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(17,22,28,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,22,28,0.05)_1px,transparent_1px)] [background-position:center_center] [background-size:28px_28px]" />
+      <div className="absolute inset-y-0 left-[6%] w-px bg-[linear-gradient(180deg,transparent,rgba(17,22,28,0.18),transparent)]" />
+      <div className="absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
+
+      <div className="relative z-10 min-h-screen px-[10%] py-8 md:py-10">
+        <div className="absolute right-6 top-8 flex items-center gap-4 text-mist md:right-8 md:top-10">
+          <p className="text-[0.76rem] uppercase tracking-[0.28em]">
+            {`Slide ${String(number).padStart(2, "0")}`}
+          </p>
+          <span className="h-px w-20 bg-[linear-gradient(90deg,rgba(38,49,61,0.45),rgba(38,49,61,0))]" />
+        </div>
+
+        <div className="flex min-h-[calc(100vh-5rem)] w-full items-center">
+          <div className="w-full max-w-5xl translate-y-7 space-y-7 md:translate-y-12 md:space-y-8">
+            <div className="space-y-4">
+              <h1 className="font-display text-4xl leading-[1.02] text-ink [text-wrap:balance] md:text-6xl">
+                {slide.title}
+              </h1>
+              <div className="h-px w-24 bg-[linear-gradient(90deg,rgba(52,90,161,0.95),rgba(52,90,161,0))]" />
+            </div>
+
+            <div className="grid max-w-5xl gap-4">
+              {slide.statements.map((statement, index) => (
+                <article
+                  key={statement}
+                  className="relative overflow-hidden rounded-[1.6rem] border border-white/70 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(243,246,248,0.9))] p-5 shadow-[0_18px_48px_rgba(17,22,28,0.1)] md:p-6"
+                >
+                  <div className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,rgba(52,90,161,0.92),rgba(140,159,176,0.24))]" />
+                  <p
+                    className={
+                      index === 0
+                        ? "pl-4 text-[1.02rem] leading-7 text-ink md:text-[1.2rem] md:leading-8 [text-wrap:pretty]"
+                        : "pl-4 text-[0.97rem] leading-7 text-ink/90 md:text-[1.06rem] md:leading-8 [text-wrap:pretty]"
+                    }
+                  >
+                    {renderInlineLinks(statement)}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function GlobalMarketSlide({ slide, number }: { slide: Slide; number: number }) {
   if (number === 2) {
     return <GlobalMarketImageSlide slide={slide} number={number} />;
+  }
+
+  if (number === 3) {
+    return <GlobalMarketPositionedSlide slide={slide} number={number} />;
   }
 
   const showSlide1Globe = number === 1;
