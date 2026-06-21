@@ -423,8 +423,8 @@ function BlackSwanSlide() {
         alt="Black Swan"
         width={1586}
         height={992}
-        sizes="90vw"
-        className="mx-auto max-h-[64vh] w-auto max-w-[82vw] object-contain"
+        sizes="96vw"
+        className="mx-auto max-h-[78vh] w-auto max-w-[94vw] rounded-[2rem] border border-white/30 object-contain shadow-[0_28px_80px_rgba(0,0,0,0.32)]"
       />
     </section>
   );
