@@ -51,6 +51,7 @@ function parseHash(total: number) {
 const urlMatcher = /(https?:\/\/[^\s]+)/g;
 const buttonLinkMatcher = /^team video:\s*(https?:\/\/\S+)$/i;
 const coverVideoMatcher = /^video:\s*(https?:\/\/\S+)$/i;
+const redBoldMatcher = /\{\{red-bold:(.+?)\}\}/g;
 
 function getVimeoEmbedUrl(url: string) {
   const manageMatch = url.match(/vimeo\.com\/manage\/videos\/(\d+)\/([a-zA-Z0-9]+)/i);
@@ -84,28 +85,42 @@ function renderInlineLinks(text: string): ReactNode {
     );
   }
 
-  const parts = text.split(urlMatcher);
+  const emphasizedParts = text.split(redBoldMatcher);
 
-  return parts.map((part, index) => {
-    if (!part) {
-      return null;
-    }
+  return emphasizedParts.map((part, index) => {
+    if (!part) return null;
 
-    if (/^https?:\/\//.test(part)) {
+    if (index % 2 === 1) {
       return (
-        <a
-          key={`${part}-${index}`}
-          href={part}
-          target="_blank"
-          rel="noreferrer"
-          className="underline decoration-accent underline-offset-4 transition-colors hover:text-graphite"
-        >
+        <span key={`red-bold-${part}-${index}`} className="font-bold text-[#b42318]">
           {part}
-        </a>
+        </span>
       );
     }
 
-    return <span key={`${part}-${index}`}>{part}</span>;
+    const parts = part.split(urlMatcher);
+
+    return parts.map((linkedPart, linkedIndex) => {
+      if (!linkedPart) {
+        return null;
+      }
+
+      if (/^https?:\/\//.test(linkedPart)) {
+        return (
+          <a
+            key={`${linkedPart}-${index}-${linkedIndex}`}
+            href={linkedPart}
+            target="_blank"
+            rel="noreferrer"
+            className="underline decoration-accent underline-offset-4 transition-colors hover:text-graphite"
+          >
+            {linkedPart}
+          </a>
+        );
+      }
+
+      return <span key={`${linkedPart}-${index}-${linkedIndex}`}>{linkedPart}</span>;
+    });
   });
 }
 

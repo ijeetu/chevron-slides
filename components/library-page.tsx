@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
@@ -104,12 +104,12 @@ const deckPages: Deck[][] = [
 ];
 
 const deckPageHashes: Record<string, number> = {
-  "#problems": 11,
-  "#decks": 11,
-  "#presentation": 11,
-  "#global-opportunities": 11,
-  "#strategymap": 15,
-  "#driven-to-win": 15,
+  "#problems": 12,
+  "#decks": 12,
+  "#presentation": 12,
+  "#global-opportunities": 12,
+  "#strategymap": 16,
+  "#driven-to-win": 16,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -138,6 +138,16 @@ const manifestoStatements: ManifestoStatement[] = [
   },
 ];
 
+function ManifestoStatementText() {
+  return (
+    <>
+      While others talk about America First,
+      <br />
+      <span className="font-bold">we have the blueprint.</span>
+    </>
+  );
+}
+
 const foundingFathers: FoundingFather[] = [
   {
     name: "George Washington",
@@ -152,9 +162,9 @@ const foundingFathers: FoundingFather[] = [
 ];
 
 const openingQuestions = [
-  "Having spoken with so many guests on your podcast, do you and your team feel more hopeful about the future?",
-  "Is validating a glimpse of the fraud enough?",
-  "How vital is accountability to the survival of the American republic?",
+  "\"It's challenging to feel hopeful about the future.\"",
+  "\"The Goal Isn't to Catch Fraud Faster. The Goal Is to Make Fraud Physically Impossible.\"",
+  "A Republic Without Absolute Accountability Is Already in Decay.",
 ] as const;
 
 const promiseItems: PromiseItem[] = [
@@ -299,7 +309,7 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
 
             <div className="relative mx-auto flex max-w-3xl flex-col items-center">
               <p className="max-w-3xl font-display text-[1.9rem] leading-[1.12] text-ink sm:text-[2.25rem] md:text-[2.7rem]">
-                {statement.text}
+                <ManifestoStatementText />
               </p>
             </div>
           </div>
@@ -312,7 +322,7 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
 function QuestionSlide({
   question,
 }: {
-  question: string;
+  question: ReactNode;
 }) {
   return (
     <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
@@ -435,7 +445,7 @@ function GirlPage() {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.08),rgba(8,17,34,0.22)_46%,rgba(5,10,20,0.78)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 px-6 pb-7 pt-16 text-center sm:px-8 sm:pb-9">
             <p className="font-display text-[2.3rem] leading-[1.15] text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.5)] sm:text-[3.1rem]">
-              Are the children protected?
+              Good Intentions Do Not Stop Predators. Only Uncompromising Laws Will.
             </p>
           </div>
         </div>
@@ -459,7 +469,7 @@ function MagaPage() {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.1),rgba(8,17,34,0.18)_38%,rgba(5,10,20,0.72)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 px-6 pb-7 pt-16 text-center sm:px-8 sm:pb-9">
             <p className="font-display text-[2.3rem] leading-[1.15] text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.5)] sm:text-[3.1rem]">
-              Are the people ready for something greater?
+              While Others Talk About America First, We Have the Blueprint to Code It Into Reality.
             </p>
           </div>
         </div>
@@ -470,7 +480,7 @@ function MagaPage() {
 
 function ManifestoStatementsPage() {
   return (
-    <QuestionSlide question={manifestoStatements[0].text} />
+    <QuestionSlide question={<ManifestoStatementText />} />
   );
 }
 
@@ -748,17 +758,11 @@ export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 15;
+  const totalPages = deckPages.length + 16;
   const isCameraOpeningSlide =
-    currentPage === 0 ||
-    (currentPage >= 1 && currentPage <= 4) ||
-    currentPage === 5 ||
-    currentPage === 8 ||
-    currentPage === 9 ||
-    currentPage === 10 ||
-    currentPage === 12 ||
-    currentPage === 13 ||
-    currentPage === 14;
+    currentPage <= 6 ||
+    (currentPage >= 9 && currentPage <= 11) ||
+    (currentPage >= 13 && currentPage <= 15);
 
   useEffect(() => {
     const applyHashPage = () => {
@@ -861,22 +865,24 @@ export function LibraryPage() {
           ) : currentPage === 1 ? (
             <QuestionSlide question={openingQuestions[0]} />
           ) : currentPage === 2 ? (
-            <FullScreenImageSlide />
-          ) : currentPage === 3 ? (
             <DogeQuestionSlide />
-          ) : currentPage <= 5 ? (
-            <QuestionSlide question={openingQuestions[currentPage - 3]} />
+          ) : currentPage <= 4 ? (
+            <QuestionSlide question={openingQuestions[currentPage - 2]} />
+          ) : currentPage === 5 ? (
+            <FullScreenImageSlide />
           ) : currentPage === 6 ? (
-            <GirlPage />
+            <SectionTitleSlide title="The Children" />
           ) : currentPage === 7 ? (
-            <MagaPage />
+            <GirlPage />
           ) : currentPage === 8 ? (
-            <ManifestoStatementsPage />
+            <MagaPage />
           ) : currentPage === 9 ? (
-            <PromisePage />
+            <ManifestoStatementsPage />
           ) : currentPage === 10 ? (
-            <AgendaPage />
+            <PromisePage />
           ) : currentPage === 11 ? (
+            <AgendaPage />
+          ) : currentPage === 12 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -892,13 +898,13 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 12 ? (
-            <SectionTitleSlide title="Solution" />
           ) : currentPage === 13 ? (
-            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa.mp3" />
+            <SectionTitleSlide title="Solution" />
           ) : currentPage === 14 ? (
-            <BlackSwanSlide />
+            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa.mp3" />
           ) : currentPage === 15 ? (
+            <BlackSwanSlide />
+          ) : currentPage === 16 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
