@@ -419,10 +419,10 @@ function BlackSwanSlide() {
   return (
     <section className="flex min-h-full items-center justify-center py-0">
       <Image
-        src="/BLACKSWAN.webp"
+        src="/swanblack.webp"
         alt="Black Swan"
-        width={3218}
-        height={2001}
+        width={1586}
+        height={992}
         sizes="90vw"
         className="mx-auto max-h-[64vh] w-auto max-w-[82vw] object-contain"
       />
