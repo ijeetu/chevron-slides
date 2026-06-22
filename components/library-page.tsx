@@ -445,7 +445,9 @@ function GirlPage() {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.08),rgba(8,17,34,0.22)_46%,rgba(5,10,20,0.78)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 px-6 pb-7 pt-16 text-center sm:px-8 sm:pb-9">
             <p className="font-display text-[2.3rem] leading-[1.15] text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.5)] sm:text-[3.1rem]">
-              Good Intentions Do Not Stop Predators. Only Uncompromising Laws Will.
+              Good intentions do not stop predators.
+              <br />
+              Only uncompromising laws will.
             </p>
           </div>
         </div>
@@ -469,7 +471,7 @@ function MagaPage() {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.1),rgba(8,17,34,0.18)_38%,rgba(5,10,20,0.72)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 px-6 pb-7 pt-16 text-center sm:px-8 sm:pb-9">
             <p className="font-display text-[2.3rem] leading-[1.15] text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.5)] sm:text-[3.1rem]">
-              While Others Talk About America First, We Have the Blueprint to Code It Into Reality.
+              The people demand something better.
             </p>
           </div>
         </div>
