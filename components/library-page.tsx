@@ -134,16 +134,15 @@ function namedHashMatchesPage(hash: string, page: number) {
 
 const manifestoStatements: ManifestoStatement[] = [
   {
-    text: "While others talk about America First, we have the blueprint.",
+    text: "While others talk about America First, we built the code, mapped the strategy, and created a blueprint that can be replicated globally.",
   },
 ];
 
 function ManifestoStatementText() {
   return (
     <>
-      While others talk about America First,
-      <br />
-      <span className="font-bold">we have the blueprint.</span>
+      While others talk about America First, we built the code, mapped the strategy,
+      and created a blueprint that can be replicated globally.
     </>
   );
 }
@@ -180,12 +179,14 @@ const promiseItems: PromiseItem[] = [
 ];
 
 const promiseNotes = [
-  "You have interviewed countless people and uncovered massive problems, and I know your audience is looking for a genuine spark of hope.",
-  "I want your guests and your supporters to know that right now, there are people working on real solutions. People who care deeply about humanity, sovereignty, and the future of our families.",
-  "If your team supports the efforts we are putting forward today, we will pass historic legislation no previous representatives ever could.",
-  "We will hold those accountable for the crimes they have committed. We will strengthen our society, and we will protect the children.",
-  "Today, I am going to lay out exactly what is possible when you give creativity and tools to the few willing to use them.",
-  "My promise to you is that together, we will change the world.",
+  "You have interviewed countless people on this show and uncovered massive problems. I know your audience is looking for a genuine spark of hope.",
+  "I want your viewers, your guests, and your supporters to know one thing: Right now, there are people building real solutions. People who care deeply about humanity, about our sovereignty, and about the future of our families.",
+  "If your community stands with the efforts we are launching today, we will achieve what no previous representatives ever could:",
+  "We will Defend Sovereignty by passing historic legislation.",
+  "We will Enforce Accountability and hold those responsible for their crimes.",
+  "And we will Secure the Future to protect our children.",
+  "Today, I am going to lay out exactly what is possible when you hand the right tools to the few who are willing to fight.",
+  "My promise to you-and to everyone watching-is that together, we will change the world.",
 ] as const;
 
 const agendaItems = [
@@ -401,11 +402,11 @@ function DogeQuestionSlide() {
   );
 }
 
-function FullScreenImageSlide() {
+function FullScreenFlagSlide({ src }: { src: string }) {
   return (
     <section className="fixed inset-0 z-0 bg-black">
       <video
-        src="/flagmain2.webm"
+        src={src}
         className="h-full w-full object-cover"
         autoPlay
         muted
@@ -548,7 +549,15 @@ function PromisePage() {
             aria-label="Promise notes"
           >
             <div className="relative max-h-[82vh] w-full max-w-4xl overflow-hidden rounded-[1.4rem] border border-[#01c7f3]/55 bg-[#0d1823] shadow-[0_34px_100px_rgba(0,0,0,0.48)]">
-              <div className="flex items-center justify-end border-b border-white/10 px-5 py-4 sm:px-6">
+              <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
+                <div className="min-w-0">
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8ecfe1]">
+                    Updated Script
+                  </p>
+                  <p className="mt-1 text-sm text-[#d8edf6]/72">
+                    George speaks to the host and camera
+                  </p>
+                </div>
                 <button
                   type="button"
                   aria-label="Close Promise notes"
@@ -760,11 +769,12 @@ export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 16;
+  const totalPages = deckPages.length + 17;
   const isCameraOpeningSlide =
     currentPage <= 6 ||
     (currentPage >= 9 && currentPage <= 11) ||
-    (currentPage >= 13 && currentPage <= 15);
+    (currentPage >= 13 && currentPage <= 15) ||
+    currentPage === 17;
 
   useEffect(() => {
     const applyHashPage = () => {
@@ -871,7 +881,7 @@ export function LibraryPage() {
           ) : currentPage <= 4 ? (
             <QuestionSlide question={openingQuestions[currentPage - 2]} />
           ) : currentPage === 5 ? (
-            <FullScreenImageSlide />
+            <FullScreenFlagSlide src="/flag1.webm" />
           ) : currentPage === 6 ? (
             <SectionTitleSlide title="The Children" />
           ) : currentPage === 7 ? (
@@ -922,6 +932,8 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
+          ) : currentPage === 17 ? (
+            <FullScreenFlagSlide src="/flag2.webm" />
           ) : (
             <PlaceholderCtaPage />
           )}
