@@ -551,10 +551,7 @@ function PromisePage() {
             <div className="relative max-h-[82vh] w-full max-w-4xl overflow-hidden rounded-[1.4rem] border border-[#01c7f3]/55 bg-[#0d1823] shadow-[0_34px_100px_rgba(0,0,0,0.48)]">
               <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
                 <div className="min-w-0">
-                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8ecfe1]">
-                    Updated Script
-                  </p>
-                  <p className="mt-1 text-sm text-[#d8edf6]/72">
+                  <p className="text-sm text-[#d8edf6]/72">
                     George speaks to the host and camera
                   </p>
                 </div>
