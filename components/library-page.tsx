@@ -28,6 +28,7 @@ type Deck = {
   tone: string;
   iconTone: string;
   placementClass?: string;
+  videoEmbedUrl?: string;
 };
 
 type ManifestoStatement = {
@@ -48,19 +49,35 @@ const deckPages: Deck[][] = [
   [
     {
       title: "Problems",
-      description: "Opportunity for the TAM Narrative",
+      description: "Insulation and Noise",
       href: "/tam",
       icon: BarChart3,
+      placementClass: "xl:col-start-2 xl:col-span-2",
       tone:
         "bg-[linear-gradient(145deg,rgba(255,255,255,0.94),rgba(241,236,225,0.88))] hover:border-[#c9bb9a]/85 hover:shadow-[0_24px_55px_rgba(108,89,52,0.14)]",
       iconTone:
         "bg-[linear-gradient(145deg,rgba(245,239,227,0.98),rgba(230,216,187,0.94))] text-[#6c5835] border-[#cbbd9f]/50",
     },
     {
+      title: "Beneath the Noise",
+      description: "Incentives Behind Instability",
+      href: "https://www.youtube.com/watch?v=r4xoOQ32KNM",
+      videoEmbedUrl: "https://www.youtube.com/embed/r4xoOQ32KNM?autoplay=1&rel=0",
+      icon: TrendingUp,
+      placementClass: "xl:col-start-4 xl:col-span-2",
+      tone:
+        "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(229,235,241,0.92))] hover:border-[#91a5b8]/85 hover:shadow-[0_24px_60px_rgba(55,79,105,0.16)]",
+      iconTone:
+        "bg-[linear-gradient(145deg,rgba(235,241,247,0.98),rgba(185,201,216,0.94))] text-[#3e5b74] border-[#9aafc1]/50",
+    },
+  ],
+  [
+    {
       title: "Core Presentation",
       description: "Vision Video and Strategic Initiatives",
       href: "/presentation",
       icon: Presentation,
+      placementClass: "xl:col-start-2 xl:col-span-2",
       tone:
         "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(228,235,244,0.9))] hover:border-[#94aac2]/85 hover:shadow-[0_24px_60px_rgba(59,88,129,0.16)]",
       iconTone:
@@ -71,6 +88,7 @@ const deckPages: Deck[][] = [
       description: "TAM (Total Available Market)",
       href: "/presentation/global-opportunities",
       icon: Globe2,
+      placementClass: "xl:col-start-4 xl:col-span-2",
       tone:
         "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(221,238,233,0.96))] hover:border-[#6fa391]/85 hover:shadow-[0_24px_60px_rgba(42,109,88,0.18)]",
       iconTone:
@@ -106,8 +124,8 @@ const deckPages: Deck[][] = [
 const deckPageHashes: Record<string, number> = {
   "#problems": 12,
   "#decks": 12,
-  "#presentation": 12,
-  "#global-opportunities": 12,
+  "#presentation": 13,
+  "#global-opportunities": 13,
   "#strategymap": 16,
   "#driven-to-win": 16,
 };
@@ -212,14 +230,17 @@ function formatAudioTime(seconds: number) {
   return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
 }
 
-function DeckCard({ deck }: { deck: Deck }) {
+function DeckCard({
+  deck,
+  onOpenVideo,
+}: {
+  deck: Deck;
+  onOpenVideo: (videoEmbedUrl: string) => void;
+}) {
   const Icon = deck.icon;
-
-  return (
-    <Link
-      href={deck.href}
-      className={`group relative flex min-h-[17.25rem] flex-col overflow-hidden rounded-[1.9rem] border border-white/75 p-6 transition-all duration-300 ease-out hover:-translate-y-1 xl:col-span-2 ${deck.placementClass ?? ""} ${deck.tone}`}
-    >
+  const cardClassName = `group relative flex min-h-[17.25rem] flex-col overflow-hidden rounded-[1.9rem] border border-white/75 p-6 text-left transition-all duration-300 ease-out hover:-translate-y-1 xl:col-span-2 ${deck.placementClass ?? ""} ${deck.tone}`;
+  const content = (
+    <>
       <div className="pointer-events-none absolute inset-x-6 top-0 h-20 bg-gradient-to-r from-white/60 via-white/20 to-transparent blur-2xl" />
 
       <div className="relative flex h-full flex-col">
@@ -244,7 +265,7 @@ function DeckCard({ deck }: { deck: Deck }) {
         <div className="mt-auto w-full pt-6">
           <div className="flex items-center justify-between rounded-[1.25rem] border border-white/70 bg-white/55 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-sm transition-all duration-300 group-hover:bg-white/72">
             <span className="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-graphite">
-              OPEN DECK
+              {deck.videoEmbedUrl ? "OPEN VIDEO" : "OPEN DECK"}
             </span>
             <div className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 bg-white/80 text-ink transition-transform duration-300 group-hover:translate-x-0.5">
               <ArrowRight className="h-4 w-4" strokeWidth={2.1} />
@@ -252,6 +273,24 @@ function DeckCard({ deck }: { deck: Deck }) {
           </div>
         </div>
       </div>
+    </>
+  );
+
+  if (deck.videoEmbedUrl) {
+    return (
+      <button
+        type="button"
+        className={cardClassName}
+        onClick={() => onOpenVideo(deck.videoEmbedUrl!)}
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <Link href={deck.href} className={cardClassName}>
+      {content}
     </Link>
   );
 }
@@ -372,7 +411,7 @@ function YearIntroSlide() {
           <div className="pointer-events-none absolute -right-px bottom-10 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
           <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
             <p className="font-display text-[5.5rem] font-black leading-none tracking-[0.06em] text-[#f4f2ec] sm:text-[7rem] lg:text-[8.5rem]">
-              2026
+              1776 - 2026
             </p>
           </div>
         </article>
@@ -764,13 +803,14 @@ function SectionTitleSlide({
 
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
+  const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 17;
+  const totalPages = deckPages.length + 16;
   const isCameraOpeningSlide =
     currentPage <= 6 ||
     (currentPage >= 9 && currentPage <= 11) ||
-    (currentPage >= 13 && currentPage <= 15) ||
+    (currentPage >= 14 && currentPage <= 15) ||
     currentPage === 17;
 
   useEffect(() => {
@@ -791,6 +831,13 @@ export function LibraryPage() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      if (activeVideoEmbedUrl) {
+        if (event.key === "Escape") {
+          setActiveVideoEmbedUrl(null);
+        }
+        return;
+      }
+
       if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
         event.preventDefault();
         setCurrentPage((page) => Math.min(page + 1, totalPages - 1));
@@ -804,7 +851,7 @@ export function LibraryPage() {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [totalPages]);
+  }, [activeVideoEmbedUrl, totalPages]);
 
   useEffect(() => {
     pageContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
@@ -895,7 +942,7 @@ export function LibraryPage() {
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
-                  Viral Fusion
+                  Problems
                 </h1>
               </header>
               <section
@@ -903,12 +950,34 @@ export function LibraryPage() {
                 className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
                 {deckPages[0].map((deck) => (
-                  <DeckCard key={deck.href} deck={deck} />
+                  <DeckCard
+                    key={deck.href}
+                    deck={deck}
+                    onOpenVideo={setActiveVideoEmbedUrl}
+                  />
                 ))}
               </section>
             </section>
           ) : currentPage === 13 ? (
-            <SectionTitleSlide title="Solution" />
+            <section className="flex min-h-full flex-col justify-center py-8">
+              <header className="mx-auto max-w-3xl text-center">
+                <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
+                  Viral Fusion
+                </h1>
+              </header>
+              <section
+                key={currentPage}
+                className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
+              >
+                {deckPages[1].map((deck) => (
+                  <DeckCard
+                    key={deck.href}
+                    deck={deck}
+                    onOpenVideo={setActiveVideoEmbedUrl}
+                  />
+                ))}
+              </section>
+            </section>
           ) : currentPage === 14 ? (
             <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa.mp3" />
           ) : currentPage === 15 ? (
@@ -924,8 +993,12 @@ export function LibraryPage() {
                 key={currentPage}
                 className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
-                {deckPages[1].map((deck) => (
-                  <DeckCard key={deck.href} deck={deck} />
+                {deckPages[2].map((deck) => (
+                  <DeckCard
+                    key={deck.href}
+                    deck={deck}
+                    onOpenVideo={setActiveVideoEmbedUrl}
+                  />
                 ))}
               </section>
             </section>
@@ -936,6 +1009,40 @@ export function LibraryPage() {
           )}
         </div>
       </main>
+
+      {activeVideoEmbedUrl ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Embedded YouTube video"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#07101a]/88 p-4 backdrop-blur-md sm:p-8"
+          onClick={() => setActiveVideoEmbedUrl(null)}
+        >
+          <div
+            className="relative w-full max-w-6xl overflow-hidden rounded-[1.5rem] border border-white/20 bg-black shadow-[0_36px_120px_rgba(0,0,0,0.6)]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              aria-label="Close video"
+              onClick={() => setActiveVideoEmbedUrl(null)}
+              className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-black/65 text-white backdrop-blur-sm transition-colors hover:bg-black/90"
+            >
+              <X size={20} strokeWidth={2.2} />
+            </button>
+            <div className="aspect-video">
+              <iframe
+                src={activeVideoEmbedUrl}
+                title="Beneath the Noise"
+                className="h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <div
         className={`fixed bottom-6 right-6 z-20 flex items-center gap-2 rounded-full px-2 py-1.5 shadow-deck md:bottom-8 md:right-8 ${

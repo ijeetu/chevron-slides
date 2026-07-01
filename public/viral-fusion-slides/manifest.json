@@ -1,7 +1,7 @@
 {
   "sourceFile": "Viral Fusion.pdf",
-  "sourceSize": 17032452,
-  "pageCount": 15,
+  "sourceSize": 16010320,
+  "pageCount": 13,
   "slides": [
     "viral-fusion-slides/slide-01.webp",
     "viral-fusion-slides/slide-02.webp",
@@ -15,9 +15,7 @@
     "viral-fusion-slides/slide-10.webp",
     "viral-fusion-slides/slide-11.webp",
     "viral-fusion-slides/slide-12.webp",
-    "viral-fusion-slides/slide-13.webp",
-    "viral-fusion-slides/slide-14.webp",
-    "viral-fusion-slides/slide-15.webp"
+    "viral-fusion-slides/slide-13.webp"
   ],
   "renderer": "pdftoppm 150dpi -> cwebp q85"
 }

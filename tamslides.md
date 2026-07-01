@@ -7,7 +7,7 @@ Vision Video: https://vimeo.com/1195380154/5278129b85?share=copy&fl=sv&fe=ci
 Slide 1
 Global Opportunities
 In countries where governments control information, surveillance, and communications, the people's voice, secured on-chain, could become a powerful disruptive force. In places such as Iran, a system that helps people communicate securely, document conditions, verify consensus, and show credible public preferences could make it harder for a regime to monopolize information and easier for civil resistance to organize around verifiable truth.
-Viral Fusion could help weaken regime control and strengthen nonviolent internal pressure through anti-censorship communication, consensus proof, atrocity documentation, strike coordination, diaspora support, and transition legitimacy.
+The Viral Fusion operating system could help weaken regime control and strengthen nonviolent internal pressure through anti-censorship communication, consensus building, atrocity documentation, strike coordination, diaspora support, and transition legitimacy.
 
 Slide 2
 Global Opportunities

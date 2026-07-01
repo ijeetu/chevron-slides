@@ -4,7 +4,7 @@ In countries where governments control information, surveillance, and communicat
 
 Slide 2
 Global Opportunities
-Viral Fusion could help weaken regime control and strengthen nonviolent internal pressure through anti-censorship communication, consensus proof, atrocity documentation, strike coordination, diaspora support, and transition legitimacy.
+The Viral Fusion operating system could help weaken regime control and strengthen nonviolent internal pressure through anti-censorship communication, consensus building, atrocity documentation, strike coordination, diaspora support, and transition legitimacy.
 
 Slide 3
 Global Opportunities
