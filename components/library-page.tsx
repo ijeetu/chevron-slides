@@ -197,14 +197,15 @@ const promiseItems: PromiseItem[] = [
 ];
 
 const promiseNotes = [
-  "You have interviewed countless people on this show and uncovered massive problems. I know your audience is looking for a genuine spark of hope.",
-  "I want your viewers, your guests, and your supporters to know one thing: Right now, there are people building real solutions. People who care deeply about humanity, about our sovereignty, and about the future of our families.",
-  "If your community stands with the efforts we are launching today, we will achieve what no previous representatives ever could:",
-  "We will Defend Sovereignty by passing historic legislation.",
-  "We will Enforce Accountability and hold those responsible for their crimes.",
+  "You have interviewed countless guests and uncovered massive problems.",
+  "Your audience is looking for a spark of hope.",
+  "I want your viewers, your guests, and your supporters to know one thing: Right now, people are building real solutions. People who care deeply about humanity, our sovereignty, and our families.",
+  "If your community stands with us today, we will achieve what no one else could.",
+  "We will Defend Sovereignty through historic legislation.",
+  "We will Enforce Accountability and punish the crimes.",
   "And we will Secure the Future to protect our children.",
-  "Today, I am going to lay out exactly what is possible when you hand the right tools to the few who are willing to fight.",
-  "My promise to you-and to everyone watching-is that together, we will change the world.",
+  "Today, I will show you what happens when you give the right tools to those willing to fight.",
+  "My promise to you—and everyone watching—is that together, we will change the world.",
 ] as const;
 
 const agendaItems = [
