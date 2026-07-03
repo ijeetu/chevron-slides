@@ -124,10 +124,10 @@ const deckPages: Deck[][] = [
 const deckPageHashes: Record<string, number> = {
   "#problems": 12,
   "#decks": 12,
-  "#presentation": 13,
-  "#global-opportunities": 13,
-  "#strategymap": 16,
-  "#driven-to-win": 16,
+  "#presentation": 15,
+  "#global-opportunities": 15,
+  "#strategymap": 18,
+  "#driven-to-win": 18,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -206,6 +206,13 @@ const promiseNotes = [
   "And we will Secure the Future to protect our children.",
   "Today, I will show you what happens when you give the right tools to those willing to fight.",
   "My promise to you—and everyone watching—is that together, we will change the world.",
+] as const;
+
+const technologyDiscussionNotes = [
+  "Good intentions aren't enough to change the world. Brilliant visions die every day because of bad timing, flawed strategy, or muddy messaging. But here is what keeps me optimistic: there is an immense pool of powerful people who genuinely want to do good. Our job isn't to change their hearts; it's to fix the execution.",
+  "And that is exactly where we come in. We realized that goodwill without the right infrastructure falls flat. So, we designed a framework that combines cutting-edge tech with precision strategy to bridge that exact gap...",
+  "I'm not here to criticize others. I'm not here to complain. I'm here to show the world how a simple conversation in a podcast can change the world.",
+  "Are you ready to get started?",
 ] as const;
 
 const agendaItems = [
@@ -417,6 +424,100 @@ function YearIntroSlide() {
           </div>
         </article>
       </div>
+    </section>
+  );
+}
+
+function YearVideoSlide() {
+  return (
+    <section className="relative flex h-full items-center justify-center px-[5%]">
+      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
+        <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
+          <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
+            <p className="font-display text-[4.2rem] font-black leading-none tracking-[0.06em] text-[#f4f2ec] sm:text-[5.6rem] lg:text-[6.6rem]">
+              2010
+            </p>
+            <div className="mt-3 h-px w-36 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
+
+            <div className="mt-6 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/6iLf2h_fo-w?rel=0"
+                  title="2010 video"
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function TechnologyStartedSlide() {
+  const [showNotes, setShowNotes] = useState(false);
+
+  return (
+    <section className="relative flex h-full items-center justify-center px-[5%]">
+      <div className="mx-auto flex w-full max-w-6xl flex-col items-center text-center">
+        <p className="font-display text-[2.6rem] font-black leading-none tracking-[0.06em] text-[#f4f2ec] sm:text-[3.5rem] lg:text-[4.2rem]">
+          2026
+        </p>
+        <h1 className="mt-5 max-w-5xl font-display text-[3rem] font-black leading-[0.98] text-[#f4f2ec] sm:text-[4.35rem] lg:text-[5.5rem]">
+          Technology is Just Getting Started
+        </h1>
+        <div className="mt-8 h-px w-56 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
+      </div>
+
+      <button
+        type="button"
+        aria-label={showNotes ? "Hide discussion notes" : "Show discussion notes"}
+        onClick={() => setShowNotes((value) => !value)}
+        className="absolute bottom-0 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 rounded-t-2xl border border-b-0 border-[#01c7f3]/44 bg-[#0f1d2a]/92 px-5 py-3 text-[#d8edf6] shadow-[0_-14px_34px_rgba(0,0,0,0.22)] backdrop-blur-sm transition-all hover:border-[#01c7f3]/75 hover:text-[#b9f2ff]"
+      >
+        <NotebookText className="h-4 w-4" strokeWidth={2.1} />
+        <span className="text-[0.72rem] font-semibold uppercase tracking-[0.18em]">
+          Discussion Notes
+        </span>
+      </button>
+
+      {showNotes ? (
+        <div className="absolute inset-x-0 bottom-0 z-30 flex justify-center px-4 pb-14 sm:px-8">
+          <article className="relative max-h-[58vh] w-full max-w-4xl overflow-hidden rounded-[1.35rem] border border-[#01c7f3]/52 bg-[#0d1823]/96 text-left shadow-[0_28px_90px_rgba(0,0,0,0.46)] backdrop-blur-md">
+            <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
+              <div className="min-w-0">
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8ecfe1]">
+                  Discussion Notes
+                </p>
+              </div>
+              <button
+                type="button"
+                aria-label="Close discussion notes"
+                onClick={() => setShowNotes(false)}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d8edf6] transition-colors hover:border-[#01c7f3]/60 hover:text-[#b9f2ff]"
+              >
+                <X size={17} strokeWidth={2.2} />
+              </button>
+            </div>
+            <div className="max-h-[calc(58vh-4.5rem)] overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
+              <div className="space-y-4">
+                {technologyDiscussionNotes.map((note) => (
+                  <p
+                    key={note}
+                    className="text-[1rem] leading-7 text-[#d8edf6] sm:text-[1.1rem] sm:leading-8"
+                  >
+                    {note}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </article>
+        </div>
+      ) : null}
     </section>
   );
 }
@@ -807,12 +908,16 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 16;
+  const totalPages = deckPages.length + 18;
+  const isYearVideoSlide = currentPage === 13;
+  const isTechnologyStartedSlide = currentPage === 14;
   const isCameraOpeningSlide =
     currentPage <= 6 ||
     (currentPage >= 9 && currentPage <= 11) ||
-    (currentPage >= 14 && currentPage <= 15) ||
-    currentPage === 17;
+    isYearVideoSlide ||
+    isTechnologyStartedSlide ||
+    (currentPage >= 16 && currentPage <= 17) ||
+    currentPage === 19;
 
   useEffect(() => {
     const applyHashPage = () => {
@@ -915,7 +1020,11 @@ export function LibraryPage() {
       <main className="relative z-10 mx-auto flex h-[100dvh] w-[90%] max-w-none flex-col px-6 py-10 sm:px-10 lg:px-14">
         <div
           ref={pageContainerRef}
-          className="presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
+          className={
+            isYearVideoSlide || isTechnologyStartedSlide
+              ? "presentation-scroll min-h-0 flex-1 overflow-hidden"
+              : "presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
+          }
         >
           {currentPage === 0 ? (
             <YearIntroSlide />
@@ -960,6 +1069,10 @@ export function LibraryPage() {
               </section>
             </section>
           ) : currentPage === 13 ? (
+            <YearVideoSlide />
+          ) : currentPage === 14 ? (
+            <TechnologyStartedSlide />
+          ) : currentPage === 15 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -979,11 +1092,11 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 14 ? (
-            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa.mp3" />
-          ) : currentPage === 15 ? (
-            <BlackSwanSlide />
           ) : currentPage === 16 ? (
+            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa.mp3" />
+          ) : currentPage === 17 ? (
+            <BlackSwanSlide />
+          ) : currentPage === 18 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -1003,7 +1116,7 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 17 ? (
+          ) : currentPage === 19 ? (
             <FullScreenFlagSlide src="/flag2.webm" />
           ) : (
             <PlaceholderCtaPage />
