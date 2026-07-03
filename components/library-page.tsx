@@ -122,8 +122,8 @@ const deckPages: Deck[][] = [
 ];
 
 const deckPageHashes: Record<string, number> = {
-  "#problems": 11,
-  "#decks": 11,
+  "#problems": 12,
+  "#decks": 12,
   "#presentation": 15,
   "#global-opportunities": 15,
   "#strategymap": 18,
@@ -216,14 +216,19 @@ const technologyDiscussionNotes = [
 ] as const;
 
 const agendaItems = [
-  "Problems & Opportunities",
-  "Viral Fusion Vision Intro",
-  "Deck",
-  "Future Outlook",
-  "X-POLL",
-  "Global Opportunities",
-  "Strategy Map",
-  "Driven to Win",
+  "Technology (Operating System)",
+  "Integration (Public Integration)",
+  "Strategic Alliance (Distribution)",
+  "Project 2026",
+  "Pre-Launch Strategy (Strategic Alliances & Legislation to Help Fund the Infrastructure)",
+  "Legislative Insulation Strategy",
+  "Go-To-Market Strategy",
+  "Trust Through Actions",
+  "Pre IPO",
+  "Trillion Dollar Potential",
+  "Verticals",
+  "Elon Musk Banking",
+  "X/XAI Valuation",
 ] as const;
 
 function formatAudioTime(seconds: number) {
@@ -559,14 +564,14 @@ function FullScreenFlagSlide({ src }: { src: string }) {
 
 function BlackSwanSlide() {
   return (
-    <section className="flex min-h-full items-center justify-center py-0">
+    <section className="fixed inset-0 flex items-center justify-center">
       <Image
         src="/swanblack.webp"
         alt="Black Swan"
         width={1586}
         height={992}
-        sizes="96vw"
-        className="mx-auto max-h-[78vh] w-auto max-w-[94vw] rounded-[2rem] border border-white/30 object-contain shadow-[0_28px_80px_rgba(0,0,0,0.32)]"
+        sizes="100vw"
+        className="h-full w-full border border-white/30 object-fill"
       />
     </section>
   );
@@ -746,33 +751,33 @@ function PlaceholderCtaPage() {
 
 function AgendaPage() {
   return (
-    <section className="flex min-h-full flex-col items-center justify-center py-8 text-center">
+    <section className="flex h-full flex-col items-center justify-center text-center">
       <header className="mx-auto max-w-3xl">
-        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
+        <h1 className="font-display text-5xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-6xl lg:text-[4.8rem]">
           Agenda
         </h1>
-        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
+        <div className="mx-auto mt-4 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
 
-      <div className="relative mt-10 w-full max-w-4xl overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.94),rgba(20,35,48,0.97)_50%,rgba(14,27,39,0.97))] px-7 py-8 text-left shadow-[0_34px_90px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-9 sm:py-10">
+      <div className="relative mt-6 w-full max-w-4xl overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.94),rgba(20,35,48,0.97)_50%,rgba(14,27,39,0.97))] px-5 py-5 text-left shadow-[0_34px_90px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-7 sm:py-6">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-30%,rgba(1,199,243,0.15),transparent_45%),linear-gradient(115deg,rgba(255,255,255,0.04),transparent_30%,transparent_70%,rgba(1,199,243,0.035))]" />
         <div className="pointer-events-none absolute inset-x-20 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.82),transparent)]" />
         <div className="pointer-events-none absolute -left-px top-8 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/42 to-transparent" />
         <div className="pointer-events-none absolute -right-px bottom-8 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
-        <div className="relative mx-auto max-w-2xl">
+        <div className="relative mx-auto max-w-3xl">
           <p className="text-[0.76rem] font-semibold uppercase tracking-[0.26em] text-[#8ecfe1]">
             TAM
           </p>
-          <ol className="mt-6 space-y-3">
+          <ol className="mt-5 space-y-1.5">
             {agendaItems.map((item, index) => (
               <li
                 key={item}
-                className="grid grid-cols-[2.5rem_1fr] items-center gap-4 border-b border-white/8 pb-3 last:border-b-0 last:pb-0"
+                className="grid grid-cols-[2rem_1fr] items-center gap-3 border-b border-white/8 pb-1.5"
               >
                 <span className="text-right text-[0.74rem] font-semibold text-[#6f8798]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="font-display text-2xl leading-none text-[#f4f2ec] sm:text-[1.85rem]">
+                <span className="font-display text-[1.1rem] leading-[1.08] text-[#f4f2ec] sm:text-[1.3rem] sm:leading-[1.08] lg:text-[1.45rem]">
                   {item}
                 </span>
               </li>
@@ -909,15 +914,16 @@ export function LibraryPage() {
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
   const totalPages = deckPages.length + 18;
-  const isYearVideoSlide = currentPage === 12;
-  const isTechnologyStartedSlide = currentPage === 13;
-  const isRelocatedAgendaSlide = currentPage === 14;
+  const isRelocatedAgendaSlide = currentPage === 11;
+  const isYearVideoSlide = currentPage === 13;
+  const isTechnologyStartedSlide = currentPage === 14;
+  const isBlackSwanSlide = currentPage === 17;
   const isCameraOpeningSlide =
     currentPage <= 6 ||
     (currentPage >= 9 && currentPage <= 10) ||
+    isRelocatedAgendaSlide ||
     isYearVideoSlide ||
     isTechnologyStartedSlide ||
-    isRelocatedAgendaSlide ||
     (currentPage >= 16 && currentPage <= 17) ||
     currentPage === 19;
 
@@ -1023,7 +1029,10 @@ export function LibraryPage() {
         <div
           ref={pageContainerRef}
           className={
-            isYearVideoSlide || isTechnologyStartedSlide
+            isYearVideoSlide ||
+            isTechnologyStartedSlide ||
+            isRelocatedAgendaSlide ||
+            isBlackSwanSlide
               ? "presentation-scroll min-h-0 flex-1 overflow-hidden"
               : "presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
           }
@@ -1049,6 +1058,8 @@ export function LibraryPage() {
           ) : currentPage === 10 ? (
             <PromisePage />
           ) : currentPage === 11 ? (
+            <AgendaPage />
+          ) : currentPage === 12 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -1068,12 +1079,10 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 12 ? (
-            <YearVideoSlide />
           ) : currentPage === 13 ? (
-            <TechnologyStartedSlide />
+            <YearVideoSlide />
           ) : currentPage === 14 ? (
-            <AgendaPage />
+            <TechnologyStartedSlide />
           ) : currentPage === 15 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
