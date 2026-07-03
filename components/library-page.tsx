@@ -1095,7 +1095,7 @@ export function LibraryPage() {
               </section>
             </section>
           ) : currentPage === 16 ? (
-            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa.mp3" />
+            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
           ) : currentPage === 17 ? (
             <BlackSwanSlide />
           ) : currentPage === 18 ? (
