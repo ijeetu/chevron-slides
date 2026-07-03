@@ -122,8 +122,8 @@ const deckPages: Deck[][] = [
 ];
 
 const deckPageHashes: Record<string, number> = {
-  "#problems": 12,
-  "#decks": 12,
+  "#problems": 11,
+  "#decks": 11,
   "#presentation": 15,
   "#global-opportunities": 15,
   "#strategymap": 18,
@@ -909,13 +909,15 @@ export function LibraryPage() {
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
   const totalPages = deckPages.length + 18;
-  const isYearVideoSlide = currentPage === 13;
-  const isTechnologyStartedSlide = currentPage === 14;
+  const isYearVideoSlide = currentPage === 12;
+  const isTechnologyStartedSlide = currentPage === 13;
+  const isRelocatedAgendaSlide = currentPage === 14;
   const isCameraOpeningSlide =
     currentPage <= 6 ||
-    (currentPage >= 9 && currentPage <= 11) ||
+    (currentPage >= 9 && currentPage <= 10) ||
     isYearVideoSlide ||
     isTechnologyStartedSlide ||
+    isRelocatedAgendaSlide ||
     (currentPage >= 16 && currentPage <= 17) ||
     currentPage === 19;
 
@@ -1047,8 +1049,6 @@ export function LibraryPage() {
           ) : currentPage === 10 ? (
             <PromisePage />
           ) : currentPage === 11 ? (
-            <AgendaPage />
-          ) : currentPage === 12 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -1068,10 +1068,12 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 13 ? (
+          ) : currentPage === 12 ? (
             <YearVideoSlide />
-          ) : currentPage === 14 ? (
+          ) : currentPage === 13 ? (
             <TechnologyStartedSlide />
+          ) : currentPage === 14 ? (
+            <AgendaPage />
           ) : currentPage === 15 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
