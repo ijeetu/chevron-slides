@@ -447,7 +447,7 @@ function YearVideoSlide() {
             <div className="mt-6 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
               <div className="aspect-video">
                 <iframe
-                  src="https://www.youtube.com/embed/6iLf2h_fo-w?rel=0"
+                  src="https://player.vimeo.com/video/1206848346?h=a76eaac1c9&badge=0&autopause=0&player_id=0&app_id=58479"
                   title="2010 video"
                   className="h-full w-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
