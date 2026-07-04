@@ -225,10 +225,21 @@ const agendaItems = [
   "Go-To-Market Strategy",
   "Trust Through Actions",
   "Pre IPO",
+  "IPO Strategy",
+  "Sustainability Model",
+  "Legislative Examples",
   "Trillion Dollar Potential",
   "Verticals",
   "Elon Musk Banking",
   "X/XAI Valuation",
+  "Probability Musk Will for a Strategic Alliance",
+] as const;
+
+const preCtaSlides = [
+  "IPO Strategy",
+  "Sustainability Model",
+  "Legislative Examples",
+  "Probability Musk Will for a Strategic Alliance",
 ] as const;
 
 function formatAudioTime(seconds: number) {
@@ -913,11 +924,15 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const totalPages = deckPages.length + 18;
+  const preCtaStartPage = 20;
+  const preCtaSlideIndex = currentPage - preCtaStartPage;
+  const totalPages = deckPages.length + 18 + preCtaSlides.length;
   const isRelocatedAgendaSlide = currentPage === 11;
   const isYearVideoSlide = currentPage === 13;
   const isTechnologyStartedSlide = currentPage === 14;
   const isBlackSwanSlide = currentPage === 17;
+  const isPreCtaSlide =
+    preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
     currentPage <= 6 ||
     (currentPage >= 9 && currentPage <= 10) ||
@@ -925,7 +940,8 @@ export function LibraryPage() {
     isYearVideoSlide ||
     isTechnologyStartedSlide ||
     (currentPage >= 16 && currentPage <= 17) ||
-    currentPage === 19;
+    currentPage === 19 ||
+    isPreCtaSlide;
 
   useEffect(() => {
     const applyHashPage = () => {
@@ -1032,7 +1048,8 @@ export function LibraryPage() {
             isYearVideoSlide ||
             isTechnologyStartedSlide ||
             isRelocatedAgendaSlide ||
-            isBlackSwanSlide
+            isBlackSwanSlide ||
+            isPreCtaSlide
               ? "presentation-scroll min-h-0 flex-1 overflow-hidden"
               : "presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
           }
@@ -1129,6 +1146,8 @@ export function LibraryPage() {
             </section>
           ) : currentPage === 19 ? (
             <FullScreenFlagSlide src="/flag2.webm" />
+          ) : isPreCtaSlide ? (
+            <SectionTitleSlide title={preCtaSlides[preCtaSlideIndex]} />
           ) : (
             <PlaceholderCtaPage />
           )}
