@@ -41,6 +41,12 @@ type FoundingFather = {
   accentClass: string;
 };
 
+type TechnocratFigure = {
+  name: string;
+  role: string;
+  imageSrc: string;
+};
+
 type PromiseItem = {
   title: string;
 };
@@ -124,10 +130,10 @@ const deckPages: Deck[][] = [
 const deckPageHashes: Record<string, number> = {
   "#problems": 12,
   "#decks": 12,
-  "#presentation": 15,
-  "#global-opportunities": 15,
-  "#strategymap": 18,
-  "#driven-to-win": 18,
+  "#presentation": 17,
+  "#global-opportunities": 17,
+  "#strategymap": 20,
+  "#driven-to-win": 20,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -214,6 +220,34 @@ const technologyDiscussionNotes = [
   "I'm not here to criticize others. I'm not here to complain. I'm here to show the world how a simple conversation in a podcast can change the world.",
   "Are you ready to get started?",
 ] as const;
+
+const technocratFigures: TechnocratFigure[] = [
+  {
+    name: "Peter Thiel",
+    role: "The Philosopher-King & Financier",
+    imageSrc: "/technocrats/peter-thiel.jpg",
+  },
+  {
+    name: "Marc Andreessen",
+    role: "The Ideologue & Manifestor",
+    imageSrc: "/technocrats/marc-andreessen.jpg",
+  },
+  {
+    name: "JD Vance",
+    role: "The Political Vessel",
+    imageSrc: "/technocrats/jd-vance.jpg",
+  },
+  {
+    name: "Elon Musk",
+    role: "The Operational Catalyst",
+    imageSrc: "/technocrats/elon-musk.jpg",
+  },
+  {
+    name: "David Sacks",
+    role: "The Convener & Bundler",
+    imageSrc: "/technocrats/david-sacks.jpg",
+  },
+];
 
 const agendaItems = [
   "Technology (Operating System)",
@@ -474,6 +508,62 @@ function YearVideoSlide() {
   );
 }
 
+function TechnocratsSlide() {
+  return (
+    <section className="relative flex h-full items-center justify-center px-[3%] py-6">
+      <div className="mx-auto flex h-full w-full max-w-7xl items-center justify-center text-center">
+        <div className="relative flex h-full max-h-[43rem] w-full max-w-[72rem] flex-col items-center justify-center gap-4 lg:block">
+          <div className="relative z-20 flex h-32 w-32 shrink-0 items-center justify-center rounded-full border border-[#9beaff]/70 bg-[radial-gradient(circle_at_34%_24%,rgba(255,255,255,0.2),transparent_32%),linear-gradient(145deg,rgba(1,199,243,0.24),rgba(15,29,42,0.95))] shadow-[0_0_0_10px_rgba(1,199,243,0.055),0_22px_70px_rgba(1,199,243,0.18)] sm:h-40 sm:w-40 lg:absolute lg:left-1/2 lg:top-1/2 lg:h-44 lg:w-44 lg:-translate-x-1/2 lg:-translate-y-1/2">
+            <div className="absolute inset-[-1.35rem] rounded-full border border-[#01c7f3]/18" />
+            <div className="absolute inset-[-2.8rem] rounded-full border border-[#8fa8bd]/10" />
+            <span className="relative px-3 text-center font-display text-[1.05rem] font-semibold uppercase tracking-[0.14em] text-[#e8fbff] sm:text-[1.22rem] lg:text-[1.32rem]">
+              Technocrats
+            </span>
+          </div>
+
+          <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[29rem] w-[29rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#01c7f3]/16 lg:block" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[21rem] w-[21rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8fa8bd]/12 lg:block" />
+
+          <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 lg:block">
+            {technocratFigures.map((figure, index) => {
+              const positions = [
+                "lg:left-1/2 lg:top-0 lg:-translate-x-1/2",
+                "lg:right-0 lg:top-[22%]",
+                "lg:right-[14%] lg:bottom-0",
+                "lg:left-[14%] lg:bottom-0",
+                "lg:left-0 lg:top-[22%]",
+              ];
+
+              return (
+                <article
+                  key={figure.name}
+                  className={`group relative flex min-h-[13.6rem] flex-col items-center rounded-[1.35rem] border border-[#9beaff]/22 bg-white/[0.055] px-3 pb-4 pt-4 shadow-[0_20px_55px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm sm:last:col-start-2 lg:absolute lg:w-[13.8rem] lg:min-h-[14.1rem] ${positions[index]}`}
+                >
+                  <div className="relative h-24 w-24 overflow-hidden rounded-full border border-[#b9f2ff]/70 bg-[#0d1823] shadow-[0_14px_35px_rgba(0,0,0,0.34)] sm:h-28 sm:w-28">
+                    <Image
+                      src={figure.imageSrc}
+                      alt={figure.name}
+                      fill
+                      sizes="7rem"
+                      className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                    />
+                  </div>
+                  <h2 className="mt-4 font-display text-[1.14rem] leading-none text-[#f4f2ec] sm:text-[1.28rem]">
+                    {figure.name}
+                  </h2>
+                  <p className="mt-2 max-w-[10rem] text-[0.72rem] font-semibold uppercase leading-5 tracking-[0.11em] text-[#9beaff]">
+                    {figure.role}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function TechnologyStartedSlide() {
   const [showNotes, setShowNotes] = useState(false);
 
@@ -534,6 +624,36 @@ function TechnologyStartedSlide() {
           </article>
         </div>
       ) : null}
+    </section>
+  );
+}
+
+function VisionVideoSlide() {
+  return (
+    <section className="relative flex h-full items-center justify-center px-[5%]">
+      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
+        <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
+          <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
+            <h1 className="font-display text-[3.3rem] font-black leading-none tracking-[0.04em] text-[#f4f2ec] sm:text-[4.4rem] lg:text-[5.25rem]">
+              Vision
+            </h1>
+            <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
+
+            <div className="mt-7 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
+              <div className="aspect-video">
+                <iframe
+                  src="https://player.vimeo.com/video/1207181653?h=98b4a337c2&badge=0&autopause=0&player_id=0&app_id=58479"
+                  title="Vision video"
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
     </section>
   );
 }
@@ -924,13 +1044,15 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const preCtaStartPage = 20;
+  const preCtaStartPage = 22;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
-  const totalPages = deckPages.length + 18 + preCtaSlides.length;
+  const totalPages = deckPages.length + 20 + preCtaSlides.length;
   const isRelocatedAgendaSlide = currentPage === 11;
   const isYearVideoSlide = currentPage === 13;
-  const isTechnologyStartedSlide = currentPage === 14;
-  const isBlackSwanSlide = currentPage === 17;
+  const isTechnocratsSlide = currentPage === 14;
+  const isTechnologyStartedSlide = currentPage === 15;
+  const isVisionVideoSlide = currentPage === 16;
+  const isBlackSwanSlide = currentPage === 19;
   const isPreCtaSlide =
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
@@ -938,9 +1060,11 @@ export function LibraryPage() {
     (currentPage >= 9 && currentPage <= 10) ||
     isRelocatedAgendaSlide ||
     isYearVideoSlide ||
+    isTechnocratsSlide ||
     isTechnologyStartedSlide ||
-    (currentPage >= 16 && currentPage <= 17) ||
-    currentPage === 19 ||
+    isVisionVideoSlide ||
+    (currentPage >= 18 && currentPage <= 19) ||
+    currentPage === 21 ||
     isPreCtaSlide;
 
   useEffect(() => {
@@ -1047,8 +1171,10 @@ export function LibraryPage() {
           className={
             isYearVideoSlide ||
             isTechnologyStartedSlide ||
+            isVisionVideoSlide ||
             isRelocatedAgendaSlide ||
             isBlackSwanSlide ||
+            isTechnocratsSlide ||
             isPreCtaSlide
               ? "presentation-scroll min-h-0 flex-1 overflow-hidden"
               : "presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
@@ -1099,8 +1225,12 @@ export function LibraryPage() {
           ) : currentPage === 13 ? (
             <YearVideoSlide />
           ) : currentPage === 14 ? (
-            <TechnologyStartedSlide />
+            <TechnocratsSlide />
           ) : currentPage === 15 ? (
+            <TechnologyStartedSlide />
+          ) : currentPage === 16 ? (
+            <VisionVideoSlide />
+          ) : currentPage === 17 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -1120,11 +1250,11 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 16 ? (
-            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
-          ) : currentPage === 17 ? (
-            <BlackSwanSlide />
           ) : currentPage === 18 ? (
+            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
+          ) : currentPage === 19 ? (
+            <BlackSwanSlide />
+          ) : currentPage === 20 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
@@ -1144,7 +1274,7 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 19 ? (
+          ) : currentPage === 21 ? (
             <FullScreenFlagSlide src="/flag2.webm" />
           ) : isPreCtaSlide ? (
             <SectionTitleSlide title={preCtaSlides[preCtaSlideIndex]} />
