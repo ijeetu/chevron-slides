@@ -1232,14 +1232,9 @@ export function LibraryPage() {
             <VisionVideoSlide />
           ) : currentPage === 17 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
-              <header className="mx-auto max-w-3xl text-center">
-                <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
-                  Viral Fusion
-                </h1>
-              </header>
               <section
                 key={currentPage}
-                className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
+                className="grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
                 {deckPages[1].map((deck) => (
                   <DeckCard
@@ -1256,14 +1251,9 @@ export function LibraryPage() {
             <BlackSwanSlide />
           ) : currentPage === 20 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
-              <header className="mx-auto max-w-3xl text-center">
-                <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
-                  Viral Fusion
-                </h1>
-              </header>
               <section
                 key={currentPage}
-                className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
+                className="grid gap-5 md:grid-cols-2 xl:grid-cols-6"
               >
                 {deckPages[2].map((deck) => (
                   <DeckCard
