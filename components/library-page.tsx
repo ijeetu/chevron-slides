@@ -130,10 +130,10 @@ const deckPages: Deck[][] = [
 const deckPageHashes: Record<string, number> = {
   "#problems": 12,
   "#decks": 12,
-  "#presentation": 17,
-  "#global-opportunities": 17,
-  "#strategymap": 20,
-  "#driven-to-win": 20,
+  "#presentation": 16,
+  "#global-opportunities": 16,
+  "#strategymap": 19,
+  "#driven-to-win": 19,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -214,18 +214,11 @@ const promiseNotes = [
   "My promise to you—and everyone watching—is that together, we will change the world.",
 ] as const;
 
-const technologyDiscussionNotes = [
-  "Good intentions aren't enough to change the world. Brilliant visions die every day because of bad timing, flawed strategy, or muddy messaging. But here is what keeps me optimistic: there is an immense pool of powerful people who genuinely want to do good. Our job isn't to change their hearts; it's to fix the execution.",
-  "And that is exactly where we come in. We realized that goodwill without the right infrastructure falls flat. So, we designed a framework that combines cutting-edge tech with precision strategy to bridge that exact gap...",
-  "I'm not here to criticize others. I'm not here to complain. I'm here to show the world how a simple conversation in a podcast can change the world.",
-  "Are you ready to get started?",
-] as const;
-
 const technocratFigures: TechnocratFigure[] = [
   {
-    name: "Peter Thiel",
-    role: "The Philosopher-King & Financier",
-    imageSrc: "/technocrats/peter-thiel.jpg",
+    name: "Elon Musk",
+    role: "The Operational Catalyst",
+    imageSrc: "/technocrats/elon-musk.jpg",
   },
   {
     name: "Marc Andreessen",
@@ -238,9 +231,9 @@ const technocratFigures: TechnocratFigure[] = [
     imageSrc: "/technocrats/jd-vance.jpg",
   },
   {
-    name: "Elon Musk",
-    role: "The Operational Catalyst",
-    imageSrc: "/technocrats/elon-musk.jpg",
+    name: "Peter Thiel",
+    role: "The Philosopher-King & Financier",
+    imageSrc: "/technocrats/peter-thiel.jpg",
   },
   {
     name: "David Sacks",
@@ -560,70 +553,6 @@ function TechnocratsSlide() {
           </div>
         </div>
       </div>
-    </section>
-  );
-}
-
-function TechnologyStartedSlide() {
-  const [showNotes, setShowNotes] = useState(false);
-
-  return (
-    <section className="relative flex h-full items-center justify-center px-[5%]">
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center text-center">
-        <p className="font-display text-[2.6rem] font-black leading-none tracking-[0.06em] text-[#f4f2ec] sm:text-[3.5rem] lg:text-[4.2rem]">
-          2026
-        </p>
-        <h1 className="mt-5 max-w-5xl font-display text-[3rem] font-black leading-[0.98] text-[#f4f2ec] sm:text-[4.35rem] lg:text-[5.5rem]">
-          Technology is Just Getting Started
-        </h1>
-        <div className="mt-8 h-px w-56 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
-      </div>
-
-      <button
-        type="button"
-        aria-label={showNotes ? "Hide discussion notes" : "Show discussion notes"}
-        onClick={() => setShowNotes((value) => !value)}
-        className="absolute bottom-0 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 rounded-t-2xl border border-b-0 border-[#01c7f3]/44 bg-[#0f1d2a]/92 px-5 py-3 text-[#d8edf6] shadow-[0_-14px_34px_rgba(0,0,0,0.22)] backdrop-blur-sm transition-all hover:border-[#01c7f3]/75 hover:text-[#b9f2ff]"
-      >
-        <NotebookText className="h-4 w-4" strokeWidth={2.1} />
-        <span className="text-[0.72rem] font-semibold uppercase tracking-[0.18em]">
-          Discussion Notes
-        </span>
-      </button>
-
-      {showNotes ? (
-        <div className="absolute inset-x-0 bottom-0 z-30 flex justify-center px-4 pb-14 sm:px-8">
-          <article className="relative max-h-[58vh] w-full max-w-4xl overflow-hidden rounded-[1.35rem] border border-[#01c7f3]/52 bg-[#0d1823]/96 text-left shadow-[0_28px_90px_rgba(0,0,0,0.46)] backdrop-blur-md">
-            <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
-              <div className="min-w-0">
-                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8ecfe1]">
-                  Discussion Notes
-                </p>
-              </div>
-              <button
-                type="button"
-                aria-label="Close discussion notes"
-                onClick={() => setShowNotes(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d8edf6] transition-colors hover:border-[#01c7f3]/60 hover:text-[#b9f2ff]"
-              >
-                <X size={17} strokeWidth={2.2} />
-              </button>
-            </div>
-            <div className="max-h-[calc(58vh-4.5rem)] overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
-              <div className="space-y-4">
-                {technologyDiscussionNotes.map((note) => (
-                  <p
-                    key={note}
-                    className="text-[1rem] leading-7 text-[#d8edf6] sm:text-[1.1rem] sm:leading-8"
-                  >
-                    {note}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </article>
-        </div>
-      ) : null}
     </section>
   );
 }
@@ -1044,15 +973,14 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const preCtaStartPage = 22;
+  const preCtaStartPage = 21;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
-  const totalPages = deckPages.length + 20 + preCtaSlides.length;
+  const totalPages = deckPages.length + 19 + preCtaSlides.length;
   const isRelocatedAgendaSlide = currentPage === 11;
   const isYearVideoSlide = currentPage === 13;
   const isTechnocratsSlide = currentPage === 14;
-  const isTechnologyStartedSlide = currentPage === 15;
-  const isVisionVideoSlide = currentPage === 16;
-  const isBlackSwanSlide = currentPage === 19;
+  const isVisionVideoSlide = currentPage === 15;
+  const isBlackSwanSlide = currentPage === 18;
   const isPreCtaSlide =
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
@@ -1061,10 +989,9 @@ export function LibraryPage() {
     isRelocatedAgendaSlide ||
     isYearVideoSlide ||
     isTechnocratsSlide ||
-    isTechnologyStartedSlide ||
     isVisionVideoSlide ||
-    (currentPage >= 18 && currentPage <= 19) ||
-    currentPage === 21 ||
+    (currentPage >= 17 && currentPage <= 18) ||
+    currentPage === 20 ||
     isPreCtaSlide;
 
   useEffect(() => {
@@ -1170,7 +1097,6 @@ export function LibraryPage() {
           ref={pageContainerRef}
           className={
             isYearVideoSlide ||
-            isTechnologyStartedSlide ||
             isVisionVideoSlide ||
             isRelocatedAgendaSlide ||
             isBlackSwanSlide ||
@@ -1227,10 +1153,8 @@ export function LibraryPage() {
           ) : currentPage === 14 ? (
             <TechnocratsSlide />
           ) : currentPage === 15 ? (
-            <TechnologyStartedSlide />
-          ) : currentPage === 16 ? (
             <VisionVideoSlide />
-          ) : currentPage === 17 ? (
+          ) : currentPage === 16 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <section
                 key={currentPage}
@@ -1245,11 +1169,11 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 18 ? (
+          ) : currentPage === 17 ? (
             <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
-          ) : currentPage === 19 ? (
+          ) : currentPage === 18 ? (
             <BlackSwanSlide />
-          ) : currentPage === 20 ? (
+          ) : currentPage === 19 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <section
                 key={currentPage}
@@ -1264,7 +1188,7 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 21 ? (
+          ) : currentPage === 20 ? (
             <FullScreenFlagSlide src="/flag2.webm" />
           ) : isPreCtaSlide ? (
             <SectionTitleSlide title={preCtaSlides[preCtaSlideIndex]} />
