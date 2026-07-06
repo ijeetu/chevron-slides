@@ -130,10 +130,10 @@ const deckPages: Deck[][] = [
 const deckPageHashes: Record<string, number> = {
   "#problems": 12,
   "#decks": 12,
-  "#presentation": 16,
-  "#global-opportunities": 16,
-  "#strategymap": 19,
-  "#driven-to-win": 19,
+  "#presentation": 17,
+  "#global-opportunities": 17,
+  "#strategymap": 20,
+  "#driven-to-win": 20,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -587,6 +587,29 @@ function VisionVideoSlide() {
   );
 }
 
+function VisionRyanVideoSlide() {
+  return (
+    <section className="relative flex h-full items-center justify-center px-[5%]">
+      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
+        <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
+          <div className="w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
+            <div className="aspect-video">
+              <iframe
+                src="https://player.vimeo.com/video/1207400121?h=c7a6140f3a&badge=0&autopause=0&player_id=0&app_id=58479"
+                title="VisionRyan"
+                className="h-full w-full"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function DogeQuestionSlide() {
   return (
     <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
@@ -973,14 +996,15 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const preCtaStartPage = 21;
+  const preCtaStartPage = 22;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
-  const totalPages = deckPages.length + 19 + preCtaSlides.length;
+  const totalPages = deckPages.length + 20 + preCtaSlides.length;
   const isRelocatedAgendaSlide = currentPage === 11;
   const isYearVideoSlide = currentPage === 13;
   const isTechnocratsSlide = currentPage === 14;
-  const isVisionVideoSlide = currentPage === 15;
-  const isBlackSwanSlide = currentPage === 18;
+  const isVisionRyanVideoSlide = currentPage === 15;
+  const isVisionVideoSlide = currentPage === 16;
+  const isBlackSwanSlide = currentPage === 19;
   const isPreCtaSlide =
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
@@ -989,9 +1013,10 @@ export function LibraryPage() {
     isRelocatedAgendaSlide ||
     isYearVideoSlide ||
     isTechnocratsSlide ||
+    isVisionRyanVideoSlide ||
     isVisionVideoSlide ||
-    (currentPage >= 17 && currentPage <= 18) ||
-    currentPage === 20 ||
+    (currentPage >= 18 && currentPage <= 19) ||
+    currentPage === 21 ||
     isPreCtaSlide;
 
   useEffect(() => {
@@ -1153,8 +1178,10 @@ export function LibraryPage() {
           ) : currentPage === 14 ? (
             <TechnocratsSlide />
           ) : currentPage === 15 ? (
-            <VisionVideoSlide />
+            <VisionRyanVideoSlide />
           ) : currentPage === 16 ? (
+            <VisionVideoSlide />
+          ) : currentPage === 17 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <section
                 key={currentPage}
@@ -1169,11 +1196,11 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 17 ? (
-            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
           ) : currentPage === 18 ? (
-            <BlackSwanSlide />
+            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
           ) : currentPage === 19 ? (
+            <BlackSwanSlide />
+          ) : currentPage === 20 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <section
                 key={currentPage}
@@ -1188,7 +1215,7 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 20 ? (
+          ) : currentPage === 21 ? (
             <FullScreenFlagSlide src="/flag2.webm" />
           ) : isPreCtaSlide ? (
             <SectionTitleSlide title={preCtaSlides[preCtaSlideIndex]} />
