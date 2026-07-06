@@ -1279,20 +1279,13 @@ export function LibraryPage() {
         >
           <ChevronLeft size={17} strokeWidth={2.1} />
         </button>
-        <div className="flex items-center gap-1.5 px-1">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={`library-page-${index + 1}`}
-              type="button"
-              aria-label={`Go to page ${index + 1}`}
-              onClick={() => setCurrentPage(index)}
-              className={`h-2 rounded-full transition-all ${
-                currentPage === index
-                  ? `w-6 ${isCameraOpeningSlide ? "bg-[#01c7f3]" : "bg-[#4d73c6]"}`
-                  : `w-2 ${isCameraOpeningSlide ? "bg-[#60788c]" : "bg-[#9fb2d4]"}`
-              }`}
-            />
-          ))}
+        <div
+          className={`min-w-16 px-2 text-center text-[0.72rem] font-semibold tabular-nums tracking-[0.16em] ${
+            isCameraOpeningSlide ? "text-[#d8edf6]" : "text-graphite"
+          }`}
+          aria-live="polite"
+        >
+          {currentPage + 1}/{totalPages}
         </div>
         <button
           type="button"
