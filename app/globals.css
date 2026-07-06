@@ -87,11 +87,81 @@ select {
   animation: global-opportunities-devastation-fade 6s ease-in-out 10s forwards;
 }
 
+.technocrats-title-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: opacity, transform, filter;
+}
+
+.technocrats-title-text-full {
+  animation: technocrats-title-full-loop 5.6s ease-in-out infinite;
+}
+
+.technocrats-title-text-short {
+  animation: technocrats-title-short-loop 5.6s ease-in-out infinite;
+}
+
 @keyframes global-opportunities-devastation-fade {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes technocrats-title-full-loop {
+  0%,
+  36%,
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+
+  46%,
+  76% {
+    opacity: 0;
+    transform: translateY(-0.28rem) scale(0.96);
+    filter: blur(3px);
+  }
+
+  86% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes technocrats-title-short-loop {
+  0%,
+  36%,
+  86%,
+  100% {
+    opacity: 0;
+    transform: translateY(0.28rem) scale(0.96);
+    filter: blur(3px);
+  }
+
+  46%,
+  76% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .technocrats-title-text-full {
+    animation: none;
+    opacity: 1;
+  }
+
+  .technocrats-title-text-short {
+    animation: none;
+    opacity: 0;
   }
 }

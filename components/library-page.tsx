@@ -19,6 +19,7 @@ import {
   Volume2,
   X,
 } from "lucide-react";
+import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 type Deck = {
   title: string;
@@ -130,10 +131,10 @@ const deckPages: Deck[][] = [
 const deckPageHashes: Record<string, number> = {
   "#problems": 12,
   "#decks": 12,
-  "#presentation": 17,
-  "#global-opportunities": 17,
-  "#strategymap": 20,
-  "#driven-to-win": 20,
+  "#presentation": 18,
+  "#global-opportunities": 18,
+  "#strategymap": 21,
+  "#driven-to-win": 21,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -216,9 +217,9 @@ const promiseNotes = [
 
 const technocratFigures: TechnocratFigure[] = [
   {
-    name: "Elon Musk",
-    role: "The Operational Catalyst",
-    imageSrc: "/technocrats/elon-musk.jpg",
+    name: "Peter Thiel",
+    role: "The Philosopher-King & Financier",
+    imageSrc: "/technocrats/peter-thiel.jpg",
   },
   {
     name: "Marc Andreessen",
@@ -231,9 +232,9 @@ const technocratFigures: TechnocratFigure[] = [
     imageSrc: "/technocrats/jd-vance.jpg",
   },
   {
-    name: "Peter Thiel",
-    role: "The Philosopher-King & Financier",
-    imageSrc: "/technocrats/peter-thiel.jpg",
+    name: "Elon Musk",
+    role: "The Operational Catalyst",
+    imageSrc: "/technocrats/elon-musk.jpg",
   },
   {
     name: "David Sacks",
@@ -501,6 +502,106 @@ function YearVideoSlide() {
   );
 }
 
+function TicMicPieSlide() {
+  const chartData = [
+    {
+      key: "mic",
+      name: "MIC",
+      value: 50,
+      fill: "url(#mic-red-gradient)",
+    },
+    {
+      key: "tic",
+      name: "TIC",
+      value: 50,
+      fill: "url(#tic-blue-gradient)",
+    },
+  ];
+
+  return (
+    <section className="relative flex h-full items-center justify-center overflow-hidden px-[5%] py-8">
+      <div className="pointer-events-none absolute left-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#3f6fc8]/15 blur-[110px]" />
+      <div className="pointer-events-none absolute right-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#c0392b]/14 blur-[110px]" />
+      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
+        <div className="relative mx-auto flex aspect-square w-full max-w-[42rem] items-center justify-center">
+          <div className="pointer-events-none absolute inset-[-2.75rem] rounded-full border border-white/[0.055]" />
+          <div className="pointer-events-none absolute inset-[-1.35rem] rounded-full border border-white/[0.085]" />
+          <div className="pointer-events-none absolute inset-0 rounded-full bg-[linear-gradient(90deg,rgba(63,111,200,0.16),rgba(255,255,255,0.015)_49%,rgba(255,255,255,0.015)_51%,rgba(192,57,43,0.15))] shadow-[0_38px_120px_rgba(0,0,0,0.46)]" />
+
+          <div className="relative h-full w-full rounded-full border border-white/[0.12] bg-[#07111c]/82 p-4 shadow-[inset_0_0_70px_rgba(0,0,0,0.5)] backdrop-blur-md sm:p-5">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <defs>
+                  <linearGradient id="mic-red-gradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#e05c4e" />
+                    <stop offset="52%" stopColor="#c0392b" />
+                    <stop offset="100%" stopColor="#96281b" />
+                  </linearGradient>
+                  <linearGradient id="tic-blue-gradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#2a54a4" />
+                    <stop offset="48%" stopColor="#3f6fc8" />
+                    <stop offset="100%" stopColor="#6f98e8" />
+                  </linearGradient>
+                  <filter id="chart-depth" x="-30%" y="-30%" width="160%" height="160%">
+                    <feDropShadow dx="0" dy="12" stdDeviation="12" floodColor="#000814" floodOpacity="0.5" />
+                  </filter>
+                </defs>
+                <Pie
+                  data={chartData}
+                  dataKey="value"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius="47%"
+                  outerRadius="91%"
+                  cornerRadius={5}
+                  paddingAngle={1.2}
+                  startAngle={90}
+                  endAngle={-270}
+                  stroke="#08131f"
+                  strokeWidth={4}
+                  isAnimationActive
+                  style={{ filter: "url(#chart-depth)" }}
+                >
+                  {chartData.map((entry) => (
+                    <Cell
+                      key={entry.key}
+                      fill={entry.fill}
+                      stroke="#08131f"
+                      strokeWidth={4}
+                      className="outline-none"
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+
+            <div className="pointer-events-none absolute left-1/2 top-1/2 flex h-[12rem] w-[12rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.14] bg-[radial-gradient(circle_at_35%_25%,rgba(255,255,255,0.1),transparent_34%),linear-gradient(145deg,rgba(17,34,50,0.99),rgba(6,15,25,0.99))] text-[#f8fafc] shadow-[0_20px_60px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] sm:h-[13.5rem] sm:w-[13.5rem]">
+              <span className="font-display text-[2.6rem] font-black leading-none tracking-[-0.045em] sm:text-[3.25rem]">
+                50/50
+              </span>
+            </div>
+
+            <div className="pointer-events-none absolute left-[18%] top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(3,12,30,0.48)]">
+              <p className="font-display text-[2.8rem] font-black leading-none tracking-[-0.04em] sm:text-[4.1rem]">
+                TIC
+              </p>
+            </div>
+
+            <div className="pointer-events-none absolute right-[18%] top-1/2 translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(30,3,6,0.48)]">
+              <p className="font-display text-[2.8rem] font-black leading-none tracking-[-0.04em] sm:text-[4.1rem]">
+                MIC
+              </p>
+            </div>
+
+            <div className="pointer-events-none absolute left-1/2 top-3 h-8 w-px -translate-x-1/2 bg-gradient-to-b from-white/80 to-white/5" />
+            <div className="pointer-events-none absolute bottom-3 left-1/2 h-8 w-px -translate-x-1/2 bg-gradient-to-t from-white/80 to-white/5" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function TechnocratsSlide() {
   return (
     <section className="relative flex h-full items-center justify-center px-[3%] py-6">
@@ -509,8 +610,13 @@ function TechnocratsSlide() {
           <div className="relative z-20 flex h-32 w-32 shrink-0 items-center justify-center rounded-full border border-[#9beaff]/70 bg-[radial-gradient(circle_at_34%_24%,rgba(255,255,255,0.2),transparent_32%),linear-gradient(145deg,rgba(1,199,243,0.24),rgba(15,29,42,0.95))] shadow-[0_0_0_10px_rgba(1,199,243,0.055),0_22px_70px_rgba(1,199,243,0.18)] sm:h-40 sm:w-40 lg:absolute lg:left-1/2 lg:top-1/2 lg:h-44 lg:w-44 lg:-translate-x-1/2 lg:-translate-y-1/2">
             <div className="absolute inset-[-1.35rem] rounded-full border border-[#01c7f3]/18" />
             <div className="absolute inset-[-2.8rem] rounded-full border border-[#8fa8bd]/10" />
-            <span className="relative px-3 text-center font-display text-[1.05rem] font-semibold uppercase tracking-[0.14em] text-[#e8fbff] sm:text-[1.22rem] lg:text-[1.32rem]">
-              Technocrats
+            <span className="relative inline-flex min-h-[1.35em] min-w-[9.7rem] items-center justify-center px-3 text-center font-display text-[1.05rem] font-semibold uppercase tracking-[0.14em] text-[#e8fbff] sm:text-[1.22rem] lg:text-[1.32rem]">
+              <span className="technocrats-title-text technocrats-title-text-full">
+                Technocrats
+              </span>
+              <span className="technocrats-title-text technocrats-title-text-short">
+                TIC
+              </span>
             </span>
           </div>
 
@@ -592,16 +698,23 @@ function VisionRyanVideoSlide() {
     <section className="relative flex h-full items-center justify-center px-[5%]">
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
-          <div className="w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
-            <div className="aspect-video">
-              <iframe
-                src="https://player.vimeo.com/video/1207400121?h=c7a6140f3a&badge=0&autopause=0&player_id=0&app_id=58479"
-                title="VisionRyan"
-                className="h-full w-full"
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
+          <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
+            <h1 className="font-display text-[3.3rem] font-black leading-none tracking-[0.04em] text-[#f4f2ec] sm:text-[4.4rem] lg:text-[5.25rem]">
+              Control the Future?
+            </h1>
+            <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
+
+            <div className="mt-7 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
+              <div className="aspect-video">
+                <iframe
+                  src="https://player.vimeo.com/video/1207400121?h=c7a6140f3a&badge=0&autopause=0&player_id=0&app_id=58479"
+                  title="VisionRyan"
+                  className="h-full w-full"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
             </div>
           </div>
         </article>
@@ -996,27 +1109,29 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const preCtaStartPage = 22;
+  const preCtaStartPage = 23;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
-  const totalPages = deckPages.length + 20 + preCtaSlides.length;
+  const totalPages = deckPages.length + 21 + preCtaSlides.length;
   const isRelocatedAgendaSlide = currentPage === 11;
-  const isYearVideoSlide = currentPage === 13;
-  const isTechnocratsSlide = currentPage === 14;
-  const isVisionRyanVideoSlide = currentPage === 15;
-  const isVisionVideoSlide = currentPage === 16;
-  const isBlackSwanSlide = currentPage === 19;
+  const isTicMicPieSlide = currentPage === 13;
+  const isYearVideoSlide = currentPage === 14;
+  const isTechnocratsSlide = currentPage === 15;
+  const isVisionRyanVideoSlide = currentPage === 16;
+  const isVisionVideoSlide = currentPage === 17;
+  const isBlackSwanSlide = currentPage === 20;
   const isPreCtaSlide =
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
     currentPage <= 6 ||
     (currentPage >= 9 && currentPage <= 10) ||
     isRelocatedAgendaSlide ||
+    isTicMicPieSlide ||
     isYearVideoSlide ||
     isTechnocratsSlide ||
     isVisionRyanVideoSlide ||
     isVisionVideoSlide ||
-    (currentPage >= 18 && currentPage <= 19) ||
-    currentPage === 21 ||
+    (currentPage >= 19 && currentPage <= 20) ||
+    currentPage === 22 ||
     isPreCtaSlide;
 
   useEffect(() => {
@@ -1122,6 +1237,7 @@ export function LibraryPage() {
           ref={pageContainerRef}
           className={
             isYearVideoSlide ||
+            isTicMicPieSlide ||
             isVisionVideoSlide ||
             isRelocatedAgendaSlide ||
             isBlackSwanSlide ||
@@ -1174,14 +1290,16 @@ export function LibraryPage() {
               </section>
             </section>
           ) : currentPage === 13 ? (
-            <YearVideoSlide />
+            <TicMicPieSlide />
           ) : currentPage === 14 ? (
-            <TechnocratsSlide />
+            <YearVideoSlide />
           ) : currentPage === 15 ? (
-            <VisionRyanVideoSlide />
+            <TechnocratsSlide />
           ) : currentPage === 16 ? (
-            <VisionVideoSlide />
+            <VisionRyanVideoSlide />
           ) : currentPage === 17 ? (
+            <VisionVideoSlide />
+          ) : currentPage === 18 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <section
                 key={currentPage}
@@ -1196,11 +1314,11 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 18 ? (
-            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
           ) : currentPage === 19 ? (
-            <BlackSwanSlide />
+            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
           ) : currentPage === 20 ? (
+            <BlackSwanSlide />
+          ) : currentPage === 21 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <section
                 key={currentPage}
@@ -1215,7 +1333,7 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 21 ? (
+          ) : currentPage === 22 ? (
             <FullScreenFlagSlide src="/flag2.webm" />
           ) : isPreCtaSlide ? (
             <SectionTitleSlide title={preCtaSlides[preCtaSlideIndex]} />

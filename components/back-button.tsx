@@ -22,9 +22,7 @@ export function BackButton({
   const router = useRouter();
 
   const goBack = () => {
-    const referrer = document.referrer ? new URL(document.referrer) : null;
-
-    if (preferHistory && referrer?.origin === window.location.origin) {
+    if (preferHistory && window.history.length > 1) {
       router.back();
       return;
     }
