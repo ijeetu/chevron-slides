@@ -578,7 +578,7 @@ function PhaseSection({ phase, rail }: { phase: Phase; rail?: RailConfig }) {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
-function StrategyMapContent() {
+export function StrategyMapContent() {
   return (
     <div className="mx-auto w-full max-w-[96rem]">
       <div className="mx-auto max-w-7xl">
@@ -722,7 +722,7 @@ function StrategyMapContent() {
   );
 }
 
-function IntroSlide() {
+export function StrategyMapIntroSlide() {
   return (
     <section className="mx-auto flex min-h-screen w-full max-w-6xl items-center px-6 py-20 sm:px-10 lg:px-14">
       <div className="w-full">
@@ -782,7 +782,7 @@ const STRATEGY_MAP_STEPS = [
   {
     key: "intro",
     label: "Three Goals",
-    render: <IntroSlide />,
+    render: <StrategyMapIntroSlide />,
   },
   {
     key: "map",

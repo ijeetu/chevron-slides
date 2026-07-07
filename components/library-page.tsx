@@ -20,6 +20,12 @@ import {
   X,
 } from "lucide-react";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
+import {
+  StrategyMapContent,
+  StrategyMapIntroSlide,
+} from "@/components/strategy-map-page";
+import { GlobalMarketSlide } from "@/components/slide-deck";
+import type { Slide } from "@/lib/parse-slides";
 
 type Deck = {
   title: string;
@@ -133,8 +139,8 @@ const deckPageHashes: Record<string, number> = {
   "#decks": 12,
   "#presentation": 18,
   "#global-opportunities": 18,
-  "#strategymap": 21,
-  "#driven-to-win": 21,
+  "#strategymap": 26,
+  "#driven-to-win": 28,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -159,15 +165,15 @@ function namedHashMatchesPage(hash: string, page: number) {
 
 const manifestoStatements: ManifestoStatement[] = [
   {
-    text: "While others talk about America First, we built the code, mapped the strategy, and created a blueprint that can be replicated globally.",
+    text: "While others talk about America First, we designed the engine, mapped the strategy, and created a blueprint ready to deploy globally.",
   },
 ];
 
 function ManifestoStatementText() {
   return (
     <>
-      While others talk about America First, we built the code, mapped the strategy,
-      and created a blueprint that can be replicated globally.
+      While others talk about America First, we designed the engine, mapped the
+      strategy, and created a blueprint ready to deploy globally.
     </>
   );
 }
@@ -234,7 +240,7 @@ const technocratFigures: TechnocratFigure[] = [
   {
     name: "Elon Musk",
     role: "The Operational Catalyst",
-    imageSrc: "/technocrats/elon-musk.jpg",
+    imageSrc: "/technocrats/elon-musk.webp",
   },
   {
     name: "David Sacks",
@@ -269,6 +275,40 @@ const preCtaSlides = [
   "Legislative Examples",
   "Probability Musk Will for a Strategic Alliance",
 ] as const;
+
+const globalOpportunitySlides: Slide[] = [
+  {
+    id: "global-opportunity-1",
+    label: "Slide 1",
+    title: "Global Opportunities",
+    sections: [],
+    statements: [
+      "In countries where governments control information, surveillance, and communications, the people's voice, secured on-chain, could become a powerful disruptive force.",
+    ],
+    type: "globalMarket",
+  },
+  {
+    id: "global-opportunity-2",
+    label: "Slide 2",
+    title: "Global Opportunities",
+    sections: [],
+    statements: [
+      "The Viral Fusion operating system could help weaken regime control and strengthen nonviolent internal pressure through anti-censorship communication, consensus building, atrocity documentation, strike coordination, diaspora support, and transition legitimacy.",
+    ],
+    type: "globalMarket",
+  },
+  {
+    id: "global-opportunity-3",
+    label: "Slide 3",
+    title: "Global Opportunities",
+    sections: [],
+    statements: [
+      "These tools could be used to disrupt OODA loop cycles, create unexpected noise, and generate new outcomes.",
+      "Supporting this framework, the U.S. Treasury's Iran General License D-2 was expanded to support internet-freedom services and related technology for Iranians: https://home.treasury.gov/news/press-releases/jy0974",
+    ],
+    type: "globalMarket",
+  },
+];
 
 function formatAudioTime(seconds: number) {
   if (!Number.isFinite(seconds) || seconds <= 0) {
@@ -508,36 +548,36 @@ function TicMicPieSlide() {
       key: "mic",
       name: "MIC",
       value: 50,
-      fill: "url(#mic-red-gradient)",
+      fill: "url(#mic-blue-gradient)",
     },
     {
       key: "tic",
       name: "TIC",
       value: 50,
-      fill: "url(#tic-blue-gradient)",
+      fill: "url(#tic-red-gradient)",
     },
   ];
 
   return (
     <section className="relative flex h-full items-center justify-center overflow-hidden px-[5%] py-8">
-      <div className="pointer-events-none absolute left-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#3f6fc8]/15 blur-[110px]" />
-      <div className="pointer-events-none absolute right-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#c0392b]/14 blur-[110px]" />
+      <div className="pointer-events-none absolute left-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#c0392b]/14 blur-[110px]" />
+      <div className="pointer-events-none absolute right-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#3f6fc8]/15 blur-[110px]" />
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <div className="relative mx-auto flex aspect-square w-full max-w-[42rem] items-center justify-center">
           <div className="pointer-events-none absolute inset-[-2.75rem] rounded-full border border-white/[0.055]" />
           <div className="pointer-events-none absolute inset-[-1.35rem] rounded-full border border-white/[0.085]" />
-          <div className="pointer-events-none absolute inset-0 rounded-full bg-[linear-gradient(90deg,rgba(63,111,200,0.16),rgba(255,255,255,0.015)_49%,rgba(255,255,255,0.015)_51%,rgba(192,57,43,0.15))] shadow-[0_38px_120px_rgba(0,0,0,0.46)]" />
+          <div className="pointer-events-none absolute inset-0 rounded-full bg-[linear-gradient(90deg,rgba(192,57,43,0.15),rgba(255,255,255,0.015)_49%,rgba(255,255,255,0.015)_51%,rgba(63,111,200,0.16))] shadow-[0_38px_120px_rgba(0,0,0,0.46)]" />
 
           <div className="relative h-full w-full rounded-full border border-white/[0.12] bg-[#07111c]/82 p-4 shadow-[inset_0_0_70px_rgba(0,0,0,0.5)] backdrop-blur-md sm:p-5">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <defs>
-                  <linearGradient id="mic-red-gradient" x1="0" y1="0" x2="1" y2="1">
+                  <linearGradient id="tic-red-gradient" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stopColor="#e05c4e" />
                     <stop offset="52%" stopColor="#c0392b" />
                     <stop offset="100%" stopColor="#96281b" />
                   </linearGradient>
-                  <linearGradient id="tic-blue-gradient" x1="0" y1="0" x2="1" y2="1">
+                  <linearGradient id="mic-blue-gradient" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stopColor="#2a54a4" />
                     <stop offset="48%" stopColor="#3f6fc8" />
                     <stop offset="100%" stopColor="#6f98e8" />
@@ -769,6 +809,48 @@ function BlackSwanSlide() {
         sizes="100vw"
         className="h-full w-full border border-white/30 object-fill"
       />
+    </section>
+  );
+}
+
+function IpoStrategySlide() {
+  const points = ["Actions", "Verticals", "Ecosystem"];
+
+  return (
+    <section className="flex h-full flex-col items-center justify-center px-[5%] py-6 text-center">
+      <header className="mx-auto max-w-5xl">
+        <p className="text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-[#9beaff]">
+          Benchmark: Space X
+        </p>
+        <h1 className="mt-5 font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
+          30 Month IPO Strategy
+        </h1>
+        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
+      </header>
+
+      <div className="mx-auto mt-10 flex max-w-5xl flex-wrap items-center justify-center gap-x-12 gap-y-5">
+        {points.map((point) => (
+          <p
+            key={point}
+            className="font-display text-4xl font-semibold leading-none text-[#f4f2ec] sm:text-5xl lg:text-[4rem]"
+          >
+            {point}
+          </p>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function GlobalVisionSlide() {
+  return (
+    <section className="flex h-full flex-col items-center justify-center px-[5%] py-6 text-center">
+      <header className="mx-auto max-w-4xl">
+        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
+          Global Vision
+        </h1>
+        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
+      </header>
     </section>
   );
 }
@@ -1109,16 +1191,26 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const preCtaStartPage = 23;
+  const globalOpportunityStartPage = 22;
+  const preCtaStartPage = 30;
+  const globalOpportunitySlideIndex = currentPage - globalOpportunityStartPage;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
-  const totalPages = deckPages.length + 21 + preCtaSlides.length;
+  const totalPages = deckPages.length + 28 + preCtaSlides.length;
   const isRelocatedAgendaSlide = currentPage === 11;
   const isTicMicPieSlide = currentPage === 13;
   const isYearVideoSlide = currentPage === 14;
-  const isTechnocratsSlide = currentPage === 15;
-  const isVisionRyanVideoSlide = currentPage === 16;
+  const isVisionRyanVideoSlide = currentPage === 15;
+  const isTechnocratsSlide = currentPage === 16;
   const isVisionVideoSlide = currentPage === 17;
-  const isBlackSwanSlide = currentPage === 20;
+  const isIpoStrategySlide = currentPage === 20;
+  const isGlobalVisionSlide = currentPage === 21;
+  const isGlobalOpportunitySlide =
+    globalOpportunitySlideIndex >= 0 &&
+    globalOpportunitySlideIndex < globalOpportunitySlides.length;
+  const isBlackSwanSlide = currentPage === 25;
+  const isStrategyMapIntroSlide = currentPage === 26;
+  const isStrategyMapContentSlide = currentPage === 27;
+  const isStrategyMapSlide = isStrategyMapIntroSlide || isStrategyMapContentSlide;
   const isPreCtaSlide =
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
@@ -1130,8 +1222,8 @@ export function LibraryPage() {
     isTechnocratsSlide ||
     isVisionRyanVideoSlide ||
     isVisionVideoSlide ||
-    (currentPage >= 19 && currentPage <= 20) ||
-    currentPage === 22 ||
+    (currentPage >= 19 && currentPage <= 25) ||
+    currentPage === 29 ||
     isPreCtaSlide;
 
   useEffect(() => {
@@ -1232,15 +1324,26 @@ export function LibraryPage() {
         }`}
       />
 
-      <main className="relative z-10 mx-auto flex h-[100dvh] w-[90%] max-w-none flex-col px-6 py-10 sm:px-10 lg:px-14">
+      <main
+        className={`relative z-10 mx-auto flex h-[100dvh] max-w-none flex-col ${
+          isStrategyMapSlide || isGlobalOpportunitySlide
+            ? "w-full px-0 py-0"
+            : "w-[90%] px-6 py-10 sm:px-10 lg:px-14"
+        }`}
+      >
         <div
           ref={pageContainerRef}
           className={
+            isStrategyMapSlide ||
             isYearVideoSlide ||
             isTicMicPieSlide ||
             isVisionVideoSlide ||
             isRelocatedAgendaSlide ||
             isBlackSwanSlide ||
+            isIpoStrategySlide ||
+            isGlobalVisionSlide ||
+            isGlobalOpportunitySlide ||
+            isStrategyMapIntroSlide ||
             isTechnocratsSlide ||
             isPreCtaSlide
               ? "presentation-scroll min-h-0 flex-1 overflow-hidden"
@@ -1294,9 +1397,9 @@ export function LibraryPage() {
           ) : currentPage === 14 ? (
             <YearVideoSlide />
           ) : currentPage === 15 ? (
-            <TechnocratsSlide />
-          ) : currentPage === 16 ? (
             <VisionRyanVideoSlide />
+          ) : currentPage === 16 ? (
+            <TechnocratsSlide />
           ) : currentPage === 17 ? (
             <VisionVideoSlide />
           ) : currentPage === 18 ? (
@@ -1317,8 +1420,24 @@ export function LibraryPage() {
           ) : currentPage === 19 ? (
             <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
           ) : currentPage === 20 ? (
-            <BlackSwanSlide />
+            <IpoStrategySlide />
           ) : currentPage === 21 ? (
+            <GlobalVisionSlide />
+          ) : isGlobalOpportunitySlide ? (
+            <GlobalMarketSlide
+              slide={globalOpportunitySlides[globalOpportunitySlideIndex]!}
+              number={globalOpportunitySlideIndex + 1}
+              hideSlideNumber
+            />
+          ) : currentPage === 25 ? (
+            <BlackSwanSlide />
+          ) : currentPage === 26 ? (
+            <StrategyMapIntroSlide />
+          ) : currentPage === 27 ? (
+            <section className="presentation-scroll h-full w-full overflow-y-auto px-4 py-8 md:px-6">
+              <StrategyMapContent />
+            </section>
+          ) : currentPage === 28 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <section
                 key={currentPage}
@@ -1333,7 +1452,7 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 22 ? (
+          ) : currentPage === 29 ? (
             <FullScreenFlagSlide src="/flag2.webm" />
           ) : isPreCtaSlide ? (
             <SectionTitleSlide title={preCtaSlides[preCtaSlideIndex]} />

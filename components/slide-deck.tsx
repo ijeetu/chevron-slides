@@ -127,9 +127,11 @@ function renderInlineLinks(text: string): ReactNode {
 function SlideShell({
   children,
   slideNumber,
+  hideSlideNumber,
 }: {
   children: React.ReactNode;
   slideNumber?: number;
+  hideSlideNumber?: boolean;
 }) {
   return (
     <section className="relative min-h-screen overflow-hidden bg-transparent">
@@ -139,7 +141,7 @@ function SlideShell({
       <div className="absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
       <div className="relative z-10 min-h-screen px-[10%] py-8 md:py-10">
-        {slideNumber ? (
+        {slideNumber && !hideSlideNumber ? (
           <div className="absolute right-6 top-8 flex items-center gap-4 text-mist md:right-8 md:top-10">
             <p className="text-[0.76rem] uppercase tracking-[0.28em]">
               {`Slide ${String(slideNumber).padStart(2, "0")}`}
@@ -908,7 +910,15 @@ function MiniChip({
   );
 }
 
-function GlobalMarketImageSlide({ slide, number }: { slide: Slide; number: number }) {
+export function GlobalMarketImageSlide({
+  slide,
+  number,
+  hideSlideNumber,
+}: {
+  slide: Slide;
+  number: number;
+  hideSlideNumber?: boolean;
+}) {
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#0a0e14]">
       <img
@@ -930,12 +940,14 @@ function GlobalMarketImageSlide({ slide, number }: { slide: Slide; number: numbe
       <div className="absolute inset-x-0 bottom-0 h-48 bg-[linear-gradient(0deg,rgba(6,9,14,0.7),transparent)]" />
 
       <div className="relative z-10 min-h-screen px-[10%] py-8 md:py-10">
-        <div className="absolute right-6 top-8 flex items-center gap-4 text-white/55 md:right-8 md:top-10">
-          <p className="text-[0.76rem] uppercase tracking-[0.28em]">
-            {`Slide ${String(number).padStart(2, "0")}`}
-          </p>
-          <span className="h-px w-20 bg-[linear-gradient(90deg,rgba(255,255,255,0.5),rgba(255,255,255,0))]" />
-        </div>
+        {!hideSlideNumber ? (
+          <div className="absolute right-6 top-8 flex items-center gap-4 text-white/55 md:right-8 md:top-10">
+            <p className="text-[0.76rem] uppercase tracking-[0.28em]">
+              {`Slide ${String(number).padStart(2, "0")}`}
+            </p>
+            <span className="h-px w-20 bg-[linear-gradient(90deg,rgba(255,255,255,0.5),rgba(255,255,255,0))]" />
+          </div>
+        ) : null}
 
         <div className="flex min-h-[calc(100vh-5rem)] w-full items-center">
           <div className="w-full max-w-5xl space-y-7 md:space-y-8">
@@ -972,7 +984,15 @@ function GlobalMarketImageSlide({ slide, number }: { slide: Slide; number: numbe
   );
 }
 
-function GlobalMarketPositionedSlide({ slide, number }: { slide: Slide; number: number }) {
+function GlobalMarketPositionedSlide({
+  slide,
+  number,
+  hideSlideNumber,
+}: {
+  slide: Slide;
+  number: number;
+  hideSlideNumber?: boolean;
+}) {
   return (
     <section className="relative min-h-screen overflow-hidden bg-transparent">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(72,88,104,0.16),transparent_24%),linear-gradient(135deg,#d9ddd9_0%,#e8e9e5_34%,#d9dee2_100%)]" />
@@ -982,12 +1002,14 @@ function GlobalMarketPositionedSlide({ slide, number }: { slide: Slide; number: 
       <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
 
       <div className="relative z-10 min-h-screen px-[10%] py-8 md:py-10">
-        <div className="absolute right-6 top-8 flex items-center gap-4 text-mist md:right-8 md:top-10">
-          <p className="text-[0.76rem] uppercase tracking-[0.28em]">
-            {`Slide ${String(number).padStart(2, "0")}`}
-          </p>
-          <span className="h-px w-20 bg-[linear-gradient(90deg,rgba(38,49,61,0.45),rgba(38,49,61,0))]" />
-        </div>
+        {!hideSlideNumber ? (
+          <div className="absolute right-6 top-8 flex items-center gap-4 text-mist md:right-8 md:top-10">
+            <p className="text-[0.76rem] uppercase tracking-[0.28em]">
+              {`Slide ${String(number).padStart(2, "0")}`}
+            </p>
+            <span className="h-px w-20 bg-[linear-gradient(90deg,rgba(38,49,61,0.45),rgba(38,49,61,0))]" />
+          </div>
+        ) : null}
 
         <div className="flex min-h-[calc(100vh-5rem)] w-full items-center">
           <div className="w-full max-w-5xl translate-y-7 space-y-7 md:translate-y-12 md:space-y-8">
@@ -1024,20 +1046,40 @@ function GlobalMarketPositionedSlide({ slide, number }: { slide: Slide; number: 
   );
 }
 
-function GlobalMarketSlide({ slide, number }: { slide: Slide; number: number }) {
+export function GlobalMarketSlide({
+  slide,
+  number,
+  hideSlideNumber,
+}: {
+  slide: Slide;
+  number: number;
+  hideSlideNumber?: boolean;
+}) {
   if (number === 2) {
-    return <GlobalMarketImageSlide slide={slide} number={number} />;
+    return (
+      <GlobalMarketImageSlide
+        slide={slide}
+        number={number}
+        hideSlideNumber={hideSlideNumber}
+      />
+    );
   }
 
   if (number === 3) {
-    return <GlobalMarketPositionedSlide slide={slide} number={number} />;
+    return (
+      <GlobalMarketPositionedSlide
+        slide={slide}
+        number={number}
+        hideSlideNumber={hideSlideNumber}
+      />
+    );
   }
 
   const showSlide1Globe = number === 1;
   const showRightVisual = showSlide1Globe;
 
   return (
-    <SlideShell slideNumber={number}>
+    <SlideShell slideNumber={number} hideSlideNumber={hideSlideNumber}>
       <div className="grid w-full items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-6">
         <div className="w-full space-y-7 md:space-y-8">
           <div className="space-y-4">
