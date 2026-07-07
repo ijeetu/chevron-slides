@@ -9,8 +9,6 @@ import {
   BarChart3,
   ChevronLeft,
   ChevronRight,
-  Globe2,
-  Map,
   NotebookText,
   Pause,
   Play,
@@ -24,8 +22,6 @@ import {
   StrategyMapContent,
   StrategyMapIntroSlide,
 } from "@/components/strategy-map-page";
-import { GlobalMarketSlide } from "@/components/slide-deck";
-import type { Slide } from "@/lib/parse-slides";
 
 type Deck = {
   title: string;
@@ -96,41 +92,6 @@ const deckPages: Deck[][] = [
       iconTone:
         "bg-[linear-gradient(145deg,rgba(233,240,247,0.98),rgba(189,205,223,0.94))] text-[#37567b] border-[#98aec4]/50",
     },
-    {
-      title: "Global Opportunities",
-      description: "TAM (Total Available Market)",
-      href: "/presentation/global-opportunities",
-      icon: Globe2,
-      placementClass: "xl:col-start-4 xl:col-span-2",
-      tone:
-        "bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(221,238,233,0.96))] hover:border-[#6fa391]/85 hover:shadow-[0_24px_60px_rgba(42,109,88,0.18)]",
-      iconTone:
-        "bg-[linear-gradient(145deg,rgba(236,248,244,0.98),rgba(162,208,191,0.96))] text-[#24584b] border-[#7fb19e]/55",
-    },
-  ],
-  [
-    {
-      title: "Strategy Map",
-      description: "Strategic Alliance and Partnership Landscape",
-      href: "/strategymap",
-      icon: Map,
-      placementClass: "xl:col-start-2 xl:col-span-2",
-      tone:
-        "bg-[linear-gradient(145deg,rgba(255,255,255,0.95),rgba(231,238,235,0.9))] hover:border-[#a8b9b3]/85 hover:shadow-[0_24px_55px_rgba(66,97,89,0.14)]",
-      iconTone:
-        "bg-[linear-gradient(145deg,rgba(233,241,238,0.98),rgba(194,211,205,0.94))] text-[#476961] border-[#adc0b8]/50",
-    },
-    {
-      title: "Driven to win",
-      description: "Purpose fuels performance",
-      href: "/presentation/tam",
-      icon: TrendingUp,
-      placementClass: "xl:col-start-4 xl:col-span-2",
-      tone:
-        "bg-[linear-gradient(145deg,rgba(255,255,255,0.97),rgba(248,228,218,0.95))] hover:border-[#d18a66]/85 hover:shadow-[0_24px_60px_rgba(154,88,44,0.18)]",
-      iconTone:
-        "bg-[linear-gradient(145deg,rgba(252,240,234,0.98),rgba(238,182,145,0.95))] text-[#8f4c24] border-[#db9a73]/55",
-    },
   ],
 ];
 
@@ -139,8 +100,7 @@ const deckPageHashes: Record<string, number> = {
   "#decks": 12,
   "#presentation": 18,
   "#global-opportunities": 18,
-  "#strategymap": 26,
-  "#driven-to-win": 28,
+  "#strategymap": 31,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -276,39 +236,17 @@ const preCtaSlides = [
   "Probability Musk Will for a Strategic Alliance",
 ] as const;
 
-const globalOpportunitySlides: Slide[] = [
-  {
-    id: "global-opportunity-1",
-    label: "Slide 1",
-    title: "Global Opportunities",
-    sections: [],
-    statements: [
-      "In countries where governments control information, surveillance, and communications, the people's voice, secured on-chain, could become a powerful disruptive force.",
-    ],
-    type: "globalMarket",
-  },
-  {
-    id: "global-opportunity-2",
-    label: "Slide 2",
-    title: "Global Opportunities",
-    sections: [],
-    statements: [
-      "The Viral Fusion operating system could help weaken regime control and strengthen nonviolent internal pressure through anti-censorship communication, consensus building, atrocity documentation, strike coordination, diaspora support, and transition legitimacy.",
-    ],
-    type: "globalMarket",
-  },
-  {
-    id: "global-opportunity-3",
-    label: "Slide 3",
-    title: "Global Opportunities",
-    sections: [],
-    statements: [
-      "These tools could be used to disrupt OODA loop cycles, create unexpected noise, and generate new outcomes.",
-      "Supporting this framework, the U.S. Treasury's Iran General License D-2 was expanded to support internet-freedom services and related technology for Iranians: https://home.treasury.gov/news/press-releases/jy0974",
-    ],
-    type: "globalMarket",
-  },
-];
+const mainDeckSlides = [
+  "/mainslides/VF1.jpg",
+  "/mainslides/VF2.jpg",
+  "/mainslides/VF3.jpg",
+  "/mainslides/VF4.jpg",
+  "/mainslides/VF5.jpg",
+  "/mainslides/VF6.jpg",
+  "/mainslides/VF7.jpg",
+  "/mainslides/VF8.jpg",
+  "/mainslides/VF9.jpg",
+] as const;
 
 function formatAudioTime(seconds: number) {
   if (!Number.isFinite(seconds) || seconds <= 0) {
@@ -855,6 +793,19 @@ function GlobalVisionSlide() {
   );
 }
 
+function MainDeckImageSlide({ src, index }: { src: string; index: number }) {
+  return (
+    <section className="relative flex h-full w-full items-center justify-center overflow-hidden bg-black">
+      <img
+        src={src}
+        alt={`Viral Fusion main deck slide ${index + 1}`}
+        className="h-full w-full object-contain"
+        draggable={false}
+      />
+    </section>
+  );
+}
+
 function GirlPage() {
   return (
     <section className="flex min-h-full flex-col items-center py-8">
@@ -1191,25 +1142,31 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const globalOpportunityStartPage = 22;
-  const preCtaStartPage = 30;
-  const globalOpportunitySlideIndex = currentPage - globalOpportunityStartPage;
+  const mainDeckStartPage = 18;
+  const project2026Page = mainDeckStartPage + mainDeckSlides.length;
+  const ipoStrategyPage = project2026Page + 1;
+  const globalVisionPage = project2026Page + 2;
+  const blackSwanPage = project2026Page + 3;
+  const strategyMapIntroPage = project2026Page + 4;
+  const strategyMapContentPage = project2026Page + 5;
+  const flagOutroPage = project2026Page + 6;
+  const preCtaStartPage = project2026Page + 7;
+  const mainDeckSlideIndex = currentPage - mainDeckStartPage;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
-  const totalPages = deckPages.length + 28 + preCtaSlides.length;
+  const totalPages = preCtaStartPage + preCtaSlides.length;
   const isRelocatedAgendaSlide = currentPage === 11;
   const isTicMicPieSlide = currentPage === 13;
   const isYearVideoSlide = currentPage === 14;
   const isVisionRyanVideoSlide = currentPage === 15;
   const isTechnocratsSlide = currentPage === 16;
   const isVisionVideoSlide = currentPage === 17;
-  const isIpoStrategySlide = currentPage === 20;
-  const isGlobalVisionSlide = currentPage === 21;
-  const isGlobalOpportunitySlide =
-    globalOpportunitySlideIndex >= 0 &&
-    globalOpportunitySlideIndex < globalOpportunitySlides.length;
-  const isBlackSwanSlide = currentPage === 25;
-  const isStrategyMapIntroSlide = currentPage === 26;
-  const isStrategyMapContentSlide = currentPage === 27;
+  const isMainDeckImageSlide =
+    mainDeckSlideIndex >= 0 && mainDeckSlideIndex < mainDeckSlides.length;
+  const isIpoStrategySlide = currentPage === ipoStrategyPage;
+  const isGlobalVisionSlide = currentPage === globalVisionPage;
+  const isBlackSwanSlide = currentPage === blackSwanPage;
+  const isStrategyMapIntroSlide = currentPage === strategyMapIntroPage;
+  const isStrategyMapContentSlide = currentPage === strategyMapContentPage;
   const isStrategyMapSlide = isStrategyMapIntroSlide || isStrategyMapContentSlide;
   const isPreCtaSlide =
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
@@ -1222,8 +1179,9 @@ export function LibraryPage() {
     isTechnocratsSlide ||
     isVisionRyanVideoSlide ||
     isVisionVideoSlide ||
-    (currentPage >= 19 && currentPage <= 25) ||
-    currentPage === 29 ||
+    isMainDeckImageSlide ||
+    (currentPage >= project2026Page && currentPage <= blackSwanPage) ||
+    currentPage === flagOutroPage ||
     isPreCtaSlide;
 
   useEffect(() => {
@@ -1326,7 +1284,7 @@ export function LibraryPage() {
 
       <main
         className={`relative z-10 mx-auto flex h-[100dvh] max-w-none flex-col ${
-          isStrategyMapSlide || isGlobalOpportunitySlide
+          isStrategyMapSlide || isMainDeckImageSlide
             ? "w-full px-0 py-0"
             : "w-[90%] px-6 py-10 sm:px-10 lg:px-14"
         }`}
@@ -1342,7 +1300,7 @@ export function LibraryPage() {
             isBlackSwanSlide ||
             isIpoStrategySlide ||
             isGlobalVisionSlide ||
-            isGlobalOpportunitySlide ||
+            isMainDeckImageSlide ||
             isStrategyMapIntroSlide ||
             isTechnocratsSlide ||
             isPreCtaSlide
@@ -1402,57 +1360,26 @@ export function LibraryPage() {
             <TechnocratsSlide />
           ) : currentPage === 17 ? (
             <VisionVideoSlide />
-          ) : currentPage === 18 ? (
-            <section className="flex min-h-full flex-col justify-center py-8">
-              <section
-                key={currentPage}
-                className="grid gap-5 md:grid-cols-2 xl:grid-cols-6"
-              >
-                {deckPages[1].map((deck) => (
-                  <DeckCard
-                    key={deck.href}
-                    deck={deck}
-                    onOpenVideo={setActiveVideoEmbedUrl}
-                  />
-                ))}
-              </section>
-            </section>
-          ) : currentPage === 19 ? (
-            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
-          ) : currentPage === 20 ? (
-            <IpoStrategySlide />
-          ) : currentPage === 21 ? (
-            <GlobalVisionSlide />
-          ) : isGlobalOpportunitySlide ? (
-            <GlobalMarketSlide
-              slide={globalOpportunitySlides[globalOpportunitySlideIndex]!}
-              number={globalOpportunitySlideIndex + 1}
-              hideSlideNumber
+          ) : isMainDeckImageSlide ? (
+            <MainDeckImageSlide
+              src={mainDeckSlides[mainDeckSlideIndex]!}
+              index={mainDeckSlideIndex}
             />
-          ) : currentPage === 25 ? (
+          ) : currentPage === project2026Page ? (
+            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
+          ) : currentPage === ipoStrategyPage ? (
+            <IpoStrategySlide />
+          ) : currentPage === globalVisionPage ? (
+            <GlobalVisionSlide />
+          ) : currentPage === blackSwanPage ? (
             <BlackSwanSlide />
-          ) : currentPage === 26 ? (
+          ) : currentPage === strategyMapIntroPage ? (
             <StrategyMapIntroSlide />
-          ) : currentPage === 27 ? (
+          ) : currentPage === strategyMapContentPage ? (
             <section className="presentation-scroll h-full w-full overflow-y-auto px-4 py-8 md:px-6">
               <StrategyMapContent />
             </section>
-          ) : currentPage === 28 ? (
-            <section className="flex min-h-full flex-col justify-center py-8">
-              <section
-                key={currentPage}
-                className="grid gap-5 md:grid-cols-2 xl:grid-cols-6"
-              >
-                {deckPages[2].map((deck) => (
-                  <DeckCard
-                    key={deck.href}
-                    deck={deck}
-                    onOpenVideo={setActiveVideoEmbedUrl}
-                  />
-                ))}
-              </section>
-            </section>
-          ) : currentPage === 29 ? (
+          ) : currentPage === flagOutroPage ? (
             <FullScreenFlagSlide src="/flag2.webm" />
           ) : isPreCtaSlide ? (
             <SectionTitleSlide title={preCtaSlides[preCtaSlideIndex]} />
