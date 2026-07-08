@@ -98,9 +98,9 @@ const deckPages: Deck[][] = [
 const deckPageHashes: Record<string, number> = {
   "#problems": 12,
   "#decks": 12,
-  "#presentation": 18,
-  "#global-opportunities": 18,
-  "#strategymap": 31,
+  "#presentation": 19,
+  "#global-opportunities": 19,
+  "#strategymap": 32,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -208,6 +208,14 @@ const technocratFigures: TechnocratFigure[] = [
     imageSrc: "/technocrats/david-sacks.jpg",
   },
 ];
+
+const peterElonSwappedTechnocratFigures: TechnocratFigure[] = [
+  technocratFigures[3],
+  technocratFigures[1],
+  technocratFigures[2],
+  technocratFigures[0],
+  technocratFigures[4],
+].filter(Boolean) as TechnocratFigure[];
 
 const agendaItems = [
   "Technology (Operating System)",
@@ -483,28 +491,28 @@ function YearVideoSlide() {
 function TicMicPieSlide() {
   const chartData = [
     {
-      key: "mic",
-      name: "MIC",
-      value: 50,
-      fill: "url(#mic-blue-gradient)",
-    },
-    {
       key: "tic",
       name: "TIC",
       value: 50,
       fill: "url(#tic-red-gradient)",
     },
+    {
+      key: "mic",
+      name: "MIC",
+      value: 50,
+      fill: "url(#mic-blue-gradient)",
+    },
   ];
 
   return (
     <section className="relative flex h-full items-center justify-center overflow-hidden px-[5%] py-8">
-      <div className="pointer-events-none absolute left-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#c0392b]/14 blur-[110px]" />
-      <div className="pointer-events-none absolute right-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#3f6fc8]/15 blur-[110px]" />
+      <div className="pointer-events-none absolute left-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#3f6fc8]/15 blur-[110px]" />
+      <div className="pointer-events-none absolute right-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#c0392b]/14 blur-[110px]" />
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <div className="relative mx-auto flex aspect-square w-full max-w-[42rem] items-center justify-center">
           <div className="pointer-events-none absolute inset-[-2.75rem] rounded-full border border-white/[0.055]" />
           <div className="pointer-events-none absolute inset-[-1.35rem] rounded-full border border-white/[0.085]" />
-          <div className="pointer-events-none absolute inset-0 rounded-full bg-[linear-gradient(90deg,rgba(192,57,43,0.15),rgba(255,255,255,0.015)_49%,rgba(255,255,255,0.015)_51%,rgba(63,111,200,0.16))] shadow-[0_38px_120px_rgba(0,0,0,0.46)]" />
+          <div className="pointer-events-none absolute inset-0 rounded-full bg-[linear-gradient(90deg,rgba(63,111,200,0.16),rgba(255,255,255,0.015)_49%,rgba(255,255,255,0.015)_51%,rgba(192,57,43,0.15))] shadow-[0_38px_120px_rgba(0,0,0,0.46)]" />
 
           <div className="relative h-full w-full rounded-full border border-white/[0.12] bg-[#07111c]/82 p-4 shadow-[inset_0_0_70px_rgba(0,0,0,0.5)] backdrop-blur-md sm:p-5">
             <ResponsiveContainer width="100%" height="100%">
@@ -561,13 +569,13 @@ function TicMicPieSlide() {
 
             <div className="pointer-events-none absolute left-[18%] top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(3,12,30,0.48)]">
               <p className="font-display text-[2.8rem] font-black leading-none tracking-[-0.04em] sm:text-[4.1rem]">
-                TIC
+                MIC
               </p>
             </div>
 
             <div className="pointer-events-none absolute right-[18%] top-1/2 translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(30,3,6,0.48)]">
               <p className="font-display text-[2.8rem] font-black leading-none tracking-[-0.04em] sm:text-[4.1rem]">
-                MIC
+                TIC
               </p>
             </div>
 
@@ -580,7 +588,11 @@ function TicMicPieSlide() {
   );
 }
 
-function TechnocratsSlide() {
+function TechnocratsSlide({
+  figures = technocratFigures,
+}: {
+  figures?: TechnocratFigure[];
+}) {
   return (
     <section className="relative flex h-full items-center justify-center px-[3%] py-6">
       <div className="mx-auto flex h-full w-full max-w-7xl items-center justify-center text-center">
@@ -602,7 +614,7 @@ function TechnocratsSlide() {
           <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[21rem] w-[21rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8fa8bd]/12 lg:block" />
 
           <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 lg:block">
-            {technocratFigures.map((figure, index) => {
+            {figures.map((figure, index) => {
               const positions = [
                 "lg:left-1/2 lg:top-0 lg:-translate-x-1/2",
                 "lg:right-0 lg:top-[22%]",
@@ -766,16 +778,16 @@ function IpoStrategySlide() {
         <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
 
-      <div className="mx-auto mt-10 flex max-w-5xl flex-wrap items-center justify-center gap-x-12 gap-y-5">
+      <ul className="mx-auto mt-10 max-w-3xl list-disc space-y-5 pl-10 text-left">
         {points.map((point) => (
-          <p
+          <li
             key={point}
-            className="font-display text-4xl font-semibold leading-none text-[#f4f2ec] sm:text-5xl lg:text-[4rem]"
+            className="font-display text-4xl font-semibold leading-none text-[#f4f2ec] marker:text-[#9beaff] sm:text-5xl lg:text-[4rem]"
           >
             {point}
-          </p>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
@@ -1142,13 +1154,13 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const mainDeckStartPage = 18;
+  const mainDeckStartPage = 19;
   const project2026Page = mainDeckStartPage + mainDeckSlides.length;
   const ipoStrategyPage = project2026Page + 1;
   const globalVisionPage = project2026Page + 2;
-  const blackSwanPage = project2026Page + 3;
-  const strategyMapIntroPage = project2026Page + 4;
-  const strategyMapContentPage = project2026Page + 5;
+  const strategyMapIntroPage = project2026Page + 3;
+  const strategyMapContentPage = project2026Page + 4;
+  const blackSwanPage = project2026Page + 5;
   const flagOutroPage = project2026Page + 6;
   const preCtaStartPage = project2026Page + 7;
   const mainDeckSlideIndex = currentPage - mainDeckStartPage;
@@ -1157,9 +1169,10 @@ export function LibraryPage() {
   const isRelocatedAgendaSlide = currentPage === 11;
   const isTicMicPieSlide = currentPage === 13;
   const isYearVideoSlide = currentPage === 14;
-  const isVisionRyanVideoSlide = currentPage === 15;
-  const isTechnocratsSlide = currentPage === 16;
-  const isVisionVideoSlide = currentPage === 17;
+  const isInsertedTechnocratsSlide = currentPage === 15;
+  const isVisionRyanVideoSlide = currentPage === 16;
+  const isTechnocratsSlide = currentPage === 17;
+  const isVisionVideoSlide = currentPage === 18;
   const isMainDeckImageSlide =
     mainDeckSlideIndex >= 0 && mainDeckSlideIndex < mainDeckSlides.length;
   const isIpoStrategySlide = currentPage === ipoStrategyPage;
@@ -1176,11 +1189,13 @@ export function LibraryPage() {
     isRelocatedAgendaSlide ||
     isTicMicPieSlide ||
     isYearVideoSlide ||
+    isInsertedTechnocratsSlide ||
     isTechnocratsSlide ||
     isVisionRyanVideoSlide ||
     isVisionVideoSlide ||
     isMainDeckImageSlide ||
-    (currentPage >= project2026Page && currentPage <= blackSwanPage) ||
+    (currentPage >= project2026Page && currentPage <= globalVisionPage) ||
+    isBlackSwanSlide ||
     currentPage === flagOutroPage ||
     isPreCtaSlide;
 
@@ -1302,6 +1317,7 @@ export function LibraryPage() {
             isGlobalVisionSlide ||
             isMainDeckImageSlide ||
             isStrategyMapIntroSlide ||
+            isInsertedTechnocratsSlide ||
             isTechnocratsSlide ||
             isPreCtaSlide
               ? "presentation-scroll min-h-0 flex-1 overflow-hidden"
@@ -1355,10 +1371,12 @@ export function LibraryPage() {
           ) : currentPage === 14 ? (
             <YearVideoSlide />
           ) : currentPage === 15 ? (
-            <VisionRyanVideoSlide />
-          ) : currentPage === 16 ? (
             <TechnocratsSlide />
+          ) : currentPage === 16 ? (
+            <VisionRyanVideoSlide />
           ) : currentPage === 17 ? (
+            <TechnocratsSlide figures={peterElonSwappedTechnocratFigures} />
+          ) : currentPage === 18 ? (
             <VisionVideoSlide />
           ) : isMainDeckImageSlide ? (
             <MainDeckImageSlide
