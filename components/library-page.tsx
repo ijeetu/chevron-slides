@@ -253,8 +253,10 @@ const mainDeckSlides = [
   "/mainslides/VF6.jpg",
   "/mainslides/VF7.jpg",
   "/mainslides/VF8.jpg",
-  "/mainslides/VF9.jpg",
 ] as const;
+
+const vf8VideoEmbedUrl =
+  "https://player.vimeo.com/video/1208168027?h=e82221e82e&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1";
 
 function formatAudioTime(seconds: number) {
   if (!Number.isFinite(seconds) || seconds <= 0) {
@@ -805,7 +807,17 @@ function GlobalVisionSlide() {
   );
 }
 
-function MainDeckImageSlide({ src, index }: { src: string; index: number }) {
+function MainDeckImageSlide({
+  src,
+  index,
+  videoEmbedUrl,
+  onOpenVideo,
+}: {
+  src: string;
+  index: number;
+  videoEmbedUrl?: string;
+  onOpenVideo?: (videoEmbedUrl: string) => void;
+}) {
   return (
     <section className="relative flex h-full w-full items-center justify-center overflow-hidden bg-black">
       <img
@@ -814,6 +826,20 @@ function MainDeckImageSlide({ src, index }: { src: string; index: number }) {
         className="h-full w-full object-contain"
         draggable={false}
       />
+      {videoEmbedUrl && onOpenVideo ? (
+        <button
+          type="button"
+          aria-label="Play VF8 video"
+          onClick={() => onOpenVideo(videoEmbedUrl)}
+          onKeyDown={(event) => event.stopPropagation()}
+          className="absolute bottom-44 left-14 z-10 flex h-12 items-center gap-2 rounded-full border border-white/45 bg-black/62 px-4 text-white shadow-[0_14px_34px_rgba(0,0,0,0.42)] backdrop-blur-md transition-all hover:scale-[1.02] hover:border-[#9beaff]/80 hover:bg-black/78 focus:outline-none focus:ring-2 focus:ring-[#9beaff] focus:ring-offset-2 focus:ring-offset-black sm:bottom-48 sm:left-20 sm:h-14 sm:px-5"
+        >
+          <Play className="ml-0.5 h-5 w-5 sm:h-6 sm:w-6" fill="currentColor" strokeWidth={1.8} />
+          <span className="text-sm font-semibold uppercase tracking-[0.14em] sm:text-[0.95rem]">
+            Play Video
+          </span>
+        </button>
+      ) : null}
     </section>
   );
 }
@@ -1382,6 +1408,8 @@ export function LibraryPage() {
             <MainDeckImageSlide
               src={mainDeckSlides[mainDeckSlideIndex]!}
               index={mainDeckSlideIndex}
+              videoEmbedUrl={mainDeckSlideIndex === 7 ? vf8VideoEmbedUrl : undefined}
+              onOpenVideo={setActiveVideoEmbedUrl}
             />
           ) : currentPage === project2026Page ? (
             <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
@@ -1411,7 +1439,7 @@ export function LibraryPage() {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Embedded YouTube video"
+          aria-label="Embedded video"
           className="fixed inset-0 z-50 flex items-center justify-center bg-[#07101a]/88 p-4 backdrop-blur-md sm:p-8"
           onClick={() => setActiveVideoEmbedUrl(null)}
         >
