@@ -48,6 +48,7 @@ type TechnocratFigure = {
   name: string;
   role: string;
   imageSrc: string;
+  focusImageSrc?: string;
 };
 
 type PromiseItem = {
@@ -209,8 +210,16 @@ const technocratFigures: TechnocratFigure[] = [
   },
 ];
 
+const post2010TechnocratFigures: TechnocratFigure[] = technocratFigures.map((figure) =>
+  figure.name === "Elon Musk"
+    ? { ...figure, imageSrc: "/technocrats/elon-musk.jpg" }
+    : figure,
+);
+
 const peterElonSwappedTechnocratFigures: TechnocratFigure[] = [
-  technocratFigures[3],
+  technocratFigures[3]
+    ? { ...technocratFigures[3], focusImageSrc: "/technocrats/elonmusk.png" }
+    : undefined,
   technocratFigures[1],
   technocratFigures[2],
   technocratFigures[0],
@@ -592,14 +601,20 @@ function TicMicPieSlide() {
 
 function TechnocratsSlide({
   figures = technocratFigures,
+  elonFocusSequence = false,
 }: {
   figures?: TechnocratFigure[];
+  elonFocusSequence?: boolean;
 }) {
+  const [activeFigure, setActiveFigure] = useState<TechnocratFigure | null>(null);
+  const modalDescription =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae neque at arcu gravida finibus, integer facilisis sem, sed luctus sapien, nunc ultricies, amet risus tempor blandit vel porta magna.";
+
   return (
     <section className="relative flex h-full items-center justify-center px-[3%] py-6">
       <div className="mx-auto flex h-full w-full max-w-7xl items-center justify-center text-center">
         <div className="relative flex h-full max-h-[43rem] w-full max-w-[72rem] flex-col items-center justify-center gap-4 lg:block">
-          <div className="relative z-20 flex h-32 w-32 shrink-0 items-center justify-center rounded-full border border-[#9beaff]/70 bg-[radial-gradient(circle_at_34%_24%,rgba(255,255,255,0.2),transparent_32%),linear-gradient(145deg,rgba(1,199,243,0.24),rgba(15,29,42,0.95))] shadow-[0_0_0_10px_rgba(1,199,243,0.055),0_22px_70px_rgba(1,199,243,0.18)] sm:h-40 sm:w-40 lg:absolute lg:left-1/2 lg:top-1/2 lg:h-44 lg:w-44 lg:-translate-x-1/2 lg:-translate-y-1/2">
+          <div className={`relative z-20 flex h-32 w-32 shrink-0 items-center justify-center rounded-full border border-[#9beaff]/70 bg-[radial-gradient(circle_at_34%_24%,rgba(255,255,255,0.2),transparent_32%),linear-gradient(145deg,rgba(1,199,243,0.24),rgba(15,29,42,0.95))] shadow-[0_0_0_10px_rgba(1,199,243,0.055),0_22px_70px_rgba(1,199,243,0.18)] sm:h-40 sm:w-40 lg:absolute lg:left-1/2 lg:top-1/2 lg:h-44 lg:w-44 lg:-translate-x-1/2 lg:-translate-y-1/2 ${elonFocusSequence ? "technocrat-focus-center" : ""}`}>
             <div className="absolute inset-[-1.35rem] rounded-full border border-[#01c7f3]/18" />
             <div className="absolute inset-[-2.8rem] rounded-full border border-[#8fa8bd]/10" />
             <span className="relative inline-flex min-h-[1.35em] min-w-[9.7rem] items-center justify-center px-3 text-center font-display text-[1.05rem] font-semibold uppercase tracking-[0.14em] text-[#e8fbff] sm:text-[1.22rem] lg:text-[1.32rem]">
@@ -612,11 +627,13 @@ function TechnocratsSlide({
             </span>
           </div>
 
-          <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[29rem] w-[29rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#01c7f3]/16 lg:block" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[21rem] w-[21rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8fa8bd]/12 lg:block" />
+          <div className={`pointer-events-none absolute left-1/2 top-1/2 hidden h-[29rem] w-[29rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#01c7f3]/16 lg:block ${elonFocusSequence ? "technocrat-focus-orbit" : ""}`} />
+          <div className={`pointer-events-none absolute left-1/2 top-1/2 hidden h-[21rem] w-[21rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8fa8bd]/12 lg:block ${elonFocusSequence ? "technocrat-focus-orbit" : ""}`} />
 
           <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 lg:block">
             {figures.map((figure, index) => {
+              const isElon = figure.name === "Elon Musk";
+              const isPeter = figure.name === "Peter Thiel";
               const positions = [
                 "lg:left-1/2 lg:top-0 lg:-translate-x-1/2",
                 "lg:right-0 lg:top-[22%]",
@@ -624,11 +641,21 @@ function TechnocratsSlide({
                 "lg:left-[14%] lg:bottom-0",
                 "lg:left-0 lg:top-[22%]",
               ];
+              const focusClass = elonFocusSequence
+                ? isElon
+                  ? "technocrat-focus-card technocrat-focus-elon"
+                  : isPeter
+                    ? "technocrat-focus-card technocrat-focus-peter"
+                    : "technocrat-focus-card technocrat-focus-away"
+                : "";
 
               return (
-                <article
+                <button
+                  type="button"
                   key={figure.name}
-                  className={`group relative flex min-h-[13.6rem] flex-col items-center rounded-[1.35rem] border border-[#9beaff]/22 bg-white/[0.055] px-3 pb-4 pt-4 shadow-[0_20px_55px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm sm:last:col-start-2 lg:absolute lg:w-[13.8rem] lg:min-h-[14.1rem] ${positions[index]}`}
+                  aria-label={`Open ${figure.name} details`}
+                  onClick={() => setActiveFigure(figure)}
+                  className={`group relative flex min-h-[13.6rem] cursor-pointer flex-col items-center rounded-[1.35rem] border border-[#9beaff]/22 bg-white/[0.055] px-3 pb-4 pt-4 text-center shadow-[0_20px_55px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm transition duration-300 hover:border-[#9beaff]/55 hover:bg-white/[0.085] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08131f] sm:last:col-start-2 lg:absolute lg:w-[13.8rem] lg:min-h-[14.1rem] ${positions[index]} ${focusClass}`}
                 >
                   <div className="relative h-24 w-24 overflow-hidden rounded-full border border-[#b9f2ff]/70 bg-[#0d1823] shadow-[0_14px_35px_rgba(0,0,0,0.34)] sm:h-28 sm:w-28">
                     <Image
@@ -636,8 +663,21 @@ function TechnocratsSlide({
                       alt={figure.name}
                       fill
                       sizes="7rem"
-                      className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                      className={`object-cover object-top transition-transform duration-700 group-hover:scale-[1.04] ${
+                        elonFocusSequence && isElon && figure.focusImageSrc
+                          ? "technocrat-focus-base-image"
+                          : ""
+                      }`}
                     />
+                    {elonFocusSequence && isElon && figure.focusImageSrc ? (
+                      <Image
+                        src={figure.focusImageSrc}
+                        alt={figure.name}
+                        fill
+                        sizes="7rem"
+                        className="technocrat-focus-strong-image object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                      />
+                    ) : null}
                   </div>
                   <h2 className="mt-4 font-display text-[1.14rem] leading-none text-[#f4f2ec] sm:text-[1.28rem]">
                     {figure.name}
@@ -645,12 +685,63 @@ function TechnocratsSlide({
                   <p className="mt-2 max-w-[10rem] text-[0.72rem] font-semibold uppercase leading-5 tracking-[0.11em] text-[#9beaff]">
                     {figure.role}
                   </p>
-                </article>
+                </button>
               );
             })}
           </div>
         </div>
       </div>
+
+      {activeFigure ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="technocrat-modal-title"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#07101a]/86 p-4 backdrop-blur-md sm:p-8"
+          onClick={() => setActiveFigure(null)}
+        >
+          <div
+            className="relative w-full max-w-xl overflow-hidden rounded-[1.35rem] border border-[#9beaff]/28 bg-[linear-gradient(145deg,rgba(18,35,49,0.98),rgba(8,18,30,0.98))] px-6 pb-7 pt-6 text-left text-[#f4f2ec] shadow-[0_36px_120px_rgba(0,0,0,0.58),inset_0_1px_0_rgba(255,255,255,0.07)] sm:px-8 sm:pt-8"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              aria-label="Close technocrat details"
+              onClick={() => setActiveFigure(null)}
+              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/[0.06] text-white transition-colors hover:bg-white/[0.12] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80"
+            >
+              <X size={20} strokeWidth={2.2} />
+            </button>
+
+            <div className="flex items-center gap-4 pr-12">
+              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-[#b9f2ff]/70 bg-[#0d1823] shadow-[0_14px_35px_rgba(0,0,0,0.34)]">
+                <Image
+                  src={activeFigure.focusImageSrc ?? activeFigure.imageSrc}
+                  alt={activeFigure.name}
+                  fill
+                  sizes="5rem"
+                  className="object-cover object-top"
+                />
+              </div>
+              <div>
+                <h2
+                  id="technocrat-modal-title"
+                  className="font-display text-[1.75rem] leading-none text-[#f4f2ec] sm:text-[2.15rem]"
+                >
+                  {activeFigure.name}
+                </h2>
+                <p className="mt-2 text-[0.76rem] font-semibold uppercase leading-5 tracking-[0.12em] text-[#9beaff]">
+                  {activeFigure.role}
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-6 text-base leading-7 text-[#d7e4ec]">
+              {modalDescription}
+            </p>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
@@ -1397,11 +1488,14 @@ export function LibraryPage() {
           ) : currentPage === 14 ? (
             <YearVideoSlide />
           ) : currentPage === 15 ? (
-            <TechnocratsSlide />
+            <TechnocratsSlide figures={post2010TechnocratFigures} />
           ) : currentPage === 16 ? (
             <VisionRyanVideoSlide />
           ) : currentPage === 17 ? (
-            <TechnocratsSlide figures={peterElonSwappedTechnocratFigures} />
+            <TechnocratsSlide
+              figures={peterElonSwappedTechnocratFigures}
+              elonFocusSequence
+            />
           ) : currentPage === 18 ? (
             <VisionVideoSlide />
           ) : isMainDeckImageSlide ? (

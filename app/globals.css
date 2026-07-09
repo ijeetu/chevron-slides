@@ -154,6 +154,162 @@ select {
   }
 }
 
+@media (min-width: 1024px) {
+  .technocrat-focus-card,
+  .technocrat-focus-center,
+  .technocrat-focus-orbit,
+  .technocrat-focus-base-image,
+  .technocrat-focus-strong-image {
+    will-change: opacity, transform, filter;
+  }
+
+  .technocrat-focus-elon {
+    z-index: 35;
+    transform-origin: center center;
+    animation: technocrat-elon-rise-focus 11s cubic-bezier(0.2, 0.78, 0.24, 1) both;
+  }
+
+  .technocrat-focus-peter {
+    z-index: 26;
+    transform-origin: center center;
+    animation: technocrat-peter-descend-fade 11s cubic-bezier(0.2, 0.78, 0.24, 1) both;
+  }
+
+  .technocrat-focus-away {
+    animation: technocrat-away-fade 11s ease-in-out both;
+  }
+
+  .technocrat-focus-center,
+  .technocrat-focus-orbit {
+    animation: technocrat-center-fade 11s ease-in-out both;
+  }
+
+  .technocrat-focus-base-image {
+    animation: technocrat-elon-base-fade 11s ease-in-out both;
+  }
+
+  .technocrat-focus-strong-image {
+    opacity: 0;
+    transform: scale(1.08);
+    filter: saturate(0.8) contrast(0.9);
+    animation: technocrat-elon-strong-reveal 11s ease-in-out both;
+  }
+}
+
+@keyframes technocrat-elon-rise-focus {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, 28rem) rotate(-8deg) scale(1);
+    filter: saturate(0.92) contrast(0.94);
+  }
+
+  32% {
+    opacity: 1;
+    transform: translate(-50%, 0) rotate(0deg) scale(1);
+    filter: saturate(0.96) contrast(1);
+  }
+
+  54% {
+    opacity: 1;
+    transform: translate(-50%, 0) rotate(0deg) scale(1);
+    filter: saturate(1) contrast(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 14.5rem) rotate(0deg) scale(2.22);
+    filter: saturate(1.14) contrast(1.12) drop-shadow(0 34px 70px rgba(0, 0, 0, 0.5));
+  }
+}
+
+@keyframes technocrat-peter-descend-fade {
+  0% {
+    opacity: 1;
+    transform: translate(158%, -28rem) rotate(8deg) scale(1.02);
+  }
+
+  32% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    filter: blur(0);
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-0.7rem, 0.9rem) rotate(-3deg) scale(0.82);
+    filter: blur(5px);
+    visibility: hidden;
+  }
+}
+
+@keyframes technocrat-away-fade {
+  0%,
+  48% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.82);
+    filter: blur(5px);
+    visibility: hidden;
+  }
+}
+
+@keyframes technocrat-center-fade {
+  0%,
+  50% {
+    opacity: 1;
+    filter: blur(0);
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    filter: blur(6px);
+    visibility: hidden;
+  }
+}
+
+@keyframes technocrat-elon-base-fade {
+  0%,
+  48% {
+    opacity: 1;
+    filter: saturate(0.95) contrast(0.96);
+  }
+
+  78%,
+  100% {
+    opacity: 0;
+    filter: saturate(0.75) contrast(0.88);
+  }
+}
+
+@keyframes technocrat-elon-strong-reveal {
+  0%,
+  45% {
+    opacity: 0;
+    transform: scale(1.08);
+    filter: saturate(0.78) contrast(0.9);
+  }
+
+  78%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: saturate(1.18) contrast(1.12);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .technocrats-title-text-full {
     animation: none;
@@ -163,5 +319,21 @@ select {
   .technocrats-title-text-short {
     animation: none;
     opacity: 0;
+  }
+
+  .technocrat-focus-card,
+  .technocrat-focus-center,
+  .technocrat-focus-orbit,
+  .technocrat-focus-base-image,
+  .technocrat-focus-strong-image {
+    animation: none;
+  }
+
+  .technocrat-focus-base-image {
+    opacity: 0;
+  }
+
+  .technocrat-focus-strong-image {
+    opacity: 1;
   }
 }
