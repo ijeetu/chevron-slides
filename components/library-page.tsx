@@ -101,7 +101,7 @@ const deckPageHashes: Record<string, number> = {
   "#decks": 12,
   "#presentation": 19,
   "#global-opportunities": 19,
-  "#strategymap": 32,
+  "#strategymap": 33,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -180,6 +180,12 @@ const promiseNotes = [
   "And we will Secure the Future to protect our children.",
   "Today, I will show you what happens when you give the right tools to those willing to fight.",
   "My promise to you—and everyone watching—is that together, we will change the world.",
+] as const;
+
+const globalVisionNotes = [
+  "We understand there are a ton of problems, domestically, and simultaneously, a lot of these same types of problems are playing out in multiple countries.",
+  "We need a starting point. A place that is so far gone in the minds and hearts of most people that creating a high level of change here is almost unfair.",
+  "Can you guess where we start?",
 ] as const;
 
 const technocratFigures: TechnocratFigure[] = [
@@ -886,14 +892,69 @@ function IpoStrategySlide() {
 }
 
 function GlobalVisionSlide() {
+  const [showNotes, setShowNotes] = useState(false);
+
   return (
-    <section className="flex h-full flex-col items-center justify-center px-[5%] py-6 text-center">
+    <section className="relative flex h-full flex-col items-center justify-center px-[5%] py-6 text-center">
       <header className="mx-auto max-w-4xl">
         <h1 className="font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
           Global Vision
         </h1>
         <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
+
+      <button
+        type="button"
+        aria-label={showNotes ? "Hide Global Vision notes" : "Show Global Vision notes"}
+        title={showNotes ? "Hide notes" : "Show notes"}
+        onClick={() => setShowNotes((value) => !value)}
+        className="fixed right-6 top-6 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-[#01c7f3]/60 bg-[#0f1d2a]/88 text-[#b9f2ff] shadow-[0_14px_34px_rgba(0,0,0,0.28)] transition-all hover:-translate-y-0.5 hover:border-[#01c7f3] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80 md:right-8 md:top-8"
+      >
+        {showNotes ? <X size={18} strokeWidth={2.2} /> : <NotebookText size={18} strokeWidth={2.1} />}
+      </button>
+
+      {showNotes ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#050b12]/64 px-5 py-8 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Global Vision notes"
+          onClick={() => setShowNotes(false)}
+        >
+          <div
+            className="relative max-h-[82vh] w-full max-w-4xl overflow-hidden rounded-[1.4rem] border border-[#01c7f3]/55 bg-[#0d1823] text-left shadow-[0_34px_100px_rgba(0,0,0,0.48)]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
+              <div className="min-w-0">
+                <p className="text-sm text-[#d8edf6]/72">
+                  Global Vision notes
+                </p>
+              </div>
+              <button
+                type="button"
+                aria-label="Close Global Vision notes"
+                onClick={() => setShowNotes(false)}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d8edf6] transition-colors hover:border-[#01c7f3]/60 hover:text-[#b9f2ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80"
+              >
+                <X size={17} strokeWidth={2.2} />
+              </button>
+            </div>
+            <div className="max-h-[calc(82vh-4.5rem)] overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
+              <div className="space-y-4">
+                {globalVisionNotes.map((note) => (
+                  <p
+                    key={note}
+                    className="text-[1rem] leading-7 text-[#d8edf6] sm:text-[1.12rem] sm:leading-8"
+                  >
+                    {note}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
@@ -1272,12 +1333,13 @@ export function LibraryPage() {
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
   const mainDeckStartPage = 19;
-  const project2026Page = mainDeckStartPage + mainDeckSlides.length;
+  const howPage = mainDeckStartPage + mainDeckSlides.length;
+  const project2026Page = howPage + 1;
   const ipoStrategyPage = project2026Page + 1;
   const globalVisionPage = project2026Page + 2;
-  const strategyMapIntroPage = project2026Page + 3;
-  const strategyMapContentPage = project2026Page + 4;
-  const blackSwanPage = project2026Page + 5;
+  const blackSwanPage = project2026Page + 3;
+  const strategyMapIntroPage = project2026Page + 4;
+  const strategyMapContentPage = project2026Page + 5;
   const flagOutroPage = project2026Page + 6;
   const preCtaStartPage = project2026Page + 7;
   const mainDeckSlideIndex = currentPage - mainDeckStartPage;
@@ -1311,6 +1373,7 @@ export function LibraryPage() {
     isVisionRyanVideoSlide ||
     isVisionVideoSlide ||
     isMainDeckImageSlide ||
+    currentPage === howPage ||
     (currentPage >= project2026Page && currentPage <= globalVisionPage) ||
     isBlackSwanSlide ||
     currentPage === flagOutroPage ||
@@ -1505,6 +1568,8 @@ export function LibraryPage() {
               videoEmbedUrl={mainDeckSlideIndex === 7 ? vf8VideoEmbedUrl : undefined}
               onOpenVideo={setActiveVideoEmbedUrl}
             />
+          ) : currentPage === howPage ? (
+            <SectionTitleSlide title="HOW?" />
           ) : currentPage === project2026Page ? (
             <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
           ) : currentPage === ipoStrategyPage ? (
