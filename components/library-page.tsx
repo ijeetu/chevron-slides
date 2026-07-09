@@ -71,8 +71,8 @@ const deckPages: Deck[][] = [
     {
       title: "Beneath the Noise",
       description: "Incentives Behind Instability",
-      href: "https://www.youtube.com/watch?v=r4xoOQ32KNM",
-      videoEmbedUrl: "https://www.youtube.com/embed/r4xoOQ32KNM?autoplay=1&rel=0",
+      href: "https://vimeo.com/share/d1eaa291-6c14-4d9c-85fd-307e321a81f4?share=copy&fl=sv&fe=ci",
+      videoEmbedUrl: "https://player.vimeo.com/video/1208320570?h=27898b1a19&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1",
       icon: TrendingUp,
       placementClass: "xl:col-start-4 xl:col-span-2",
       tone:
