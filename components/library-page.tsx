@@ -101,7 +101,7 @@ const deckPageHashes: Record<string, number> = {
   "#decks": 12,
   "#presentation": 19,
   "#global-opportunities": 19,
-  "#strategymap": 33,
+  "#strategymap": 34,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -126,7 +126,7 @@ function namedHashMatchesPage(hash: string, page: number) {
 
 const manifestoStatements: ManifestoStatement[] = [
   {
-    text: "While others talk about America First, we designed the engine, mapped the strategy, and created a blueprint ready to deploy globally.",
+    text: "While others talk about America First, we designed the engine, mapped the strategy, and created a blueprint for global change.",
   },
 ];
 
@@ -134,7 +134,7 @@ function ManifestoStatementText() {
   return (
     <>
       While others talk about America First, we designed the engine, mapped the
-      strategy, and created a blueprint ready to deploy globally.
+      strategy, and created a blueprint for global change.
     </>
   );
 }
@@ -222,15 +222,11 @@ const post2010TechnocratFigures: TechnocratFigure[] = technocratFigures.map((fig
     : figure,
 );
 
-const peterElonSwappedTechnocratFigures: TechnocratFigure[] = [
-  technocratFigures[3]
-    ? { ...technocratFigures[3], focusImageSrc: "/technocrats/elonmusk.png" }
-    : undefined,
-  technocratFigures[1],
-  technocratFigures[2],
-  technocratFigures[0],
-  technocratFigures[4],
-].filter(Boolean) as TechnocratFigure[];
+const elonFocusTechnocratFigures: TechnocratFigure[] = technocratFigures.map((figure) =>
+  figure.name === "Elon Musk"
+    ? { ...figure, focusImageSrc: "/technocrats/elonmusk.png" }
+    : figure,
+);
 
 const agendaItems = [
   "Technology (Operating System)",
@@ -253,7 +249,6 @@ const agendaItems = [
 ] as const;
 
 const preCtaSlides = [
-  "IPO Strategy",
   "Sustainability Model",
   "Legislative Examples",
   "Probability Musk Will for a Strategic Alliance",
@@ -796,7 +791,7 @@ function VisionRyanVideoSlide() {
             <div className="mt-7 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
               <div className="aspect-video">
                 <iframe
-                  src="https://player.vimeo.com/video/1207400121?h=c7a6140f3a&badge=0&autopause=0&player_id=0&app_id=58479"
+                  src="https://player.vimeo.com/video/1208359437?h=07eacda6d0&badge=0&autopause=0&player_id=0&app_id=58479"
                   title="VisionRyan"
                   className="h-full w-full"
                   allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
@@ -872,7 +867,7 @@ function IpoStrategySlide() {
           Benchmark: Space X
         </p>
         <h1 className="mt-5 font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
-          30 Month IPO Strategy
+          ~30 Month IPO Strategy
         </h1>
         <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
@@ -881,7 +876,7 @@ function IpoStrategySlide() {
         {points.map((point) => (
           <li
             key={point}
-            className="font-display text-4xl font-semibold leading-none text-[#f4f2ec] marker:text-[#9beaff] sm:text-5xl lg:text-[4rem]"
+            className="font-display text-2xl font-semibold leading-none text-[#f4f2ec] marker:text-[#9beaff] sm:text-3xl lg:text-[2.85rem]"
           >
             {point}
           </li>
@@ -1332,7 +1327,8 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const mainDeckStartPage = 19;
+  const operatingSystemPage = 19;
+  const mainDeckStartPage = operatingSystemPage + 1;
   const howPage = mainDeckStartPage + mainDeckSlides.length;
   const project2026Page = howPage + 1;
   const ipoStrategyPage = project2026Page + 1;
@@ -1340,8 +1336,7 @@ export function LibraryPage() {
   const blackSwanPage = project2026Page + 3;
   const strategyMapIntroPage = project2026Page + 4;
   const strategyMapContentPage = project2026Page + 5;
-  const flagOutroPage = project2026Page + 6;
-  const preCtaStartPage = project2026Page + 7;
+  const preCtaStartPage = project2026Page + 6;
   const mainDeckSlideIndex = currentPage - mainDeckStartPage;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
   const totalPages = preCtaStartPage + preCtaSlides.length;
@@ -1352,6 +1347,7 @@ export function LibraryPage() {
   const isVisionRyanVideoSlide = currentPage === 16;
   const isTechnocratsSlide = currentPage === 17;
   const isVisionVideoSlide = currentPage === 18;
+  const isOperatingSystemSlide = currentPage === operatingSystemPage;
   const isMainDeckImageSlide =
     mainDeckSlideIndex >= 0 && mainDeckSlideIndex < mainDeckSlides.length;
   const isIpoStrategySlide = currentPage === ipoStrategyPage;
@@ -1372,11 +1368,11 @@ export function LibraryPage() {
     isTechnocratsSlide ||
     isVisionRyanVideoSlide ||
     isVisionVideoSlide ||
+    isOperatingSystemSlide ||
     isMainDeckImageSlide ||
     currentPage === howPage ||
     (currentPage >= project2026Page && currentPage <= globalVisionPage) ||
     isBlackSwanSlide ||
-    currentPage === flagOutroPage ||
     isPreCtaSlide;
 
   useEffect(() => {
@@ -1495,6 +1491,7 @@ export function LibraryPage() {
             isBlackSwanSlide ||
             isIpoStrategySlide ||
             isGlobalVisionSlide ||
+            isOperatingSystemSlide ||
             isMainDeckImageSlide ||
             isStrategyMapIntroSlide ||
             isInsertedTechnocratsSlide ||
@@ -1556,20 +1553,26 @@ export function LibraryPage() {
             <VisionRyanVideoSlide />
           ) : currentPage === 17 ? (
             <TechnocratsSlide
-              figures={peterElonSwappedTechnocratFigures}
+              figures={elonFocusTechnocratFigures}
               elonFocusSequence
             />
           ) : currentPage === 18 ? (
             <VisionVideoSlide />
+          ) : isOperatingSystemSlide ? (
+            <SectionTitleSlide title="Operating System" />
           ) : isMainDeckImageSlide ? (
             <MainDeckImageSlide
               src={mainDeckSlides[mainDeckSlideIndex]!}
               index={mainDeckSlideIndex}
-              videoEmbedUrl={mainDeckSlideIndex === 7 ? vf8VideoEmbedUrl : undefined}
+              videoEmbedUrl={
+                mainDeckSlides[mainDeckSlideIndex] === "/mainslides/VF8.jpg"
+                  ? vf8VideoEmbedUrl
+                  : undefined
+              }
               onOpenVideo={setActiveVideoEmbedUrl}
             />
           ) : currentPage === howPage ? (
-            <SectionTitleSlide title="HOW?" />
+            <SectionTitleSlide title="How?" />
           ) : currentPage === project2026Page ? (
             <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
           ) : currentPage === ipoStrategyPage ? (
@@ -1584,8 +1587,6 @@ export function LibraryPage() {
             <section className="presentation-scroll h-full w-full overflow-y-auto px-4 py-8 md:px-6">
               <StrategyMapContent />
             </section>
-          ) : currentPage === flagOutroPage ? (
-            <FullScreenFlagSlide src="/flag2.webm" />
           ) : isPreCtaSlide ? (
             <SectionTitleSlide title={preCtaSlides[preCtaSlideIndex]} />
           ) : (

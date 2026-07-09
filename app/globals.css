@@ -166,58 +166,58 @@ select {
   .technocrat-focus-elon {
     z-index: 35;
     transform-origin: center center;
-    animation: technocrat-elon-rise-focus 11s cubic-bezier(0.2, 0.78, 0.24, 1) both;
+    animation: technocrat-elon-rise-focus 11s cubic-bezier(0.2, 0.78, 0.24, 1) 3s both;
   }
 
   .technocrat-focus-peter {
     z-index: 26;
     transform-origin: center center;
-    animation: technocrat-peter-descend-fade 11s cubic-bezier(0.2, 0.78, 0.24, 1) both;
+    animation: technocrat-peter-descend-fade 11s cubic-bezier(0.2, 0.78, 0.24, 1) 3s both;
   }
 
   .technocrat-focus-away {
-    animation: technocrat-away-fade 11s ease-in-out both;
+    animation: technocrat-away-fade 11s ease-in-out 3s both;
   }
 
   .technocrat-focus-center,
   .technocrat-focus-orbit {
-    animation: technocrat-center-fade 11s ease-in-out both;
+    animation: technocrat-center-fade 11s ease-in-out 3s both;
   }
 
   .technocrat-focus-base-image {
-    animation: technocrat-elon-base-fade 11s ease-in-out both;
+    animation: technocrat-elon-base-fade 11s ease-in-out 3s both;
   }
 
   .technocrat-focus-strong-image {
     opacity: 0;
     transform: scale(1.08);
     filter: saturate(0.8) contrast(0.9);
-    animation: technocrat-elon-strong-reveal 11s ease-in-out both;
+    animation: technocrat-elon-strong-reveal 11s ease-in-out 3s both;
   }
 }
 
 @keyframes technocrat-elon-rise-focus {
   0% {
     opacity: 1;
-    transform: translate(-50%, 28rem) rotate(-8deg) scale(1);
+    transform: translate(0, 0) rotate(0deg) scale(1);
     filter: saturate(0.92) contrast(0.94);
   }
 
   32% {
     opacity: 1;
-    transform: translate(-50%, 0) rotate(0deg) scale(1);
+    transform: translate(19rem, -28rem) rotate(0deg) scale(1);
     filter: saturate(0.96) contrast(1);
   }
 
   54% {
     opacity: 1;
-    transform: translate(-50%, 0) rotate(0deg) scale(1);
+    transform: translate(19rem, -28rem) rotate(0deg) scale(1);
     filter: saturate(1) contrast(1);
   }
 
   100% {
     opacity: 1;
-    transform: translate(-50%, 14.5rem) rotate(0deg) scale(2.22);
+    transform: translate(19rem, -14rem) rotate(0deg) scale(2.22);
     filter: saturate(1.14) contrast(1.12) drop-shadow(0 34px 70px rgba(0, 0, 0, 0.5));
   }
 }
@@ -225,24 +225,24 @@ select {
 @keyframes technocrat-peter-descend-fade {
   0% {
     opacity: 1;
-    transform: translate(158%, -28rem) rotate(8deg) scale(1.02);
+    transform: translateX(-50%) rotate(0deg) scale(1);
   }
 
   32% {
     opacity: 1;
-    transform: translate(0, 0) rotate(0deg) scale(1);
+    transform: translate(-26rem, 28rem) rotate(0deg) scale(1);
   }
 
   60% {
     opacity: 1;
-    transform: translate(0, 0) rotate(0deg) scale(1);
+    transform: translate(-26rem, 28rem) rotate(0deg) scale(1);
     filter: blur(0);
     visibility: visible;
   }
 
   100% {
     opacity: 0;
-    transform: translate(-0.7rem, 0.9rem) rotate(-3deg) scale(0.82);
+    transform: translate(-26.7rem, 28.9rem) rotate(-3deg) scale(0.82);
     filter: blur(5px);
     visibility: hidden;
   }
