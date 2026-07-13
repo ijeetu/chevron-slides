@@ -171,15 +171,9 @@ const promiseItems: PromiseItem[] = [
 ];
 
 const promiseNotes = [
-  "You have interviewed countless guests and uncovered massive problems.",
-  "Your audience is looking for a spark of hope.",
-  "I want your viewers, your guests, and your supporters to know one thing: Right now, people are building real solutions. People who care deeply about humanity, our sovereignty, and our families.",
-  "If your community stands with us today, we will achieve what no one else could.",
-  "We will Defend Sovereignty through historic legislation.",
-  "We will Enforce Accountability and punish the crimes.",
-  "And we will Secure the Future to protect our children.",
-  "Today, I will show you what happens when you give the right tools to those willing to fight.",
-  "My promise to you—and everyone watching—is that together, we will change the world.",
+  "You have uncovered massive systemic problems on this show, and your audience is starving for hope. What I am offering here today is not a typical investment deal, because venture capital wouldn't dare touch this. On the 250th anniversary of our nation, we are deploying technology to upgrade the operating system of democracy itself.",
+  "By bypassing broken representation entirely, we will achieve what no elected officials ever could. We will Defend Sovereignty by passing citizen-backed legislation at scale. We will Enforce Accountability to punish institutional corruption. And we will Secure the Future to protect our children.",
+  "We aren't here to dissect the past. We are here to execute the blueprint that changes the world.",
 ] as const;
 
 const globalVisionNotes = [
@@ -229,23 +223,53 @@ const elonFocusTechnocratFigures: TechnocratFigure[] = technocratFigures.map((fi
 );
 
 const agendaItems = [
-  "Technology (Operating System)",
-  "Integration (Public Integration)",
-  "Strategic Alliance (Distribution)",
-  "Project 2026",
-  "Pre-Launch Strategy (Strategic Alliances & Legislation to Help Fund the Infrastructure)",
-  "Legislative Insulation Strategy",
-  "Go-To-Market Strategy",
-  "Trust Through Actions",
-  "Pre IPO",
-  "IPO Strategy",
-  "Sustainability Model",
-  "Legislative Examples",
-  "Trillion Dollar Potential",
-  "Verticals",
-  "Elon Musk Banking",
-  "X/XAI Valuation",
-  "Probability Musk Will for a Strategic Alliance",
+  {
+    title: "The Landscape & The Players (Items 1–2)",
+    description: "Systemic problems and the key stakeholders.",
+  },
+  {
+    title: "Core Infrastructure & Distribution (Items 3–5)",
+    description: "Phase 1 technology meets new media rails.",
+  },
+  {
+    title: "Project 2026 & Strategy (Items 6–8)",
+    description: "Manifesto preview, pre-launch, and go-to-market.",
+  },
+  {
+    title: "Commercialization & Longevity (Items 9–12)",
+    description: "IPO, sustainability model, verticals, and legislative action.",
+  },
+  {
+    title: "The Musk Alliance & Next Steps (Items 13–15)",
+    description: "Strategic alignment probability and the call to action.",
+  },
+] as const;
+
+const technologyLeadershipFramework = [
+  {
+    label: "Why?",
+    text: "Technology determines future economic and geopolitical power.",
+  },
+  {
+    label: "What?",
+    text: "AI, robotics, advanced manufacturing, and digital infrastructure.",
+  },
+  {
+    label: "How?",
+    text: "Accelerate innovation by reducing regulatory barriers.",
+  },
+  {
+    label: "Government's Role",
+    text: "Enable innovation and partner with the private sector.",
+  },
+  {
+    label: "Execution",
+    text: "Public-private collaboration across defense, energy, manufacturing, and critical infrastructure.",
+  },
+  {
+    label: "End Goal",
+    text: "Maintain U.S. technological leadership and long-term national competitiveness.",
+  },
 ] as const;
 
 const preCtaSlides = [
@@ -503,33 +527,46 @@ function YearVideoSlide() {
 function TicMicPieSlide() {
   const chartData = [
     {
-      key: "tic",
-      name: "TIC",
-      value: 50,
-      fill: "url(#tic-red-gradient)",
+      key: "fic",
+      name: "FIC",
+      value: 1,
+      fill: "url(#fic-green-gradient)",
     },
     {
       key: "mic",
       name: "MIC",
-      value: 50,
+      value: 1,
       fill: "url(#mic-blue-gradient)",
+    },
+    {
+      key: "tic",
+      name: "TIC",
+      value: 1,
+      fill: "url(#tic-red-gradient)",
     },
   ];
 
   return (
     <section className="relative flex h-full items-center justify-center overflow-hidden px-[5%] py-8">
-      <div className="pointer-events-none absolute left-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#3f6fc8]/15 blur-[110px]" />
-      <div className="pointer-events-none absolute right-[16%] top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-[#c0392b]/14 blur-[110px]" />
-      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
-        <div className="relative mx-auto flex aspect-square w-full max-w-[42rem] items-center justify-center">
+      <div className="pointer-events-none absolute left-[9%] top-[30%] h-[25rem] w-[25rem] -translate-y-1/2 rounded-full bg-[#2ea66b]/12 blur-[110px]" />
+      <div className="pointer-events-none absolute left-[27%] top-[70%] h-[25rem] w-[25rem] -translate-y-1/2 rounded-full bg-[#3f6fc8]/14 blur-[110px]" />
+      <div className="pointer-events-none absolute right-[12%] top-1/2 h-[27rem] w-[27rem] -translate-y-1/2 rounded-full bg-[#c0392b]/12 blur-[110px]" />
+
+      <div className="mx-auto grid h-full w-full max-w-7xl items-center gap-10 lg:grid-cols-[1.08fr_0.92fr]">
+        <div className="relative mx-auto flex aspect-square w-full max-w-[34rem] items-center justify-center">
           <div className="pointer-events-none absolute inset-[-2.75rem] rounded-full border border-white/[0.055]" />
           <div className="pointer-events-none absolute inset-[-1.35rem] rounded-full border border-white/[0.085]" />
-          <div className="pointer-events-none absolute inset-0 rounded-full bg-[linear-gradient(90deg,rgba(63,111,200,0.16),rgba(255,255,255,0.015)_49%,rgba(255,255,255,0.015)_51%,rgba(192,57,43,0.15))] shadow-[0_38px_120px_rgba(0,0,0,0.46)]" />
+          <div className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_28%_24%,rgba(46,166,107,0.16),transparent_34%),radial-gradient(circle_at_74%_72%,rgba(192,57,43,0.14),transparent_36%)] shadow-[0_38px_120px_rgba(0,0,0,0.46)]" />
 
           <div className="relative h-full w-full rounded-full border border-white/[0.12] bg-[#07111c]/82 p-4 shadow-[inset_0_0_70px_rgba(0,0,0,0.5)] backdrop-blur-md sm:p-5">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <defs>
+                  <linearGradient id="fic-green-gradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#55c98c" />
+                    <stop offset="52%" stopColor="#2ea66b" />
+                    <stop offset="100%" stopColor="#18784a" />
+                  </linearGradient>
                   <linearGradient id="tic-red-gradient" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stopColor="#e05c4e" />
                     <stop offset="52%" stopColor="#c0392b" />
@@ -573,28 +610,60 @@ function TicMicPieSlide() {
               </PieChart>
             </ResponsiveContainer>
 
-            <div className="pointer-events-none absolute left-1/2 top-1/2 flex h-[12rem] w-[12rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.14] bg-[radial-gradient(circle_at_35%_25%,rgba(255,255,255,0.1),transparent_34%),linear-gradient(145deg,rgba(17,34,50,0.99),rgba(6,15,25,0.99))] text-[#f8fafc] shadow-[0_20px_60px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] sm:h-[13.5rem] sm:w-[13.5rem]">
-              <span className="font-display text-[2.6rem] font-black leading-none tracking-[-0.045em] sm:text-[3.25rem]">
-                50/50
+            <div className="pointer-events-none absolute left-1/2 top-1/2 flex h-[9.5rem] w-[9.5rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-white/[0.14] bg-[radial-gradient(circle_at_35%_25%,rgba(255,255,255,0.1),transparent_34%),linear-gradient(145deg,rgba(17,34,50,0.99),rgba(6,15,25,0.99))] text-[#f8fafc] shadow-[0_20px_60px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] sm:h-[11rem] sm:w-[11rem]">
+              <span className="font-display text-[3.2rem] font-black leading-none tracking-[-0.045em] sm:text-[4rem]">
+                3
+              </span>
+              <span className="mt-1 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#a9c3d0] sm:text-[0.7rem]">
+                Complexes
               </span>
             </div>
 
-            <div className="pointer-events-none absolute left-[18%] top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(3,12,30,0.48)]">
-              <p className="font-display text-[2.8rem] font-black leading-none tracking-[-0.04em] sm:text-[4.1rem]">
+            <div className="pointer-events-none absolute right-[20%] top-[29%] translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(3,30,18,0.48)]">
+              <p className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]">
+                FIC
+              </p>
+            </div>
+
+            <div className="pointer-events-none absolute bottom-[15%] left-1/2 -translate-x-1/2 translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(3,12,30,0.48)]">
+              <p className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]">
                 MIC
               </p>
             </div>
 
-            <div className="pointer-events-none absolute right-[18%] top-1/2 translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(30,3,6,0.48)]">
-              <p className="font-display text-[2.8rem] font-black leading-none tracking-[-0.04em] sm:text-[4.1rem]">
+            <div className="pointer-events-none absolute left-[20%] top-[29%] -translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(30,3,6,0.48)]">
+              <p className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]">
                 TIC
               </p>
             </div>
-
-            <div className="pointer-events-none absolute left-1/2 top-3 h-8 w-px -translate-x-1/2 bg-gradient-to-b from-white/80 to-white/5" />
-            <div className="pointer-events-none absolute bottom-3 left-1/2 h-8 w-px -translate-x-1/2 bg-gradient-to-t from-white/80 to-white/5" />
           </div>
         </div>
+
+        <article className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(145deg,rgba(27,45,59,0.95),rgba(12,25,37,0.98))] px-7 py-7 shadow-[0_30px_90px_rgba(0,0,0,0.34)] sm:px-9 sm:py-9">
+          <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/80 to-transparent" />
+          <div className="space-y-3">
+            {[
+              ["FIC", "Financial-Industrial Complex", "#55c98c"],
+              ["MIC", "Military-Industrial Complex", "#6f98e8"],
+              ["TIC", "Technological-Industrial Complex", "#e05c4e"],
+            ].map(([acronym, label, color]) => (
+              <div key={acronym} className="grid grid-cols-[3.5rem_1fr] items-baseline gap-3 border-b border-white/8 pb-3">
+                <span className="font-display text-xl font-black" style={{ color }}>
+                  {acronym}
+                </span>
+                <span className="text-sm leading-6 text-[#dceaf0] sm:text-[0.98rem]">
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 border-l-2 border-[#9beaff]/70 pl-5">
+            <p className="text-[0.98rem] leading-7 text-[#eef6f8] sm:text-[1.08rem]">
+              The speaker contends that the world is entering a structural transition in which long-term investment shifts from perpetual military conflict toward AI, energy, robotics, and digital infrastructure as the primary engines of economic growth.
+            </p>
+          </div>
+        </article>
       </div>
     </section>
   );
@@ -602,34 +671,38 @@ function TicMicPieSlide() {
 
 function TechnocratsSlide({
   figures = technocratFigures,
+  frameworkSequence = false,
   elonFocusSequence = false,
 }: {
   figures?: TechnocratFigure[];
+  frameworkSequence?: boolean;
   elonFocusSequence?: boolean;
 }) {
-  const [activeFigure, setActiveFigure] = useState<TechnocratFigure | null>(null);
-  const modalDescription =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae neque at arcu gravida finibus, integer facilisis sem, sed luctus sapien, nunc ultricies, amet risus tempor blandit vel porta magna.";
-
   return (
     <section className="relative flex h-full items-center justify-center px-[3%] py-6">
       <div className="mx-auto flex h-full w-full max-w-7xl items-center justify-center text-center">
-        <div className="relative flex h-full max-h-[43rem] w-full max-w-[72rem] flex-col items-center justify-center gap-4 lg:block">
-          <div className={`relative z-20 flex h-32 w-32 shrink-0 items-center justify-center rounded-full border border-[#9beaff]/70 bg-[radial-gradient(circle_at_34%_24%,rgba(255,255,255,0.2),transparent_32%),linear-gradient(145deg,rgba(1,199,243,0.24),rgba(15,29,42,0.95))] shadow-[0_0_0_10px_rgba(1,199,243,0.055),0_22px_70px_rgba(1,199,243,0.18)] sm:h-40 sm:w-40 lg:absolute lg:left-1/2 lg:top-1/2 lg:h-44 lg:w-44 lg:-translate-x-1/2 lg:-translate-y-1/2 ${elonFocusSequence ? "technocrat-focus-center" : ""}`}>
+        <div className={`relative flex h-full max-h-[43rem] w-full max-w-[72rem] flex-col items-center justify-center gap-4 lg:block ${frameworkSequence ? "technocrat-framework-stage" : ""}`}>
+          <div className={`relative z-30 flex h-32 w-32 shrink-0 items-center justify-center rounded-full border border-[#9beaff]/70 bg-[radial-gradient(circle_at_34%_24%,rgba(255,255,255,0.2),transparent_32%),linear-gradient(145deg,rgba(1,199,243,0.24),rgba(15,29,42,0.95))] shadow-[0_0_0_10px_rgba(1,199,243,0.055),0_22px_70px_rgba(1,199,243,0.18)] sm:h-40 sm:w-40 lg:absolute lg:left-1/2 lg:top-1/2 lg:h-44 lg:w-44 lg:-translate-x-1/2 lg:-translate-y-1/2 ${frameworkSequence ? "technocrat-framework-center" : elonFocusSequence ? "technocrat-focus-center" : ""}`}>
             <div className="absolute inset-[-1.35rem] rounded-full border border-[#01c7f3]/18" />
             <div className="absolute inset-[-2.8rem] rounded-full border border-[#8fa8bd]/10" />
             <span className="relative inline-flex min-h-[1.35em] min-w-[9.7rem] items-center justify-center px-3 text-center font-display text-[1.05rem] font-semibold uppercase tracking-[0.14em] text-[#e8fbff] sm:text-[1.22rem] lg:text-[1.32rem]">
-              <span className="technocrats-title-text technocrats-title-text-full">
-                Technocrats
-              </span>
-              <span className="technocrats-title-text technocrats-title-text-short">
-                TIC
-              </span>
+              {frameworkSequence ? (
+                <span>Technocrats</span>
+              ) : (
+                <>
+                  <span className="technocrats-title-text technocrats-title-text-full">
+                    Technocrats
+                  </span>
+                  <span className="technocrats-title-text technocrats-title-text-short">
+                    TIC
+                  </span>
+                </>
+              )}
             </span>
           </div>
 
-          <div className={`pointer-events-none absolute left-1/2 top-1/2 hidden h-[29rem] w-[29rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#01c7f3]/16 lg:block ${elonFocusSequence ? "technocrat-focus-orbit" : ""}`} />
-          <div className={`pointer-events-none absolute left-1/2 top-1/2 hidden h-[21rem] w-[21rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8fa8bd]/12 lg:block ${elonFocusSequence ? "technocrat-focus-orbit" : ""}`} />
+          <div className={`pointer-events-none absolute left-1/2 top-1/2 hidden h-[29rem] w-[29rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#01c7f3]/16 lg:block ${frameworkSequence ? "technocrat-framework-orbit" : elonFocusSequence ? "technocrat-focus-orbit" : ""}`} />
+          <div className={`pointer-events-none absolute left-1/2 top-1/2 hidden h-[21rem] w-[21rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8fa8bd]/12 lg:block ${frameworkSequence ? "technocrat-framework-orbit" : elonFocusSequence ? "technocrat-focus-orbit" : ""}`} />
 
           <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 lg:block">
             {figures.map((figure, index) => {
@@ -642,6 +715,9 @@ function TechnocratsSlide({
                 "lg:left-[14%] lg:bottom-0",
                 "lg:left-0 lg:top-[22%]",
               ];
+              const frameworkClass = frameworkSequence
+                ? `technocrat-framework-card technocrat-framework-card-${index + 1}`
+                : "";
               const focusClass = elonFocusSequence
                 ? isElon
                   ? "technocrat-focus-card technocrat-focus-elon"
@@ -651,12 +727,9 @@ function TechnocratsSlide({
                 : "";
 
               return (
-                <button
-                  type="button"
+                <article
                   key={figure.name}
-                  aria-label={`Open ${figure.name} details`}
-                  onClick={() => setActiveFigure(figure)}
-                  className={`group relative flex min-h-[13.6rem] cursor-pointer flex-col items-center rounded-[1.35rem] border border-[#9beaff]/22 bg-white/[0.055] px-3 pb-4 pt-4 text-center shadow-[0_20px_55px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm transition duration-300 hover:border-[#9beaff]/55 hover:bg-white/[0.085] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08131f] sm:last:col-start-2 lg:absolute lg:w-[13.8rem] lg:min-h-[14.1rem] ${positions[index]} ${focusClass}`}
+                  className={`group relative flex min-h-[13.6rem] flex-col items-center rounded-[1.35rem] border border-[#9beaff]/22 bg-white/[0.055] px-3 pb-4 pt-4 text-center shadow-[0_20px_55px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm sm:last:col-start-2 lg:absolute lg:w-[13.8rem] lg:min-h-[14.1rem] ${positions[index]} ${frameworkClass} ${focusClass}`}
                 >
                   <div className="relative h-24 w-24 overflow-hidden rounded-full border border-[#b9f2ff]/70 bg-[#0d1823] shadow-[0_14px_35px_rgba(0,0,0,0.34)] sm:h-28 sm:w-28">
                     <Image
@@ -664,7 +737,7 @@ function TechnocratsSlide({
                       alt={figure.name}
                       fill
                       sizes="7rem"
-                      className={`object-cover object-top transition-transform duration-700 group-hover:scale-[1.04] ${
+                      className={`object-cover object-top ${
                         elonFocusSequence && isElon && figure.focusImageSrc
                           ? "technocrat-focus-base-image"
                           : ""
@@ -676,7 +749,7 @@ function TechnocratsSlide({
                         alt={figure.name}
                         fill
                         sizes="7rem"
-                        className="technocrat-focus-strong-image object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                        className="technocrat-focus-strong-image object-cover object-top"
                       />
                     ) : null}
                   </div>
@@ -686,63 +759,45 @@ function TechnocratsSlide({
                   <p className="mt-2 max-w-[10rem] text-[0.72rem] font-semibold uppercase leading-5 tracking-[0.11em] text-[#9beaff]">
                     {figure.role}
                   </p>
-                </button>
+                </article>
               );
             })}
           </div>
+
+          {frameworkSequence ? (
+            <article className="technocrat-framework-content absolute inset-x-2 bottom-0 top-[14rem] z-20 flex flex-col overflow-hidden rounded-[1.8rem] border border-[#9beaff]/22 bg-[linear-gradient(145deg,rgba(24,42,57,0.96),rgba(8,20,32,0.98))] px-6 pb-6 pt-5 text-left shadow-[0_30px_100px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.06)] sm:inset-x-8 sm:px-8 lg:inset-x-16">
+              <div className="pointer-events-none absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/90 to-transparent" />
+              <header className="text-center">
+                <p className="font-display text-[1.45rem] font-semibold leading-tight text-[#f4f2ec] sm:text-[1.8rem]">
+                  The Technology Leadership Framework
+                </p>
+              </header>
+
+              <div className="mt-4 grid min-h-0 flex-1 grid-cols-1 gap-x-10 sm:grid-cols-2 sm:grid-rows-3">
+                {technologyLeadershipFramework.map((item, index) => (
+                  <section
+                    key={item.label}
+                    className="relative flex flex-col justify-center border-t border-white/10 py-3"
+                  >
+                    <span className="absolute left-0 top-0 h-px w-12 bg-[#01c7f3]/75" />
+                    <div className="flex items-baseline justify-between gap-3">
+                      <h2 className="font-display text-[1.05rem] font-semibold text-[#9beaff] sm:text-[1.24rem]">
+                        {item.label}
+                      </h2>
+                      <span className="text-[0.58rem] font-semibold tabular-nums tracking-[0.16em] text-[#607b8c]">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                    <p className="mt-1.5 text-[0.82rem] leading-5 text-[#d8e7ed] sm:text-[0.94rem] sm:leading-6">
+                      {item.text}
+                    </p>
+                  </section>
+                ))}
+              </div>
+            </article>
+          ) : null}
         </div>
       </div>
-
-      {activeFigure ? (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="technocrat-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#07101a]/86 p-4 backdrop-blur-md sm:p-8"
-          onClick={() => setActiveFigure(null)}
-        >
-          <div
-            className="relative w-full max-w-xl overflow-hidden rounded-[1.35rem] border border-[#9beaff]/28 bg-[linear-gradient(145deg,rgba(18,35,49,0.98),rgba(8,18,30,0.98))] px-6 pb-7 pt-6 text-left text-[#f4f2ec] shadow-[0_36px_120px_rgba(0,0,0,0.58),inset_0_1px_0_rgba(255,255,255,0.07)] sm:px-8 sm:pt-8"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              type="button"
-              aria-label="Close technocrat details"
-              onClick={() => setActiveFigure(null)}
-              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/[0.06] text-white transition-colors hover:bg-white/[0.12] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80"
-            >
-              <X size={20} strokeWidth={2.2} />
-            </button>
-
-            <div className="flex items-center gap-4 pr-12">
-              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-[#b9f2ff]/70 bg-[#0d1823] shadow-[0_14px_35px_rgba(0,0,0,0.34)]">
-                <Image
-                  src={activeFigure.focusImageSrc ?? activeFigure.imageSrc}
-                  alt={activeFigure.name}
-                  fill
-                  sizes="5rem"
-                  className="object-cover object-top"
-                />
-              </div>
-              <div>
-                <h2
-                  id="technocrat-modal-title"
-                  className="font-display text-[1.75rem] leading-none text-[#f4f2ec] sm:text-[2.15rem]"
-                >
-                  {activeFigure.name}
-                </h2>
-                <p className="mt-2 text-[0.76rem] font-semibold uppercase leading-5 tracking-[0.12em] text-[#9beaff]">
-                  {activeFigure.role}
-                </p>
-              </div>
-            </div>
-
-            <p className="mt-6 text-base leading-7 text-[#d7e4ec]">
-              {modalDescription}
-            </p>
-          </div>
-        </div>
-      ) : null}
     </section>
   );
 }
@@ -1168,7 +1223,7 @@ function AgendaPage() {
     <section className="flex h-full flex-col items-center justify-center text-center">
       <header className="mx-auto max-w-3xl">
         <h1 className="font-display text-5xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-6xl lg:text-[4.8rem]">
-          Agenda
+          Today&apos;s Agenda
         </h1>
         <div className="mx-auto mt-4 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
@@ -1179,21 +1234,23 @@ function AgendaPage() {
         <div className="pointer-events-none absolute -left-px top-8 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/42 to-transparent" />
         <div className="pointer-events-none absolute -right-px bottom-8 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
         <div className="relative mx-auto max-w-3xl">
-          <p className="text-[0.76rem] font-semibold uppercase tracking-[0.26em] text-[#8ecfe1]">
-            TAM
-          </p>
-          <ol className="mt-5 space-y-1.5">
+          <ol className="space-y-2">
             {agendaItems.map((item, index) => (
               <li
-                key={item}
-                className="grid grid-cols-[2rem_1fr] items-center gap-3 border-b border-white/8 pb-1.5"
+                key={item.title}
+                className="grid grid-cols-[2rem_1fr] items-start gap-3 border-b border-white/8 pb-2"
               >
-                <span className="text-right text-[0.74rem] font-semibold text-[#6f8798]">
+                <span className="pt-1 text-right text-[0.74rem] font-semibold text-[#6f8798]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="font-display text-[1.1rem] leading-[1.08] text-[#f4f2ec] sm:text-[1.3rem] sm:leading-[1.08] lg:text-[1.45rem]">
-                  {item}
-                </span>
+                <div>
+                  <p className="font-display text-[1.05rem] leading-[1.08] text-[#f4f2ec] sm:text-[1.22rem] lg:text-[1.35rem]">
+                    {item.title}
+                  </p>
+                  <p className="mt-1 text-[0.78rem] leading-5 text-[#b8ccd7] sm:text-[0.86rem]">
+                    {item.description}
+                  </p>
+                </div>
               </li>
             ))}
           </ol>
@@ -1548,7 +1605,10 @@ export function LibraryPage() {
           ) : currentPage === 14 ? (
             <YearVideoSlide />
           ) : currentPage === 15 ? (
-            <TechnocratsSlide figures={post2010TechnocratFigures} />
+            <TechnocratsSlide
+              figures={post2010TechnocratFigures}
+              frameworkSequence
+            />
           ) : currentPage === 16 ? (
             <VisionRyanVideoSlide />
           ) : currentPage === 17 ? (
@@ -1572,7 +1632,7 @@ export function LibraryPage() {
               onOpenVideo={setActiveVideoEmbedUrl}
             />
           ) : currentPage === howPage ? (
-            <SectionTitleSlide title="How?" />
+            <SectionTitleSlide title="Our Strategic Playbook" />
           ) : currentPage === project2026Page ? (
             <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
           ) : currentPage === ipoStrategyPage ? (
