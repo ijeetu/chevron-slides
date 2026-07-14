@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, type RefObject, useEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
@@ -97,10 +97,10 @@ const deckPages: Deck[][] = [
 ];
 
 const deckPageHashes: Record<string, number> = {
-  "#problems": 12,
-  "#decks": 12,
-  "#presentation": 19,
-  "#global-opportunities": 19,
+  "#problems": 13,
+  "#decks": 13,
+  "#presentation": 20,
+  "#global-opportunities": 20,
   "#strategymap": 34,
 };
 
@@ -158,6 +158,9 @@ const openingQuestions = [
   "A Republic Without Absolute Accountability Is Already in Decay.",
 ] as const;
 
+const slideTitleTypography =
+  "font-display text-6xl font-semibold leading-[0.92] sm:text-7xl lg:text-[5.6rem]";
+
 const promiseItems: PromiseItem[] = [
   {
     title: "Defend Sovereignty",
@@ -174,12 +177,6 @@ const promiseNotes = [
   "You have uncovered massive systemic problems on this show, and your audience is starving for hope. What I am offering here today is not a typical investment deal, because venture capital wouldn't dare touch this. On the 250th anniversary of our nation, we are deploying technology to upgrade the operating system of democracy itself.",
   "By bypassing broken representation entirely, we will achieve what no elected officials ever could. We will Defend Sovereignty by passing citizen-backed legislation at scale. We will Enforce Accountability to punish institutional corruption. And we will Secure the Future to protect our children.",
   "We aren't here to dissect the past. We are here to execute the blueprint that changes the world.",
-] as const;
-
-const globalVisionNotes = [
-  "We understand there are a ton of problems, domestically, and simultaneously, a lot of these same types of problems are playing out in multiple countries.",
-  "We need a starting point. A place that is so far gone in the minds and hearts of most people that creating a high level of change here is almost unfair.",
-  "Can you guess where we start?",
 ] as const;
 
 const technocratFigures: TechnocratFigure[] = [
@@ -455,41 +452,66 @@ function QuestionSlide({
   );
 }
 
-function YearIntroSlide() {
+function FoundingQuestionSlide() {
+  const [showNotes, setShowNotes] = useState(false);
+
   return (
-    <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
-      <div
-        className="pointer-events-none absolute left-[-8.35rem] top-1/2 hidden w-32 -translate-y-1/2 flex-col items-center xl:flex"
-        aria-hidden="true"
+    <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10 text-center">
+      <header className="mx-auto max-w-5xl">
+        <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
+          250 Years
+        </h1>
+        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
+        <p className="mt-8 font-display text-[2rem] leading-[1.12] text-[#b9f2ff] sm:text-[2.65rem] lg:text-[3.15rem]">
+          Does ‘We the People’ still rule?
+        </p>
+      </header>
+
+      <button
+        type="button"
+        aria-label={showNotes ? "Hide 250 Years notes" : "Show 250 Years notes"}
+        aria-expanded={showNotes}
+        title={showNotes ? "Hide notes" : "Show notes"}
+        onClick={() => setShowNotes((value) => !value)}
+        className="fixed right-6 top-6 z-30 flex h-11 items-center gap-2 rounded-full border border-[#01c7f3]/60 bg-[#0f1d2a]/88 px-4 text-[#b9f2ff] shadow-[0_14px_34px_rgba(0,0,0,0.28)] transition-all hover:-translate-y-0.5 hover:border-[#01c7f3] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80 md:right-8 md:top-8"
       >
-        <div className="absolute left-1/2 top-8 h-[calc(100%-6rem)] w-[4px] -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,rgba(122,154,219,0.08),#6b93e1_16%,#456dc2_84%,rgba(122,154,219,0.08))]" />
-        <div className="relative z-10 flex h-[7.6rem] w-[7.6rem] items-center justify-center">
-          <div className="absolute -inset-[5px] rounded-full border border-[#2a54a4]/18" />
-          <div className="absolute inset-0 rounded-full bg-[linear-gradient(155deg,#6f98e8_0%,#3f6fc8_55%,#2a54a4_100%)] shadow-[0_16px_38px_rgba(47,92,174,0.22)]" />
-          <div className="absolute inset-[4px] rounded-full border border-white/18 bg-[radial-gradient(circle_at_28%_24%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.03))]" />
-          <div className="relative flex h-[6rem] w-[6rem] items-center justify-center rounded-full border border-[#24488f]/55 bg-[radial-gradient(circle_at_50%_28%,#95b7f3_0%,#6f96e6_36%,#4472cb_72%,#345db1_100%)] px-3 text-center">
-            <p className="whitespace-pre-line text-[0.82rem] font-semibold uppercase leading-[1.06] tracking-[0.03em] text-[#08111c]">
-              LET&apos;S
-              <br />
-              BEGIN
-            </p>
+        {showNotes ? <X size={18} strokeWidth={2.2} /> : <NotebookText size={18} strokeWidth={2.1} />}
+        <span className="text-[0.72rem] font-semibold uppercase tracking-[0.16em]">
+          Notes
+        </span>
+      </button>
+
+      {showNotes ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#050b12]/64 px-5 py-8 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label="250 Years notes"
+          onClick={() => setShowNotes(false)}
+        >
+          <div
+            className="relative max-h-[82vh] w-full max-w-4xl overflow-hidden rounded-[1.4rem] border border-[#01c7f3]/55 bg-[#0d1823] text-left shadow-[0_34px_100px_rgba(0,0,0,0.48)]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
+              <p className="text-sm text-[#d8edf6]/72">250 Years notes</p>
+              <button
+                type="button"
+                aria-label="Close 250 Years notes"
+                onClick={() => setShowNotes(false)}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d8edf6] transition-colors hover:border-[#01c7f3]/60 hover:text-[#b9f2ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80"
+              >
+                <X size={17} strokeWidth={2.2} />
+              </button>
+            </div>
+            <div className="max-h-[calc(82vh-4.5rem)] overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
+              <p className="text-[1rem] leading-7 text-[#d8edf6] sm:text-[1.12rem] sm:leading-8">
+                But if the architects of that experiment looked at our captured institutions and fractured systems today... they wouldn’t ask how long we&apos;ve lasted. They would ask a much harder question: Does &apos;We the People&apos; still rule?
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
-        <article className="relative overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_48%,rgba(14,27,39,0.98))] px-8 py-16 shadow-[0_34px_90px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-12 sm:py-20">
-          <div className="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/85 to-transparent" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(1,199,243,0.17),transparent_42%),linear-gradient(115deg,rgba(255,255,255,0.045),transparent_28%,transparent_72%,rgba(1,199,243,0.04))]" />
-          <div className="pointer-events-none absolute -left-px top-10 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/50 to-transparent" />
-          <div className="pointer-events-none absolute -right-px bottom-10 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
-          <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
-            <p className="font-display text-[5.5rem] font-black leading-none tracking-[0.06em] text-[#f4f2ec] sm:text-[7rem] lg:text-[8.5rem]">
-              1776 - 2026
-            </p>
-          </div>
-        </article>
-      </div>
+      ) : null}
     </section>
   );
 }
@@ -500,7 +522,7 @@ function YearVideoSlide() {
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
           <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
-            <p className="font-display text-[4.2rem] font-black leading-none tracking-[0.06em] text-[#f4f2ec] sm:text-[5.6rem] lg:text-[6.6rem]">
+            <p className={`${slideTitleTypography} text-[#f4f2ec]`}>
               2010
             </p>
             <div className="mt-3 h-px w-36 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
@@ -808,7 +830,7 @@ function VisionVideoSlide() {
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
           <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
-            <h1 className="font-display text-[3.3rem] font-black leading-none tracking-[0.04em] text-[#f4f2ec] sm:text-[4.4rem] lg:text-[5.25rem]">
+            <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
               Vision
             </h1>
             <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
@@ -838,7 +860,7 @@ function VisionRyanVideoSlide() {
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
           <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
-            <h1 className="font-display text-[3.3rem] font-black leading-none tracking-[0.04em] text-[#f4f2ec] sm:text-[4.4rem] lg:text-[5.25rem]">
+            <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
               Control the Future?
             </h1>
             <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
@@ -862,27 +884,6 @@ function VisionRyanVideoSlide() {
   );
 }
 
-function DogeQuestionSlide() {
-  return (
-    <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
-      <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
-        <article className="relative overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_48%,rgba(14,27,39,0.98))] px-8 py-10 shadow-[0_34px_90px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-12 sm:py-12">
-          <div className="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/85 to-transparent" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(1,199,243,0.17),transparent_42%),linear-gradient(115deg,rgba(255,255,255,0.045),transparent_28%,transparent_72%,rgba(1,199,243,0.04))]" />
-          <div className="pointer-events-none absolute -left-px top-10 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/50 to-transparent" />
-          <div className="pointer-events-none absolute -right-px bottom-10 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
-
-          <div className="relative mx-auto flex max-w-4xl flex-col items-center text-center">
-            <p className="font-display text-[5.5rem] font-black leading-none tracking-[0.04em] text-[#f4f2ec] sm:text-[7rem]">
-              DOGE
-            </p>
-          </div>
-        </article>
-      </div>
-    </section>
-  );
-}
-
 function FullScreenFlagSlide({ src }: { src: string }) {
   return (
     <section className="fixed inset-0 z-0 bg-black">
@@ -897,9 +898,90 @@ function FullScreenFlagSlide({ src }: { src: string }) {
   );
 }
 
+const exclusiveAudioPlayEvent = "chevron:exclusive-audio-play";
+
+function pauseWhenAnotherAudioStarts(audioRef: RefObject<HTMLAudioElement | null>) {
+  const pauseCurrentAudio = (event: Event) => {
+    const nextAudio = (event as CustomEvent<HTMLAudioElement>).detail;
+    const currentAudio = audioRef.current;
+
+    if (currentAudio && currentAudio !== nextAudio && !currentAudio.paused) {
+      currentAudio.pause();
+    }
+  };
+
+  window.addEventListener(exclusiveAudioPlayEvent, pauseCurrentAudio);
+  return () => window.removeEventListener(exclusiveAudioPlayEvent, pauseCurrentAudio);
+}
+
+function claimExclusiveAudioPlayback(audio: HTMLAudioElement) {
+  window.dispatchEvent(
+    new CustomEvent<HTMLAudioElement>(exclusiveAudioPlayEvent, { detail: audio }),
+  );
+}
+
+function BackgroundVoiceoverButton({
+  src,
+  label,
+}: {
+  src: string;
+  label: string;
+}) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => pauseWhenAnotherAudioStarts(audioRef), []);
+
+  const toggleVoiceover = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.pause();
+      return;
+    }
+
+    try {
+      claimExclusiveAudioPlayback(audio);
+      await audio.play();
+    } catch {
+      setIsPlaying(false);
+    }
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        aria-label={isPlaying ? `Pause ${label}` : `Play ${label}`}
+        onClick={toggleVoiceover}
+        className="fixed right-6 top-6 z-30 flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-black/65 text-white shadow-[0_14px_34px_rgba(0,0,0,0.34)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[#01c7f3]/75 hover:text-[#b9f2ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80 md:right-8 md:top-8"
+      >
+        {isPlaying ? (
+          <Pause className="h-5 w-5" strokeWidth={2.4} />
+        ) : (
+          <Play className="ml-0.5 h-5 w-5" strokeWidth={2.4} />
+        )}
+      </button>
+      <audio
+        ref={audioRef}
+        src={src}
+        preload="auto"
+        autoPlay
+        onEnded={() => setIsPlaying(false)}
+        onPause={() => setIsPlaying(false)}
+        onPlay={(event) => {
+          claimExclusiveAudioPlayback(event.currentTarget);
+          setIsPlaying(true);
+        }}
+      />
+    </>
+  );
+}
+
 function BlackSwanSlide() {
   return (
-    <section className="fixed inset-0 flex items-center justify-center">
+    <section className="fixed inset-0 flex items-center justify-center overflow-hidden bg-black">
       <Image
         src="/swanblack.webp"
         alt="Black Swan"
@@ -908,103 +990,55 @@ function BlackSwanSlide() {
         sizes="100vw"
         className="h-full w-full border border-white/30 object-fill"
       />
+      <BackgroundVoiceoverButton
+        src="/swanone.mp3"
+        label="California Black Swan voiceover"
+      />
     </section>
   );
 }
 
 function IpoStrategySlide() {
-  const points = ["Actions", "Verticals", "Ecosystem"];
+  const layers = [
+    { title: "Actions", accent: "bg-[#9beaff]" },
+    { title: "Verticals", accent: "bg-[#6f98e8]" },
+    { title: "Ecosystem", accent: "bg-[#55c98c]" },
+    { title: "The xAI Velocity", accent: "bg-[#e05c4e]" },
+  ];
 
   return (
     <section className="flex h-full flex-col items-center justify-center px-[5%] py-6 text-center">
-      <header className="mx-auto max-w-5xl">
-        <p className="text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-[#9beaff]">
-          Benchmark: Space X
+      <header className="mx-auto max-w-6xl">
+        <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
+          The Blueprint
+        </h1>
+        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
+        <p className="mt-5 font-display text-[1.2rem] font-medium leading-tight text-[#b9f2ff] sm:text-[1.55rem] lg:text-[1.8rem]">
+          Benchmark: SpaceX ~30-Month IPO Strategy
         </p>
-        <h1 className="mt-5 font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
-          ~30 Month IPO Strategy
-        </h1>
-        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
 
-      <ul className="mx-auto mt-10 max-w-3xl list-disc space-y-5 pl-10 text-left">
-        {points.map((point) => (
-          <li
-            key={point}
-            className="font-display text-2xl font-semibold leading-none text-[#f4f2ec] marker:text-[#9beaff] sm:text-3xl lg:text-[2.85rem]"
+      <div className="mx-auto mt-8 grid w-full max-w-6xl grid-cols-1 overflow-hidden border border-white/[0.15] bg-[#07111c]/[0.48] text-left shadow-[0_30px_90px_rgba(0,0,0,0.3)] sm:grid-cols-2">
+        {layers.map((layer, index) => (
+          <article
+            key={layer.title}
+            className={`relative flex min-h-[7.75rem] items-end overflow-hidden bg-[linear-gradient(135deg,rgba(36,57,74,0.72),rgba(10,23,35,0.9))] px-6 py-5 sm:min-h-[8.75rem] sm:px-8 sm:py-6 ${
+              index > 0 ? "border-t border-white/[0.12]" : ""
+            } ${index === 1 ? "sm:border-l sm:border-t-0" : ""} ${
+              index === 3 ? "sm:border-l" : ""
+            }`}
           >
-            {point}
-          </li>
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(155,234,255,0.08),transparent_45%)]" />
+            <div className={`absolute left-0 top-0 h-1 w-28 ${layer.accent}`} />
+            <span className="absolute right-5 top-4 font-mono text-[0.68rem] tracking-[0.18em] text-[#6f8798]">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <h2 className="relative font-display text-[2rem] font-semibold leading-none text-[#f4f2ec] sm:text-[2.35rem] lg:text-[2.65rem]">
+              {layer.title}
+            </h2>
+          </article>
         ))}
-      </ul>
-    </section>
-  );
-}
-
-function GlobalVisionSlide() {
-  const [showNotes, setShowNotes] = useState(false);
-
-  return (
-    <section className="relative flex h-full flex-col items-center justify-center px-[5%] py-6 text-center">
-      <header className="mx-auto max-w-4xl">
-        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
-          Global Vision
-        </h1>
-        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
-      </header>
-
-      <button
-        type="button"
-        aria-label={showNotes ? "Hide Global Vision notes" : "Show Global Vision notes"}
-        title={showNotes ? "Hide notes" : "Show notes"}
-        onClick={() => setShowNotes((value) => !value)}
-        className="fixed right-6 top-6 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-[#01c7f3]/60 bg-[#0f1d2a]/88 text-[#b9f2ff] shadow-[0_14px_34px_rgba(0,0,0,0.28)] transition-all hover:-translate-y-0.5 hover:border-[#01c7f3] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80 md:right-8 md:top-8"
-      >
-        {showNotes ? <X size={18} strokeWidth={2.2} /> : <NotebookText size={18} strokeWidth={2.1} />}
-      </button>
-
-      {showNotes ? (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#050b12]/64 px-5 py-8 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Global Vision notes"
-          onClick={() => setShowNotes(false)}
-        >
-          <div
-            className="relative max-h-[82vh] w-full max-w-4xl overflow-hidden rounded-[1.4rem] border border-[#01c7f3]/55 bg-[#0d1823] text-left shadow-[0_34px_100px_rgba(0,0,0,0.48)]"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
-              <div className="min-w-0">
-                <p className="text-sm text-[#d8edf6]/72">
-                  Global Vision notes
-                </p>
-              </div>
-              <button
-                type="button"
-                aria-label="Close Global Vision notes"
-                onClick={() => setShowNotes(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d8edf6] transition-colors hover:border-[#01c7f3]/60 hover:text-[#b9f2ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80"
-              >
-                <X size={17} strokeWidth={2.2} />
-              </button>
-            </div>
-            <div className="max-h-[calc(82vh-4.5rem)] overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
-              <div className="space-y-4">
-                {globalVisionNotes.map((note) => (
-                  <p
-                    key={note}
-                    className="text-[1rem] leading-7 text-[#d8edf6] sm:text-[1.12rem] sm:leading-8"
-                  >
-                    {note}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      </div>
     </section>
   );
 }
@@ -1108,7 +1142,7 @@ function PromisePage() {
   return (
     <section className="flex min-h-full flex-col justify-center py-6">
       <header className="mx-auto max-w-4xl text-center">
-        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
+        <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
           The Promise
         </h1>
         <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
@@ -1222,7 +1256,7 @@ function AgendaPage() {
   return (
     <section className="flex h-full flex-col items-center justify-center text-center">
       <header className="mx-auto max-w-3xl">
-        <h1 className="font-display text-5xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-6xl lg:text-[4.8rem]">
+        <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
           Today&apos;s Agenda
         </h1>
         <div className="mx-auto mt-4 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
@@ -1260,17 +1294,124 @@ function AgendaPage() {
   );
 }
 
-function SectionTitleSlide({
+function VoiceoverPlayer({
+  src,
+  eyebrow,
   title,
-  voiceoverSrc,
 }: {
+  src: string;
+  eyebrow: string;
   title: string;
-  voiceoverSrc?: string;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const visualizerCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const audioSourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  useEffect(() => pauseWhenAnotherAudioStarts(audioRef), []);
+
+  const initializeAudioVisualizer = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (!audioContextRef.current) {
+      const audioContext = new AudioContext();
+      const analyser = audioContext.createAnalyser();
+      const source = audioContext.createMediaElementSource(audio);
+
+      analyser.fftSize = 128;
+      analyser.smoothingTimeConstant = 0.82;
+      source.connect(analyser);
+      analyser.connect(audioContext.destination);
+
+      audioContextRef.current = audioContext;
+      analyserRef.current = analyser;
+      audioSourceRef.current = source;
+    }
+
+    if (audioContextRef.current.state === "suspended") {
+      await audioContextRef.current.resume();
+    }
+  };
+
+  useEffect(() => {
+    const canvas = visualizerCanvasRef.current;
+    const canvasContext = canvas?.getContext("2d");
+    if (!canvas || !canvasContext) return;
+
+    const frequencyData = new Uint8Array(64);
+    let animationFrame = 0;
+
+    const drawVisualizer = () => {
+      const bounds = canvas.getBoundingClientRect();
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      const pixelWidth = Math.max(1, Math.round(bounds.width * pixelRatio));
+      const pixelHeight = Math.max(1, Math.round(bounds.height * pixelRatio));
+
+      if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+        canvas.width = pixelWidth;
+        canvas.height = pixelHeight;
+      }
+
+      canvasContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      canvasContext.clearRect(0, 0, bounds.width, bounds.height);
+
+      const analyser = analyserRef.current;
+      if (analyser) {
+        analyser.getByteFrequencyData(frequencyData);
+      } else {
+        frequencyData.fill(0);
+      }
+
+      const barCount = 42;
+      const gap = 2.5;
+      const barWidth = Math.max(1.5, (bounds.width - gap * (barCount - 1)) / barCount);
+      const centerY = bounds.height / 2;
+      const maxBarHeight = bounds.height * 0.78;
+      const gradient = canvasContext.createLinearGradient(0, 0, bounds.width, 0);
+      gradient.addColorStop(0, "rgba(91, 176, 211, 0.5)");
+      gradient.addColorStop(0.48, "rgba(155, 234, 255, 0.98)");
+      gradient.addColorStop(1, "rgba(1, 199, 243, 0.58)");
+      canvasContext.fillStyle = gradient;
+      canvasContext.globalAlpha = isPlaying ? 1 : 0.42;
+
+      for (let index = 0; index < barCount; index += 1) {
+        const frequencyIndex = Math.min(
+          frequencyData.length - 1,
+          Math.floor((index / barCount) * frequencyData.length * 0.72),
+        );
+        const frequencyLevel = frequencyData[frequencyIndex] / 255;
+        const idleLevel = 0.055 + Math.sin(index * 0.72) * 0.018;
+        const level = isPlaying ? Math.max(0.07, frequencyLevel) : idleLevel;
+        const barHeight = Math.max(2, maxBarHeight * level);
+        const x = index * (barWidth + gap);
+
+        canvasContext.fillRect(x, centerY - barHeight / 2, barWidth, barHeight);
+      }
+
+      canvasContext.globalAlpha = 1;
+      animationFrame = window.requestAnimationFrame(drawVisualizer);
+    };
+
+    drawVisualizer();
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [isPlaying, src]);
+
+  useEffect(() => {
+    return () => {
+      audioSourceRef.current?.disconnect();
+      analyserRef.current?.disconnect();
+
+      const audioContext = audioContextRef.current;
+      if (audioContext && audioContext.state !== "closed") {
+        void audioContext.close();
+      }
+    };
+  }, []);
 
   const toggleVoiceover = async () => {
     const audio = audioRef.current;
@@ -1280,6 +1421,14 @@ function SectionTitleSlide({
       audio.pause();
       setIsPlaying(false);
       return;
+    }
+
+    claimExclusiveAudioPlayback(audio);
+
+    try {
+      await initializeAudioVisualizer();
+    } catch {
+      // Keep voiceover playback available if Web Audio is unavailable.
     }
 
     try {
@@ -1301,76 +1450,113 @@ function SectionTitleSlide({
   };
 
   return (
+    <div className="w-full">
+      <div className="relative overflow-hidden rounded-[1.7rem] border border-[#01c7f3]/45 bg-[linear-gradient(145deg,rgba(15,29,42,0.92),rgba(10,20,31,0.96))] p-4 text-left shadow-[0_18px_48px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-sm sm:p-5">
+        <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.9),transparent)]" />
+        <div className="relative flex items-center gap-4">
+          <button
+            type="button"
+            aria-label={isPlaying ? `Pause ${title} voiceover` : `Play ${title} voiceover`}
+            onClick={toggleVoiceover}
+            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[#01c7f3]/65 bg-[#15283a] text-[#b9f2ff] shadow-[0_14px_34px_rgba(0,0,0,0.28)] transition-all hover:-translate-y-0.5 hover:border-[#01c7f3] hover:bg-[#1a3349]"
+          >
+            {isPlaying ? (
+              <Pause className="h-5 w-5" strokeWidth={2.4} />
+            ) : (
+              <Play className="ml-0.5 h-5 w-5" strokeWidth={2.4} />
+            )}
+          </button>
+
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8ecfe1]">
+                  {eyebrow}
+                </p>
+                <p className="mt-1 truncate font-display text-[1.35rem] leading-none text-[#f4f2ec]">
+                  {title}
+                </p>
+              </div>
+              <Volume2 className="hidden h-5 w-5 shrink-0 text-[#8fa8bd] sm:block" strokeWidth={2.1} />
+            </div>
+
+            <div className="mt-4">
+              <div className="relative mb-3 h-12 overflow-hidden rounded-xl border border-[#01c7f3]/20 bg-[linear-gradient(180deg,rgba(1,199,243,0.055),rgba(4,13,22,0.36))] px-2">
+                <div className="pointer-events-none absolute inset-x-3 top-1/2 h-px bg-[#9beaff]/10" />
+                <canvas
+                  ref={visualizerCanvasRef}
+                  aria-hidden="true"
+                  className="relative h-full w-full"
+                />
+              </div>
+              <input
+                type="range"
+                aria-label={`${title} voiceover progress`}
+                min="0"
+                max={duration || 0}
+                step="0.1"
+                value={Math.min(currentTime, duration || currentTime)}
+                onChange={(event) => seekVoiceover(event.target.value)}
+                className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-[#274257] accent-[#01c7f3]"
+              />
+              <div className="mt-2 flex items-center justify-between font-mono text-[0.72rem] text-[#8fa8bd]">
+                <span>{formatAudioTime(currentTime)}</span>
+                <span>{formatAudioTime(duration)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <audio
+        ref={audioRef}
+        src={src}
+        preload="metadata"
+        onDurationChange={(event) => setDuration(event.currentTarget.duration)}
+        onEnded={() => {
+          setIsPlaying(false);
+          setCurrentTime(0);
+        }}
+        onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
+        onPause={() => setIsPlaying(false)}
+        onPlay={(event) => {
+          claimExclusiveAudioPlayback(event.currentTarget);
+          setIsPlaying(true);
+        }}
+        onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+      />
+    </div>
+  );
+}
+
+function SectionTitleSlide({
+  title,
+  voiceoverSrc,
+  introVoiceoverSrc,
+}: {
+  title: string;
+  voiceoverSrc?: string;
+  introVoiceoverSrc?: string;
+}) {
+  return (
     <section className="flex min-h-full flex-col justify-center py-6">
-      <header className="mx-auto max-w-4xl text-center">
-        <h1 className="font-display text-6xl font-semibold leading-[0.92] text-[#f4f2ec] sm:text-7xl lg:text-[5.6rem]">
+      {introVoiceoverSrc ? (
+        <BackgroundVoiceoverButton
+          src={introVoiceoverSrc}
+          label={`${title} introduction`}
+        />
+      ) : null}
+      <header className="mx-auto w-full max-w-4xl text-center">
+        <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
           {title}
         </h1>
         <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
 
         {voiceoverSrc ? (
           <div className="mx-auto mt-9 w-full max-w-xl">
-            <div className="relative overflow-hidden rounded-[1.7rem] border border-[#01c7f3]/45 bg-[linear-gradient(145deg,rgba(15,29,42,0.92),rgba(10,20,31,0.96))] p-4 text-left shadow-[0_18px_48px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-sm sm:p-5">
-              <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.9),transparent)]" />
-              <div className="relative flex items-center gap-4">
-                <button
-                  type="button"
-                  aria-label={isPlaying ? "Pause manifesto preview" : "Play manifesto preview"}
-                  onClick={toggleVoiceover}
-                  className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-[#01c7f3]/65 bg-[#15283a] text-[#b9f2ff] shadow-[0_14px_34px_rgba(0,0,0,0.28)] transition-all hover:-translate-y-0.5 hover:border-[#01c7f3] hover:bg-[#1a3349]"
-                >
-                  {isPlaying ? (
-                    <Pause className="h-5 w-5" strokeWidth={2.4} />
-                  ) : (
-                    <Play className="ml-0.5 h-5 w-5" strokeWidth={2.4} />
-                  )}
-                </button>
-
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="min-w-0">
-                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#8ecfe1]">
-                        Manifesto Preview
-                      </p>
-                      <p className="mt-1 truncate font-display text-[1.35rem] leading-none text-[#f4f2ec]">
-                        Project 2026
-                      </p>
-                    </div>
-                    <Volume2 className="hidden h-5 w-5 shrink-0 text-[#8fa8bd] sm:block" strokeWidth={2.1} />
-                  </div>
-
-                  <div className="mt-4">
-                    <input
-                      type="range"
-                      aria-label="Manifesto preview progress"
-                      min="0"
-                      max={duration || 0}
-                      step="0.1"
-                      value={Math.min(currentTime, duration || currentTime)}
-                      onChange={(event) => seekVoiceover(event.target.value)}
-                      className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-[#274257] accent-[#01c7f3]"
-                    />
-                    <div className="mt-2 flex items-center justify-between font-mono text-[0.72rem] text-[#8fa8bd]">
-                      <span>{formatAudioTime(currentTime)}</span>
-                      <span>{formatAudioTime(duration)}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <audio
-              ref={audioRef}
+            <VoiceoverPlayer
               src={voiceoverSrc}
-              preload="metadata"
-              onDurationChange={(event) => setDuration(event.currentTarget.duration)}
-              onEnded={() => {
-                setIsPlaying(false);
-                setCurrentTime(0);
-              }}
-              onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
-              onPause={() => setIsPlaying(false)}
-              onPlay={() => setIsPlaying(true)}
-              onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+              eyebrow="Manifesto Preview"
+              title="Project 2026"
             />
           </div>
         ) : null}
@@ -1384,31 +1570,29 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const operatingSystemPage = 19;
+  const operatingSystemPage = 20;
   const mainDeckStartPage = operatingSystemPage + 1;
   const howPage = mainDeckStartPage + mainDeckSlides.length;
   const project2026Page = howPage + 1;
   const ipoStrategyPage = project2026Page + 1;
-  const globalVisionPage = project2026Page + 2;
+  const strategyMapIntroPage = project2026Page + 2;
   const blackSwanPage = project2026Page + 3;
-  const strategyMapIntroPage = project2026Page + 4;
-  const strategyMapContentPage = project2026Page + 5;
-  const preCtaStartPage = project2026Page + 6;
+  const strategyMapContentPage = project2026Page + 4;
+  const preCtaStartPage = project2026Page + 5;
   const mainDeckSlideIndex = currentPage - mainDeckStartPage;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
   const totalPages = preCtaStartPage + preCtaSlides.length;
-  const isRelocatedAgendaSlide = currentPage === 11;
-  const isTicMicPieSlide = currentPage === 13;
-  const isYearVideoSlide = currentPage === 14;
-  const isInsertedTechnocratsSlide = currentPage === 15;
-  const isVisionRyanVideoSlide = currentPage === 16;
-  const isTechnocratsSlide = currentPage === 17;
-  const isVisionVideoSlide = currentPage === 18;
+  const isRelocatedAgendaSlide = currentPage === 12;
+  const isTicMicPieSlide = currentPage === 14;
+  const isYearVideoSlide = currentPage === 15;
+  const isInsertedTechnocratsSlide = currentPage === 16;
+  const isVisionRyanVideoSlide = currentPage === 17;
+  const isTechnocratsSlide = currentPage === 18;
+  const isVisionVideoSlide = currentPage === 19;
   const isOperatingSystemSlide = currentPage === operatingSystemPage;
   const isMainDeckImageSlide =
     mainDeckSlideIndex >= 0 && mainDeckSlideIndex < mainDeckSlides.length;
   const isIpoStrategySlide = currentPage === ipoStrategyPage;
-  const isGlobalVisionSlide = currentPage === globalVisionPage;
   const isBlackSwanSlide = currentPage === blackSwanPage;
   const isStrategyMapIntroSlide = currentPage === strategyMapIntroPage;
   const isStrategyMapContentSlide = currentPage === strategyMapContentPage;
@@ -1416,8 +1600,8 @@ export function LibraryPage() {
   const isPreCtaSlide =
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
-    currentPage <= 6 ||
-    (currentPage >= 9 && currentPage <= 10) ||
+    currentPage <= 7 ||
+    (currentPage >= 10 && currentPage <= 11) ||
     isRelocatedAgendaSlide ||
     isTicMicPieSlide ||
     isYearVideoSlide ||
@@ -1428,7 +1612,7 @@ export function LibraryPage() {
     isOperatingSystemSlide ||
     isMainDeckImageSlide ||
     currentPage === howPage ||
-    (currentPage >= project2026Page && currentPage <= globalVisionPage) ||
+    (currentPage >= project2026Page && currentPage <= ipoStrategyPage) ||
     isBlackSwanSlide ||
     isPreCtaSlide;
 
@@ -1547,7 +1731,6 @@ export function LibraryPage() {
             isRelocatedAgendaSlide ||
             isBlackSwanSlide ||
             isIpoStrategySlide ||
-            isGlobalVisionSlide ||
             isOperatingSystemSlide ||
             isMainDeckImageSlide ||
             isStrategyMapIntroSlide ||
@@ -1559,31 +1742,33 @@ export function LibraryPage() {
           }
         >
           {currentPage === 0 ? (
-            <YearIntroSlide />
+            <SectionTitleSlide title="1776 - 2026" />
           ) : currentPage === 1 ? (
-            <QuestionSlide question={openingQuestions[0]} />
+            <FoundingQuestionSlide />
           ) : currentPage === 2 ? (
-            <DogeQuestionSlide />
-          ) : currentPage <= 4 ? (
-            <QuestionSlide question={openingQuestions[currentPage - 2]} />
-          ) : currentPage === 5 ? (
-            <FullScreenFlagSlide src="/flag1.webm" />
+            <QuestionSlide question={openingQuestions[0]} />
+          ) : currentPage === 3 ? (
+            <SectionTitleSlide title="DOGE" />
+          ) : currentPage <= 5 ? (
+            <QuestionSlide question={openingQuestions[currentPage - 3]} />
           ) : currentPage === 6 ? (
-            <SectionTitleSlide title="The Children" />
+            <FullScreenFlagSlide src="/flag1.webm" />
           ) : currentPage === 7 ? (
-            <GirlPage />
+            <SectionTitleSlide title="The Children" />
           ) : currentPage === 8 ? (
-            <MagaPage />
+            <GirlPage />
           ) : currentPage === 9 ? (
-            <ManifestoStatementsPage />
+            <MagaPage />
           ) : currentPage === 10 ? (
-            <PromisePage />
+            <ManifestoStatementsPage />
           ) : currentPage === 11 ? (
-            <AgendaPage />
+            <PromisePage />
           ) : currentPage === 12 ? (
+            <AgendaPage />
+          ) : currentPage === 13 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
               <header className="mx-auto max-w-3xl text-center">
-                <h1 className="font-display text-6xl font-semibold leading-[0.92] text-ink sm:text-7xl lg:text-[5.6rem]">
+                <h1 className={`${slideTitleTypography} text-ink`}>
                   Problems
                 </h1>
               </header>
@@ -1600,23 +1785,23 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 13 ? (
-            <TicMicPieSlide />
           ) : currentPage === 14 ? (
-            <YearVideoSlide />
+            <TicMicPieSlide />
           ) : currentPage === 15 ? (
+            <YearVideoSlide />
+          ) : currentPage === 16 ? (
             <TechnocratsSlide
               figures={post2010TechnocratFigures}
               frameworkSequence
             />
-          ) : currentPage === 16 ? (
-            <VisionRyanVideoSlide />
           ) : currentPage === 17 ? (
+            <VisionRyanVideoSlide />
+          ) : currentPage === 18 ? (
             <TechnocratsSlide
               figures={elonFocusTechnocratFigures}
               elonFocusSequence
             />
-          ) : currentPage === 18 ? (
+          ) : currentPage === 19 ? (
             <VisionVideoSlide />
           ) : isOperatingSystemSlide ? (
             <SectionTitleSlide title="Operating System" />
@@ -1632,17 +1817,19 @@ export function LibraryPage() {
               onOpenVideo={setActiveVideoEmbedUrl}
             />
           ) : currentPage === howPage ? (
-            <SectionTitleSlide title="Our Strategic Playbook" />
+            <SectionTitleSlide title="Our Playbook" />
           ) : currentPage === project2026Page ? (
-            <SectionTitleSlide title="Project 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" />
+            <SectionTitleSlide
+              title="Project 2026"
+              voiceoverSrc="/project-2026-nrusa%20copy%202.mp3"
+              introVoiceoverSrc="/project2026intro.mp3"
+            />
           ) : currentPage === ipoStrategyPage ? (
             <IpoStrategySlide />
-          ) : currentPage === globalVisionPage ? (
-            <GlobalVisionSlide />
-          ) : currentPage === blackSwanPage ? (
-            <BlackSwanSlide />
           ) : currentPage === strategyMapIntroPage ? (
             <StrategyMapIntroSlide />
+          ) : currentPage === blackSwanPage ? (
+            <BlackSwanSlide />
           ) : currentPage === strategyMapContentPage ? (
             <section className="presentation-scroll h-full w-full overflow-y-auto px-4 py-8 md:px-6">
               <StrategyMapContent />
