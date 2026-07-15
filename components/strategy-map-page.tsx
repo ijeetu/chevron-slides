@@ -722,13 +722,17 @@ export function StrategyMapContent() {
   );
 }
 
-export function StrategyMapIntroSlide() {
+export function StrategyMapIntroSlide({
+  label = "Strategy Map",
+}: {
+  label?: string;
+} = {}) {
   return (
     <section className="mx-auto flex min-h-screen w-full max-w-6xl items-center px-6 py-20 sm:px-10 lg:px-14">
       <div className="w-full">
         <div className="max-w-4xl">
           <p className="text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-graphite">
-            Strategy Map
+            {label}
           </p>
           <h1 className="mt-5 font-display text-5xl leading-[0.95] text-ink md:text-[5.5rem]">
             Three Goals

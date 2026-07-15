@@ -514,7 +514,40 @@ select {
   }
 }
 
+.architecture-pillar {
+  opacity: 0;
+  transform: translateY(-1rem);
+  animation: architecture-pillar-connect 0.8s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+}
+
+.architecture-action-rail {
+  opacity: 0;
+  transform: scaleX(0.88);
+  animation: architecture-action-activate 0.9s cubic-bezier(0.2, 0.75, 0.25, 1) 1.35s forwards;
+}
+
+@keyframes architecture-pillar-connect {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes architecture-action-activate {
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .architecture-pillar,
+  .architecture-action-rail {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
   .technocrats-title-text-full {
     animation: none;
     opacity: 1;

@@ -7,12 +7,17 @@ import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   BarChart3,
+  Cable,
   ChevronLeft,
   ChevronRight,
+  Cpu,
+  Leaf,
   NotebookText,
+  Orbit,
   Pause,
   Play,
   Presentation,
+  RadioTower,
   TrendingUp,
   Volume2,
   X,
@@ -54,6 +59,14 @@ type TechnocratFigure = {
 type PromiseItem = {
   title: string;
 };
+
+const architecturePillars = [
+  { label: "Technology", Icon: Cpu, color: "#9beaff" },
+  { label: "Connectivity", Icon: Cable, color: "#6f98e8" },
+  { label: "Sustainability", Icon: Leaf, color: "#55c98c" },
+  { label: "Media Rails", Icon: RadioTower, color: "#e7b45d" },
+  { label: "Powerful Ecosystem", Icon: Orbit, color: "#e05c4e" },
+] as const;
 
 const deckPages: Deck[][] = [
   [
@@ -99,9 +112,9 @@ const deckPages: Deck[][] = [
 const deckPageHashes: Record<string, number> = {
   "#problems": 13,
   "#decks": 13,
-  "#presentation": 20,
-  "#global-opportunities": 20,
-  "#strategymap": 34,
+  "#presentation": 21,
+  "#global-opportunities": 21,
+  "#strategymap": 35,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -517,6 +530,129 @@ function FoundingQuestionSlide() {
 }
 
 function YearVideoSlide() {
+  const videoFrameRef = useRef<HTMLIFrameElement | null>(null);
+  const introAudioRef = useRef<HTMLAudioElement | null>(null);
+  const outroAudioRef = useRef<HTMLAudioElement | null>(null);
+  const hasOutroStartedRef = useRef(false);
+  const [narrationPhase, setNarrationPhase] = useState<"intro" | "video" | "outro">("intro");
+  const [isNarrationPlaying, setIsNarrationPlaying] = useState(false);
+
+  useEffect(() => {
+    const stopIntroListener = pauseWhenAnotherAudioStarts(introAudioRef);
+    const stopOutroListener = pauseWhenAnotherAudioStarts(outroAudioRef);
+
+    return () => {
+      stopIntroListener();
+      stopOutroListener();
+    };
+  }, []);
+
+  useEffect(() => {
+    const sendVimeoCommand = (method: string, value?: string) => {
+      videoFrameRef.current?.contentWindow?.postMessage(
+        JSON.stringify(value ? { method, value } : { method }),
+        "https://player.vimeo.com",
+      );
+    };
+
+    const startClosingVoiceover = () => {
+      if (hasOutroStartedRef.current) return;
+
+      const audio = outroAudioRef.current;
+      if (!audio) return;
+
+      hasOutroStartedRef.current = true;
+      setNarrationPhase("outro");
+      audio.currentTime = 0;
+      claimExclusiveAudioPlayback(audio);
+      void audio.play().catch(() => setIsNarrationPlaying(false));
+    };
+
+    const handleVimeoMessage = (event: MessageEvent) => {
+      if (
+        event.origin !== "https://player.vimeo.com" ||
+        event.source !== videoFrameRef.current?.contentWindow
+      ) {
+        return;
+      }
+
+      let message = event.data;
+      if (typeof message === "string") {
+        try {
+          message = JSON.parse(message);
+        } catch {
+          return;
+        }
+      }
+
+      if (message?.event === "ready") {
+        sendVimeoCommand("addEventListener", "play");
+        sendVimeoCommand("addEventListener", "ended");
+        sendVimeoCommand("addEventListener", "finish");
+        sendVimeoCommand("addEventListener", "timeupdate");
+        sendVimeoCommand("addEventListener", "seeked");
+      }
+
+      if (message?.event === "play") {
+        hasOutroStartedRef.current = false;
+        introAudioRef.current?.pause();
+        outroAudioRef.current?.pause();
+        setNarrationPhase("video");
+        setIsNarrationPlaying(false);
+      }
+
+      const playbackData = message?.data;
+      const reachedVideoEnd =
+        (message?.event === "timeupdate" || message?.event === "seeked") &&
+        typeof playbackData?.duration === "number" &&
+        playbackData.duration > 0 &&
+        ((typeof playbackData?.percent === "number" && playbackData.percent >= 0.995) ||
+          (typeof playbackData?.seconds === "number" &&
+            playbackData.seconds >= playbackData.duration - 0.5));
+
+      if (
+        message?.event === "ended" ||
+        message?.event === "finish" ||
+        reachedVideoEnd
+      ) {
+        startClosingVoiceover();
+      }
+    };
+
+    window.addEventListener("message", handleVimeoMessage);
+    return () => window.removeEventListener("message", handleVimeoMessage);
+  }, []);
+
+  const startVideo = () => {
+    setNarrationPhase("video");
+    setIsNarrationPlaying(false);
+    videoFrameRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ method: "play" }),
+      "https://player.vimeo.com",
+    );
+  };
+
+  const toggleNarration = async () => {
+    const audio = narrationPhase === "outro" ? outroAudioRef.current : introAudioRef.current;
+    if (!audio || narrationPhase === "video") return;
+
+    if (!audio.paused) {
+      audio.pause();
+      return;
+    }
+
+    if (audio.ended) {
+      audio.currentTime = 0;
+    }
+
+    try {
+      claimExclusiveAudioPlayback(audio);
+      await audio.play();
+    } catch {
+      setIsNarrationPlaying(false);
+    }
+  };
+
   return (
     <section className="relative flex h-full items-center justify-center px-[5%]">
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
@@ -530,23 +666,120 @@ function YearVideoSlide() {
             <div className="mt-6 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
               <div className="aspect-video">
                 <iframe
-                  src="https://player.vimeo.com/video/1206848346?h=a76eaac1c9&badge=0&autopause=0&player_id=0&app_id=58479"
+                  ref={videoFrameRef}
+                  id="slide-16-video"
+                  src="https://player.vimeo.com/video/1206848346?h=a76eaac1c9&badge=0&autopause=0&player_id=slide-16-video&app_id=58479&api=1"
                   title="2010 video"
                   className="h-full w-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
+                  onLoad={() => {
+                    videoFrameRef.current?.contentWindow?.postMessage(
+                      JSON.stringify({ method: "addEventListener", value: "play" }),
+                      "https://player.vimeo.com",
+                    );
+                    videoFrameRef.current?.contentWindow?.postMessage(
+                      JSON.stringify({ method: "addEventListener", value: "ended" }),
+                      "https://player.vimeo.com",
+                    );
+                    videoFrameRef.current?.contentWindow?.postMessage(
+                      JSON.stringify({ method: "addEventListener", value: "finish" }),
+                      "https://player.vimeo.com",
+                    );
+                    videoFrameRef.current?.contentWindow?.postMessage(
+                      JSON.stringify({ method: "addEventListener", value: "timeupdate" }),
+                      "https://player.vimeo.com",
+                    );
+                    videoFrameRef.current?.contentWindow?.postMessage(
+                      JSON.stringify({ method: "addEventListener", value: "seeked" }),
+                      "https://player.vimeo.com",
+                    );
+                  }}
                 />
               </div>
             </div>
           </div>
         </article>
       </div>
+
+      {narrationPhase !== "video" ? (
+        <button
+          type="button"
+          aria-label={`${isNarrationPlaying ? "Pause" : "Play"} ${narrationPhase === "intro" ? "introductory" : "closing"} voiceover`}
+          onClick={toggleNarration}
+          className="fixed right-6 top-6 z-30 flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-black/65 text-white shadow-[0_14px_34px_rgba(0,0,0,0.34)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[#01c7f3]/75 hover:text-[#b9f2ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80 md:right-8 md:top-8"
+        >
+          {isNarrationPlaying ? (
+            <Pause className="h-5 w-5" strokeWidth={2.4} />
+          ) : (
+            <Play className="ml-0.5 h-5 w-5" strokeWidth={2.4} />
+          )}
+        </button>
+      ) : null}
+
+      <audio
+        ref={introAudioRef}
+        src="/slide-16-intro.mp3"
+        preload="auto"
+        autoPlay
+        onEnded={startVideo}
+        onPause={() => setIsNarrationPlaying(false)}
+        onPlay={(event) => {
+          setNarrationPhase("intro");
+          claimExclusiveAudioPlayback(event.currentTarget);
+          setIsNarrationPlaying(true);
+        }}
+      />
+      <audio
+        ref={outroAudioRef}
+        src="/slide-16-outro.mp3"
+        preload="auto"
+        onEnded={() => setIsNarrationPlaying(false)}
+        onPause={() => setIsNarrationPlaying(false)}
+        onPlay={(event) => {
+          setNarrationPhase("outro");
+          claimExclusiveAudioPlayback(event.currentTarget);
+          setIsNarrationPlaying(true);
+        }}
+      />
     </section>
   );
 }
 
 function TicMicPieSlide() {
+  const [transitionProgress, setTransitionProgress] = useState(0);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setTransitionProgress(1);
+      return;
+    }
+
+    const animationDelayMs = 1_800;
+    const animationDurationMs = 18_000;
+    const startedAt = window.performance.now();
+    let animationFrame = 0;
+
+    const updateChart = (now: number) => {
+      const elapsed = now - startedAt - animationDelayMs;
+      const linearProgress = Math.max(
+        0,
+        Math.min(1, elapsed / animationDurationMs),
+      );
+
+      // Keep the shift gradual at first, then emphasize TIC near the end of the narration.
+      setTransitionProgress(Math.pow(linearProgress, 1.35));
+
+      if (linearProgress < 1) {
+        animationFrame = window.requestAnimationFrame(updateChart);
+      }
+    };
+
+    animationFrame = window.requestAnimationFrame(updateChart);
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, []);
+
   const chartData = [
     {
       key: "fic",
@@ -557,13 +790,13 @@ function TicMicPieSlide() {
     {
       key: "mic",
       name: "MIC",
-      value: 1,
+      value: 1 - transitionProgress * 0.94,
       fill: "url(#mic-blue-gradient)",
     },
     {
       key: "tic",
       name: "TIC",
-      value: 1,
+      value: 1 + transitionProgress * 3.4,
       fill: "url(#tic-red-gradient)",
     },
   ];
@@ -616,7 +849,7 @@ function TicMicPieSlide() {
                   endAngle={-270}
                   stroke="#08131f"
                   strokeWidth={4}
-                  isAnimationActive
+                  isAnimationActive={false}
                   style={{ filter: "url(#chart-depth)" }}
                 >
                   {chartData.map((entry) => (
@@ -648,13 +881,19 @@ function TicMicPieSlide() {
             </div>
 
             <div className="pointer-events-none absolute bottom-[15%] left-1/2 -translate-x-1/2 translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(3,12,30,0.48)]">
-              <p className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]">
+              <p
+                className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]"
+                style={{ opacity: Math.max(0.08, 1 - transitionProgress * 1.2) }}
+              >
                 MIC
               </p>
             </div>
 
             <div className="pointer-events-none absolute left-[20%] top-[29%] -translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(30,3,6,0.48)]">
-              <p className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]">
+              <p
+                className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]"
+                style={{ transform: `scale(${1 + transitionProgress * 0.28})` }}
+              >
                 TIC
               </p>
             </div>
@@ -695,13 +934,24 @@ function TechnocratsSlide({
   figures = technocratFigures,
   frameworkSequence = false,
   elonFocusSequence = false,
+  voiceoverSrc,
+  voiceoverDelayMs = 0,
 }: {
   figures?: TechnocratFigure[];
   frameworkSequence?: boolean;
   elonFocusSequence?: boolean;
+  voiceoverSrc?: string;
+  voiceoverDelayMs?: number;
 }) {
   return (
     <section className="relative flex h-full items-center justify-center px-[3%] py-6">
+      {voiceoverSrc ? (
+        <BackgroundVoiceoverButton
+          src={voiceoverSrc}
+          label="Elon Musk strategic catalyst voiceover"
+          autoPlayDelayMs={voiceoverDelayMs}
+        />
+      ) : null}
       <div className="mx-auto flex h-full w-full max-w-7xl items-center justify-center text-center">
         <div className={`relative flex h-full max-h-[43rem] w-full max-w-[72rem] flex-col items-center justify-center gap-4 lg:block ${frameworkSequence ? "technocrat-framework-stage" : ""}`}>
           <div className={`relative z-30 flex h-32 w-32 shrink-0 items-center justify-center rounded-full border border-[#9beaff]/70 bg-[radial-gradient(circle_at_34%_24%,rgba(255,255,255,0.2),transparent_32%),linear-gradient(145deg,rgba(1,199,243,0.24),rgba(15,29,42,0.95))] shadow-[0_0_0_10px_rgba(1,199,243,0.055),0_22px_70px_rgba(1,199,243,0.18)] sm:h-40 sm:w-40 lg:absolute lg:left-1/2 lg:top-1/2 lg:h-44 lg:w-44 lg:-translate-x-1/2 lg:-translate-y-1/2 ${frameworkSequence ? "technocrat-framework-center" : elonFocusSequence ? "technocrat-focus-center" : ""}`}>
@@ -824,24 +1074,93 @@ function TechnocratsSlide({
   );
 }
 
-function VisionVideoSlide() {
+function ArchitecturePillarsSlide() {
+  return (
+    <section className="relative flex h-full items-center justify-center overflow-hidden px-[4%] py-7">
+      <BackgroundVoiceoverButton
+        src="/slide-20-voiceover.mp3"
+        label="Five architecture pillars voiceover"
+      />
+
+      <div className="pointer-events-none absolute left-[8%] top-[18%] h-72 w-72 rounded-full bg-[#01c7f3]/10 blur-[110px]" />
+      <div className="pointer-events-none absolute bottom-[8%] right-[8%] h-80 w-80 rounded-full bg-[#e05c4e]/9 blur-[120px]" />
+
+      <div className="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-center">
+        <header className="text-center">
+          <h1 className="font-display text-[2.4rem] font-semibold leading-none text-[#f4f2ec] sm:text-[3.15rem] lg:text-[3.8rem]">
+            Five pillars. Hard-wired to action.
+          </h1>
+        </header>
+
+        <div className="relative mx-auto mt-10 w-full max-w-6xl">
+          <div className="grid grid-cols-5 gap-3 sm:gap-5">
+            {architecturePillars.map(({ label, Icon, color }, index) => (
+              <div
+                key={label}
+                className="architecture-pillar flex min-w-0 flex-col items-center text-center"
+                style={{ animationDelay: `${0.35 + index * 0.18}s` }}
+              >
+                <div
+                  className="flex h-16 w-16 items-center justify-center rounded-full border bg-[#0d1b28]/92 shadow-[0_18px_45px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.08)] sm:h-20 sm:w-20"
+                  style={{ borderColor: `${color}88`, color }}
+                >
+                  <Icon className="h-7 w-7 sm:h-9 sm:w-9" strokeWidth={1.65} />
+                </div>
+                <p className="mt-4 min-h-12 font-display text-[0.9rem] font-semibold leading-tight text-[#edf8fb] sm:text-[1.12rem] lg:text-[1.28rem]">
+                  {label}
+                </p>
+                <div
+                  className="mt-3 h-16 w-px bg-gradient-to-b from-current to-transparent sm:h-20"
+                  style={{ color }}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="architecture-action-rail relative -mt-px overflow-hidden rounded-[1.5rem] border border-[#01c7f3]/45 bg-[linear-gradient(90deg,rgba(11,25,37,0.96),rgba(30,65,84,0.98),rgba(11,25,37,0.96))] px-6 py-5 text-center shadow-[0_24px_70px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]">
+            <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff] to-transparent" />
+            <p className="font-display text-[2.2rem] font-black tracking-[0.2em] text-[#b9f2ff] sm:text-[3rem]">
+              ACTION
+            </p>
+            <p className="mt-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#9eb9c7] sm:text-[0.76rem]">
+              The only metric that generates true value
+            </p>
+          </div>
+
+          <div className="mt-5 flex items-center justify-center gap-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#8fa8bd] sm:gap-5 sm:text-[0.76rem]">
+            <span>Deploy</span>
+            <span className="text-[#01c7f3]">→</span>
+            <span>Integrate</span>
+            <span className="text-[#01c7f3]">→</span>
+            <span>Build new rails</span>
+            <span className="text-[#01c7f3]">→</span>
+            <span>Drive global change</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  );
+}
+
+function IntroVideoSlide() {
   return (
     <section className="relative flex h-full items-center justify-center px-[5%]">
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
           <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
             <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
-              Vision
+              Intro
             </h1>
             <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
 
             <div className="mt-7 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
               <div className="aspect-video">
                 <iframe
-                  src="https://player.vimeo.com/video/1207181653?h=98b4a337c2&badge=0&autopause=0&player_id=0&app_id=58479"
-                  title="Vision video"
+                  src="https://player.vimeo.com/video/1207181653?h=98b4a337c2&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1"
+                  title="Intro video"
                   className="h-full w-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                 />
@@ -923,18 +1242,37 @@ function claimExclusiveAudioPlayback(audio: HTMLAudioElement) {
 function BackgroundVoiceoverButton({
   src,
   label,
+  autoPlayDelayMs = 0,
 }: {
   src: string;
   label: string;
+  autoPlayDelayMs?: number;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hasManualPlaybackRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => pauseWhenAnotherAudioStarts(audioRef), []);
 
+  useEffect(() => {
+    if (autoPlayDelayMs <= 0) return;
+
+    const timer = window.setTimeout(() => {
+      const audio = audioRef.current;
+      if (!audio || hasManualPlaybackRef.current || !audio.paused) return;
+
+      claimExclusiveAudioPlayback(audio);
+      void audio.play().catch(() => setIsPlaying(false));
+    }, autoPlayDelayMs);
+
+    return () => window.clearTimeout(timer);
+  }, [autoPlayDelayMs]);
+
   const toggleVoiceover = async () => {
     const audio = audioRef.current;
     if (!audio) return;
+
+    hasManualPlaybackRef.current = true;
 
     if (isPlaying) {
       audio.pause();
@@ -967,7 +1305,7 @@ function BackgroundVoiceoverButton({
         ref={audioRef}
         src={src}
         preload="auto"
-        autoPlay
+        autoPlay={autoPlayDelayMs <= 0}
         onEnded={() => setIsPlaying(false)}
         onPause={() => setIsPlaying(false)}
         onPlay={(event) => {
@@ -1008,6 +1346,10 @@ function IpoStrategySlide() {
 
   return (
     <section className="flex h-full flex-col items-center justify-center px-[5%] py-6 text-center">
+      <BackgroundVoiceoverButton
+        src="/slide-32-voiceover.mp3"
+        label="The Blueprint voiceover"
+      />
       <header className="mx-auto max-w-6xl">
         <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
           The Blueprint
@@ -1570,7 +1912,7 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const operatingSystemPage = 20;
+  const operatingSystemPage = 21;
   const mainDeckStartPage = operatingSystemPage + 1;
   const howPage = mainDeckStartPage + mainDeckSlides.length;
   const project2026Page = howPage + 1;
@@ -1588,7 +1930,8 @@ export function LibraryPage() {
   const isInsertedTechnocratsSlide = currentPage === 16;
   const isVisionRyanVideoSlide = currentPage === 17;
   const isTechnocratsSlide = currentPage === 18;
-  const isVisionVideoSlide = currentPage === 19;
+  const isArchitecturePillarsSlide = currentPage === 19;
+  const isIntroVideoSlide = currentPage === 20;
   const isOperatingSystemSlide = currentPage === operatingSystemPage;
   const isMainDeckImageSlide =
     mainDeckSlideIndex >= 0 && mainDeckSlideIndex < mainDeckSlides.length;
@@ -1608,7 +1951,8 @@ export function LibraryPage() {
     isInsertedTechnocratsSlide ||
     isTechnocratsSlide ||
     isVisionRyanVideoSlide ||
-    isVisionVideoSlide ||
+    isArchitecturePillarsSlide ||
+    isIntroVideoSlide ||
     isOperatingSystemSlide ||
     isMainDeckImageSlide ||
     currentPage === howPage ||
@@ -1727,7 +2071,8 @@ export function LibraryPage() {
             isStrategyMapSlide ||
             isYearVideoSlide ||
             isTicMicPieSlide ||
-            isVisionVideoSlide ||
+            isArchitecturePillarsSlide ||
+            isIntroVideoSlide ||
             isRelocatedAgendaSlide ||
             isBlackSwanSlide ||
             isIpoStrategySlide ||
@@ -1800,9 +2145,13 @@ export function LibraryPage() {
             <TechnocratsSlide
               figures={elonFocusTechnocratFigures}
               elonFocusSequence
+              voiceoverSrc="/slide-19-voiceover.mp3"
+              voiceoverDelayMs={3000}
             />
           ) : currentPage === 19 ? (
-            <VisionVideoSlide />
+            <ArchitecturePillarsSlide />
+          ) : currentPage === 20 ? (
+            <IntroVideoSlide />
           ) : isOperatingSystemSlide ? (
             <SectionTitleSlide title="Operating System" />
           ) : isMainDeckImageSlide ? (
@@ -1827,7 +2176,7 @@ export function LibraryPage() {
           ) : currentPage === ipoStrategyPage ? (
             <IpoStrategySlide />
           ) : currentPage === strategyMapIntroPage ? (
-            <StrategyMapIntroSlide />
+            <StrategyMapIntroSlide label="" />
           ) : currentPage === blackSwanPage ? (
             <BlackSwanSlide />
           ) : currentPage === strategyMapContentPage ? (
