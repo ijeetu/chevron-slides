@@ -1286,15 +1286,6 @@ function IntroVideoSlide() {
                 allowFullScreen
                 onLoad={() => sendVimeoCommand("addEventListener", "timeupdate")}
               />
-              <div
-                className={`pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-4 pb-3 pt-8 text-left transition-opacity duration-500 ${
-                  isTrumpPlaying ? "opacity-100 delay-300" : "opacity-0"
-                }`}
-              >
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[#b8ccd7]">
-                  George paused at 1:25
-                </p>
-              </div>
             </div>
           </div>
 
