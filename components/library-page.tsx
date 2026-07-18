@@ -166,7 +166,7 @@ const foundingFathers: FoundingFather[] = [
 ];
 
 const openingQuestions = [
-  "\"It's challenging to feel hopeful about the future.\"",
+  "It’s challenging to feel hopeful about the future.",
   "\"The Goal Isn't to Catch Fraud Faster. The Goal Is to Make Fraud Physically Impossible.\"",
   "A Republic Without Absolute Accountability Is Already in Decay.",
 ] as const;
@@ -187,8 +187,9 @@ const promiseItems: PromiseItem[] = [
 ];
 
 const promiseNotes = [
-  "You have uncovered massive systemic problems on this show, and your audience is starving for hope. What I am offering here today is not a typical investment deal, because venture capital wouldn't dare touch this. On the 250th anniversary of our nation, we are deploying technology to upgrade the operating system of democracy itself.",
-  "By bypassing broken representation entirely, we will achieve what no elected officials ever could. We will Defend Sovereignty by passing citizen-backed legislation at scale. We will Enforce Accountability to punish institutional corruption. And we will Secure the Future to protect our children.",
+  "You’ve unmasked the systemic failures on this show, and your audience is ready for solutions. This is not a standard investment pitch. And money cannot buy what this platform can deliver.",
+  "On the 250th anniversary of America, we are launching the infrastructure to upgrade democracy itself. Where traditional representation has failed, our network is built to scale.",
+  "We will defend sovereignty through verifiable, citizen-backed legislation. We will enforce radical accountability to erase corruption. And we will secure a stable future for the next generation.",
   "We aren't here to dissect the past. We are here to execute the blueprint that changes the world.",
 ] as const;
 
@@ -234,50 +235,46 @@ const elonFocusTechnocratFigures: TechnocratFigure[] = technocratFigures.map((fi
 
 const agendaItems = [
   {
-    title: "The Landscape & The Players (Items 1–2)",
+    title: "The Landscape & The Players",
     description: "Systemic problems and the key stakeholders.",
   },
   {
-    title: "Core Infrastructure & Distribution (Items 3–5)",
+    title: "Core Infrastructure & Distribution",
     description: "Phase 1 technology meets new media rails.",
   },
   {
-    title: "Project 2026 & Strategy (Items 6–8)",
+    title: "Project 2026 & Strategy",
     description: "Manifesto preview, pre-launch, and go-to-market.",
   },
   {
-    title: "Commercialization & Longevity (Items 9–12)",
+    title: "Commercialization & Longevity",
     description: "IPO, sustainability model, verticals, and legislative action.",
   },
   {
-    title: "The Musk Alliance & Next Steps (Items 13–15)",
+    title: "The Musk Alliance & Next Steps",
     description: "Strategic alignment probability and the call to action.",
   },
 ] as const;
 
 const technologyLeadershipFramework = [
   {
-    label: "Why?",
+    label: "THE DRIVER",
     text: "Technology determines future economic and geopolitical power.",
   },
   {
-    label: "What?",
+    label: "THE FOCUS",
     text: "AI, robotics, advanced manufacturing, and digital infrastructure.",
   },
   {
-    label: "How?",
+    label: "THE METHOD",
     text: "Accelerate innovation by reducing regulatory barriers.",
   },
   {
-    label: "Government's Role",
-    text: "Enable innovation and partner with the private sector.",
+    label: "THE ALLIANCE",
+    text: "Government enables innovation and partners with the private sector.",
   },
   {
-    label: "Execution",
-    text: "Public-private collaboration across defense, energy, manufacturing, and critical infrastructure.",
-  },
-  {
-    label: "End Goal",
+    label: "THE END GOAL",
     text: "Maintain U.S. technological leadership and long-term national competitiveness.",
   },
 ] as const;
@@ -459,6 +456,28 @@ function QuestionSlide({
           <p className="relative text-center font-display text-[2rem] leading-[1.12] text-[#b9f2ff] sm:text-[2.65rem]">
             {question}
           </p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function FraudGoalSlide() {
+  return (
+    <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
+      <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
+        <article className="relative overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_48%,rgba(14,27,39,0.98))] px-8 py-10 shadow-[0_34px_90px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-12 sm:py-12">
+          <div className="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/85 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(1,199,243,0.17),transparent_42%),linear-gradient(115deg,rgba(255,255,255,0.045),transparent_28%,transparent_72%,rgba(1,199,243,0.04))]" />
+          <div className="relative text-center">
+            <h1 className="font-display text-[2rem] leading-[1.12] text-[#b9f2ff] sm:text-[2.65rem]">
+              The Goal Isn’t to Catch Fraud Faster
+            </h1>
+            <p className="mt-8 text-[1.25rem] leading-relaxed text-[#d8edf6] sm:text-[1.65rem]">
+              <span aria-hidden="true">• </span>
+              The goal is to make fraud physically impossible.
+            </p>
+          </div>
         </article>
       </div>
     </section>
@@ -948,7 +967,7 @@ function TechnocratsSlide({
       {voiceoverSrc ? (
         <BackgroundVoiceoverButton
           src={voiceoverSrc}
-          label="Elon Musk strategic catalyst voiceover"
+          label={frameworkSequence ? "Technocrat Mandate voiceover" : "Elon Musk strategic catalyst voiceover"}
           autoPlayDelayMs={voiceoverDelayMs}
         />
       ) : null}
@@ -1041,26 +1060,24 @@ function TechnocratsSlide({
               <div className="pointer-events-none absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/90 to-transparent" />
               <header className="text-center">
                 <p className="font-display text-[1.45rem] font-semibold leading-tight text-[#f4f2ec] sm:text-[1.8rem]">
-                  The Technology Leadership Framework
+                  THE TECHNOCRAT MANDATE
+                </p>
+                <p className="mt-1.5 text-[0.82rem] leading-5 text-[#b8ccd7] sm:text-[0.95rem]">
+                  Driving the next generation of American infrastructure.
                 </p>
               </header>
 
-              <div className="mt-4 grid min-h-0 flex-1 grid-cols-1 gap-x-10 sm:grid-cols-2 sm:grid-rows-3">
-                {technologyLeadershipFramework.map((item, index) => (
+              <div className="mx-auto mt-4 grid min-h-0 w-full max-w-3xl flex-1 grid-cols-1">
+                {technologyLeadershipFramework.map((item) => (
                   <section
                     key={item.label}
-                    className="relative flex flex-col justify-center border-t border-white/10 py-3"
+                    className="relative flex items-center border-t border-white/10 py-2.5"
                   >
                     <span className="absolute left-0 top-0 h-px w-12 bg-[#01c7f3]/75" />
-                    <div className="flex items-baseline justify-between gap-3">
-                      <h2 className="font-display text-[1.05rem] font-semibold text-[#9beaff] sm:text-[1.24rem]">
-                        {item.label}
-                      </h2>
-                      <span className="text-[0.58rem] font-semibold tabular-nums tracking-[0.16em] text-[#607b8c]">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                    </div>
-                    <p className="mt-1.5 text-[0.82rem] leading-5 text-[#d8e7ed] sm:text-[0.94rem] sm:leading-6">
+                    <p className="text-[0.82rem] leading-5 text-[#d8e7ed] sm:text-[0.94rem] sm:leading-6">
+                      <span className="font-display font-semibold text-[#9beaff]">
+                        {item.label}:
+                      </span>{" "}
                       {item.text}
                     </p>
                   </section>
@@ -1144,30 +1161,162 @@ function ArchitecturePillarsSlide() {
 }
 
 function IntroVideoSlide() {
-  return (
-    <section className="relative flex h-full items-center justify-center px-[5%]">
-      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
-        <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
-          <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
-            <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
-              Intro
-            </h1>
-            <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
+  const georgeVideoRef = useRef<HTMLIFrameElement | null>(null);
+  const trumpVideoRef = useRef<HTMLVideoElement | null>(null);
+  const hasTriggeredTrumpRef = useRef(false);
+  const [videoPhase, setVideoPhase] = useState<"george" | "trump" | "return">("george");
 
-            <div className="mt-7 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
-              <div className="aspect-video">
-                <iframe
-                  src="https://player.vimeo.com/video/1207181653?h=98b4a337c2&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1"
-                  title="Intro video"
-                  className="h-full w-full"
-                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                />
+  const sendVimeoCommand = (method: "play" | "pause" | "addEventListener" | "getCurrentTime", value?: string) => {
+    georgeVideoRef.current?.contentWindow?.postMessage(
+      JSON.stringify(value ? { method, value } : { method }),
+      "https://player.vimeo.com",
+    );
+  };
+
+  useEffect(() => {
+    const onVimeoMessage = (event: MessageEvent) => {
+      if (event.origin !== "https://player.vimeo.com") return;
+      if (event.source !== georgeVideoRef.current?.contentWindow) return;
+
+      let message: {
+        event?: string;
+        method?: string;
+        value?: number;
+        data?: { seconds?: number };
+      };
+      try {
+        message = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+      } catch {
+        return;
+      }
+
+      if (message.event === "ready") {
+        sendVimeoCommand("addEventListener", "timeupdate");
+        return;
+      }
+
+      const currentTime =
+        message.event === "timeupdate"
+          ? message.data?.seconds
+          : message.method === "getCurrentTime"
+            ? message.value
+            : undefined;
+
+      if ((currentTime ?? 0) >= 85 && !hasTriggeredTrumpRef.current) {
+        hasTriggeredTrumpRef.current = true;
+        sendVimeoCommand("pause");
+        setVideoPhase("trump");
+      }
+    };
+
+    window.addEventListener("message", onVimeoMessage);
+    return () => window.removeEventListener("message", onVimeoMessage);
+  }, []);
+
+  useEffect(() => {
+    if (videoPhase !== "george") return;
+
+    const timer = window.setInterval(() => {
+      sendVimeoCommand("getCurrentTime");
+    }, 500);
+
+    return () => window.clearInterval(timer);
+  }, [videoPhase]);
+
+  useEffect(() => {
+    if (videoPhase !== "trump") return;
+
+    const video = trumpVideoRef.current;
+    if (!video) return;
+
+    video.currentTime = 0;
+    const timer = window.setTimeout(() => {
+      void video.play().catch(() => undefined);
+    }, 500);
+
+    return () => window.clearTimeout(timer);
+  }, [videoPhase]);
+
+  const returnToGeorge = () => {
+    setVideoPhase("return");
+    window.setTimeout(() => sendVimeoCommand("play"), 800);
+  };
+
+  const isTrumpPlaying = videoPhase === "trump";
+
+  return (
+    <section className="relative flex h-full items-center justify-center overflow-hidden px-[4%] py-6">
+      <div className="mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center text-center">
+        <header className="relative z-20">
+          <h1
+            className={
+              isTrumpPlaying
+                ? "font-display text-4xl font-semibold leading-none text-[#f4f2ec] sm:text-5xl lg:text-[4rem]"
+                : `${slideTitleTypography} text-[#f4f2ec]`
+            }
+          >
+            {isTrumpPlaying ? "JANUARY 6, 2021" : "Introduction"}
+          </h1>
+          <div className="mx-auto mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
+          <p
+            className={`overflow-hidden font-display text-[1.25rem] leading-tight text-[#b9f2ff] transition-all duration-500 sm:text-[1.55rem] lg:text-[1.8rem] ${
+              isTrumpPlaying ? "mt-4 max-h-16 translate-y-0 opacity-100" : "mt-0 max-h-0 -translate-y-2 opacity-0"
+            }`}
+          >
+            President Trump Video Statement on Capitol Protesters
+          </p>
+        </header>
+
+        <div className="relative mt-5 h-[min(55vh,34rem)] w-full max-w-6xl">
+          <div
+            className={`absolute top-1/2 w-[92%] overflow-hidden rounded-[1.45rem] border bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)] transition-[left,width,max-width,transform,opacity,border-color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] sm:w-[78%] ${
+              isTrumpPlaying
+                ? "left-[2%] max-w-[24rem] -translate-y-1/2 scale-[0.96] border-[#8fa8bd]/35 opacity-80"
+                : "left-1/2 max-w-[58rem] -translate-x-1/2 -translate-y-1/2 scale-100 border-[#01c7f3]/38 opacity-100"
+            }`}
+          >
+            <div className="relative aspect-video">
+              <iframe
+                ref={georgeVideoRef}
+                src="https://player.vimeo.com/video/1207181653?h=98b4a337c2&badge=0&autopause=0&api=1&player_id=george-intro&app_id=58479&autoplay=1"
+                title="George introduction video"
+                className="h-full w-full"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                onLoad={() => sendVimeoCommand("addEventListener", "timeupdate")}
+              />
+              <div
+                className={`pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-4 pb-3 pt-8 text-left transition-opacity duration-500 ${
+                  isTrumpPlaying ? "opacity-100 delay-300" : "opacity-0"
+                }`}
+              >
+                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[#b8ccd7]">
+                  George paused at 1:25
+                </p>
               </div>
             </div>
           </div>
-        </article>
+
+          <div
+            className={`absolute right-[1%] top-1/2 w-[64%] -translate-y-1/2 overflow-hidden rounded-[1.45rem] border border-[#e7b45d]/50 bg-black p-1 shadow-[0_28px_80px_rgba(0,0,0,0.48)] transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              isTrumpPlaying
+                ? "pointer-events-auto translate-x-0 scale-100 opacity-100 delay-300"
+                : "pointer-events-none translate-x-[8%] scale-[0.96] opacity-0 delay-0"
+            }`}
+          >
+            <div className="aspect-video">
+              <video
+                ref={trumpVideoRef}
+                src="/President Trump.mp4"
+                className="h-full w-full object-cover"
+                controls
+                playsInline
+                onEnded={returnToGeorge}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -1474,7 +1623,27 @@ function MagaPage() {
 
 function ManifestoStatementsPage() {
   return (
-    <QuestionSlide question={<ManifestoStatementText />} />
+    <section className="relative flex h-full min-h-full items-center justify-center overflow-hidden px-[5%] py-10">
+      <Image
+        src="/america-first-blueprint-v2.png"
+        alt="A blueprint-inspired vision of American civic institutions, infrastructure, and precision machinery"
+        fill
+        sizes="100vw"
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,14,28,0.3),rgba(5,14,28,0.58)),radial-gradient(circle_at_center,rgba(5,18,36,0.38),rgba(5,14,28,0.12)_55%,rgba(5,14,28,0.42))]" />
+
+      <article className="relative mx-auto w-full max-w-5xl rounded-[2rem] border border-[#9beaff]/30 bg-[#071426]/72 px-7 py-9 text-center shadow-[0_34px_90px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-[3px] sm:px-12 sm:py-12">
+        <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
+          America First Blueprint
+        </h1>
+        <div className="mx-auto mt-7 h-px w-36 bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.9),transparent)]" />
+        <p className="mx-auto mt-7 max-w-4xl text-[1.15rem] leading-relaxed text-[#d8edf6] sm:text-[1.45rem]">
+          <span aria-hidden="true">• </span>
+          <ManifestoStatementText />
+        </p>
+      </article>
+    </section>
   );
 }
 
@@ -1599,7 +1768,7 @@ function AgendaPage() {
     <section className="flex h-full flex-col items-center justify-center text-center">
       <header className="mx-auto max-w-3xl">
         <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
-          Today&apos;s Agenda
+          Our Agenda
         </h1>
         <div className="mx-auto mt-4 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
@@ -1924,6 +2093,7 @@ export function LibraryPage() {
   const mainDeckSlideIndex = currentPage - mainDeckStartPage;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
   const totalPages = preCtaStartPage + preCtaSlides.length;
+  const isManifestoSlide = currentPage === 10;
   const isRelocatedAgendaSlide = currentPage === 12;
   const isTicMicPieSlide = currentPage === 14;
   const isYearVideoSlide = currentPage === 15;
@@ -2060,7 +2230,7 @@ export function LibraryPage() {
 
       <main
         className={`relative z-10 mx-auto flex h-[100dvh] max-w-none flex-col ${
-          isStrategyMapSlide || isMainDeckImageSlide
+          isStrategyMapSlide || isMainDeckImageSlide || isManifestoSlide
             ? "w-full px-0 py-0"
             : "w-[90%] px-6 py-10 sm:px-10 lg:px-14"
         }`}
@@ -2069,6 +2239,7 @@ export function LibraryPage() {
           ref={pageContainerRef}
           className={
             isStrategyMapSlide ||
+            isManifestoSlide ||
             isYearVideoSlide ||
             isTicMicPieSlide ||
             isArchitecturePillarsSlide ||
@@ -2091,13 +2262,15 @@ export function LibraryPage() {
           ) : currentPage === 1 ? (
             <FoundingQuestionSlide />
           ) : currentPage === 2 ? (
-            <QuestionSlide question={openingQuestions[0]} />
-          ) : currentPage === 3 ? (
             <SectionTitleSlide title="DOGE" />
-          ) : currentPage <= 5 ? (
-            <QuestionSlide question={openingQuestions[currentPage - 3]} />
-          ) : currentPage === 6 ? (
+          ) : currentPage === 3 ? (
+            <FraudGoalSlide />
+          ) : currentPage === 4 ? (
+            <QuestionSlide question={openingQuestions[2]} />
+          ) : currentPage === 5 ? (
             <FullScreenFlagSlide src="/flag1.webm" />
+          ) : currentPage === 6 ? (
+            <QuestionSlide question={openingQuestions[0]} />
           ) : currentPage === 7 ? (
             <SectionTitleSlide title="The Children" />
           ) : currentPage === 8 ? (
@@ -2138,6 +2311,7 @@ export function LibraryPage() {
             <TechnocratsSlide
               figures={post2010TechnocratFigures}
               frameworkSequence
+              voiceoverSrc="/technocrat-mandate-voiceover.mp3"
             />
           ) : currentPage === 17 ? (
             <VisionRyanVideoSlide />
