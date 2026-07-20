@@ -1541,7 +1541,7 @@ function MainDeckImageSlide({
       <img
         src={src}
         alt={`Viral Fusion main deck slide ${index + 1}`}
-        className="h-full w-full object-contain"
+        className={`h-full w-full ${index === 0 ? "object-cover" : "object-contain"}`}
         draggable={false}
       />
       {videoEmbedUrl && onOpenVideo ? (
@@ -1562,11 +1562,342 @@ function MainDeckImageSlide({
   );
 }
 
+const missionVisionItems = [
+  {
+    number: "01",
+    title: "Our Mission",
+    body: "Return power to the people by rebuilding institutions with technology that unlocks civic trust and economic value at scale.",
+    letter: "M",
+  },
+  {
+    number: "02",
+    title: "Our Vision",
+    body: "Make public will impossible to ignore by turning civic engagement into a data-driven engine for systemic reform.",
+    letter: "V",
+  },
+] as const;
+
+function MissionVisionSlide() {
+  return (
+    <section className="relative h-full w-full overflow-hidden text-[#f7f8f8]">
+
+      <div className="relative mx-auto flex h-full w-[89%] flex-col py-[7%]">
+        <p className="font-display text-[clamp(.78rem,1.35vw,1.65rem)] font-medium tracking-[0.09em] text-[#b8c0c3]">
+          MISSION &amp; VISION
+        </p>
+        <h1 className="mt-2 font-display text-[clamp(2.35rem,5vw,6rem)] font-bold leading-none tracking-[-0.045em]">
+          Driving Real Impact
+        </h1>
+        <div className="mt-[3.2%] h-px w-full bg-white/15">
+          <div className="h-px w-[12%] bg-[#18bfe3]" />
+        </div>
+
+        <div className="mt-[3.2%] grid min-h-0 flex-1 grid-cols-1 gap-5 md:grid-cols-2">
+          {missionVisionItems.map((item) => (
+            <article
+              key={item.title}
+              className="relative min-w-0 overflow-hidden rounded-[clamp(1rem,1.6vw,1.75rem)] border border-[#9beaff]/20 bg-[linear-gradient(145deg,rgba(38,58,75,0.74),rgba(14,27,39,0.88))] px-[6%] py-[5%] shadow-[0_24px_65px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.04)]"
+            >
+              <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.72),transparent)]" />
+              <span className="font-mono text-[clamp(.72rem,1vw,1.15rem)] font-bold tracking-[0.28em] text-[#18bfe3]">
+                {item.number}
+              </span>
+              <h2 className="mt-3 font-display text-[clamp(1.8rem,3vw,3.7rem)] font-bold leading-none">
+                {item.title}
+              </h2>
+              <div className="mt-[5%] border-l-[3px] border-[#18bfe3] pl-[5%]">
+                <p className="relative z-10 max-w-[42rem] font-display text-[clamp(.9rem,1.42vw,1.72rem)] leading-[1.5] text-[#d0d8db]">
+                  {item.body}
+                </p>
+              </div>
+              <span className="pointer-events-none absolute bottom-[-8%] right-[4%] font-display text-[clamp(8rem,16vw,18rem)] font-bold leading-none text-transparent [-webkit-text-stroke:1px_rgba(155,234,255,0.10)]">
+                {item.letter}
+              </span>
+            </article>
+          ))}
+        </div>
+
+        <div className="relative mt-[2.2%] overflow-hidden rounded-2xl border border-[#9beaff]/20 bg-[#071426]/72 px-[3.3%] py-[1.8%] shadow-[0_18px_50px_rgba(0,0,0,0.2)] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-[#18bfe3]">
+          <p className="font-mono text-[clamp(.65rem,.9vw,1rem)] font-bold tracking-[0.25em] text-[#18bfe3]">
+            VIRAL FUSION
+          </p>
+          <p className="mt-2 font-display text-[clamp(1rem,1.55vw,1.9rem)] font-semibold">
+            Productizing technology, trust, and public will into systemic reform.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FounderQuoteSlide() {
+  return (
+    <section className="relative flex h-full w-full items-center justify-center overflow-hidden text-[#f7f8f8]">
+
+      <Image
+        src="/mainslides/BG2-optimized.webp"
+        alt="George Partsch IV on rebuilding trusted institutions"
+        width={2200}
+        height={930}
+        priority
+        sizes="90vw"
+        quality={88}
+        className="relative h-auto max-h-[82vh] w-[90%] object-contain"
+      />
+    </section>
+  );
+}
+
+function SimpleRepublicSlide() {
+  return (
+    <section className="relative flex h-full w-full items-center justify-center overflow-hidden text-white">
+      <Image
+        src="/mainslides/BG5.jpg"
+        alt="American flag framed by a civic technology interface"
+        fill
+        priority
+        sizes="100vw"
+        unoptimized
+        className="object-cover opacity-70"
+      />
+      <div className="absolute inset-0 bg-black/5" />
+
+      <div className="relative z-10 mx-auto w-[90%] text-center drop-shadow-[0_8px_24px_rgba(0,0,0,0.65)]">
+        <p className="font-display text-[clamp(1.15rem,2.35vw,2.8rem)] font-medium text-white/90">
+          We keep it simple:
+        </p>
+        <h1 className="mt-[2%] whitespace-nowrap font-display text-[clamp(1.75rem,4vw,4.8rem)] font-bold leading-none tracking-[-0.035em]">
+          Connectivity. Tools. Better decision-making.
+        </h1>
+        <p className="mt-[2.2%] font-display text-[clamp(1.1rem,2.45vw,2.95rem)] font-medium text-white/92">
+          A stronger Republic—powered by proof, voice, and action.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+const problemTiers = [
+  ["Public Safety & Justice"],
+  ["Housing & Homelessness", "Education & Workforce Dev"],
+  ["Economy, Jobs & Business", "Healthcare & Mental Health", "Infrastructure & Transport"],
+  [
+    "Energy, Water & Environment",
+    "Fiscal Responsibility & Budget",
+    "Governance & Accountability",
+  ],
+  [
+    "Technology, Innovation, Privacy & Cybersecurity",
+    "Civil Rights & Quality of Life",
+    "Immigration & Border",
+    "Civic OS / Platform / Controls",
+  ],
+] as const;
+
+function ProblemsPyramidSlide() {
+  return (
+    <section className="relative h-full w-full overflow-hidden text-[#f7f8f8]">
+
+      <div className="relative mx-auto grid h-full w-[89%] grid-cols-[29%_1fr] items-center gap-[5%] py-[7%]">
+        <div className="flex min-h-0 min-w-0 flex-col justify-center">
+          <p className="font-display text-[clamp(.82rem,1.4vw,1.65rem)] text-[#b8c0c3]">The Problems</p>
+          <h1 className="mt-2 whitespace-nowrap font-display text-[clamp(2.15rem,4.15vw,5.1rem)] font-bold leading-[.94] tracking-[-0.05em]">
+            We’re Solving
+          </h1>
+          <div className="mt-[7%] h-px w-24 bg-[linear-gradient(90deg,#01c7f3,transparent)]" />
+          <figure className="relative mt-[7%] h-[42vh] min-h-[12rem] max-h-[24rem] w-full overflow-hidden rounded-[clamp(1rem,2vw,2rem)] border border-[#9beaff]/20 bg-[#07111c] shadow-[0_25px_70px_rgba(5,20,30,0.28)]">
+            <Image
+              src="/mainslides/assets/ai-technology-unsplash.jpg"
+              alt="Blue neon technology hardware"
+              fill
+              priority
+              sizes="32vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,15,24,0.02),rgba(4,15,24,0.42))]" />
+          </figure>
+        </div>
+
+        <div className="relative flex min-h-0 min-w-0 flex-col justify-center">
+          <div className="pointer-events-none absolute bottom-[3%] left-1/2 h-[94%] w-[94%] -translate-x-1/2 bg-[linear-gradient(180deg,rgba(1,199,243,0.025),rgba(1,199,243,0.12))] [clip-path:polygon(50%_0,100%_100%,0_100%)]" />
+          <div className="relative z-10 flex flex-col gap-[clamp(.4rem,1vh,.85rem)]">
+            {problemTiers.map((tier, tierIndex) => (
+              <div
+                key={tier.join("-")}
+                className="mx-auto grid w-full gap-[1.7%]"
+                style={{
+                  gridTemplateColumns: `repeat(${tier.length}, minmax(0, 1fr))`,
+                  width: `${42 + tierIndex * 14.5}%`,
+                }}
+              >
+                {tier.map((label, itemIndex) => (
+                  <div
+                    key={label}
+                    className="pyramid-item-reveal flex min-h-[clamp(3.6rem,8.3vh,6.25rem)] items-center justify-center rounded-[clamp(.6rem,1vw,1rem)] border border-[#5b6d73]/55 bg-[#091114]/82 px-[4%] py-3 text-center font-display text-[clamp(.65rem,1.04vw,1.25rem)] font-medium leading-[1.18] text-[#f2f5f5] shadow-[0_10px_28px_rgba(0,0,0,0.18)] backdrop-blur-sm"
+                    style={{
+                      animationDelay: `${(problemTiers.slice(0, tierIndex).reduce((count, row) => count + row.length, 0) + itemIndex) * 170}ms`,
+                    }}
+                  >
+                    {label}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+          <div className="pyramid-base-reveal relative z-10 mx-auto mt-[clamp(.5rem,1.1vh,.95rem)] flex min-h-[clamp(3.2rem,6.5vh,5rem)] w-[96%] items-center justify-center border-t border-[#18bfe3]/35 bg-[#071012]/85 px-4 py-3 text-center font-display text-[clamp(.65rem,1.12vw,1.35rem)] font-bold tracking-[0.32em] text-[#c4ced1]">
+            TECHNOCRATIC NATIONALISM
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+type ArchitectureNarrativeSlideProps = {
+  eyebrow?: string;
+  title: string;
+  sectionTitle: string;
+  points: readonly string[];
+  takeawayLabel: string;
+  takeaway: string;
+  videoEmbedUrl?: string;
+  onOpenVideo?: (videoEmbedUrl: string) => void;
+};
+
+function ArchitectureNarrativeSlide({
+  eyebrow = "Core OS Architecture",
+  title,
+  sectionTitle,
+  points,
+  takeawayLabel,
+  takeaway,
+  videoEmbedUrl,
+  onOpenVideo,
+}: ArchitectureNarrativeSlideProps) {
+  return (
+    <section className="relative h-full w-full overflow-hidden text-[#f7f8f8]">
+
+      <div className="relative mx-auto flex h-full w-[89%] flex-col py-[7%]">
+        <p className="font-display text-[clamp(.78rem,1.25vw,1.45rem)] font-medium tracking-[0.08em] text-[#aebcc2]">
+          {eyebrow}
+        </p>
+        <h1 className="mt-2 max-w-[92%] font-display text-[clamp(2.25rem,4.6vw,5.6rem)] font-bold leading-[.96] tracking-[-0.045em]">
+          {title}
+        </h1>
+        <div className="mt-[2.8%] h-px w-full bg-white/15">
+          <div className="h-px w-[12%] bg-[#18bfe3]" />
+        </div>
+
+        <article className="relative mt-[3%] min-h-0 flex-1 overflow-hidden rounded-[clamp(1rem,1.7vw,1.9rem)] border border-[#9beaff]/20 bg-[linear-gradient(145deg,rgba(38,58,75,0.72),rgba(14,27,39,0.9))] px-[3.2%] py-[2.8%] shadow-[0_28px_75px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.04)]">
+          <div className="pointer-events-none absolute inset-x-16 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.72),transparent)]" />
+          <h2 className="font-display text-[clamp(1.15rem,1.8vw,2.2rem)] font-semibold text-[#eaf2f4]">
+            {sectionTitle}
+          </h2>
+
+          <div className={`mt-[2.3%] grid gap-3 ${points.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
+            {points.map((point, index) => (
+              <div
+                key={point}
+                className="relative min-w-0 border-l border-[#18bfe3]/55 bg-[#071426]/45 px-[5%] py-[4%]"
+              >
+                <span className="font-mono text-[clamp(.62rem,.8vw,.9rem)] font-bold tracking-[0.24em] text-[#18bfe3]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="mt-3 font-display text-[clamp(.8rem,1.24vw,1.5rem)] leading-[1.38] text-[#d2dde1]">
+                  {point}
+                </p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <div className="relative mt-[2%] overflow-hidden rounded-2xl border border-[#9beaff]/20 bg-[#071426]/78 px-[3.2%] py-[1.8%] shadow-[0_18px_50px_rgba(0,0,0,0.2)] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-[#18bfe3]">
+          <p className="font-mono text-[clamp(.62rem,.8vw,.9rem)] font-bold tracking-[0.22em] text-[#18bfe3]">
+            {takeawayLabel.toUpperCase()}
+          </p>
+          <p className="mt-2 font-display text-[clamp(.82rem,1.22vw,1.48rem)] leading-[1.38] text-[#e2e9eb]">
+            {takeaway}
+          </p>
+        </div>
+
+        {videoEmbedUrl && onOpenVideo ? (
+          <button
+            type="button"
+            aria-label="Play strategic alliance video"
+            onClick={() => onOpenVideo(videoEmbedUrl)}
+            onKeyDown={(event) => event.stopPropagation()}
+            className="absolute bottom-[6.8%] right-0 z-20 flex h-11 items-center gap-2 rounded-full border border-[#9beaff]/45 bg-[#071426]/90 px-4 text-white shadow-[0_14px_34px_rgba(0,0,0,0.34)] backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-[#9beaff] focus:outline-none focus:ring-2 focus:ring-[#9beaff]"
+          >
+            <Play className="h-4 w-4" fill="currentColor" strokeWidth={1.8} />
+            <span className="text-xs font-semibold uppercase tracking-[0.15em]">Play Video</span>
+          </button>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function CivicOperatingSystemSlide() {
+  return (
+    <ArchitectureNarrativeSlide
+      title="Authenticating the Future of Representation"
+      sectionTitle="Phase One — A Civic Operating System That…"
+      points={[
+        "Verifies citizens and captures real-time sentiment.",
+        "Anchors that signal on-chain as tamper-evident proof of public demand.",
+        "Converts public will into lawful action—petitions, recalls, referenda, and coordinated campaigns—executed fast and cost-effectively.",
+      ]}
+      takeawayLabel="Outcomes"
+      takeaway="Strengthened election trust via end-to-end integrity: paper ballots + secure digital rails (on-chain) + parallel audits for total transparency."
+    />
+  );
+}
+
+function CivicConnectivitySlide() {
+  return (
+    <ArchitectureNarrativeSlide
+      eyebrow="Physical Infrastructure"
+      title="Hard-Wired Civic Connectivity"
+      sectionTitle="Anchoring the Digital Pulse into Physical Assets"
+      points={[
+        "AI-enabled technology anchors civic engagement in high-traffic public infrastructure—powering citizen-first media and scalable revenue verticals.",
+        "By owning the hardware, we control the narrative environment.",
+        "A high-margin data and advertising rail generates recurring revenue while providing a critical public service.",
+      ]}
+      takeawayLabel="The Goal"
+      takeaway="Create a permanent, physical foundation for a new civic era—one that cannot be turned off or de-platformed by centralized interests."
+    />
+  );
+}
+
+function StrategicAllianceSlide({
+  videoEmbedUrl,
+  onOpenVideo,
+}: {
+  videoEmbedUrl?: string;
+  onOpenVideo?: (videoEmbedUrl: string) => void;
+}) {
+  return (
+    <ArchitectureNarrativeSlide
+      title="The Strategic Alliance"
+      sectionTitle="A Global Distribution Pathway to Scale"
+      points={[
+        "X / xAI Integration: A dual-sided alliance amplifies reach and accelerates adoption through global AI and social distribution networks.",
+        "Sovereign Parallel Network: Verifiable data ensures operational continuity in contested or silenced environments—a resilient civic rail.",
+      ]}
+      takeawayLabel="The Bottom Line"
+      takeaway="We provide the first clear path to execute lawful change at the speed of the digital age—permanently changing who gets heard and how fast public will is realized."
+      videoEmbedUrl={videoEmbedUrl}
+      onOpenVideo={onOpenVideo}
+    />
+  );
+}
+
 function GirlPage() {
   return (
-    <section className="flex min-h-full flex-col items-center py-8">
-      <article className="flex min-h-0 w-full max-w-7xl flex-1 overflow-hidden rounded-[2rem] border-[5px] border-[#01c7f3] bg-white/92 shadow-[0_0_0_2px_rgba(185,242,255,0.34),0_28px_80px_rgba(1,84,142,0.32)]">
-        <div className="relative w-full">
+    <section className="fixed inset-0 overflow-hidden bg-black">
+      <article className="h-full w-full">
+        <div className="relative h-full w-full">
           <Image
             src="/girlchild.webp"
             alt="Portrait of a young girl"
@@ -1575,7 +1906,7 @@ function GirlPage() {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.08),rgba(8,17,34,0.22)_46%,rgba(5,10,20,0.78)_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 px-6 pb-7 pt-16 text-center sm:px-8 sm:pb-9">
+          <div className="absolute inset-x-0 bottom-0 px-6 pb-24 pt-24 text-center sm:px-10 sm:pb-28">
             <p className="font-display text-[2.3rem] leading-[1.15] text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.5)] sm:text-[3.1rem]">
               Good intentions do not stop predators.
               <br />
@@ -1590,9 +1921,9 @@ function GirlPage() {
 
 function MagaPage() {
   return (
-    <section className="flex min-h-full flex-col items-center py-8">
-      <article className="flex min-h-0 w-full max-w-7xl flex-1 overflow-hidden rounded-[2rem] border-[5px] border-[#01c7f3] bg-white/92 shadow-[0_0_0_2px_rgba(185,242,255,0.34),0_28px_80px_rgba(1,84,142,0.32)]">
-        <div className="relative w-full">
+    <section className="fixed inset-0 overflow-hidden bg-black">
+      <article className="h-full w-full">
+        <div className="relative h-full w-full">
           <Image
             src="/maga.png"
             alt="Creative showing the division between MAGA and the Democratic Party"
@@ -1601,7 +1932,7 @@ function MagaPage() {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,17,34,0.1),rgba(8,17,34,0.18)_38%,rgba(5,10,20,0.72)_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 px-6 pb-7 pt-16 text-center sm:px-8 sm:pb-9">
+          <div className="absolute inset-x-0 bottom-0 px-6 pb-24 pt-24 text-center sm:px-10 sm:pb-28">
             <p className="font-display text-[2.3rem] leading-[1.15] text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.5)] sm:text-[3.1rem]">
               The people demand something better.
             </p>
@@ -1614,17 +1945,18 @@ function MagaPage() {
 
 function ManifestoStatementsPage() {
   return (
-    <section className="relative flex h-full min-h-full items-center justify-center overflow-hidden px-[5%] py-10">
+    <section className="relative flex h-full min-h-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_50%_-10%,rgba(49,76,99,0.58),transparent_42%),linear-gradient(145deg,#101b26_0%,#142330_48%,#0e1822_100%)] px-[5%] py-10">
       <Image
         src="/america-first-blueprint-v2.png"
         alt="A blueprint-inspired vision of American civic institutions, infrastructure, and precision machinery"
         fill
         sizes="100vw"
-        className="object-cover"
+        className="object-cover opacity-[0.24]"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,14,28,0.3),rgba(5,14,28,0.58)),radial-gradient(circle_at_center,rgba(5,18,36,0.38),rgba(5,14,28,0.12)_55%,rgba(5,14,28,0.42))]" />
+      <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(184,203,218,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(184,203,218,0.1)_1px,transparent_1px)] [background-position:center_center] [background-size:28px_28px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(5,18,36,0.08),rgba(5,14,28,0.22)_75%)]" />
 
-      <article className="relative mx-auto w-full max-w-5xl rounded-[2rem] border border-[#9beaff]/30 bg-[#071426]/72 px-7 py-9 text-center shadow-[0_34px_90px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-[3px] sm:px-12 sm:py-12">
+      <article className="relative mx-auto w-full max-w-5xl px-7 py-9 text-center sm:px-12 sm:py-12">
         <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
           America First Blueprint
         </h1>
@@ -2084,6 +2416,7 @@ export function LibraryPage() {
   const mainDeckSlideIndex = currentPage - mainDeckStartPage;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
   const totalPages = preCtaStartPage + preCtaSlides.length;
+  const isFullScreenStatementSlide = currentPage === 8 || currentPage === 9;
   const isManifestoSlide = currentPage === 10;
   const isRelocatedAgendaSlide = currentPage === 12;
   const isTicMicPieSlide = currentPage === 14;
@@ -2105,6 +2438,7 @@ export function LibraryPage() {
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
     currentPage <= 7 ||
+    isFullScreenStatementSlide ||
     (currentPage >= 10 && currentPage <= 11) ||
     isRelocatedAgendaSlide ||
     isTicMicPieSlide ||
@@ -2319,6 +2653,23 @@ export function LibraryPage() {
             <IntroVideoSlide />
           ) : isOperatingSystemSlide ? (
             <SectionTitleSlide title="Operating System" />
+          ) : isMainDeckImageSlide && mainDeckSlideIndex === 1 ? (
+            <FounderQuoteSlide />
+          ) : isMainDeckImageSlide && mainDeckSlideIndex === 2 ? (
+            <MissionVisionSlide />
+          ) : isMainDeckImageSlide && mainDeckSlideIndex === 3 ? (
+            <ProblemsPyramidSlide />
+          ) : isMainDeckImageSlide && mainDeckSlideIndex === 4 ? (
+            <SimpleRepublicSlide />
+          ) : isMainDeckImageSlide && mainDeckSlideIndex === 5 ? (
+            <CivicOperatingSystemSlide />
+          ) : isMainDeckImageSlide && mainDeckSlideIndex === 6 ? (
+            <CivicConnectivitySlide />
+          ) : isMainDeckImageSlide && mainDeckSlideIndex === 7 ? (
+            <StrategicAllianceSlide
+              videoEmbedUrl={vf8VideoEmbedUrl}
+              onOpenVideo={setActiveVideoEmbedUrl}
+            />
           ) : isMainDeckImageSlide ? (
             <MainDeckImageSlide
               src={mainDeckSlides[mainDeckSlideIndex]!}

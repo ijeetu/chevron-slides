@@ -595,3 +595,41 @@ select {
     visibility: visible;
   }
 }
+@keyframes pyramid-item-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.975);
+    filter: blur(4px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.pyramid-item-reveal,
+.pyramid-base-reveal {
+  opacity: 0;
+  animation: pyramid-item-reveal 720ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+.pyramid-base-reveal {
+  animation-delay: 2210ms;
+  animation-duration: 820ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pyramid-item-reveal,
+  .pyramid-base-reveal {
+    opacity: 1;
+    animation: none;
+    transform: none;
+    filter: none;
+  }
+}
