@@ -803,19 +803,19 @@ function TicMicPieSlide() {
     {
       key: "fic",
       name: "FIC",
-      value: 1,
+      value: 1 + transitionProgress * 0.45,
       fill: "url(#fic-green-gradient)",
     },
     {
       key: "mic",
       name: "MIC",
-      value: 1 - transitionProgress * 0.94,
+      value: 1 - transitionProgress * 0.68,
       fill: "url(#mic-blue-gradient)",
     },
     {
       key: "tic",
       name: "TIC",
-      value: 1 + transitionProgress * 3.4,
+      value: 1 + transitionProgress * 0.55,
       fill: "url(#tic-red-gradient)",
     },
   ];
@@ -894,16 +894,16 @@ function TicMicPieSlide() {
             </div>
 
             <div className="pointer-events-none absolute right-[20%] top-[29%] translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(3,30,18,0.48)]">
-              <p className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]">
+              <p
+                className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]"
+                style={{ transform: `scale(${1 + transitionProgress * 0.12})` }}
+              >
                 FIC
               </p>
             </div>
 
             <div className="pointer-events-none absolute bottom-[15%] left-1/2 -translate-x-1/2 translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(3,12,30,0.48)]">
-              <p
-                className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]"
-                style={{ opacity: Math.max(0.08, 1 - transitionProgress * 1.2) }}
-              >
+              <p className="font-display text-[1.7rem] font-black leading-none tracking-[-0.04em] sm:text-[2.35rem]">
                 MIC
               </p>
             </div>
@@ -911,7 +911,7 @@ function TicMicPieSlide() {
             <div className="pointer-events-none absolute left-[20%] top-[29%] -translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-[0_5px_22px_rgba(30,3,6,0.48)]">
               <p
                 className="font-display text-[2.3rem] font-black leading-none tracking-[-0.04em] sm:text-[3.25rem]"
-                style={{ transform: `scale(${1 + transitionProgress * 0.28})` }}
+                style={{ transform: `scale(${1 + transitionProgress * 0.12})` }}
               >
                 TIC
               </p>
@@ -1562,6 +1562,93 @@ function MainDeckImageSlide({
   );
 }
 
+function ViralFusionEarthSlide() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    let animationFrame = 0;
+    const slowdownWindowSeconds = 3;
+
+    const updatePlaybackRate = () => {
+      if (
+        Number.isFinite(video.duration) &&
+        video.duration > 0 &&
+        !video.paused
+      ) {
+        const remaining = video.duration - video.currentTime;
+
+        if (remaining <= 0.06) {
+          video.pause();
+          video.currentTime = Math.max(0, video.duration - 0.04);
+          video.playbackRate = 0.18;
+          return;
+        }
+
+        if (remaining < slowdownWindowSeconds) {
+          const slowdownProgress =
+            1 - remaining / slowdownWindowSeconds;
+          video.playbackRate = Math.max(
+            0.18,
+            1 - slowdownProgress * 0.82,
+          );
+        } else {
+          video.playbackRate = 1;
+        }
+      }
+
+      animationFrame = window.requestAnimationFrame(updatePlaybackRate);
+    };
+
+    animationFrame = window.requestAnimationFrame(updatePlaybackRate);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      video.pause();
+    };
+  }, []);
+
+  const holdFinalFrame = () => {
+    const video = videoRef.current;
+    if (!video || !Number.isFinite(video.duration)) return;
+
+    video.pause();
+    video.currentTime = Math.max(0, video.duration - 0.04);
+  };
+
+  return (
+    <section className="relative h-full w-full overflow-hidden bg-black">
+      <video
+        ref={videoRef}
+        src="/EARTH.mp4"
+        className="absolute inset-0 h-full w-full object-cover"
+        autoPlay
+        muted
+        playsInline
+        preload="auto"
+        onEnded={holdFinalFrame}
+      />
+
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,7,15,0.18),rgba(0,8,18,0.06)_42%,rgba(0,7,15,0.42))]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,transparent_16%,rgba(0,5,12,0.2)_68%,rgba(0,4,10,0.48)_100%)]" />
+
+      <div className="relative z-10 flex h-full w-full items-center justify-center px-[7%] text-center">
+        <header className="drop-shadow-[0_8px_32px_rgba(0,0,0,0.72)]">
+          <h1 className="font-display text-[clamp(3.2rem,7vw,7.8rem)] font-black leading-[0.92] tracking-[-0.055em] text-white">
+            <span className="mr-[0.18em] text-[#01c7f3]">V</span>
+            Viral Fusion
+          </h1>
+          <p className="mt-6 text-[clamp(1.05rem,2vw,2.15rem)] font-medium tracking-[0.015em] text-[#e7f7fb]">
+            Connecting Voices Into Engines For Change
+          </p>
+        </header>
+      </div>
+    </section>
+  );
+}
+
 const missionVisionItems = [
   {
     number: "01",
@@ -1579,49 +1666,49 @@ const missionVisionItems = [
 
 function MissionVisionSlide() {
   return (
-    <section className="relative h-full w-full overflow-hidden text-[#f7f8f8]">
+    <section className="presentation-scroll relative h-full w-full overflow-y-auto text-[#f7f8f8] md:overflow-hidden">
 
-      <div className="relative mx-auto flex h-full w-[89%] flex-col py-[7%]">
-        <p className="font-display text-[clamp(.78rem,1.35vw,1.65rem)] font-medium tracking-[0.09em] text-[#b8c0c3]">
+      <div className="relative mx-auto flex min-h-full w-[92%] flex-col justify-center py-[clamp(1rem,4vh,3rem)] md:h-full md:w-[89%]">
+        <p className="font-display text-[clamp(.68rem,min(1.35vw,2.2vh),1.65rem)] font-medium tracking-[0.09em] text-[#b8c0c3]">
           MISSION &amp; VISION
         </p>
-        <h1 className="mt-2 font-display text-[clamp(2.35rem,5vw,6rem)] font-bold leading-none tracking-[-0.045em]">
+        <h1 className="mt-[clamp(.25rem,.8vh,.5rem)] font-display text-[clamp(1.65rem,min(5vw,7vh),6rem)] font-bold leading-none tracking-[-0.045em]">
           Driving Real Impact
         </h1>
-        <div className="mt-[3.2%] h-px w-full bg-white/15">
+        <div className="mt-[clamp(.65rem,2vh,1.8rem)] h-px w-full bg-white/15">
           <div className="h-px w-[12%] bg-[#18bfe3]" />
         </div>
 
-        <div className="mt-[3.2%] grid min-h-0 flex-1 grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="mt-[clamp(.7rem,2vh,1.8rem)] grid shrink-0 grid-cols-2 gap-[clamp(.55rem,1.5vw,1.25rem)]">
           {missionVisionItems.map((item) => (
             <article
               key={item.title}
-              className="relative min-w-0 overflow-hidden rounded-[clamp(1rem,1.6vw,1.75rem)] border border-[#9beaff]/20 bg-[linear-gradient(145deg,rgba(38,58,75,0.74),rgba(14,27,39,0.88))] px-[6%] py-[5%] shadow-[0_24px_65px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.04)]"
+              className="relative min-h-[clamp(9rem,25vh,18rem)] min-w-0 overflow-hidden rounded-[clamp(.8rem,1.6vw,1.75rem)] border border-[#9beaff]/20 bg-[linear-gradient(145deg,rgba(38,58,75,0.74),rgba(14,27,39,0.88))] px-[clamp(.7rem,6%,3rem)] py-[clamp(.7rem,2.4vh,2rem)] shadow-[0_24px_65px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.04)]"
             >
               <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.72),transparent)]" />
-              <span className="font-mono text-[clamp(.72rem,1vw,1.15rem)] font-bold tracking-[0.28em] text-[#18bfe3]">
+              <span className="font-mono text-[clamp(.6rem,min(1vw,1.6vh),1.15rem)] font-bold tracking-[0.28em] text-[#18bfe3]">
                 {item.number}
               </span>
-              <h2 className="mt-3 font-display text-[clamp(1.8rem,3vw,3.7rem)] font-bold leading-none">
+              <h2 className="mt-[clamp(.35rem,1vh,.75rem)] font-display text-[clamp(1.15rem,min(3vw,4.5vh),3.7rem)] font-bold leading-none">
                 {item.title}
               </h2>
-              <div className="mt-[5%] border-l-[3px] border-[#18bfe3] pl-[5%]">
-                <p className="relative z-10 max-w-[42rem] font-display text-[clamp(.9rem,1.42vw,1.72rem)] leading-[1.5] text-[#d0d8db]">
+              <div className="mt-[clamp(.55rem,2vh,1.5rem)] border-l-[clamp(1px,.22vw,3px)] border-[#18bfe3] pl-[clamp(.55rem,5%,1.5rem)]">
+                <p className="relative z-10 max-w-[42rem] font-display text-[clamp(.7rem,min(1.42vw,2.25vh),1.72rem)] leading-[1.4] text-[#d0d8db]">
                   {item.body}
                 </p>
               </div>
-              <span className="pointer-events-none absolute bottom-[-8%] right-[4%] font-display text-[clamp(8rem,16vw,18rem)] font-bold leading-none text-transparent [-webkit-text-stroke:1px_rgba(155,234,255,0.10)]">
+              <span className="pointer-events-none absolute bottom-[-8%] right-[4%] font-display text-[clamp(5rem,min(16vw,24vh),18rem)] font-bold leading-none text-transparent [-webkit-text-stroke:1px_rgba(155,234,255,0.10)]">
                 {item.letter}
               </span>
             </article>
           ))}
         </div>
 
-        <div className="relative mt-[2.2%] overflow-hidden rounded-2xl border border-[#9beaff]/20 bg-[#071426]/72 px-[3.3%] py-[1.8%] shadow-[0_18px_50px_rgba(0,0,0,0.2)] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-[#18bfe3]">
-          <p className="font-mono text-[clamp(.65rem,.9vw,1rem)] font-bold tracking-[0.25em] text-[#18bfe3]">
+        <div className="relative mt-[clamp(.6rem,1.7vh,1.35rem)] shrink-0 overflow-hidden rounded-[clamp(.75rem,1.3vw,1rem)] border border-[#9beaff]/20 bg-[#071426]/72 px-[clamp(.75rem,3.3%,2.5rem)] py-[clamp(.55rem,1.4vh,1.2rem)] shadow-[0_18px_50px_rgba(0,0,0,0.2)] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-[#18bfe3]">
+          <p className="font-mono text-[clamp(.58rem,min(.9vw,1.5vh),1rem)] font-bold tracking-[0.25em] text-[#18bfe3]">
             VIRAL FUSION
           </p>
-          <p className="mt-2 font-display text-[clamp(1rem,1.55vw,1.9rem)] font-semibold">
+          <p className="mt-[clamp(.25rem,.7vh,.5rem)] font-display text-[clamp(.72rem,min(1.55vw,2.3vh),1.9rem)] font-semibold leading-[1.3]">
             Productizing technology, trust, and public will into systemic reform.
           </p>
         </div>
@@ -1775,35 +1862,35 @@ function ArchitectureNarrativeSlide({
   onOpenVideo,
 }: ArchitectureNarrativeSlideProps) {
   return (
-    <section className="relative h-full w-full overflow-hidden text-[#f7f8f8]">
+    <section className="presentation-scroll relative h-full w-full overflow-y-auto text-[#f7f8f8] md:overflow-hidden">
 
-      <div className="relative mx-auto flex h-full w-[89%] flex-col py-[7%]">
-        <p className="font-display text-[clamp(.78rem,1.25vw,1.45rem)] font-medium tracking-[0.08em] text-[#aebcc2]">
+      <div className="relative mx-auto flex min-h-full w-[92%] flex-col py-[clamp(1rem,4vh,3rem)] md:h-full md:w-[89%] md:justify-center">
+        <p className="font-display text-[clamp(.7rem,min(1.25vw,2.2vh),1.45rem)] font-medium tracking-[0.08em] text-[#aebcc2]">
           {eyebrow}
         </p>
-        <h1 className="mt-2 max-w-[92%] font-display text-[clamp(2.25rem,4.6vw,5.6rem)] font-bold leading-[.96] tracking-[-0.045em]">
+        <h1 className="mt-[clamp(.25rem,1vh,.5rem)] max-w-[96%] font-display text-[clamp(1.65rem,min(4.6vw,7vh),5.6rem)] font-bold leading-[.96] tracking-[-0.045em]">
           {title}
         </h1>
-        <div className="mt-[2.8%] h-px w-full bg-white/15">
+        <div className="mt-[clamp(.6rem,2vh,1.8rem)] h-px w-full bg-white/15">
           <div className="h-px w-[12%] bg-[#18bfe3]" />
         </div>
 
-        <article className="relative mt-[3%] min-h-0 flex-1 overflow-hidden rounded-[clamp(1rem,1.7vw,1.9rem)] border border-[#9beaff]/20 bg-[linear-gradient(145deg,rgba(38,58,75,0.72),rgba(14,27,39,0.9))] px-[3.2%] py-[2.8%] shadow-[0_28px_75px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.04)]">
+        <article className="relative mt-[clamp(.7rem,2.2vh,1.6rem)] shrink-0 overflow-hidden rounded-[clamp(.85rem,1.7vw,1.9rem)] border border-[#9beaff]/20 bg-[linear-gradient(145deg,rgba(38,58,75,0.72),rgba(14,27,39,0.9))] px-[clamp(.8rem,3.2%,2.5rem)] py-[clamp(.75rem,2.2vh,2rem)] shadow-[0_28px_75px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.04)]">
           <div className="pointer-events-none absolute inset-x-16 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.72),transparent)]" />
-          <h2 className="font-display text-[clamp(1.15rem,1.8vw,2.2rem)] font-semibold text-[#eaf2f4]">
+          <h2 className="font-display text-[clamp(1rem,min(1.8vw,3vh),2.2rem)] font-semibold leading-tight text-[#eaf2f4]">
             {sectionTitle}
           </h2>
 
-          <div className={`mt-[2.3%] grid gap-3 ${points.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
+          <div className="mt-[clamp(.55rem,1.7vh,1.25rem)] divide-y divide-white/10 border-y border-white/10">
             {points.map((point, index) => (
               <div
                 key={point}
-                className="relative min-w-0 border-l border-[#18bfe3]/55 bg-[#071426]/45 px-[5%] py-[4%]"
+                className="grid min-w-0 grid-cols-[clamp(2.4rem,5vw,4.5rem)_1fr] items-start gap-[clamp(.5rem,1.5vw,1.4rem)] py-[clamp(.55rem,1.35vh,1rem)]"
               >
-                <span className="font-mono text-[clamp(.62rem,.8vw,.9rem)] font-bold tracking-[0.24em] text-[#18bfe3]">
+                <span className="font-mono text-[clamp(.62rem,min(.9vw,1.6vh),1rem)] font-bold tracking-[0.2em] text-[#18bfe3]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <p className="mt-3 font-display text-[clamp(.8rem,1.24vw,1.5rem)] leading-[1.38] text-[#d2dde1]">
+                <p className="font-display text-[clamp(.74rem,min(1.18vw,1.95vh),1.4rem)] leading-[1.3] text-[#d2dde1]">
                   {point}
                 </p>
               </div>
@@ -1811,27 +1898,29 @@ function ArchitectureNarrativeSlide({
           </div>
         </article>
 
-        <div className="relative mt-[2%] overflow-hidden rounded-2xl border border-[#9beaff]/20 bg-[#071426]/78 px-[3.2%] py-[1.8%] shadow-[0_18px_50px_rgba(0,0,0,0.2)] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-[#18bfe3]">
-          <p className="font-mono text-[clamp(.62rem,.8vw,.9rem)] font-bold tracking-[0.22em] text-[#18bfe3]">
+        {videoEmbedUrl && onOpenVideo ? (
+          <div className="mt-[clamp(.6rem,1.5vh,1.15rem)] flex shrink-0 justify-end">
+            <button
+              type="button"
+              aria-label="Play strategic alliance video"
+              onClick={() => onOpenVideo(videoEmbedUrl)}
+              onKeyDown={(event) => event.stopPropagation()}
+              className="flex h-11 items-center gap-2 rounded-full border border-[#9beaff]/45 bg-[#071426]/90 px-4 text-white shadow-[0_14px_34px_rgba(0,0,0,0.34)] backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-[#9beaff] focus:outline-none focus:ring-2 focus:ring-[#9beaff]"
+            >
+              <Play className="h-4 w-4" fill="currentColor" strokeWidth={1.8} />
+              <span className="text-xs font-semibold uppercase tracking-[0.15em]">Play Video</span>
+            </button>
+          </div>
+        ) : null}
+
+        <div className="relative mt-[clamp(.65rem,1.7vh,1.35rem)] shrink-0 overflow-hidden rounded-[clamp(.8rem,1.3vw,1rem)] border border-[#9beaff]/20 bg-[#071426]/78 px-[clamp(.8rem,3.2%,2.5rem)] py-[clamp(.65rem,1.5vh,1.25rem)] shadow-[0_18px_50px_rgba(0,0,0,0.2)] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-[#18bfe3]">
+          <p className="font-mono text-[clamp(.58rem,min(.8vw,1.4vh),.9rem)] font-bold tracking-[0.22em] text-[#18bfe3]">
             {takeawayLabel.toUpperCase()}
           </p>
-          <p className="mt-2 font-display text-[clamp(.82rem,1.22vw,1.48rem)] leading-[1.38] text-[#e2e9eb]">
+          <p className="mt-[clamp(.3rem,.7vh,.5rem)] font-display text-[clamp(.74rem,min(1.22vw,2vh),1.48rem)] leading-[1.32] text-[#e2e9eb]">
             {takeaway}
           </p>
         </div>
-
-        {videoEmbedUrl && onOpenVideo ? (
-          <button
-            type="button"
-            aria-label="Play strategic alliance video"
-            onClick={() => onOpenVideo(videoEmbedUrl)}
-            onKeyDown={(event) => event.stopPropagation()}
-            className="absolute bottom-[6.8%] right-0 z-20 flex h-11 items-center gap-2 rounded-full border border-[#9beaff]/45 bg-[#071426]/90 px-4 text-white shadow-[0_14px_34px_rgba(0,0,0,0.34)] backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-[#9beaff] focus:outline-none focus:ring-2 focus:ring-[#9beaff]"
-          >
-            <Play className="h-4 w-4" fill="currentColor" strokeWidth={1.8} />
-            <span className="text-xs font-semibold uppercase tracking-[0.15em]">Play Video</span>
-          </button>
-        ) : null}
       </div>
     </section>
   );
@@ -2653,6 +2742,8 @@ export function LibraryPage() {
             <IntroVideoSlide />
           ) : isOperatingSystemSlide ? (
             <SectionTitleSlide title="Operating System" />
+          ) : isMainDeckImageSlide && mainDeckSlideIndex === 0 ? (
+            <ViralFusionEarthSlide />
           ) : isMainDeckImageSlide && mainDeckSlideIndex === 1 ? (
             <FounderQuoteSlide />
           ) : isMainDeckImageSlide && mainDeckSlideIndex === 2 ? (
