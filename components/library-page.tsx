@@ -1569,6 +1569,14 @@ function ViralFusionEarthSlide() {
     const video = videoRef.current;
     if (!video) return;
 
+    video.currentTime = 0;
+    void video.play().catch(() => undefined);
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
     let animationFrame = 0;
     const slowdownWindowSeconds = 3;
 
@@ -1634,10 +1642,9 @@ function ViralFusionEarthSlide() {
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,7,15,0.18),rgba(0,8,18,0.06)_42%,rgba(0,7,15,0.42))]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,transparent_16%,rgba(0,5,12,0.2)_68%,rgba(0,4,10,0.48)_100%)]" />
 
-      <div className="relative z-10 flex h-full w-full items-center justify-center px-[7%] text-center">
+      <div className="relative z-10 flex h-full w-full items-center justify-start pl-[5%] pr-[7%] text-left">
         <header className="drop-shadow-[0_8px_32px_rgba(0,0,0,0.72)]">
           <h1 className="font-display text-[clamp(3.2rem,7vw,7.8rem)] font-black leading-[0.92] tracking-[-0.055em] text-white">
-            <span className="mr-[0.18em] text-[#01c7f3]">V</span>
             Viral Fusion
           </h1>
           <p className="mt-6 text-[clamp(1.05rem,2vw,2.15rem)] font-medium tracking-[0.015em] text-[#e7f7fb]">
@@ -1898,8 +1905,17 @@ function ArchitectureNarrativeSlide({
           </div>
         </article>
 
+        <div className="relative mt-[clamp(.7rem,2.2vh,1.6rem)] shrink-0 overflow-hidden rounded-[clamp(.8rem,1.3vw,1rem)] border border-[#9beaff]/20 bg-[#071426]/78 px-[clamp(.8rem,3.2%,2.5rem)] py-[clamp(.65rem,1.5vh,1.25rem)] shadow-[0_18px_50px_rgba(0,0,0,0.2)] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-[#18bfe3]">
+          <p className="font-mono text-[clamp(.58rem,min(.8vw,1.4vh),.9rem)] font-bold tracking-[0.22em] text-[#18bfe3]">
+            {takeawayLabel.toUpperCase()}
+          </p>
+          <p className="mt-[clamp(.3rem,.7vh,.5rem)] font-display text-[clamp(.74rem,min(1.22vw,2vh),1.48rem)] leading-[1.32] text-[#e2e9eb]">
+            {takeaway}
+          </p>
+        </div>
+
         {videoEmbedUrl && onOpenVideo ? (
-          <div className="mt-[clamp(.6rem,1.5vh,1.15rem)] flex shrink-0 justify-end">
+          <div className="mt-[clamp(.6rem,1.5vh,1.15rem)] flex shrink-0 justify-start">
             <button
               type="button"
               aria-label="Play strategic alliance video"
@@ -1912,15 +1928,6 @@ function ArchitectureNarrativeSlide({
             </button>
           </div>
         ) : null}
-
-        <div className="relative mt-[clamp(.65rem,1.7vh,1.35rem)] shrink-0 overflow-hidden rounded-[clamp(.8rem,1.3vw,1rem)] border border-[#9beaff]/20 bg-[#071426]/78 px-[clamp(.8rem,3.2%,2.5rem)] py-[clamp(.65rem,1.5vh,1.25rem)] shadow-[0_18px_50px_rgba(0,0,0,0.2)] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-[#18bfe3]">
-          <p className="font-mono text-[clamp(.58rem,min(.8vw,1.4vh),.9rem)] font-bold tracking-[0.22em] text-[#18bfe3]">
-            {takeawayLabel.toUpperCase()}
-          </p>
-          <p className="mt-[clamp(.3rem,.7vh,.5rem)] font-display text-[clamp(.74rem,min(1.22vw,2vh),1.48rem)] leading-[1.32] text-[#e2e9eb]">
-            {takeaway}
-          </p>
-        </div>
       </div>
     </section>
   );
