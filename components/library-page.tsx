@@ -110,11 +110,11 @@ const deckPages: Deck[][] = [
 ];
 
 const deckPageHashes: Record<string, number> = {
-  "#problems": 13,
-  "#decks": 13,
-  "#presentation": 21,
-  "#global-opportunities": 21,
-  "#strategymap": 35,
+  "#problems": 11,
+  "#decks": 11,
+  "#presentation": 19,
+  "#global-opportunities": 19,
+  "#strategymap": 33,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -167,7 +167,6 @@ const foundingFathers: FoundingFather[] = [
 
 const openingQuestions = [
   "It’s challenging to feel hopeful about the future.",
-  "\"The Goal Isn't to Catch Fraud Faster. The Goal Is to Make Fraud Physically Impossible.\"",
   "A Republic Without Absolute Accountability Is Already in Decay.",
 ] as const;
 
@@ -462,92 +461,6 @@ function QuestionSlide({
   );
 }
 
-function FraudGoalSlide() {
-  return (
-    <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
-      <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
-        <article className="relative overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_48%,rgba(14,27,39,0.98))] px-8 py-10 shadow-[0_34px_90px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-12 sm:py-12">
-          <div className="absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff]/85 to-transparent" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(1,199,243,0.17),transparent_42%),linear-gradient(115deg,rgba(255,255,255,0.045),transparent_28%,transparent_72%,rgba(1,199,243,0.04))]" />
-          <div className="relative text-center">
-            <h1 className="font-display text-[2rem] leading-[1.12] text-[#b9f2ff] sm:text-[2.65rem]">
-              The Goal Isn’t to Catch Fraud Faster
-            </h1>
-            <p className="mt-8 text-[1.25rem] leading-relaxed text-[#d8edf6] sm:text-[1.65rem]">
-              <span aria-hidden="true">• </span>
-              The goal is to make fraud physically impossible.
-            </p>
-          </div>
-        </article>
-      </div>
-    </section>
-  );
-}
-
-function FoundingQuestionSlide() {
-  const [showNotes, setShowNotes] = useState(false);
-
-  return (
-    <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10 text-center">
-      <header className="mx-auto max-w-5xl">
-        <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
-          250 Years
-        </h1>
-        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
-        <p className="mt-8 font-display text-[2rem] leading-[1.12] text-[#b9f2ff] sm:text-[2.65rem] lg:text-[3.15rem]">
-          Does ‘We the People’ still rule?
-        </p>
-      </header>
-
-      <button
-        type="button"
-        aria-label={showNotes ? "Hide 250 Years notes" : "Show 250 Years notes"}
-        aria-expanded={showNotes}
-        title={showNotes ? "Hide notes" : "Show notes"}
-        onClick={() => setShowNotes((value) => !value)}
-        className="fixed right-6 top-6 z-30 flex h-11 items-center gap-2 rounded-full border border-[#01c7f3]/60 bg-[#0f1d2a]/88 px-4 text-[#b9f2ff] shadow-[0_14px_34px_rgba(0,0,0,0.28)] transition-all hover:-translate-y-0.5 hover:border-[#01c7f3] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80 md:right-8 md:top-8"
-      >
-        {showNotes ? <X size={18} strokeWidth={2.2} /> : <NotebookText size={18} strokeWidth={2.1} />}
-        <span className="text-[0.72rem] font-semibold uppercase tracking-[0.16em]">
-          Notes
-        </span>
-      </button>
-
-      {showNotes ? (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#050b12]/64 px-5 py-8 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          aria-label="250 Years notes"
-          onClick={() => setShowNotes(false)}
-        >
-          <div
-            className="relative max-h-[82vh] w-full max-w-4xl overflow-hidden rounded-[1.4rem] border border-[#01c7f3]/55 bg-[#0d1823] text-left shadow-[0_34px_100px_rgba(0,0,0,0.48)]"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
-              <p className="text-sm text-[#d8edf6]/72">250 Years notes</p>
-              <button
-                type="button"
-                aria-label="Close 250 Years notes"
-                onClick={() => setShowNotes(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d8edf6] transition-colors hover:border-[#01c7f3]/60 hover:text-[#b9f2ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80"
-              >
-                <X size={17} strokeWidth={2.2} />
-              </button>
-            </div>
-            <div className="max-h-[calc(82vh-4.5rem)] overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
-              <p className="text-[1rem] leading-7 text-[#d8edf6] sm:text-[1.12rem] sm:leading-8">
-                But if the architects of that experiment looked at our captured institutions and fractured systems today... they wouldn’t ask how long we&apos;ve lasted. They would ask a much harder question: Does &apos;We the People&apos; still rule?
-              </p>
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </section>
-  );
-}
-
 function YearVideoSlide() {
   const videoFrameRef = useRef<HTMLIFrameElement | null>(null);
   const introAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -739,7 +652,7 @@ function YearVideoSlide() {
 
       <audio
         ref={introAudioRef}
-        src="/slide-16-intro.mp3"
+        src="/voices/2010_1.mp3"
         preload="auto"
         autoPlay
         onEnded={startVideo}
@@ -752,7 +665,7 @@ function YearVideoSlide() {
       />
       <audio
         ref={outroAudioRef}
-        src="/slide-16-outro.mp3"
+        src="/voices/2010_2.mp3"
         preload="auto"
         onEnded={() => setIsNarrationPlaying(false)}
         onPause={() => setIsNarrationPlaying(false)}
@@ -776,7 +689,7 @@ function TicMicPieSlide() {
     }
 
     const animationDelayMs = 1_800;
-    const animationDurationMs = 18_000;
+    const animationDurationMs = 14_600;
     const startedAt = window.performance.now();
     let animationFrame = 0;
 
@@ -822,6 +735,10 @@ function TicMicPieSlide() {
 
   return (
     <section className="relative flex h-full items-center justify-center overflow-hidden px-[5%] py-8">
+      <BackgroundVoiceoverButton
+        src="/voices/ThreeComplexes.mp3"
+        label="Three Complexes voiceover"
+      />
       <div className="pointer-events-none absolute left-[9%] top-[30%] h-[25rem] w-[25rem] -translate-y-1/2 rounded-full bg-[#2ea66b]/12 blur-[110px]" />
       <div className="pointer-events-none absolute left-[27%] top-[70%] h-[25rem] w-[25rem] -translate-y-1/2 rounded-full bg-[#3f6fc8]/14 blur-[110px]" />
       <div className="pointer-events-none absolute right-[12%] top-1/2 h-[27rem] w-[27rem] -translate-y-1/2 rounded-full bg-[#c0392b]/12 blur-[110px]" />
@@ -1095,7 +1012,7 @@ function ArchitecturePillarsSlide() {
   return (
     <section className="relative flex h-full items-center justify-center overflow-hidden px-[4%] py-7">
       <BackgroundVoiceoverButton
-        src="/slide-20-voiceover.mp3"
+        src="/voices/FivePillars.mp3"
         label="Five architecture pillars voiceover"
       />
 
@@ -1469,7 +1386,7 @@ function BlackSwanSlide() {
         className="h-full w-full border border-white/30 object-fill"
       />
       <BackgroundVoiceoverButton
-        src="/swanone.mp3"
+        src="/voices/blackswan.mp3"
         label="California Black Swan voiceover"
       />
     </section>
@@ -1487,7 +1404,7 @@ function IpoStrategySlide() {
   return (
     <section className="flex h-full flex-col items-center justify-center px-[5%] py-6 text-center">
       <BackgroundVoiceoverButton
-        src="/slide-32-voiceover.mp3"
+        src="/voices/TheBlueprint.mp3"
         label="The Blueprint voiceover"
       />
       <header className="mx-auto max-w-6xl">
@@ -2071,6 +1988,10 @@ function PromisePage() {
 
   return (
     <section className="flex min-h-full flex-col justify-center py-6">
+      <BackgroundVoiceoverButton
+        src="/voices/ThePromise.mp3"
+        label="The Promise voiceover"
+      />
       <header className="mx-auto max-w-4xl text-center">
         <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
           The Promise
@@ -2500,7 +2421,7 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const operatingSystemPage = 21;
+  const operatingSystemPage = 19;
   const mainDeckStartPage = operatingSystemPage + 1;
   const howPage = mainDeckStartPage + mainDeckSlides.length;
   const project2026Page = howPage + 1;
@@ -2512,16 +2433,16 @@ export function LibraryPage() {
   const mainDeckSlideIndex = currentPage - mainDeckStartPage;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
   const totalPages = preCtaStartPage + preCtaSlides.length;
-  const isFullScreenStatementSlide = currentPage === 8 || currentPage === 9;
-  const isManifestoSlide = currentPage === 10;
-  const isRelocatedAgendaSlide = currentPage === 12;
-  const isTicMicPieSlide = currentPage === 14;
-  const isYearVideoSlide = currentPage === 15;
-  const isInsertedTechnocratsSlide = currentPage === 16;
-  const isVisionRyanVideoSlide = currentPage === 17;
-  const isTechnocratsSlide = currentPage === 18;
-  const isArchitecturePillarsSlide = currentPage === 19;
-  const isIntroVideoSlide = currentPage === 20;
+  const isFullScreenStatementSlide = currentPage === 6 || currentPage === 7;
+  const isManifestoSlide = currentPage === 8;
+  const isRelocatedAgendaSlide = currentPage === 10;
+  const isTicMicPieSlide = currentPage === 12;
+  const isYearVideoSlide = currentPage === 13;
+  const isInsertedTechnocratsSlide = currentPage === 14;
+  const isVisionRyanVideoSlide = currentPage === 15;
+  const isTechnocratsSlide = currentPage === 16;
+  const isArchitecturePillarsSlide = currentPage === 17;
+  const isIntroVideoSlide = currentPage === 18;
   const isOperatingSystemSlide = currentPage === operatingSystemPage;
   const isMainDeckImageSlide =
     mainDeckSlideIndex >= 0 && mainDeckSlideIndex < mainDeckSlides.length;
@@ -2533,9 +2454,9 @@ export function LibraryPage() {
   const isPreCtaSlide =
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
-    currentPage <= 7 ||
+    currentPage <= 5 ||
     isFullScreenStatementSlide ||
-    (currentPage >= 10 && currentPage <= 11) ||
+    (currentPage >= 8 && currentPage <= 9) ||
     isRelocatedAgendaSlide ||
     isTicMicPieSlide ||
     isYearVideoSlide ||
@@ -2679,33 +2600,39 @@ export function LibraryPage() {
           }
         >
           {currentPage === 0 ? (
-            <SectionTitleSlide title="1776 - 2026" />
+            <SectionTitleSlide
+              title="1776 - 2026"
+              introVoiceoverSrc="/voices/slide1.mp3"
+            />
           ) : currentPage === 1 ? (
-            <FoundingQuestionSlide />
+            <SectionTitleSlide
+              title="DOGE"
+              introVoiceoverSrc="/voices/Slide3.mp3"
+            />
           ) : currentPage === 2 ? (
-            <SectionTitleSlide title="DOGE" />
+            <QuestionSlide question={openingQuestions[1]} />
           ) : currentPage === 3 ? (
-            <FraudGoalSlide />
-          ) : currentPage === 4 ? (
-            <QuestionSlide question={openingQuestions[2]} />
-          ) : currentPage === 5 ? (
             <FullScreenFlagSlide src="/flag1.webm" />
-          ) : currentPage === 6 ? (
+          ) : currentPage === 4 ? (
             <QuestionSlide question={openingQuestions[0]} />
-          ) : currentPage === 7 ? (
+          ) : currentPage === 5 ? (
             <SectionTitleSlide title="The Children" />
-          ) : currentPage === 8 ? (
+          ) : currentPage === 6 ? (
             <GirlPage />
-          ) : currentPage === 9 ? (
+          ) : currentPage === 7 ? (
             <MagaPage />
-          ) : currentPage === 10 ? (
+          ) : currentPage === 8 ? (
             <ManifestoStatementsPage />
-          ) : currentPage === 11 ? (
+          ) : currentPage === 9 ? (
             <PromisePage />
-          ) : currentPage === 12 ? (
+          ) : currentPage === 10 ? (
             <AgendaPage />
-          ) : currentPage === 13 ? (
+          ) : currentPage === 11 ? (
             <section className="flex min-h-full flex-col justify-center py-8">
+              <BackgroundVoiceoverButton
+                src="/voices/Problems.mp3"
+                label="Problems voiceover"
+              />
               <header className="mx-auto max-w-3xl text-center">
                 <h1 className={`${slideTitleTypography} text-ink`}>
                   Problems
@@ -2724,28 +2651,28 @@ export function LibraryPage() {
                 ))}
               </section>
             </section>
-          ) : currentPage === 14 ? (
+          ) : currentPage === 12 ? (
             <TicMicPieSlide />
-          ) : currentPage === 15 ? (
+          ) : currentPage === 13 ? (
             <YearVideoSlide />
-          ) : currentPage === 16 ? (
+          ) : currentPage === 14 ? (
             <TechnocratsSlide
               figures={post2010TechnocratFigures}
               frameworkSequence
-              voiceoverSrc="/technocrat-mandate-voiceover.mp3"
+              voiceoverSrc="/voices/Technocrats_01.mp3"
             />
-          ) : currentPage === 17 ? (
+          ) : currentPage === 15 ? (
             <VisionRyanVideoSlide />
-          ) : currentPage === 18 ? (
+          ) : currentPage === 16 ? (
             <TechnocratsSlide
               figures={elonFocusTechnocratFigures}
               elonFocusSequence
               voiceoverSrc="/slide-19-voiceover.mp3"
               voiceoverDelayMs={3000}
             />
-          ) : currentPage === 19 ? (
+          ) : currentPage === 17 ? (
             <ArchitecturePillarsSlide />
-          ) : currentPage === 20 ? (
+          ) : currentPage === 18 ? (
             <IntroVideoSlide />
           ) : isOperatingSystemSlide ? (
             <SectionTitleSlide title="Operating System" />
