@@ -470,7 +470,7 @@ function QuestionSlide({
         <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
           <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
             <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
-              <p className="font-display text-[1.6rem] leading-[1.16] text-[#f4f2ec] sm:text-[2.2rem] lg:text-[2.5rem]">
+              <p className="font-display text-[2.2rem] font-semibold leading-[1.1] text-[#f4f2ec] sm:text-[3.1rem] lg:text-[3.7rem]">
                 {question}
               </p>
               <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
@@ -1305,6 +1305,10 @@ function MuskAllianceVideoSlide() {
             </h1>
             <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
 
+            <p className="mt-6 max-w-[58rem] text-center font-display text-[1.35rem] font-bold uppercase leading-tight tracking-wide text-white sm:text-[1.85rem] lg:text-[2.15rem]">
+              Control or be Controlled
+            </p>
+
             <div className="mt-7 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
               <div className="aspect-video">
                 <iframe
@@ -1317,10 +1321,6 @@ function MuskAllianceVideoSlide() {
                 />
               </div>
             </div>
-
-            <p className="mt-6 max-w-[58rem] text-center font-display text-[1.35rem] font-bold uppercase leading-tight tracking-wide text-white sm:text-[1.85rem] lg:text-[2.15rem]">
-              Control or be Controlled
-            </p>
           </div>
         </article>
       </div>
