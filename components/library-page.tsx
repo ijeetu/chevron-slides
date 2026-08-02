@@ -12,7 +12,6 @@ import {
   ChevronRight,
   Cpu,
   Leaf,
-  NotebookText,
   Orbit,
   Pause,
   Play,
@@ -192,6 +191,23 @@ const promiseNotes = [
   "We aren't here to dissect the past. We are here to execute the blueprint that changes the world.",
 ] as const;
 
+const problemsNotes = [
+  "Problems are rarely accidental.",
+  "The friction points most people experience daily are intentionally designed—engineered to keep the majority distracted, vulnerable, and weak. While everyday populations remain occupied by these baseline distractions, a higher tier of disruption and corruption is manufactured globally: funding wars, toppling governments, and rewriting maps.",
+  "Let's take a look at both layers of this architecture.",
+] as const;
+
+const livingWithPurposeNotes = [
+  "Roosevelt believed in work worth doing. For us, there is no greater work than standing up to the tyranny running this country. Stop waiting for change. It is time to deploy the talents God gave us and build the future ourselves. Today, you will see what is possible. Through your platform. Through the power of a podcast. Through our technology, our strategy, and our intellectual property. By connecting the dots and building synergies, we will drive real action—and deliver a level of change the world has never seen.",
+] as const;
+
+const architecturePillarsNotes = [
+  "To spark a historic American revival, we must stop playing by their rules and rewrite the game entirely. We cannot look to the architects of a broken system to fix it. We must step outside their walls and take command. And we know exactly how to draw the line.",
+  "Look at the board. Technology. Connectivity. Sustainability. Media Rails. And a Powerful Ecosystem. To the passive observer, these are mere words. To us, they are weaponized into action. Because action is the ultimate currency of freedom.",
+  "The era of idle talk is finished. The blueprint is live. We are deploying technology, integrating infrastructure, and laying down entirely new rails to claim our voice. This is how we forge the most formidable movement in American history. A global network fueled by pure execution. Built so that the actions of everyday patriots permanently lock in their sovereignty, their freedoms, and their future.",
+  "We are bringing absolute accountability back to the American people—and in doing so, we will rescue our culture and forever transform this nation.",
+] as const;
+
 const technocratFigures: TechnocratFigure[] = [
   {
     name: "Peter Thiel",
@@ -345,7 +361,7 @@ function DeckCard({
         <div className="mt-auto w-full pt-6">
           <div className="flex items-center justify-between rounded-[1.25rem] border border-white/70 bg-white/55 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-sm transition-all duration-300 group-hover:bg-white/72">
             <span className="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-graphite">
-              {deck.videoEmbedUrl ? "OPEN VIDEO" : "OPEN DECK"}
+              Watch Video
             </span>
             <div className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 bg-white/80 text-ink transition-transform duration-300 group-hover:translate-x-0.5">
               <ArrowRight className="h-4 w-4" strokeWidth={2.1} />
@@ -441,9 +457,43 @@ function FoundersCtaCard({ statement }: { statement: ManifestoStatement }) {
 
 function QuestionSlide({
   question,
+  videoEmbedSrc,
+  videoTitle,
 }: {
   question: ReactNode;
+  videoEmbedSrc?: string;
+  videoTitle?: string;
 }) {
+  if (videoEmbedSrc) {
+    return (
+      <section className="relative flex h-full items-center justify-center px-[5%]">
+        <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
+          <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
+            <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
+              <p className="font-display text-[1.6rem] leading-[1.16] text-[#f4f2ec] sm:text-[2.2rem] lg:text-[2.5rem]">
+                {question}
+              </p>
+              <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
+
+              <div className="mt-7 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
+                <div className="aspect-video">
+                  <iframe
+                    src={videoEmbedSrc}
+                    title={videoTitle ?? "Video"}
+                    className="h-full w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="relative flex min-h-full flex-col items-center justify-center px-[5%] py-10">
       <div className="mx-auto flex w-full max-w-6xl flex-col justify-center">
@@ -1010,7 +1060,7 @@ function TechnocratsSlide({
 
 function ArchitecturePillarsSlide() {
   return (
-    <section className="relative flex h-full items-center justify-center overflow-hidden px-[4%] py-7">
+    <section className="relative flex h-full flex-col overflow-hidden px-[4%] py-6">
       <BackgroundVoiceoverButton
         src="/voices/FivePillars.mp3"
         label="Five architecture pillars voiceover"
@@ -1019,60 +1069,74 @@ function ArchitecturePillarsSlide() {
       <div className="pointer-events-none absolute left-[8%] top-[18%] h-72 w-72 rounded-full bg-[#01c7f3]/10 blur-[110px]" />
       <div className="pointer-events-none absolute bottom-[8%] right-[8%] h-80 w-80 rounded-full bg-[#e05c4e]/9 blur-[120px]" />
 
-      <div className="relative mx-auto flex h-full w-full max-w-7xl flex-col justify-center">
-        <header className="text-center">
-          <h1 className="font-display text-[2.4rem] font-semibold leading-none text-[#f4f2ec] sm:text-[3.15rem] lg:text-[3.8rem]">
-            Five pillars. Hard-wired to action.
-          </h1>
-        </header>
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
+        <div className="relative mx-auto w-full max-w-7xl">
+          <header className="text-center">
+            <h1 className="font-display text-[2.4rem] font-semibold leading-none text-[#f4f2ec] sm:text-[3.15rem] lg:text-[3.8rem]">
+              Five pillars. Hard-wired to action.
+            </h1>
+          </header>
 
-        <div className="relative mx-auto mt-10 w-full max-w-6xl">
-          <div className="grid grid-cols-5 gap-3 sm:gap-5">
-            {architecturePillars.map(({ label, Icon, color }, index) => (
-              <div
-                key={label}
-                className="architecture-pillar flex min-w-0 flex-col items-center text-center"
-                style={{ animationDelay: `${0.35 + index * 0.18}s` }}
-              >
+          <div className="relative mx-auto mt-10 w-full max-w-6xl">
+            <div className="grid grid-cols-5 gap-3 sm:gap-5">
+              {architecturePillars.map(({ label, Icon, color }, index) => (
                 <div
-                  className="flex h-16 w-16 items-center justify-center rounded-full border bg-[#0d1b28]/92 shadow-[0_18px_45px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.08)] sm:h-20 sm:w-20"
-                  style={{ borderColor: `${color}88`, color }}
+                  key={label}
+                  className="architecture-pillar flex min-w-0 flex-col items-center text-center"
+                  style={{ animationDelay: `${0.35 + index * 0.18}s` }}
                 >
-                  <Icon className="h-7 w-7 sm:h-9 sm:w-9" strokeWidth={1.65} />
+                  <div
+                    className="flex h-16 w-16 items-center justify-center rounded-full border bg-[#0d1b28]/92 shadow-[0_18px_45px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.08)] sm:h-20 sm:w-20"
+                    style={{ borderColor: `${color}88`, color }}
+                  >
+                    <Icon className="h-7 w-7 sm:h-9 sm:w-9" strokeWidth={1.65} />
+                  </div>
+                  <p className="mt-4 min-h-12 font-display text-[0.9rem] font-semibold leading-tight text-[#edf8fb] sm:text-[1.12rem] lg:text-[1.28rem]">
+                    {label}
+                  </p>
+                  <div
+                    className="mt-3 h-16 w-px bg-gradient-to-b from-current to-transparent sm:h-20"
+                    style={{ color }}
+                  />
                 </div>
-                <p className="mt-4 min-h-12 font-display text-[0.9rem] font-semibold leading-tight text-[#edf8fb] sm:text-[1.12rem] lg:text-[1.28rem]">
-                  {label}
-                </p>
-                <div
-                  className="mt-3 h-16 w-px bg-gradient-to-b from-current to-transparent sm:h-20"
-                  style={{ color }}
-                />
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          <div className="architecture-action-rail relative -mt-px overflow-hidden rounded-[1.5rem] border border-[#01c7f3]/45 bg-[linear-gradient(90deg,rgba(11,25,37,0.96),rgba(30,65,84,0.98),rgba(11,25,37,0.96))] px-6 py-5 text-center shadow-[0_24px_70px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]">
-            <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff] to-transparent" />
-            <p className="font-display text-[2.2rem] font-black tracking-[0.2em] text-[#b9f2ff] sm:text-[3rem]">
-              ACTION
-            </p>
-            <p className="mt-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#9eb9c7] sm:text-[0.76rem]">
-              The only metric that generates true value
-            </p>
-          </div>
+            <div className="architecture-action-rail relative -mt-px overflow-hidden rounded-[1.5rem] border border-[#01c7f3]/45 bg-[linear-gradient(90deg,rgba(11,25,37,0.96),rgba(30,65,84,0.98),rgba(11,25,37,0.96))] px-6 py-5 text-center shadow-[0_24px_70px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]">
+              <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-[#9beaff] to-transparent" />
+              <p className="font-display text-[2.2rem] font-black tracking-[0.2em] text-[#b9f2ff] sm:text-[3rem]">
+                ACTION
+              </p>
+              <p className="mt-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#9eb9c7] sm:text-[0.76rem]">
+                The only metric that generates true value
+              </p>
+            </div>
 
-          <div className="mt-5 flex items-center justify-center gap-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#8fa8bd] sm:gap-5 sm:text-[0.76rem]">
-            <span>Deploy</span>
-            <span className="text-[#01c7f3]">→</span>
-            <span>Integrate</span>
-            <span className="text-[#01c7f3]">→</span>
-            <span>Build new rails</span>
-            <span className="text-[#01c7f3]">→</span>
-            <span>Drive global change</span>
+            <div className="mt-5 flex items-center justify-center gap-3 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#8fa8bd] sm:gap-5 sm:text-[0.76rem]">
+              <span>Deploy</span>
+              <span className="text-[#01c7f3]">→</span>
+              <span>Integrate</span>
+              <span className="text-[#01c7f3]">→</span>
+              <span>Build new rails</span>
+              <span className="text-[#01c7f3]">→</span>
+              <span>Drive global change</span>
+            </div>
           </div>
         </div>
       </div>
 
+      <div className="relative mx-auto w-full max-w-7xl shrink-0 pb-1">
+        <div className="mx-auto max-w-4xl space-y-1.5 rounded-[1.1rem] border border-white/10 bg-[#0f1d2a]/55 px-5 py-3">
+          {architecturePillarsNotes.map((note) => (
+            <p
+              key={note}
+              className="text-[0.78rem] leading-snug text-[#d8edf6]/80 sm:text-[0.82rem]"
+            >
+              {note}
+            </p>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
@@ -1230,14 +1294,14 @@ function IntroVideoSlide() {
   );
 }
 
-function VisionRyanVideoSlide() {
+function MuskAllianceVideoSlide() {
   return (
     <section className="relative flex h-full items-center justify-center px-[5%]">
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
           <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
-            <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
-              Control the Future?
+            <h1 className="font-display text-[2.1rem] font-semibold leading-[1.08] text-[#f4f2ec] sm:text-[2.85rem] lg:text-[3.35rem]">
+              {preCtaSlides[2]}
             </h1>
             <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
 
@@ -1245,7 +1309,7 @@ function VisionRyanVideoSlide() {
               <div className="aspect-video">
                 <iframe
                   src="https://player.vimeo.com/video/1208359437?h=07eacda6d0&badge=0&autopause=0&player_id=0&app_id=58479"
-                  title="VisionRyan"
+                  title="Strategic Alliance"
                   className="h-full w-full"
                   allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
@@ -1253,8 +1317,130 @@ function VisionRyanVideoSlide() {
                 />
               </div>
             </div>
+
+            <p className="mt-6 max-w-[58rem] text-center font-display text-[1.35rem] font-bold uppercase leading-tight tracking-wide text-white sm:text-[1.85rem] lg:text-[2.15rem]">
+              Control or be Controlled
+            </p>
           </div>
         </article>
+      </div>
+    </section>
+  );
+}
+
+function GeorgeSorosVideoSlide() {
+  return (
+    <section className="relative flex h-full items-center justify-center px-[5%]">
+      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
+        <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
+          <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
+            <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
+              George Soros
+            </h1>
+            <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
+
+            <div className="mt-7 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/vsVTsB_SaGQ"
+                  title="George Soros"
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+
+            <p className="mt-6 max-w-[58rem] text-center font-display text-[1.35rem] font-bold uppercase leading-tight tracking-wide text-white sm:text-[1.85rem] lg:text-[2.15rem]">
+              &ldquo;He needs to be stopped now.&rdquo;
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function LivingWithPurposeSlide() {
+  return (
+    <section className="relative flex h-full flex-col overflow-hidden px-[6%] py-6">
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1.2fr_0.95fr]">
+          <div className="relative">
+            <div className="flex items-center gap-3">
+              <span className="h-px w-8 bg-[#01c7f3]/70" />
+              <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[#8fa8bd]">
+                Call to Action
+              </p>
+            </div>
+
+            <h1 className={`${slideTitleTypography} mt-4 text-[#f4f2ec]`}>
+              Living With
+              <br />
+              Purpose
+            </h1>
+
+            <div className="relative mt-10 max-w-xl">
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -left-3 -top-10 select-none font-display text-[8rem] font-black leading-none text-[#01c7f3]/[0.08]"
+              >
+                &ldquo;
+              </span>
+              <blockquote className="relative border-l-2 border-[#01c7f3]/40 pl-6">
+                <p className="font-display text-[1.5rem] font-medium leading-[1.32] text-[#d8edf6] sm:text-[1.8rem]">
+                  Far and away the best{" "}
+                  <span className="font-semibold text-[#7fd8ff]">
+                    prize that life has to
+                  </span>{" "}
+                  offer is the chance to{" "}
+                  <span className="font-semibold text-[#7fd8ff]">
+                    work hard at work
+                  </span>{" "}
+                  worth doing.
+                </p>
+              </blockquote>
+            </div>
+
+            <div className="mt-8 flex items-center gap-3 pl-6">
+              <span className="h-px w-10 bg-white/25" />
+              <p className="text-[0.85rem] font-medium uppercase tracking-[0.18em] text-[#b8ccd7]">
+                Franklin D. Roosevelt
+              </p>
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:ml-auto">
+            <div className="pointer-events-none absolute -inset-3 rounded-[2rem] border border-[#01c7f3]/15" />
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.6rem] border border-white/12 shadow-[0_30px_90px_rgba(0,0,0,0.5)]">
+              <Image
+                src="/Benjamin.png"
+                alt="Theodore Roosevelt in Rough Rider uniform"
+                fill
+                sizes="(min-width: 1024px) 24rem, 90vw"
+                className="object-cover [filter:grayscale(1)_contrast(1.08)_brightness(0.92)]"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(165deg,rgba(1,199,243,0.22),rgba(6,14,24,0.12)_38%,rgba(4,10,18,0.72))] mix-blend-multiply" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_15%,rgba(155,234,255,0.18),transparent_45%)]" />
+              <div className="pointer-events-none absolute left-3 top-3 h-6 w-6 border-l border-t border-[#9beaff]/50" />
+              <div className="pointer-events-none absolute bottom-3 right-3 h-6 w-6 border-b border-r border-[#9beaff]/50" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto w-full max-w-7xl shrink-0 pb-1">
+        <div className="mx-auto max-w-4xl space-y-1.5 rounded-[1.1rem] border border-white/10 bg-[#0f1d2a]/55 px-5 py-3">
+          {livingWithPurposeNotes.map((note) => (
+            <p
+              key={note}
+              className="text-[0.78rem] leading-snug text-[#d8edf6]/80 sm:text-[0.82rem]"
+            >
+              {note}
+            </p>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -1984,102 +2170,67 @@ function ManifestoStatementsPage() {
 }
 
 function PromisePage() {
-  const [showNotes, setShowNotes] = useState(false);
-
   return (
-    <section className="flex min-h-full flex-col justify-center py-6">
+    <section className="relative flex h-full flex-col overflow-hidden py-6">
       <BackgroundVoiceoverButton
         src="/voices/ThePromise.mp3"
         label="The Promise voiceover"
       />
-      <header className="mx-auto max-w-4xl text-center">
-        <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
-          The Promise
-        </h1>
-        <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
-      </header>
 
-      <article className="relative mx-auto mt-8 w-full max-w-7xl overflow-hidden rounded-[2.35rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_46%,rgba(14,27,39,0.98))] shadow-[0_38px_100px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)]">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(143,168,189,0.14),transparent_30%),radial-gradient(circle_at_90%_100%,rgba(1,199,243,0.11),transparent_30%),linear-gradient(115deg,rgba(255,255,255,0.04),transparent_28%,transparent_72%,rgba(1,199,243,0.035))]" />
-        <div className="pointer-events-none absolute inset-x-20 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.88),transparent)]" />
-        <div className="pointer-events-none absolute inset-x-28 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(143,168,189,0.32),transparent)]" />
-        <div className="pointer-events-none absolute -left-px top-16 h-24 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/42 to-transparent" />
-        <div className="pointer-events-none absolute -right-px bottom-16 h-24 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
+        <header className="mx-auto max-w-4xl shrink-0 text-center">
+          <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
+            The Promise
+          </h1>
+          <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
+        </header>
 
-        <div className="relative grid md:grid-cols-3">
-          {promiseItems.map((item, index) => {
-            return (
-              <section
-                key={item.title}
-                className={`relative flex min-h-[14.5rem] flex-col justify-between px-6 py-6 sm:px-8 sm:py-7 lg:px-10 ${
-                  index > 0 ? "border-t border-white/10 md:border-l md:border-t-0" : ""
-                }`}
-              >
-                <div className="flex items-start justify-end">
-                  <span className="font-display text-4xl leading-none text-[#8fa8bd]/30">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
+        <article className="relative mx-auto mt-6 w-full max-w-7xl shrink-0 overflow-hidden rounded-[2.35rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.96),rgba(20,35,48,0.98)_46%,rgba(14,27,39,0.98))] shadow-[0_38px_100px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.04)]">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(143,168,189,0.14),transparent_30%),radial-gradient(circle_at_90%_100%,rgba(1,199,243,0.11),transparent_30%),linear-gradient(115deg,rgba(255,255,255,0.04),transparent_28%,transparent_72%,rgba(1,199,243,0.035))]" />
+          <div className="pointer-events-none absolute inset-x-20 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.88),transparent)]" />
+          <div className="pointer-events-none absolute inset-x-28 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(143,168,189,0.32),transparent)]" />
+          <div className="pointer-events-none absolute -left-px top-16 h-24 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/42 to-transparent" />
+          <div className="pointer-events-none absolute -right-px bottom-16 h-24 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
 
-                <div className="mt-6 max-w-sm">
-                  <h2 className="font-display text-[2.2rem] font-semibold leading-[0.98] text-[#f4f2ec] sm:text-[2.55rem] lg:text-[2.85rem]">
-                    {item.title}
-                  </h2>
-                </div>
-              </section>
-            );
-          })}
-        </div>
-
-        <button
-          type="button"
-          aria-label={showNotes ? "Hide Promise notes" : "Show Promise notes"}
-          title={showNotes ? "Hide notes" : "Show notes"}
-          onClick={() => setShowNotes((value) => !value)}
-          className="absolute bottom-5 right-5 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-[#01c7f3]/60 bg-[#0f1d2a]/88 text-[#b9f2ff] shadow-[0_14px_34px_rgba(0,0,0,0.28)] transition-all hover:-translate-y-0.5 hover:border-[#01c7f3]"
-        >
-          {showNotes ? <X size={18} strokeWidth={2.2} /> : <NotebookText size={18} strokeWidth={2.1} />}
-        </button>
-
-        {showNotes ? (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-[#050b12]/64 px-5 py-8 backdrop-blur-sm"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Promise notes"
-          >
-            <div className="relative max-h-[82vh] w-full max-w-4xl overflow-hidden rounded-[1.4rem] border border-[#01c7f3]/55 bg-[#0d1823] shadow-[0_34px_100px_rgba(0,0,0,0.48)]">
-              <div className="flex items-center justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
-                <div className="min-w-0">
-                  <p className="text-sm text-[#d8edf6]/72">
-                    George speaks to the host and camera
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  aria-label="Close Promise notes"
-                  onClick={() => setShowNotes(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#d8edf6] transition-colors hover:border-[#01c7f3]/60 hover:text-[#b9f2ff]"
+          <div className="relative grid md:grid-cols-3">
+            {promiseItems.map((item, index) => {
+              return (
+                <section
+                  key={item.title}
+                  className={`relative flex min-h-[11rem] flex-col justify-between px-6 py-5 sm:px-8 sm:py-6 lg:px-10 ${
+                    index > 0 ? "border-t border-white/10 md:border-l md:border-t-0" : ""
+                  }`}
                 >
-                  <X size={17} strokeWidth={2.2} />
-                </button>
-              </div>
-              <div className="max-h-[calc(82vh-4.5rem)] overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
-                <div className="space-y-4">
-                  {promiseNotes.map((note) => (
-                    <p
-                      key={note}
-                      className="text-[1rem] leading-7 text-[#d8edf6] sm:text-[1.12rem] sm:leading-8"
-                    >
-                      {note}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </div>
+                  <div className="flex items-start justify-end">
+                    <span className="font-display text-4xl leading-none text-[#8fa8bd]/30">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 max-w-sm">
+                    <h2 className="font-display text-[2rem] font-semibold leading-[0.98] text-[#f4f2ec] sm:text-[2.3rem] lg:text-[2.55rem]">
+                      {item.title}
+                    </h2>
+                  </div>
+                </section>
+              );
+            })}
           </div>
-        ) : null}
-      </article>
+        </article>
+      </div>
+
+      <div className="mx-auto w-full max-w-7xl shrink-0 pb-1">
+        <div className="mx-auto max-w-4xl space-y-1.5 rounded-[1.1rem] border border-white/10 bg-[#0f1d2a]/55 px-5 py-3">
+          {promiseNotes.map((note) => (
+            <p
+              key={note}
+              className="text-[0.78rem] leading-snug text-[#d8edf6]/75 sm:text-[0.82rem]"
+            >
+              {note}
+            </p>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
@@ -2383,10 +2534,12 @@ function SectionTitleSlide({
   title,
   voiceoverSrc,
   introVoiceoverSrc,
+  bottomCopy,
 }: {
   title: string;
   voiceoverSrc?: string;
   introVoiceoverSrc?: string;
+  bottomCopy?: ReactNode;
 }) {
   return (
     <section className="flex min-h-full flex-col justify-center py-6">
@@ -2412,6 +2565,11 @@ function SectionTitleSlide({
           </div>
         ) : null}
       </header>
+      {bottomCopy ? (
+        <div className="absolute inset-x-0 bottom-10 px-6 text-center sm:bottom-12">
+          <div className="mx-auto max-w-xl text-[#c9dce7]">{bottomCopy}</div>
+        </div>
+      ) : null}
     </section>
   );
 }
@@ -2430,17 +2588,20 @@ export function LibraryPage() {
   const blackSwanPage = project2026Page + 3;
   const strategyMapContentPage = project2026Page + 4;
   const preCtaStartPage = project2026Page + 5;
+  const finalTechnocratsPage = preCtaStartPage + preCtaSlides.length;
   const mainDeckSlideIndex = currentPage - mainDeckStartPage;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
-  const totalPages = preCtaStartPage + preCtaSlides.length;
-  const isFullScreenStatementSlide = currentPage === 6 || currentPage === 7;
+  const totalPages = finalTechnocratsPage + 1;
+  const isFullScreenStatementSlide = currentPage === 3 || currentPage === 7;
   const isManifestoSlide = currentPage === 8;
+  const isPromiseSlide = currentPage === 9;
+  const isProblemsSlide = currentPage === 11;
+  const isLivingWithPurposeSlide = currentPage === 16;
   const isRelocatedAgendaSlide = currentPage === 10;
   const isTicMicPieSlide = currentPage === 12;
   const isYearVideoSlide = currentPage === 13;
   const isInsertedTechnocratsSlide = currentPage === 14;
-  const isVisionRyanVideoSlide = currentPage === 15;
-  const isTechnocratsSlide = currentPage === 16;
+  const isTechnocratsSlide = currentPage === finalTechnocratsPage;
   const isArchitecturePillarsSlide = currentPage === 17;
   const isIntroVideoSlide = currentPage === 18;
   const isOperatingSystemSlide = currentPage === operatingSystemPage;
@@ -2454,15 +2615,17 @@ export function LibraryPage() {
   const isPreCtaSlide =
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
-    currentPage <= 5 ||
+    currentPage <= 6 ||
     isFullScreenStatementSlide ||
-    (currentPage >= 8 && currentPage <= 9) ||
+    isManifestoSlide ||
+    isPromiseSlide ||
     isRelocatedAgendaSlide ||
     isTicMicPieSlide ||
     isYearVideoSlide ||
     isInsertedTechnocratsSlide ||
     isTechnocratsSlide ||
-    isVisionRyanVideoSlide ||
+    currentPage === 15 ||
+    isLivingWithPurposeSlide ||
     isArchitecturePillarsSlide ||
     isIntroVideoSlide ||
     isOperatingSystemSlide ||
@@ -2582,6 +2745,9 @@ export function LibraryPage() {
           className={
             isStrategyMapSlide ||
             isManifestoSlide ||
+            isPromiseSlide ||
+            isProblemsSlide ||
+            isLivingWithPurposeSlide ||
             isYearVideoSlide ||
             isTicMicPieSlide ||
             isArchitecturePillarsSlide ||
@@ -2603,22 +2769,46 @@ export function LibraryPage() {
             <SectionTitleSlide
               title="1776 - 2026"
               introVoiceoverSrc="/voices/slide1.mp3"
+              bottomCopy={
+                <>
+                  <p className="font-display text-[1.1rem] leading-tight text-[#f4f2ec] sm:text-[1.35rem]">
+                    250 Years
+                  </p>
+                  <p className="mt-1 font-display text-[1.1rem] leading-tight text-[#f4f2ec] sm:text-[1.35rem]">
+                    Does ‘We the People’ still rule?
+                  </p>
+                </>
+              }
             />
           ) : currentPage === 1 ? (
             <SectionTitleSlide
               title="DOGE"
               introVoiceoverSrc="/voices/Slide3.mp3"
+              bottomCopy={
+                <>
+                  <p className="font-display text-[1.1rem] leading-tight text-[#f4f2ec] sm:text-[1.35rem]">
+                    The Goal Isn’t to Catch Fraud Faster
+                  </p>
+                  <p className="mt-1 font-display text-[1.1rem] leading-tight text-[#f4f2ec] sm:text-[1.35rem]">
+                    The goal is to make fraud physically impossible.
+                  </p>
+                </>
+              }
             />
           ) : currentPage === 2 ? (
-            <QuestionSlide question={openingQuestions[1]} />
-          ) : currentPage === 3 ? (
-            <FullScreenFlagSlide src="/flag1.webm" />
-          ) : currentPage === 4 ? (
-            <QuestionSlide question={openingQuestions[0]} />
-          ) : currentPage === 5 ? (
             <SectionTitleSlide title="The Children" />
-          ) : currentPage === 6 ? (
+          ) : currentPage === 3 ? (
             <GirlPage />
+          ) : currentPage === 4 ? (
+            <QuestionSlide question={openingQuestions[1]} />
+          ) : currentPage === 5 ? (
+            <FullScreenFlagSlide src="/flag1.webm" />
+          ) : currentPage === 6 ? (
+            <QuestionSlide
+              question={openingQuestions[0]}
+              videoEmbedSrc="https://www.youtube.com/embed/LlgTzWlrCAw"
+              videoTitle="Feeling hopeful about the future"
+            />
           ) : currentPage === 7 ? (
             <MagaPage />
           ) : currentPage === 8 ? (
@@ -2628,28 +2818,44 @@ export function LibraryPage() {
           ) : currentPage === 10 ? (
             <AgendaPage />
           ) : currentPage === 11 ? (
-            <section className="flex min-h-full flex-col justify-center py-8">
+            <section className="relative flex h-full flex-col overflow-hidden py-8">
               <BackgroundVoiceoverButton
                 src="/voices/Problems.mp3"
                 label="Problems voiceover"
               />
-              <header className="mx-auto max-w-3xl text-center">
-                <h1 className={`${slideTitleTypography} text-ink`}>
-                  Problems
-                </h1>
-              </header>
-              <section
-                key={currentPage}
-                className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-6"
-              >
-                {deckPages[0].map((deck) => (
-                  <DeckCard
-                    key={deck.href}
-                    deck={deck}
-                    onOpenVideo={setActiveVideoEmbedUrl}
-                  />
-                ))}
-              </section>
+
+              <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
+                <header className="mx-auto max-w-3xl shrink-0 text-center">
+                  <h1 className={`${slideTitleTypography} text-ink`}>
+                    Problems
+                  </h1>
+                </header>
+                <section
+                  key={currentPage}
+                  className="mt-10 grid w-full shrink-0 gap-5 md:grid-cols-2 xl:grid-cols-6"
+                >
+                  {deckPages[0].map((deck) => (
+                    <DeckCard
+                      key={deck.href}
+                      deck={deck}
+                      onOpenVideo={setActiveVideoEmbedUrl}
+                    />
+                  ))}
+                </section>
+              </div>
+
+              <div className="mx-auto w-full max-w-7xl shrink-0 pb-1">
+                <div className="mx-auto max-w-4xl space-y-1.5 rounded-[1.1rem] border border-ink/10 bg-white/60 px-5 py-3 backdrop-blur-sm">
+                  {problemsNotes.map((note) => (
+                    <p
+                      key={note}
+                      className="text-[0.78rem] leading-snug text-graphite sm:text-[0.82rem]"
+                    >
+                      {note}
+                    </p>
+                  ))}
+                </div>
+              </div>
             </section>
           ) : currentPage === 12 ? (
             <TicMicPieSlide />
@@ -2662,14 +2868,9 @@ export function LibraryPage() {
               voiceoverSrc="/voices/Technocrats_01.mp3"
             />
           ) : currentPage === 15 ? (
-            <VisionRyanVideoSlide />
+            <GeorgeSorosVideoSlide />
           ) : currentPage === 16 ? (
-            <TechnocratsSlide
-              figures={elonFocusTechnocratFigures}
-              elonFocusSequence
-              voiceoverSrc="/slide-19-voiceover.mp3"
-              voiceoverDelayMs={3000}
-            />
+            <LivingWithPurposeSlide />
           ) : currentPage === 17 ? (
             <ArchitecturePillarsSlide />
           ) : currentPage === 18 ? (
@@ -2724,8 +2925,17 @@ export function LibraryPage() {
             <section className="presentation-scroll h-full w-full overflow-y-auto px-4 py-8 md:px-6">
               <StrategyMapContent />
             </section>
+          ) : isPreCtaSlide && preCtaSlideIndex === 2 ? (
+            <MuskAllianceVideoSlide />
           ) : isPreCtaSlide ? (
             <SectionTitleSlide title={preCtaSlides[preCtaSlideIndex]} />
+          ) : currentPage === finalTechnocratsPage ? (
+            <TechnocratsSlide
+              figures={elonFocusTechnocratFigures}
+              elonFocusSequence
+              voiceoverSrc="/slide-19-voiceover.mp3"
+              voiceoverDelayMs={3000}
+            />
           ) : (
             <PlaceholderCtaPage />
           )}
