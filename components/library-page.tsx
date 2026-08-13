@@ -109,11 +109,11 @@ const deckPages: Deck[][] = [
 ];
 
 const deckPageHashes: Record<string, number> = {
-  "#problems": 11,
-  "#decks": 11,
-  "#presentation": 19,
-  "#global-opportunities": 19,
-  "#strategymap": 33,
+  "#problems": 13,
+  "#decks": 13,
+  "#presentation": 21,
+  "#global-opportunities": 21,
+  "#strategymap": 35,
 };
 
 function getPageFromHash(hash: string, totalPages: number) {
@@ -1316,6 +1316,61 @@ function MuskAllianceVideoSlide() {
                   title="Strategic Alliance"
                   className="h-full w-full"
                   allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function ItsAllALieVideoSlide() {
+  return (
+    <section className="relative flex h-full items-center justify-center px-[5%]">
+      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
+        <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
+          <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
+            <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
+              It’s All A Lie
+            </h1>
+            <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
+
+            <div className="mt-7 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/LlgTzWlrCAw?start=0&end=637"
+                  title="It’s All A Lie"
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function NoHeadlineVideoSlide() {
+  return (
+    <section className="relative flex h-full items-center justify-center px-[5%]">
+      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
+        <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
+          <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
+            <div className="w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/u5h2OCcKYkc?start=0&end=164"
+                  title="Video"
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                 />
@@ -2579,7 +2634,7 @@ export function LibraryPage() {
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const operatingSystemPage = 19;
+  const operatingSystemPage = 21;
   const mainDeckStartPage = operatingSystemPage + 1;
   const howPage = mainDeckStartPage + mainDeckSlides.length;
   const project2026Page = howPage + 1;
@@ -2592,18 +2647,18 @@ export function LibraryPage() {
   const mainDeckSlideIndex = currentPage - mainDeckStartPage;
   const preCtaSlideIndex = currentPage - preCtaStartPage;
   const totalPages = finalTechnocratsPage + 1;
-  const isFullScreenStatementSlide = currentPage === 3 || currentPage === 7;
-  const isManifestoSlide = currentPage === 8;
-  const isPromiseSlide = currentPage === 9;
-  const isProblemsSlide = currentPage === 11;
-  const isLivingWithPurposeSlide = currentPage === 16;
-  const isRelocatedAgendaSlide = currentPage === 10;
-  const isTicMicPieSlide = currentPage === 12;
-  const isYearVideoSlide = currentPage === 13;
-  const isInsertedTechnocratsSlide = currentPage === 14;
+  const isFullScreenStatementSlide = currentPage === 3 || currentPage === 9;
+  const isManifestoSlide = currentPage === 10;
+  const isPromiseSlide = currentPage === 11;
+  const isProblemsSlide = currentPage === 13;
+  const isLivingWithPurposeSlide = currentPage === 18;
+  const isRelocatedAgendaSlide = currentPage === 12;
+  const isTicMicPieSlide = currentPage === 14;
+  const isYearVideoSlide = currentPage === 15;
+  const isInsertedTechnocratsSlide = currentPage === 16;
   const isTechnocratsSlide = currentPage === finalTechnocratsPage;
-  const isArchitecturePillarsSlide = currentPage === 17;
-  const isIntroVideoSlide = currentPage === 18;
+  const isArchitecturePillarsSlide = currentPage === 19;
+  const isIntroVideoSlide = currentPage === 20;
   const isOperatingSystemSlide = currentPage === operatingSystemPage;
   const isMainDeckImageSlide =
     mainDeckSlideIndex >= 0 && mainDeckSlideIndex < mainDeckSlides.length;
@@ -2615,7 +2670,7 @@ export function LibraryPage() {
   const isPreCtaSlide =
     preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
   const isCameraOpeningSlide =
-    currentPage <= 6 ||
+    currentPage <= 8 ||
     isFullScreenStatementSlide ||
     isManifestoSlide ||
     isPromiseSlide ||
@@ -2624,7 +2679,7 @@ export function LibraryPage() {
     isYearVideoSlide ||
     isInsertedTechnocratsSlide ||
     isTechnocratsSlide ||
-    currentPage === 15 ||
+    currentPage === 17 ||
     isLivingWithPurposeSlide ||
     isArchitecturePillarsSlide ||
     isIntroVideoSlide ||
@@ -2804,20 +2859,20 @@ export function LibraryPage() {
           ) : currentPage === 5 ? (
             <FullScreenFlagSlide src="/flag1.webm" />
           ) : currentPage === 6 ? (
-            <QuestionSlide
-              question={openingQuestions[0]}
-              videoEmbedSrc="https://www.youtube.com/embed/LlgTzWlrCAw"
-              videoTitle="Feeling hopeful about the future"
-            />
+            <ItsAllALieVideoSlide />
           ) : currentPage === 7 ? (
-            <MagaPage />
+            <QuestionSlide question={openingQuestions[0]} />
           ) : currentPage === 8 ? (
-            <ManifestoStatementsPage />
+            <NoHeadlineVideoSlide />
           ) : currentPage === 9 ? (
-            <PromisePage />
+            <MagaPage />
           ) : currentPage === 10 ? (
-            <AgendaPage />
+            <ManifestoStatementsPage />
           ) : currentPage === 11 ? (
+            <PromisePage />
+          ) : currentPage === 12 ? (
+            <AgendaPage />
+          ) : currentPage === 13 ? (
             <section className="relative flex h-full flex-col overflow-hidden py-8">
               <BackgroundVoiceoverButton
                 src="/voices/Problems.mp3"
@@ -2857,23 +2912,23 @@ export function LibraryPage() {
                 </div>
               </div>
             </section>
-          ) : currentPage === 12 ? (
-            <TicMicPieSlide />
-          ) : currentPage === 13 ? (
-            <YearVideoSlide />
           ) : currentPage === 14 ? (
+            <TicMicPieSlide />
+          ) : currentPage === 15 ? (
+            <YearVideoSlide />
+          ) : currentPage === 16 ? (
             <TechnocratsSlide
               figures={post2010TechnocratFigures}
               frameworkSequence
               voiceoverSrc="/voices/Technocrats_01.mp3"
             />
-          ) : currentPage === 15 ? (
-            <GeorgeSorosVideoSlide />
-          ) : currentPage === 16 ? (
-            <LivingWithPurposeSlide />
           ) : currentPage === 17 ? (
-            <ArchitecturePillarsSlide />
+            <GeorgeSorosVideoSlide />
           ) : currentPage === 18 ? (
+            <LivingWithPurposeSlide />
+          ) : currentPage === 19 ? (
+            <ArchitecturePillarsSlide />
+          ) : currentPage === 20 ? (
             <IntroVideoSlide />
           ) : isOperatingSystemSlide ? (
             <SectionTitleSlide title="Operating System" />
