@@ -24,8 +24,16 @@ import {
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import {
   StrategyMapContent,
-  StrategyMapIntroSlide,
 } from "@/components/strategy-map-page";
+import {
+  BeneathNoiseIntroSlide,
+  BeneathNoiseRecapSlide,
+  GlobalIncentivesSlide,
+  FinalBeneathNoiseSlide,
+} from "@/components/beneath-noise-slides";
+import { ExecutionPrioritiesSlide } from "@/components/execution-priorities-slide";
+import { FirstGuestSlide, PodcastStrategySlide } from "@/components/podcast-strategy-slide";
+import { namedHashMatchesSlide, pageFromHash, slideIndex, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
 type Deck = {
   title: string;
@@ -107,34 +115,6 @@ const deckPages: Deck[][] = [
     },
   ],
 ];
-
-const deckPageHashes: Record<string, number> = {
-  "#problems": 13,
-  "#decks": 13,
-  "#presentation": 21,
-  "#global-opportunities": 21,
-  "#strategymap": 35,
-};
-
-function getPageFromHash(hash: string, totalPages: number) {
-  const mappedPage = deckPageHashes[hash];
-
-  if (typeof mappedPage === "number") {
-    return Math.max(0, Math.min(mappedPage, totalPages - 1));
-  }
-
-  const match = hash.match(/^#page-(\d+)$/);
-
-  if (!match) {
-    return null;
-  }
-
-  return Math.max(0, Math.min(Number(match[1]) - 1, totalPages - 1));
-}
-
-function namedHashMatchesPage(hash: string, page: number) {
-  return deckPageHashes[hash] === page;
-}
 
 const manifestoStatements: ManifestoStatement[] = [
   {
@@ -640,9 +620,9 @@ function YearVideoSlide() {
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
           <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
-            <p className={`${slideTitleTypography} text-[#f4f2ec]`}>
-              2010
-            </p>
+            <p className="text-xs font-semibold tracking-[0.2em] text-[#9beaff]">BENEATH THE NOISE // 02</p>
+            <h1 className="mt-3 font-display text-[clamp(2rem,5.4vw,5rem)] font-semibold leading-none tracking-[-0.04em] text-[#f4f2ec]">THE LONG GAME</h1>
+            <p className="mt-3 text-sm tracking-[0.18em] text-[#b8ccd7]">2010</p>
             <div className="mt-3 h-px w-36 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
 
             <div className="mt-6 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
@@ -784,7 +764,7 @@ function TicMicPieSlide() {
   ];
 
   return (
-    <section className="relative flex h-full items-center justify-center overflow-hidden px-[5%] py-8">
+    <section className="presentation-scroll relative h-full overflow-x-hidden overflow-y-auto px-[5%] pb-28 pt-8 lg:flex lg:items-center lg:justify-center lg:pb-20">
       <BackgroundVoiceoverButton
         src="/voices/ThreeComplexes.mp3"
         label="Three Complexes voiceover"
@@ -793,7 +773,7 @@ function TicMicPieSlide() {
       <div className="pointer-events-none absolute left-[27%] top-[70%] h-[25rem] w-[25rem] -translate-y-1/2 rounded-full bg-[#3f6fc8]/14 blur-[110px]" />
       <div className="pointer-events-none absolute right-[12%] top-1/2 h-[27rem] w-[27rem] -translate-y-1/2 rounded-full bg-[#c0392b]/12 blur-[110px]" />
 
-      <div className="mx-auto grid h-full w-full max-w-7xl items-center gap-10 lg:grid-cols-[1.08fr_0.92fr]">
+      <div className="mx-auto grid min-h-full w-full max-w-7xl items-center gap-10 lg:h-full lg:grid-cols-[1.08fr_0.92fr]">
         <div className="relative mx-auto flex aspect-square w-full max-w-[34rem] items-center justify-center">
           <div className="pointer-events-none absolute inset-[-2.75rem] rounded-full border border-white/[0.055]" />
           <div className="pointer-events-none absolute inset-[-1.35rem] rounded-full border border-white/[0.085]" />
@@ -929,8 +909,32 @@ function TechnocratsSlide({
   voiceoverSrc?: string;
   voiceoverDelayMs?: number;
 }) {
+  const [mobileMandateVisible, setMobileMandateVisible] = useState(false);
+
+  useEffect(() => {
+    if (!frameworkSequence) return;
+
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const showMandate = () => setMobileMandateVisible(true);
+    if (preference.matches) {
+      showMandate();
+      return;
+    }
+
+    // Match the desktop sequence's complete transition at ten seconds.
+    const timer = window.setTimeout(showMandate, 10_000);
+    const onMotionPreferenceChange = () => {
+      if (preference.matches) showMandate();
+    };
+    preference.addEventListener("change", onMotionPreferenceChange);
+    return () => {
+      window.clearTimeout(timer);
+      preference.removeEventListener("change", onMotionPreferenceChange);
+    };
+  }, [frameworkSequence]);
+
   return (
-    <section className="relative flex h-full items-center justify-center px-[3%] py-6">
+    <section className={`relative flex h-full items-center justify-center px-[3%] py-6 ${frameworkSequence ? "technocrat-framework-slide" : ""}`}>
       {voiceoverSrc ? (
         <BackgroundVoiceoverButton
           src={voiceoverSrc}
@@ -938,8 +942,8 @@ function TechnocratsSlide({
           autoPlayDelayMs={voiceoverDelayMs}
         />
       ) : null}
-      <div className="mx-auto flex h-full w-full max-w-7xl items-center justify-center text-center">
-        <div className={`relative flex h-full max-h-[43rem] w-full max-w-[72rem] flex-col items-center justify-center gap-4 lg:block ${frameworkSequence ? "technocrat-framework-stage" : ""}`}>
+      <div className={`mx-auto flex h-full w-full max-w-7xl items-center justify-center text-center ${frameworkSequence ? "technocrat-framework-container" : ""}`}>
+        <div data-mobile-mandate={mobileMandateVisible} className={`relative flex h-full max-h-[43rem] w-full max-w-[72rem] flex-col items-center justify-center gap-4 lg:block ${frameworkSequence ? "technocrat-framework-stage" : ""}`}>
           <div className={`relative z-30 flex h-32 w-32 shrink-0 items-center justify-center rounded-full border border-[#9beaff]/70 bg-[radial-gradient(circle_at_34%_24%,rgba(255,255,255,0.2),transparent_32%),linear-gradient(145deg,rgba(1,199,243,0.24),rgba(15,29,42,0.95))] shadow-[0_0_0_10px_rgba(1,199,243,0.055),0_22px_70px_rgba(1,199,243,0.18)] sm:h-40 sm:w-40 lg:absolute lg:left-1/2 lg:top-1/2 lg:h-44 lg:w-44 lg:-translate-x-1/2 lg:-translate-y-1/2 ${frameworkSequence ? "technocrat-framework-center" : elonFocusSequence ? "technocrat-focus-center" : ""}`}>
             <div className="absolute inset-[-1.35rem] rounded-full border border-[#01c7f3]/18" />
             <div className="absolute inset-[-2.8rem] rounded-full border border-[#8fa8bd]/10" />
@@ -962,7 +966,7 @@ function TechnocratsSlide({
           <div className={`pointer-events-none absolute left-1/2 top-1/2 hidden h-[29rem] w-[29rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#01c7f3]/16 lg:block ${frameworkSequence ? "technocrat-framework-orbit" : elonFocusSequence ? "technocrat-focus-orbit" : ""}`} />
           <div className={`pointer-events-none absolute left-1/2 top-1/2 hidden h-[21rem] w-[21rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8fa8bd]/12 lg:block ${frameworkSequence ? "technocrat-framework-orbit" : elonFocusSequence ? "technocrat-focus-orbit" : ""}`} />
 
-          <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 lg:block">
+          <div className={`grid w-full grid-cols-2 gap-4 sm:grid-cols-3 lg:block ${frameworkSequence ? "technocrat-framework-grid" : ""}`}>
             {figures.map((figure, index) => {
               const isElon = figure.name === "Elon Musk";
               const isPeter = figure.name === "Peter Thiel";
@@ -989,7 +993,7 @@ function TechnocratsSlide({
                   key={figure.name}
                   className={`group relative flex min-h-[13.6rem] flex-col items-center rounded-[1.35rem] border border-[#9beaff]/22 bg-white/[0.055] px-3 pb-4 pt-4 text-center shadow-[0_20px_55px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm sm:last:col-start-2 lg:absolute lg:w-[13.8rem] lg:min-h-[14.1rem] ${positions[index]} ${frameworkClass} ${focusClass}`}
                 >
-                  <div className="relative h-24 w-24 overflow-hidden rounded-full border border-[#b9f2ff]/70 bg-[#0d1823] shadow-[0_14px_35px_rgba(0,0,0,0.34)] sm:h-28 sm:w-28">
+                  <div className={`relative h-24 w-24 overflow-hidden rounded-full border border-[#b9f2ff]/70 bg-[#0d1823] shadow-[0_14px_35px_rgba(0,0,0,0.34)] sm:h-28 sm:w-28 ${frameworkSequence ? "technocrat-framework-portrait" : ""}`}>
                     <Image
                       src={figure.imageSrc}
                       alt={figure.name}
@@ -1145,7 +1149,12 @@ function IntroVideoSlide() {
   const georgeVideoRef = useRef<HTMLIFrameElement | null>(null);
   const trumpVideoRef = useRef<HTMLVideoElement | null>(null);
   const hasTriggeredTrumpRef = useRef(false);
-  const [videoPhase, setVideoPhase] = useState<"george" | "trump" | "return">("george");
+  const transitionTimersRef = useRef<number[]>([]);
+  const [videoPhase, setVideoPhase] = useState<"george" | "trump" | "hold" | "return">("george");
+  // Public captions finish the sentence at 85.219s; the next begins at 85.279s.
+  const georgeSpliceTime = 85.25;
+
+  useEffect(() => () => transitionTimersRef.current.forEach(window.clearTimeout), []);
 
   const sendVimeoCommand = (method: "play" | "pause" | "addEventListener" | "getCurrentTime", value?: string) => {
     georgeVideoRef.current?.contentWindow?.postMessage(
@@ -1183,7 +1192,7 @@ function IntroVideoSlide() {
             ? message.value
             : undefined;
 
-      if ((currentTime ?? 0) >= 85 && !hasTriggeredTrumpRef.current) {
+      if ((currentTime ?? 0) >= georgeSpliceTime && !hasTriggeredTrumpRef.current) {
         hasTriggeredTrumpRef.current = true;
         sendVimeoCommand("pause");
         setVideoPhase("trump");
@@ -1199,7 +1208,7 @@ function IntroVideoSlide() {
 
     const timer = window.setInterval(() => {
       sendVimeoCommand("getCurrentTime");
-    }, 500);
+    }, 100);
 
     return () => window.clearInterval(timer);
   }, [videoPhase]);
@@ -1211,19 +1220,19 @@ function IntroVideoSlide() {
     if (!video) return;
 
     video.currentTime = 0;
-    const timer = window.setTimeout(() => {
-      void video.play().catch(() => undefined);
-    }, 500);
-
-    return () => window.clearTimeout(timer);
+    void video.play().catch(() => undefined);
   }, [videoPhase]);
 
   const returnToGeorge = () => {
-    setVideoPhase("return");
-    window.setTimeout(() => sendVimeoCommand("play"), 800);
+    // Preserve all of Trump's original audio, then hold a clean closed-mouth frame.
+    setVideoPhase("hold");
+    transitionTimersRef.current.push(window.setTimeout(() => {
+      setVideoPhase("return");
+      transitionTimersRef.current.push(window.setTimeout(() => sendVimeoCommand("play"), 700));
+    }, 600));
   };
 
-  const isTrumpPlaying = videoPhase === "trump";
+  const isTrumpPlaying = videoPhase === "trump" || videoPhase === "hold";
 
   return (
     <section className="relative flex h-full items-center justify-center overflow-hidden px-[4%] py-6">
@@ -1277,7 +1286,7 @@ function IntroVideoSlide() {
                 : "pointer-events-none translate-x-[8%] scale-[0.96] opacity-0 delay-0"
             }`}
           >
-            <div className="aspect-video">
+            <div className="relative aspect-video">
               <video
                 ref={trumpVideoRef}
                 src="/President Trump.mp4"
@@ -1286,6 +1295,9 @@ function IntroVideoSlide() {
                 playsInline
                 onEnded={returnToGeorge}
               />
+              {(videoPhase === "hold" || videoPhase === "return") && (
+                <img src="/trump-closing-frame.jpg" alt="President Trump at the conclusion of his statement" className="absolute inset-0 h-full w-full object-cover" />
+              )}
             </div>
           </div>
         </div>
@@ -1389,9 +1401,8 @@ function GeorgeSorosVideoSlide() {
       <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-center">
         <article className="relative flex h-full max-h-full w-full flex-col items-center justify-center px-5 py-6 sm:px-8">
           <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
-            <h1 className={`${slideTitleTypography} text-[#f4f2ec]`}>
-              George Soros
-            </h1>
+            <p className="text-xs font-semibold tracking-[0.2em] text-[#9beaff]">BENEATH THE NOISE // 03</p>
+            <h1 className="mt-3 font-display text-[clamp(1.8rem,4.4vw,4.4rem)] font-semibold leading-none tracking-[-0.04em] text-[#f4f2ec]">THE POWER OF NETWORKS</h1>
             <div className="mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
 
             <div className="mt-7 w-full max-w-[58rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
@@ -1407,9 +1418,7 @@ function GeorgeSorosVideoSlide() {
               </div>
             </div>
 
-            <p className="mt-6 max-w-[58rem] text-center font-display text-[1.35rem] font-bold uppercase leading-tight tracking-wide text-white sm:text-[1.85rem] lg:text-[2.15rem]">
-              &ldquo;He needs to be stopped now.&rdquo;
-            </p>
+            <p className="mt-5 font-display text-base text-[#b8ccd7]">George Soros &amp; the Open Society ecosystem</p>
           </div>
         </article>
       </div>
@@ -1419,14 +1428,14 @@ function GeorgeSorosVideoSlide() {
 
 function LivingWithPurposeSlide() {
   return (
-    <section className="relative flex h-full flex-col overflow-hidden px-[6%] py-6">
-      <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
+    <section className="presentation-scroll relative flex h-full flex-col overflow-y-auto px-[6%] pb-28 pt-8">
+      <div className="flex flex-1 flex-col items-center justify-center">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1.2fr_0.95fr]">
           <div className="relative">
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-[#01c7f3]/70" />
               <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[#8fa8bd]">
-                Call to Action
+                Purpose
               </p>
             </div>
 
@@ -1461,12 +1470,12 @@ function LivingWithPurposeSlide() {
             <div className="mt-8 flex items-center gap-3 pl-6">
               <span className="h-px w-10 bg-white/25" />
               <p className="text-[0.85rem] font-medium uppercase tracking-[0.18em] text-[#b8ccd7]">
-                Franklin D. Roosevelt
+                Theodore Roosevelt
               </p>
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:ml-auto">
+          <div className="relative mx-auto w-full max-w-[15rem] sm:max-w-xs lg:mx-0 lg:ml-auto lg:max-w-sm">
             <div className="pointer-events-none absolute -inset-3 rounded-[2rem] border border-[#01c7f3]/15" />
             <div className="relative aspect-[4/5] overflow-hidden rounded-[1.6rem] border border-white/12 shadow-[0_30px_90px_rgba(0,0,0,0.5)]">
               <Image
@@ -1485,7 +1494,7 @@ function LivingWithPurposeSlide() {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl shrink-0 pb-1">
+      <div className="mx-auto mt-8 w-full max-w-7xl shrink-0 pb-1">
         <div className="mx-auto max-w-4xl space-y-1.5 rounded-[1.1rem] border border-white/10 bg-[#0f1d2a]/55 px-5 py-3">
           {livingWithPurposeNotes.map((note) => (
             <p
@@ -1918,8 +1927,8 @@ function SimpleRepublicSlide() {
         <p className="font-display text-[clamp(1.15rem,2.35vw,2.8rem)] font-medium text-white/90">
           We keep it simple:
         </p>
-        <h1 className="mt-[2%] whitespace-nowrap font-display text-[clamp(1.75rem,4vw,4.8rem)] font-bold leading-none tracking-[-0.035em]">
-          Connectivity. Tools. Better decision-making.
+        <h1 className="mt-[2%] font-display text-[clamp(1.75rem,4vw,4.8rem)] font-bold leading-tight tracking-[-0.035em] lg:whitespace-nowrap">
+          Connectivity. Tools. decision-making.
         </h1>
         <p className="mt-[2.2%] font-display text-[clamp(1.1rem,2.45vw,2.95rem)] font-medium text-white/92">
           A stronger Republic—powered by proof, voice, and action.
@@ -2136,11 +2145,12 @@ function StrategicAllianceSlide({
       title="The Strategic Alliance"
       sectionTitle="A Global Distribution Pathway to Scale"
       points={[
-        "X / xAI Integration: A dual-sided alliance amplifies reach and accelerates adoption through global AI and social distribution networks.",
-        "Sovereign Parallel Network: Verifiable data ensures operational continuity in contested or silenced environments—a resilient civic rail.",
+        "X / xAI — Acceleration: Expand reach, participation, and adoption through AI and real-time distribution.",
+        "Sovereign Parallel Network — Resilience: Independently verifiable infrastructure preserves continuity when conventional channels change or become unavailable.",
+        "Together — Scale without dependency: Global distribution supported by a resilient parallel network.",
       ]}
       takeawayLabel="The Bottom Line"
-      takeaway="We provide the first clear path to execute lawful change at the speed of the digital age—permanently changing who gets heard and how fast public will is realized."
+      takeaway="Public participation → verified demand → lawful action. Lawful public participation should not have a single point of failure."
       videoEmbedUrl={videoEmbedUrl}
       onOpenVideo={onOpenVideo}
     />
@@ -2629,450 +2639,195 @@ function SectionTitleSlide({
   );
 }
 
+function ProblemsFocusSlide({ onOpenVideo }: { onOpenVideo: (url: string) => void }) {
+  return (
+    <section className="presentation-scroll flex h-full flex-col items-center justify-center overflow-y-auto px-6 py-24 text-center text-[#f4f2ec]">
+      <BackgroundVoiceoverButton src="/voices/Problems.mp3" label="Problems voiceover" />
+      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#9beaff]">The landscape, the players &amp; problems</p>
+      <h1 className="mt-5 font-display text-[clamp(3rem,8vw,7.8rem)] font-semibold leading-none tracking-[-0.055em]">PROBLEMS</h1>
+      <p className="mt-5 font-display text-[clamp(1.4rem,3vw,2.7rem)] text-[#c9dce7]">Insulation &amp; Noise</p>
+      <button type="button" onClick={() => onOpenVideo("https://player.vimeo.com/video/1160310972?h=9fde73efd4&autoplay=1")} className="mt-10 inline-flex min-h-12 items-center gap-3 rounded-full border border-[#9beaff]/40 bg-[#9beaff]/[0.08] px-6 py-3 text-sm font-semibold text-[#9beaff] transition-colors hover:bg-[#9beaff]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9beaff]">
+        <Play size={17} fill="currentColor" /> Watch Video <ArrowRight size={17} />
+      </button>
+    </section>
+  );
+}
+
+function ChapterContext({ number, title, children }: { number: string; title: string; children: ReactNode }) {
+  return (
+    <section className="flex h-full min-h-0 flex-col">
+      <header className="shrink-0 px-6 pt-8 text-center">
+        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#9beaff]">BENEATH THE NOISE // {number}</p>
+        <h1 className="mt-2 font-display text-[clamp(1.2rem,2.5vw,2.4rem)] font-semibold leading-tight text-[#f4f2ec]">{title}</h1>
+      </header>
+      <div className="min-h-0 flex-1">{children}</div>
+    </section>
+  );
+}
+
+function ExecutionCallToActionSlide() {
+  return (
+    <section className="presentation-scroll flex h-full flex-col justify-center overflow-y-auto px-[7%] py-24 text-[#f4f2ec]">
+      <div className="mx-auto w-full max-w-6xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#9beaff]">FROM ANALYSIS TO EXECUTION</p>
+        <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.2rem,5.8vw,6rem)] font-semibold leading-[1.02] tracking-[-0.05em]">PROVE THE MODEL HERE.</h1>
+        <p className="mt-7 max-w-4xl font-display text-[clamp(1.4rem,3vw,3rem)] font-medium leading-[1.12] tracking-[-0.035em] text-[#c9dce7]">CREATE DEMAND NATIONALLY.</p>
+        <p className="mt-4 max-w-4xl font-display text-[clamp(1.4rem,3vw,3rem)] font-medium leading-[1.12] tracking-[-0.035em] text-[#9beaff]">EARN THE RIGHT TO SCALE GLOBALLY.</p>
+        <div className="mt-10 h-px w-16 bg-[#9beaff]/50" />
+      </div>
+    </section>
+  );
+}
+
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
-  const operatingSystemPage = 21;
-  const mainDeckStartPage = operatingSystemPage + 1;
-  const howPage = mainDeckStartPage + mainDeckSlides.length;
-  const project2026Page = howPage + 1;
-  const ipoStrategyPage = project2026Page + 1;
-  const strategyMapIntroPage = project2026Page + 2;
-  const blackSwanPage = project2026Page + 3;
-  const strategyMapContentPage = project2026Page + 4;
-  const preCtaStartPage = project2026Page + 5;
-  const finalTechnocratsPage = preCtaStartPage + preCtaSlides.length;
-  const mainDeckSlideIndex = currentPage - mainDeckStartPage;
-  const preCtaSlideIndex = currentPage - preCtaStartPage;
-  const totalPages = finalTechnocratsPage + 1;
-  const isFullScreenStatementSlide = currentPage === 3 || currentPage === 9;
-  const isManifestoSlide = currentPage === 10;
-  const isPromiseSlide = currentPage === 11;
-  const isProblemsSlide = currentPage === 13;
-  const isLivingWithPurposeSlide = currentPage === 18;
-  const isRelocatedAgendaSlide = currentPage === 12;
-  const isTicMicPieSlide = currentPage === 14;
-  const isYearVideoSlide = currentPage === 15;
-  const isInsertedTechnocratsSlide = currentPage === 16;
-  const isTechnocratsSlide = currentPage === finalTechnocratsPage;
-  const isArchitecturePillarsSlide = currentPage === 19;
-  const isIntroVideoSlide = currentPage === 20;
-  const isOperatingSystemSlide = currentPage === operatingSystemPage;
-  const isMainDeckImageSlide =
-    mainDeckSlideIndex >= 0 && mainDeckSlideIndex < mainDeckSlides.length;
-  const isIpoStrategySlide = currentPage === ipoStrategyPage;
-  const isBlackSwanSlide = currentPage === blackSwanPage;
-  const isStrategyMapIntroSlide = currentPage === strategyMapIntroPage;
-  const isStrategyMapContentSlide = currentPage === strategyMapContentPage;
-  const isStrategyMapSlide = isStrategyMapIntroSlide || isStrategyMapContentSlide;
-  const isPreCtaSlide =
-    preCtaSlideIndex >= 0 && preCtaSlideIndex < preCtaSlides.length;
-  const isCameraOpeningSlide =
-    currentPage <= 8 ||
-    isFullScreenStatementSlide ||
-    isManifestoSlide ||
-    isPromiseSlide ||
-    isRelocatedAgendaSlide ||
-    isTicMicPieSlide ||
-    isYearVideoSlide ||
-    isInsertedTechnocratsSlide ||
-    isTechnocratsSlide ||
-    currentPage === 17 ||
-    isLivingWithPurposeSlide ||
-    isArchitecturePillarsSlide ||
-    isIntroVideoSlide ||
-    isOperatingSystemSlide ||
-    isMainDeckImageSlide ||
-    currentPage === howPage ||
-    (currentPage >= project2026Page && currentPage <= ipoStrategyPage) ||
-    isBlackSwanSlide ||
-    isPreCtaSlide;
+  const videoTriggerRef = useRef<HTMLElement | null>(null);
+  const closeVideoRef = useRef<HTMLButtonElement>(null);
+  const videoPlayerRef = useRef<HTMLIFrameElement>(null);
+  const totalPages = viralFusionDeck.length;
+  const activeSlide = viralFusionDeck[currentPage];
+  const isLightSlide = activeSlide.id === "execution-priorities" || activeSlide.id === "strategy-map";
+
+  const openVideo = (url: string) => {
+    videoTriggerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    document.querySelectorAll("audio").forEach((audio) => audio.pause());
+    setActiveVideoEmbedUrl(url);
+  };
+  const closeVideo = () => {
+    setActiveVideoEmbedUrl(null);
+    videoTriggerRef.current?.focus();
+  };
 
   useEffect(() => {
     const applyHashPage = () => {
-      const page = getPageFromHash(window.location.hash, totalPages);
-
-      if (typeof page === "number") {
-        setCurrentPage(page);
-      }
-
+      const page = pageFromHash(window.location.hash);
+      if (page !== null) setCurrentPage(page);
       setHasResolvedInitialHash(true);
     };
-
     applyHashPage();
     window.addEventListener("hashchange", applyHashPage);
     return () => window.removeEventListener("hashchange", applyHashPage);
-  }, [totalPages]);
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target;
       if (activeVideoEmbedUrl) {
-        if (event.key === "Escape") {
-          setActiveVideoEmbedUrl(null);
-        }
+        if (event.key === "Escape") closeVideo();
         return;
       }
-
-      if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+      if (target instanceof HTMLElement && (target.isContentEditable || target.closest("button, a, input, textarea, select, video"))) return;
+      if (["ArrowRight", "PageDown", " "].includes(event.key)) {
         event.preventDefault();
         setCurrentPage((page) => Math.min(page + 1, totalPages - 1));
       }
-
-      if (event.key === "ArrowLeft" || event.key === "PageUp") {
+      if (["ArrowLeft", "PageUp"].includes(event.key)) {
         event.preventDefault();
         setCurrentPage((page) => Math.max(page - 1, 0));
       }
+      if (event.key === "Home") { event.preventDefault(); setCurrentPage(0); }
+      if (event.key === "End") { event.preventDefault(); setCurrentPage(totalPages - 1); }
     };
-
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [activeVideoEmbedUrl, totalPages]);
 
   useEffect(() => {
-    pageContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-
-    if (!hasResolvedInitialHash) {
-      return;
-    }
-
-    const nextHash = `#page-${currentPage + 1}`;
-
-    if (namedHashMatchesPage(window.location.hash, currentPage)) {
-      return;
-    }
-
-    if (window.location.hash !== nextHash) {
-      window.history.replaceState(null, "", nextHash);
-    }
-  }, [currentPage, hasResolvedInitialHash]);
+    pageContainerRef.current?.scrollTo({ top: 0 });
+    if (!hasResolvedInitialHash || namedHashMatchesSlide(window.location.hash, activeSlide.id)) return;
+    const hash = "#page-" + (currentPage + 1);
+    if (window.location.hash !== hash) window.history.replaceState(null, "", hash);
+  }, [currentPage, hasResolvedInitialHash, activeSlide.id]);
 
   useEffect(() => {
-    document.documentElement.dataset.resourcesTone = isCameraOpeningSlide
-      ? "dark"
-      : "light";
+    document.documentElement.dataset.resourcesTone = isLightSlide ? "light" : "dark";
+    return () => { delete document.documentElement.dataset.resourcesTone; };
+  }, [isLightSlide]);
 
-    return () => {
-      delete document.documentElement.dataset.resourcesTone;
-    };
-  }, [isCameraOpeningSlide]);
+  useEffect(() => {
+    if (activeVideoEmbedUrl) closeVideoRef.current?.focus();
+  }, [activeVideoEmbedUrl]);
+
+  const slideContent = () => {
+    switch (activeSlide.id) {
+      case "anniversary": return <SectionTitleSlide title="1776 - 2026" introVoiceoverSrc="/voices/slide1.mp3" bottomCopy={<><p>250 Years</p><p className="mt-1">Does ‘We the People’ still rule?</p></>} />;
+      case "doge": return <SectionTitleSlide title="DOGE" introVoiceoverSrc="/voices/Slide3.mp3" bottomCopy={<><p>The Goal Isn’t to Catch Fraud Faster</p><p className="mt-1">The goal is to make fraud physically impossible.</p></>} />;
+      case "children": return <SectionTitleSlide title="The Children" />;
+      case "protect-children": return <GirlPage />;
+      case "accountability": return <QuestionSlide question={openingQuestions[1]} />;
+      case "flag": return <FullScreenFlagSlide src="/flag1.webm" />;
+      case "all-a-lie": return <ItsAllALieVideoSlide />;
+      case "hope": return <QuestionSlide question={openingQuestions[0]} />;
+      case "change": return <NoHeadlineVideoSlide />;
+      case "public-demand": return <MagaPage />;
+      case "america-first": return <ManifestoStatementsPage />;
+      case "promise": return <PromisePage />;
+      case "agenda": return <AgendaPage />;
+      case "problems": return <ProblemsFocusSlide onOpenVideo={openVideo} />;
+      case "beneath-noise": return <BeneathNoiseIntroSlide onOpenVideo={openVideo} />;
+      case "competition": return <ChapterContext number="01" title="THE COMPETITION FOR POWER"><TicMicPieSlide /></ChapterContext>;
+      case "long-game": return <YearVideoSlide />;
+      case "technological-power": return <ChapterContext number="02" title="TECHNOLOGICAL POWER"><TechnocratsSlide figures={post2010TechnocratFigures} frameworkSequence voiceoverSrc="/voices/Technocrats_01.mp3" /></ChapterContext>;
+      case "networks": return <GeorgeSorosVideoSlide />;
+      case "global-incentives": return <GlobalIncentivesSlide onOpenVideo={openVideo} />;
+      case "what-we-learned": return <BeneathNoiseRecapSlide />;
+      case "five-pillars": return <ArchitecturePillarsSlide />;
+      case "inspiration": return <IntroVideoSlide />;
+      case "founder": return <FounderQuoteSlide />;
+      case "operating-system": return <SectionTitleSlide title="Operating System" />;
+      case "viral-fusion": return <ViralFusionEarthSlide />;
+      case "mission-vision": return <MissionVisionSlide />;
+      case "solving": return <ProblemsPyramidSlide />;
+      case "republic": return <SimpleRepublicSlide />;
+      case "civic-os": return <CivicOperatingSystemSlide />;
+      case "physical-infrastructure": return <CivicConnectivitySlide />;
+      case "strategic-alliance": return <StrategicAllianceSlide videoEmbedUrl={vf8VideoEmbedUrl} onOpenVideo={openVideo} />;
+      case "blueprint": return <IpoStrategySlide />;
+      case "execution-priorities": return <ExecutionPrioritiesSlide />;
+      case "podcast-strategy": return <PodcastStrategySlide onContinue={() => setCurrentPage(slideIndex("mo-gawdat"))} />;
+      case "mo-gawdat": return <FirstGuestSlide onContinue={() => setCurrentPage(slideIndex("strategy-map"))} />;
+      case "strategy-map": return <section className="presentation-scroll h-full w-full overflow-y-auto px-4 pb-28 pt-8 md:px-6"><StrategyMapContent /></section>;
+      case "black-swan": return <BlackSwanSlide />;
+      case "sustainability": return <SectionTitleSlide title="Sustainability Model" />;
+      case "legislation": return <SectionTitleSlide title="Legislative Examples" />;
+      case "musk-alliance": return <MuskAllianceVideoSlide />;
+      case "technology-alliance": return <TechnocratsSlide figures={elonFocusTechnocratFigures} elonFocusSequence voiceoverSrc="/slide-19-voiceover.mp3" voiceoverDelayMs={3000} />;
+      case "global-frameworks": return <FinalBeneathNoiseSlide />;
+      case "playbook": return <SectionTitleSlide title="OUR PLAYBOOK" />;
+      case "project-2026": return <SectionTitleSlide title="PROJECT 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" introVoiceoverSrc="/project2026intro.mp3" />;
+      case "purpose": return <LivingWithPurposeSlide />;
+      case "call-to-action": return <ExecutionCallToActionSlide />;
+    }
+  };
 
   return (
-    <div
-      className={`relative min-h-screen overflow-x-hidden transition-colors duration-500 ${
-        isCameraOpeningSlide
-          ? "bg-[radial-gradient(circle_at_50%_-10%,rgba(49,76,99,0.58),transparent_42%),linear-gradient(145deg,#101b26_0%,#142330_48%,#0e1822_100%)]"
-          : "bg-[radial-gradient(circle_at_12%_0%,rgba(72,88,104,0.16),transparent_24%),linear-gradient(135deg,#d9ddd9_0%,#e8e9e5_34%,#d9dee2_100%)]"
-      }`}
-    >
-      <div
-        className={`pointer-events-none absolute inset-0 [background-position:center_center] [background-size:28px_28px] ${
-          isCameraOpeningSlide
-            ? "opacity-20 [background-image:linear-gradient(rgba(184,203,218,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(184,203,218,0.08)_1px,transparent_1px)]"
-            : "opacity-40 [background-image:linear-gradient(rgba(17,22,28,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,22,28,0.05)_1px,transparent_1px)]"
-        }`}
-      />
-      <div
-        className={`pointer-events-none absolute inset-x-0 top-0 h-36 ${
-          isCameraOpeningSlide
-            ? "bg-[linear-gradient(180deg,rgba(143,168,189,0.08),transparent)]"
-            : "bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]"
-        }`}
-      />
-      <div
-        className={`pointer-events-none absolute inset-x-0 bottom-0 h-40 ${
-          isCameraOpeningSlide
-            ? "bg-[linear-gradient(0deg,rgba(0,0,0,0.16),transparent)]"
-            : "bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]"
-        }`}
-      />
-
-      <main
-        className={`relative z-10 mx-auto flex h-[100dvh] max-w-none flex-col ${
-          isStrategyMapSlide || isMainDeckImageSlide || isManifestoSlide
-            ? "w-full px-0 py-0"
-            : "w-[90%] px-6 py-10 sm:px-10 lg:px-14"
-        }`}
-      >
-        <div
-          ref={pageContainerRef}
-          className={
-            isStrategyMapSlide ||
-            isManifestoSlide ||
-            isPromiseSlide ||
-            isProblemsSlide ||
-            isLivingWithPurposeSlide ||
-            isYearVideoSlide ||
-            isTicMicPieSlide ||
-            isArchitecturePillarsSlide ||
-            isIntroVideoSlide ||
-            isRelocatedAgendaSlide ||
-            isBlackSwanSlide ||
-            isIpoStrategySlide ||
-            isOperatingSystemSlide ||
-            isMainDeckImageSlide ||
-            isStrategyMapIntroSlide ||
-            isInsertedTechnocratsSlide ||
-            isTechnocratsSlide ||
-            isPreCtaSlide
-              ? "presentation-scroll min-h-0 flex-1 overflow-hidden"
-              : "presentation-scroll min-h-0 flex-1 overflow-y-auto pb-24 pt-24 pr-1 md:pb-28 md:pt-28 md:pr-2"
-          }
-        >
-          {currentPage === 0 ? (
-            <SectionTitleSlide
-              title="1776 - 2026"
-              introVoiceoverSrc="/voices/slide1.mp3"
-              bottomCopy={
-                <>
-                  <p className="font-display text-[1.1rem] leading-tight text-[#f4f2ec] sm:text-[1.35rem]">
-                    250 Years
-                  </p>
-                  <p className="mt-1 font-display text-[1.1rem] leading-tight text-[#f4f2ec] sm:text-[1.35rem]">
-                    Does ‘We the People’ still rule?
-                  </p>
-                </>
-              }
-            />
-          ) : currentPage === 1 ? (
-            <SectionTitleSlide
-              title="DOGE"
-              introVoiceoverSrc="/voices/Slide3.mp3"
-              bottomCopy={
-                <>
-                  <p className="font-display text-[1.1rem] leading-tight text-[#f4f2ec] sm:text-[1.35rem]">
-                    The Goal Isn’t to Catch Fraud Faster
-                  </p>
-                  <p className="mt-1 font-display text-[1.1rem] leading-tight text-[#f4f2ec] sm:text-[1.35rem]">
-                    The goal is to make fraud physically impossible.
-                  </p>
-                </>
-              }
-            />
-          ) : currentPage === 2 ? (
-            <SectionTitleSlide title="The Children" />
-          ) : currentPage === 3 ? (
-            <GirlPage />
-          ) : currentPage === 4 ? (
-            <QuestionSlide question={openingQuestions[1]} />
-          ) : currentPage === 5 ? (
-            <FullScreenFlagSlide src="/flag1.webm" />
-          ) : currentPage === 6 ? (
-            <ItsAllALieVideoSlide />
-          ) : currentPage === 7 ? (
-            <QuestionSlide question={openingQuestions[0]} />
-          ) : currentPage === 8 ? (
-            <NoHeadlineVideoSlide />
-          ) : currentPage === 9 ? (
-            <MagaPage />
-          ) : currentPage === 10 ? (
-            <ManifestoStatementsPage />
-          ) : currentPage === 11 ? (
-            <PromisePage />
-          ) : currentPage === 12 ? (
-            <AgendaPage />
-          ) : currentPage === 13 ? (
-            <section className="relative flex h-full flex-col overflow-hidden py-8">
-              <BackgroundVoiceoverButton
-                src="/voices/Problems.mp3"
-                label="Problems voiceover"
-              />
-
-              <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
-                <header className="mx-auto max-w-3xl shrink-0 text-center">
-                  <h1 className={`${slideTitleTypography} text-ink`}>
-                    Problems
-                  </h1>
-                </header>
-                <section
-                  key={currentPage}
-                  className="mt-10 grid w-full shrink-0 gap-5 md:grid-cols-2 xl:grid-cols-6"
-                >
-                  {deckPages[0].map((deck) => (
-                    <DeckCard
-                      key={deck.href}
-                      deck={deck}
-                      onOpenVideo={setActiveVideoEmbedUrl}
-                    />
-                  ))}
-                </section>
-              </div>
-
-              <div className="mx-auto w-full max-w-7xl shrink-0 pb-1">
-                <div className="mx-auto max-w-4xl space-y-1.5 rounded-[1.1rem] border border-ink/10 bg-white/60 px-5 py-3 backdrop-blur-sm">
-                  {problemsNotes.map((note) => (
-                    <p
-                      key={note}
-                      className="text-[0.78rem] leading-snug text-graphite sm:text-[0.82rem]"
-                    >
-                      {note}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </section>
-          ) : currentPage === 14 ? (
-            <TicMicPieSlide />
-          ) : currentPage === 15 ? (
-            <YearVideoSlide />
-          ) : currentPage === 16 ? (
-            <TechnocratsSlide
-              figures={post2010TechnocratFigures}
-              frameworkSequence
-              voiceoverSrc="/voices/Technocrats_01.mp3"
-            />
-          ) : currentPage === 17 ? (
-            <GeorgeSorosVideoSlide />
-          ) : currentPage === 18 ? (
-            <LivingWithPurposeSlide />
-          ) : currentPage === 19 ? (
-            <ArchitecturePillarsSlide />
-          ) : currentPage === 20 ? (
-            <IntroVideoSlide />
-          ) : isOperatingSystemSlide ? (
-            <SectionTitleSlide title="Operating System" />
-          ) : isMainDeckImageSlide && mainDeckSlideIndex === 0 ? (
-            <ViralFusionEarthSlide />
-          ) : isMainDeckImageSlide && mainDeckSlideIndex === 1 ? (
-            <FounderQuoteSlide />
-          ) : isMainDeckImageSlide && mainDeckSlideIndex === 2 ? (
-            <MissionVisionSlide />
-          ) : isMainDeckImageSlide && mainDeckSlideIndex === 3 ? (
-            <ProblemsPyramidSlide />
-          ) : isMainDeckImageSlide && mainDeckSlideIndex === 4 ? (
-            <SimpleRepublicSlide />
-          ) : isMainDeckImageSlide && mainDeckSlideIndex === 5 ? (
-            <CivicOperatingSystemSlide />
-          ) : isMainDeckImageSlide && mainDeckSlideIndex === 6 ? (
-            <CivicConnectivitySlide />
-          ) : isMainDeckImageSlide && mainDeckSlideIndex === 7 ? (
-            <StrategicAllianceSlide
-              videoEmbedUrl={vf8VideoEmbedUrl}
-              onOpenVideo={setActiveVideoEmbedUrl}
-            />
-          ) : isMainDeckImageSlide ? (
-            <MainDeckImageSlide
-              src={mainDeckSlides[mainDeckSlideIndex]!}
-              index={mainDeckSlideIndex}
-              videoEmbedUrl={
-                mainDeckSlides[mainDeckSlideIndex] === "/mainslides/VF8.jpg"
-                  ? vf8VideoEmbedUrl
-                  : undefined
-              }
-              onOpenVideo={setActiveVideoEmbedUrl}
-            />
-          ) : currentPage === howPage ? (
-            <SectionTitleSlide title="Our Playbook" />
-          ) : currentPage === project2026Page ? (
-            <SectionTitleSlide
-              title="Project 2026"
-              voiceoverSrc="/project-2026-nrusa%20copy%202.mp3"
-              introVoiceoverSrc="/project2026intro.mp3"
-            />
-          ) : currentPage === ipoStrategyPage ? (
-            <IpoStrategySlide />
-          ) : currentPage === strategyMapIntroPage ? (
-            <StrategyMapIntroSlide label="" />
-          ) : currentPage === blackSwanPage ? (
-            <BlackSwanSlide />
-          ) : currentPage === strategyMapContentPage ? (
-            <section className="presentation-scroll h-full w-full overflow-y-auto px-4 py-8 md:px-6">
-              <StrategyMapContent />
-            </section>
-          ) : isPreCtaSlide && preCtaSlideIndex === 2 ? (
-            <MuskAllianceVideoSlide />
-          ) : isPreCtaSlide ? (
-            <SectionTitleSlide title={preCtaSlides[preCtaSlideIndex]} />
-          ) : currentPage === finalTechnocratsPage ? (
-            <TechnocratsSlide
-              figures={elonFocusTechnocratFigures}
-              elonFocusSequence
-              voiceoverSrc="/slide-19-voiceover.mp3"
-              voiceoverDelayMs={3000}
-            />
-          ) : (
-            <PlaceholderCtaPage />
-          )}
+    <div className={"relative h-[100dvh] overflow-hidden " + (isLightSlide ? "bg-[linear-gradient(135deg,#d9ddd9,#e8e9e5_34%,#d9dee2)]" : "bg-[radial-gradient(circle_at_50%_-10%,rgba(49,76,99,0.58),transparent_42%),linear-gradient(145deg,#101b26_0%,#142330_48%,#0e1822_100%)]")}>
+      <div className={"pointer-events-none absolute inset-0 [background-size:28px_28px] " + (isLightSlide ? "opacity-40 [background-image:linear-gradient(rgba(17,22,28,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,22,28,0.05)_1px,transparent_1px)]" : "opacity-20 [background-image:linear-gradient(rgba(184,203,218,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(184,203,218,0.08)_1px,transparent_1px)]")} />
+      <main inert={Boolean(activeVideoEmbedUrl)} className="relative z-10 h-full w-full">
+        <div key={activeSlide.id} ref={pageContainerRef} data-slide-id={activeSlide.id} aria-label={activeSlide.title} className="h-full min-h-0 overflow-hidden">
+          {slideContent()}
         </div>
       </main>
 
-      {activeVideoEmbedUrl ? (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Embedded video"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#07101a]/88 p-4 backdrop-blur-md sm:p-8"
-          onClick={() => setActiveVideoEmbedUrl(null)}
-        >
-          <div
-            className="relative w-full max-w-6xl overflow-hidden rounded-[1.5rem] border border-white/20 bg-black shadow-[0_36px_120px_rgba(0,0,0,0.6)]"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              type="button"
-              aria-label="Close video"
-              onClick={() => setActiveVideoEmbedUrl(null)}
-              className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-black/65 text-white backdrop-blur-sm transition-colors hover:bg-black/90"
-            >
-              <X size={20} strokeWidth={2.2} />
-            </button>
-            <div className="aspect-video">
-              <iframe
-                src={activeVideoEmbedUrl}
-                title="Beneath the Noise"
-                className="h-full w-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            </div>
+      {activeVideoEmbedUrl && (
+        <div role="dialog" aria-modal="true" aria-label="Presentation video" className="fixed inset-0 z-50 flex items-center justify-center bg-[#07101a]/90 p-4 backdrop-blur-md sm:p-8" onClick={closeVideo}>
+          <div className="relative w-full max-w-[min(72rem,calc((100dvh-4rem)*1.7778))] overflow-hidden rounded-[1.5rem] border border-white/20 bg-black shadow-[0_36px_120px_rgba(0,0,0,0.6)]" onClick={(event) => event.stopPropagation()}>
+            <span tabIndex={0} className="sr-only" onFocus={() => videoPlayerRef.current?.focus()} />
+            <button ref={closeVideoRef} type="button" aria-label="Close video" onClick={closeVideo} className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#9beaff]"><X size={20} /></button>
+            <div className="aspect-video"><iframe ref={videoPlayerRef} src={activeVideoEmbedUrl} title="Presentation video" className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /></div>
+            <span tabIndex={0} className="sr-only" onFocus={() => closeVideoRef.current?.focus()} />
           </div>
         </div>
-      ) : null}
+      )}
 
-      <div
-        className={`fixed bottom-6 right-6 z-20 flex items-center gap-2 rounded-full px-2 py-1.5 shadow-deck md:bottom-8 md:right-8 ${
-          isCameraOpeningSlide
-            ? "border border-white/10 bg-[#172534]/92"
-            : "border border-line bg-white/92"
-        }`}
-      >
-        <button
-          type="button"
-          aria-label="Previous page"
-          onClick={() => setCurrentPage((page) => Math.max(page - 1, 0))}
-          disabled={currentPage === 0}
-          className={`flex h-9 w-9 items-center justify-center rounded-full border transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 ${
-            isCameraOpeningSlide
-              ? "border-white/10 bg-white/5 text-[#f4f2ec] hover:border-[#01c7f3]/65"
-              : "border-line bg-white text-ink hover:border-accent"
-          }`}
-        >
-          <ChevronLeft size={17} strokeWidth={2.1} />
-        </button>
-        <div
-          className={`min-w-16 px-2 text-center text-[0.72rem] font-semibold tabular-nums tracking-[0.16em] ${
-            isCameraOpeningSlide ? "text-[#d8edf6]" : "text-graphite"
-          }`}
-          aria-live="polite"
-        >
-          {currentPage + 1}/{totalPages}
-        </div>
-        <button
-          type="button"
-          aria-label="Next page"
-          onClick={() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1))}
-          disabled={currentPage === totalPages - 1}
-          className={`flex h-9 w-9 items-center justify-center rounded-full border transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 ${
-            isCameraOpeningSlide
-              ? "border-white/10 bg-white/5 text-[#f4f2ec] hover:border-[#01c7f3]/65"
-              : "border-line bg-white text-ink hover:border-accent"
-          }`}
-        >
-          <ChevronRight size={17} strokeWidth={2.1} />
-        </button>
-      </div>
+      <nav inert={Boolean(activeVideoEmbedUrl)} aria-label="Presentation navigation" className={"fixed bottom-4 right-4 z-20 flex items-center gap-2 rounded-full border px-2 py-1.5 shadow-deck sm:bottom-6 sm:right-6 md:bottom-8 md:right-8 " + (isLightSlide ? "border-line bg-white/95 text-ink" : "border-white/10 bg-[#172534]/95 text-[#f4f2ec]")}>
+        <button type="button" aria-label="Previous page" onClick={() => setCurrentPage((page) => Math.max(page - 1, 0))} disabled={currentPage === 0} className={"flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#9beaff] disabled:cursor-not-allowed disabled:opacity-35 " + (isLightSlide ? "text-ink" : "text-[#f4f2ec]")}><ChevronLeft size={18} /></button>
+        <span aria-live="polite" aria-atomic="true" className="min-w-16 px-2 text-center text-xs font-semibold tabular-nums tracking-[0.12em]"><span className="sr-only">{activeSlide.title}, slide </span>{currentPage + 1} / {totalPages}</span>
+        <button type="button" aria-label="Next page" onClick={() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1))} disabled={currentPage === totalPages - 1} className={"flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#9beaff] disabled:cursor-not-allowed disabled:opacity-35 " + (isLightSlide ? "text-ink" : "text-[#f4f2ec]")}><ChevronRight size={18} /></button>
+      </nav>
     </div>
   );
 }

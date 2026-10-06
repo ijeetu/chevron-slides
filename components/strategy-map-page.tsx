@@ -8,10 +8,11 @@ import {
   Building2, UserCheck, Users, ScrollText,
   MapPin, Megaphone, Lock, Target, CalendarClock,
   Handshake, Rocket, Network, Shield, Radio, HelpCircle,
-  ChevronLeft, ChevronRight, CircleDollarSign,
+  ChevronLeft, ChevronRight,
 } from "lucide-react";
 
 import { BackButton } from "@/components/back-button";
+import { ExecutionPrioritiesSlide } from "@/components/execution-priorities-slide";
 import {
   floatingControlButtonClass,
   floatingControlSurfaceClass,
@@ -723,61 +724,16 @@ export function StrategyMapContent() {
 }
 
 export function StrategyMapIntroSlide({
-  label = "Strategy Map",
+  label = "Three Execution Priorities",
 }: {
   label?: string;
 } = {}) {
   return (
-    <section className="mx-auto flex min-h-screen w-full max-w-6xl items-center px-6 py-20 sm:px-10 lg:px-14">
-      <div className="w-full">
-        <div className="max-w-4xl">
-          <p className="text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-graphite">
-            {label}
-          </p>
-          <h1 className="mt-5 font-display text-5xl leading-[0.95] text-ink md:text-[5.5rem]">
-            Three Goals
-          </h1>
-        </div>
-
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {[
-            "Form a strategic alliance across key industries.",
-            "Draft durable legislation.",
-            "Launch the largest citizen-led legislative rollout in United States history.",
-          ].map((goal, index) => (
-            <article
-              key={goal}
-              className="relative overflow-hidden rounded-[1.8rem] border border-line bg-white/92 p-7 shadow-deck"
-            >
-              <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#4d73c6]/45 to-transparent" />
-              <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/35 bg-[linear-gradient(145deg,#eef4ff,#dfe9fb)] text-sm font-semibold text-ink">
-                  {index + 1}
-                </div>
-                <p className="pt-1 text-xl leading-8 text-ink md:text-[1.45rem] md:leading-10">
-                  {goal}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="mt-10 max-w-4xl overflow-hidden rounded-[1.8rem] border border-[#4d73c6]/20 bg-white/88 p-8 shadow-deck">
-          <div className="flex items-start gap-4">
-            <div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(145deg,#5d84d2,#3e62b8)] text-white shadow-[0_10px_24px_rgba(77,115,198,0.26)]">
-              <CircleDollarSign size={20} strokeWidth={1.8} />
-            </div>
-            <div>
-              <p className="text-[0.76rem] font-semibold uppercase tracking-[0.24em] text-graphite">
-                Funding Principle
-              </p>
-              <p className="mt-3 text-xl leading-8 text-ink md:text-[1.45rem] md:leading-10">
-                Align the stakeholders who benefit to fund the effort.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section
+      aria-label={label}
+      className="h-[100dvh] min-h-0 w-full pb-24 pt-16 sm:pt-20"
+    >
+      <ExecutionPrioritiesSlide />
     </section>
   );
 }
@@ -785,7 +741,7 @@ export function StrategyMapIntroSlide({
 const STRATEGY_MAP_STEPS = [
   {
     key: "intro",
-    label: "Three Goals",
+    label: "Three Execution Priorities",
     render: <StrategyMapIntroSlide />,
   },
   {
