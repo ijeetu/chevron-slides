@@ -32,7 +32,9 @@ import {
   FinalBeneathNoiseSlide,
 } from "@/components/beneath-noise-slides";
 import { ExecutionPrioritiesSlide } from "@/components/execution-priorities-slide";
-import { FirstGuestSlide, PodcastStrategySlide } from "@/components/podcast-strategy-slide";
+import { PodcastStrategySlide } from "@/components/podcast-strategy-slide";
+import { GuestChapterSlide } from "@/components/guest-chapter-slide";
+import { guestSlides } from "@/lib/guest-chapter";
 import { namedHashMatchesSlide, pageFromHash, slideIndex, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
 type Deck = {
@@ -1928,7 +1930,7 @@ function SimpleRepublicSlide() {
           We keep it simple:
         </p>
         <h1 className="mt-[2%] font-display text-[clamp(1.75rem,4vw,4.8rem)] font-bold leading-tight tracking-[-0.035em] lg:whitespace-nowrap">
-          Connectivity. Tools. decision-making.
+          Connectivity. Tools. Better Decision-Making.
         </h1>
         <p className="mt-[2.2%] font-display text-[clamp(1.1rem,2.45vw,2.95rem)] font-medium text-white/92">
           A stronger Republic—powered by proof, voice, and action.
@@ -2682,6 +2684,7 @@ function ExecutionCallToActionSlide() {
 export function LibraryPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [activeVideoEmbedUrl, setActiveVideoEmbedUrl] = useState<string | null>(null);
+  const [isVideoLoading, setIsVideoLoading] = useState(false);
   const [hasResolvedInitialHash, setHasResolvedInitialHash] = useState(false);
   const pageContainerRef = useRef<HTMLDivElement>(null);
   const videoTriggerRef = useRef<HTMLElement | null>(null);
@@ -2694,11 +2697,11 @@ export function LibraryPage() {
   const openVideo = (url: string) => {
     videoTriggerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     document.querySelectorAll("audio").forEach((audio) => audio.pause());
+    setIsVideoLoading(true);
     setActiveVideoEmbedUrl(url);
   };
   const closeVideo = () => {
     setActiveVideoEmbedUrl(null);
-    videoTriggerRef.current?.focus();
   };
 
   useEffect(() => {
@@ -2719,7 +2722,7 @@ export function LibraryPage() {
         if (event.key === "Escape") closeVideo();
         return;
       }
-      if (target instanceof HTMLElement && (target.isContentEditable || target.closest("button, a, input, textarea, select, video"))) return;
+      if (target instanceof HTMLElement && (target.isContentEditable || target.closest("button, a, input, textarea, select, video, summary"))) return;
       if (["ArrowRight", "PageDown", " "].includes(event.key)) {
         event.preventDefault();
         setCurrentPage((page) => Math.min(page + 1, totalPages - 1));
@@ -2738,7 +2741,7 @@ export function LibraryPage() {
   useEffect(() => {
     pageContainerRef.current?.scrollTo({ top: 0 });
     if (!hasResolvedInitialHash || namedHashMatchesSlide(window.location.hash, activeSlide.id)) return;
-    const hash = "#page-" + (currentPage + 1);
+    const hash = "#slide-" + activeSlide.id;
     if (window.location.hash !== hash) window.history.replaceState(null, "", hash);
   }, [currentPage, hasResolvedInitialHash, activeSlide.id]);
 
@@ -2748,7 +2751,13 @@ export function LibraryPage() {
   }, [isLightSlide]);
 
   useEffect(() => {
-    if (activeVideoEmbedUrl) closeVideoRef.current?.focus();
+    if (activeVideoEmbedUrl) {
+      closeVideoRef.current?.focus();
+    } else if (videoTriggerRef.current) {
+      // Restore focus after the dialog unmounts and the slide is no longer inert.
+      videoTriggerRef.current.focus();
+      videoTriggerRef.current = null;
+    }
   }, [activeVideoEmbedUrl]);
 
   const slideContent = () => {
@@ -2788,7 +2797,19 @@ export function LibraryPage() {
       case "blueprint": return <IpoStrategySlide />;
       case "execution-priorities": return <ExecutionPrioritiesSlide />;
       case "podcast-strategy": return <PodcastStrategySlide onContinue={() => setCurrentPage(slideIndex("mo-gawdat"))} />;
-      case "mo-gawdat": return <FirstGuestSlide onContinue={() => setCurrentPage(slideIndex("strategy-map"))} />;
+      case "mo-gawdat":
+      case "samsung":
+      case "charles-adkins":
+      case "palmer-luckey":
+      case "ford":
+      case "lynsi-snyder":
+      case "chevron":
+      case "x-energy":
+      case "patrick-soon-shiong":
+      case "brandon-cuevas":
+      case "hedera-founders":
+      case "michele-chan":
+      case "chad-bianco": return <GuestChapterSlide slide={guestSlides[activeSlide.id]} nextLabel={viralFusionDeck[currentPage + 1]?.title} onContinue={() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1))} onOpenVideo={openVideo} />;
       case "strategy-map": return <section className="presentation-scroll h-full w-full overflow-y-auto px-4 pb-28 pt-8 md:px-6"><StrategyMapContent /></section>;
       case "black-swan": return <BlackSwanSlide />;
       case "sustainability": return <SectionTitleSlide title="Sustainability Model" />;
@@ -2813,11 +2834,15 @@ export function LibraryPage() {
       </main>
 
       {activeVideoEmbedUrl && (
-        <div role="dialog" aria-modal="true" aria-label="Presentation video" className="fixed inset-0 z-50 flex items-center justify-center bg-[#07101a]/90 p-4 backdrop-blur-md sm:p-8" onClick={closeVideo}>
-          <div className="relative w-full max-w-[min(72rem,calc((100dvh-4rem)*1.7778))] overflow-hidden rounded-[1.5rem] border border-white/20 bg-black shadow-[0_36px_120px_rgba(0,0,0,0.6)]" onClick={(event) => event.stopPropagation()}>
+        <div role="dialog" aria-modal="true" aria-label="Presentation video" className="fixed inset-0 z-[90] flex items-center justify-center bg-[#07101a]/90 p-4 backdrop-blur-md sm:p-8" onClick={closeVideo}>
+          <div className="relative w-full max-w-[min(72rem,calc((100dvh-7.5rem)*1.7778))] overflow-hidden rounded-[1.5rem] border border-white/20 bg-black shadow-[0_36px_120px_rgba(0,0,0,0.6)]" onClick={(event) => event.stopPropagation()}>
             <span tabIndex={0} className="sr-only" onFocus={() => videoPlayerRef.current?.focus()} />
             <button ref={closeVideoRef} type="button" aria-label="Close video" onClick={closeVideo} className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#9beaff]"><X size={20} /></button>
-            <div className="aspect-video"><iframe ref={videoPlayerRef} src={activeVideoEmbedUrl} title="Presentation video" className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /></div>
+            <div className="relative aspect-video">
+              {isVideoLoading && <div role="status" className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center gap-3 text-sm text-[#c9dce7]"><span className="h-5 w-5 animate-spin rounded-full border-2 border-[#9beaff]/20 border-t-[#9beaff] motion-reduce:animate-none" aria-hidden="true" />Loading video…</div>}
+              <iframe ref={videoPlayerRef} src={activeVideoEmbedUrl} onLoad={() => setIsVideoLoading(false)} title="Presentation video" className="relative h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+            </div>
+            <div className="flex min-h-12 items-center justify-end border-t border-white/10 bg-[#101f2d] px-4"><a href={activeVideoEmbedUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 text-xs text-[#c9dce7] hover:text-[#9beaff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9beaff]">Open video in a new tab<ArrowRight className="h-3.5 w-3.5 -rotate-45" aria-hidden="true" /></a></div>
             <span tabIndex={0} className="sr-only" onFocus={() => closeVideoRef.current?.focus()} />
           </div>
         </div>

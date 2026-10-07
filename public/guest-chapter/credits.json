@@ -1,0 +1,109 @@
+{
+  "portraits": [
+    {
+      "guestId": "mo-gawdat",
+      "person": "Mo Gawdat",
+      "asset": "/guest-chapter/mo-gawdat.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mo_Gawdat_2022.png",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Mo_Gawdat_2022.png",
+      "credit": "Anything Goes With James English / Wikimedia Commons",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "changes": "Resized to 640 px maximum dimension; converted to JPEG."
+    },
+    {
+      "guestId": "palmer-luckey",
+      "person": "Palmer Luckey",
+      "asset": "/guest-chapter/palmer-luckey.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:CES_2026_-_Palmer_Luckey_01_(cropped).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/CES_2026_-_Palmer_Luckey_01_%28cropped%29.jpg",
+      "credit": "Xuthoria / Wikimedia Commons",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "changes": "Resized to 640 px maximum dimension; JPEG recompressed. Original crop supplied by Wikimedia Commons."
+    },
+    {
+      "guestId": "lynsi-snyder",
+      "person": "Lynsi Snyder",
+      "asset": "/guest-chapter/lynsi-snyder.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lynsi_Snyder.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Lynsi_Snyder.jpg",
+      "credit": "In-N-Out Burger / Wikimedia Commons",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "changes": "Resized to 640 px maximum dimension; JPEG recompressed."
+    },
+    {
+      "guestId": "patrick-soon-shiong",
+      "person": "Dr. Patrick Soon-Shiong",
+      "asset": "/guest-chapter/patrick-soon-shiong.webp",
+      "sourceUrl": "https://immunitybio.com/about/",
+      "imageUrl": "https://immunitybio.com/wp-content/smush-webp/2020/12/Body_About_Us_Page_Team_Patrick_Soon-Shiong-300x300.jpg.webp",
+      "credit": "ImmunityBio official leadership photograph",
+      "license": "Source retains copyright; no open license stated.",
+      "changes": "Unmodified official 300 x 300 WebP."
+    },
+    {
+      "guestId": "hedera-founders",
+      "person": "Mance Harmon",
+      "asset": "/guest-chapter/mance-harmon.jpg",
+      "sourceUrl": "https://hederacouncil.org/about/governance",
+      "imageUrl": "https://hederacouncil.org/Mance%20Harmon.png",
+      "credit": "Hedera Council official governance photograph",
+      "license": "Source retains copyright; no open license stated.",
+      "changes": "Resized to 640 px maximum dimension; converted to JPEG."
+    },
+    {
+      "guestId": "hedera-founders",
+      "person": "Dr. Leemon Baird",
+      "asset": "/guest-chapter/leemon-baird.jpg",
+      "sourceUrl": "https://hederacouncil.org/about/governance",
+      "imageUrl": "https://hederacouncil.org/Leemon%20Baird.png",
+      "credit": "Hedera Council official governance photograph",
+      "license": "Source retains copyright; no open license stated.",
+      "changes": "Resized to 640 px maximum dimension; converted to JPEG."
+    },
+    {
+      "guestId": "chad-bianco",
+      "person": "Chad Bianco",
+      "asset": "/guest-chapter/chad-bianco.jpg",
+      "sourceUrl": "https://www.riversidesheriff.org/m/directory/employee?eid=74",
+      "imageUrl": "https://www.riversidesheriff.org/ImageRepository/Document?documentID=8701",
+      "credit": "Riverside County Sheriff official staff photograph",
+      "license": "Official government photograph; no open license stated.",
+      "changes": "Resized to 640 px maximum dimension; JPEG recompressed."
+    },
+    {
+      "guestId": "michele-chan",
+      "person": "Michele B. Chan",
+      "asset": "/guest-chapter/michele-chan.jpg",
+      "sourceUrl": "https://gasolfoundation.org/our-team-usa/",
+      "imageUrl": "https://gasolfoundation.org/wp-content/uploads/2021/06/MSS-Head-Shot.png",
+      "credit": "Gasol Foundation official board portrait",
+      "license": "Source retains copyright; no open license stated.",
+      "changes": "Resized to 640 px maximum dimension; converted to JPEG."
+    },
+    {
+      "guestId": "charles-adkins",
+      "person": "Charles Adkins",
+      "asset": "/guest-chapter/charles-adkins.jpg",
+      "sourceUrl": "https://tickets.parisblockchainweek.com/2025/speaker/1501378/charles-adkins",
+      "imageUrl": "https://assets.swoogo.com/uploads/full/4746592-6777f33f4dd96.png",
+      "credit": "Paris Blockchain Week official speaker portrait",
+      "license": "Source retains copyright; no open license stated.",
+      "changes": "Resized to 640 px maximum dimension; converted to JPEG."
+    },
+    {
+      "guestId": "brandon-cuevas",
+      "person": "Brandon Cuevas",
+      "asset": "/guest-chapter/brandon-cuevas.jpg",
+      "sourceUrl": "https://about.kaiserpermanente.org/content/dam/kp/mykp/images/photos/people/leaders/brandon-cuevas_650x488w.jpg",
+      "imageUrl": "https://about.kaiserpermanente.org/content/dam/kp/mykp/images/photos/people/leaders/brandon-cuevas_650x488w.jpg",
+      "credit": "Kaiser Permanente official leadership photograph",
+      "license": "Source retains copyright; no open license stated.",
+      "changes": "Resized to 640 px maximum dimension; JPEG recompressed.",
+      "sourceNote": "Retained named portrait in the official Kaiser Permanente leadership asset directory; the former individual biography page has been removed."
+    }
+  ],
+  "note": "Portraits identify proposed conversation participants. Their inclusion does not imply endorsement or an agreed partnership."
+}

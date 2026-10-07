@@ -8,10 +8,6 @@ type PodcastStrategySlideProps = {
   onContinue?: () => void;
 };
 
-type FirstGuestSlideProps = {
-  onContinue?: () => void;
-};
-
 const INDUSTRIES = [
   { name: "Automotive", Icon: Car },
   { name: "Energy", Icon: Zap },
@@ -128,7 +124,7 @@ export function PodcastStrategySlide({ onContinue }: PodcastStrategySlideProps =
               <p className={styles.eyebrow}>FIRST CONVERSATION</p>
               <h2 className="font-display">MO GAWDAT</h2>
               <p className={styles.guestTopic} data-visible={firstGuestFocused}>
-                THE HUMANITY, AI &amp;<br className={styles.topicBreak} /> GOVERNMENT REBUILD
+                THE HUMANITY &amp;<br className={styles.topicBreak} /> AI GOVERNANCE LAYER
               </p>
             </div>
             <div className={styles.guestPath} data-visible={pathVisible} aria-hidden="true">
@@ -176,27 +172,8 @@ export function PodcastStrategySlide({ onContinue }: PodcastStrategySlideProps =
         </div>
       </div>
       <span className={styles.screenReaderOnly} role="status" aria-live="polite">
-        {finished ? "Strategy map complete. First conversation: Mo Gawdat, The Humanity, AI and Government Rebuild." : sequence.paused ? "Strategy map sequence paused." : ""}
+        {finished ? "Strategy map complete. First conversation: Mo Gawdat, the Humanity and AI Governance Layer." : sequence.paused ? "Strategy map sequence paused." : ""}
       </span>
-    </section>
-  );
-}
-
-export function FirstGuestSlide({ onContinue }: FirstGuestSlideProps = {}) {
-  return (
-    <section className={`${styles.root} ${styles.firstGuestRoot}`} aria-labelledby="first-guest-title">
-      <div className={styles.firstGuestContent}>
-        <p className={styles.eyebrow}><span className={styles.ecosystemDot} aria-hidden="true" /> FIRST CONVERSATION</p>
-        <span className={styles.firstGuestRule} aria-hidden="true" />
-        <h1 id="first-guest-title" className="font-display">MO<br />GAWDAT</h1>
-        <p className={`${styles.firstGuestTopic} font-display`}>THE HUMANITY, AI &amp;<br />GOVERNMENT REBUILD</p>
-        {onContinue && (
-          <button className={styles.continueButton} onClick={onContinue}>
-            Continue <ArrowRight size={16} aria-hidden="true" />
-          </button>
-        )}
-      </div>
-      <div className={styles.firstGuestOrbit} aria-hidden="true"><span /><span /><span /></div>
     </section>
   );
 }
