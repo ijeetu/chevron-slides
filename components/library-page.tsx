@@ -1664,8 +1664,8 @@ function IpoStrategySlide() {
           The Blueprint
         </h1>
         <div className="mx-auto mt-6 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
-        <p className="mt-5 font-display text-[1.2rem] font-medium leading-tight text-[#b9f2ff] sm:text-[1.55rem] lg:text-[1.8rem]">
-          Benchmark: SpaceX ~30-Month IPO Strategy
+        <p className="mx-auto mt-5 max-w-5xl text-balance font-display text-[1.05rem] font-medium leading-[1.3] text-[#b9f2ff] sm:text-[1.35rem] lg:text-[1.6rem]">
+          Operational Benchmark: SpaceX — Velocity, Infrastructure, Category Creation
         </p>
       </header>
 
@@ -1929,11 +1929,11 @@ function SimpleRepublicSlide() {
         <p className="font-display text-[clamp(1.15rem,2.35vw,2.8rem)] font-medium text-white/90">
           We keep it simple:
         </p>
-        <h1 className="mt-[2%] font-display text-[clamp(1.75rem,4vw,4.8rem)] font-bold leading-tight tracking-[-0.035em] lg:whitespace-nowrap">
-          Connectivity. Tools. Better Decision-Making.
+        <h1 className="mt-[2%] text-balance font-display text-[clamp(1.6rem,3.2vw,3.85rem)] font-bold leading-tight tracking-[-0.035em]">
+          Connectivity. Tools. Uncompromised Decision-Making.
         </h1>
         <p className="mt-[2.2%] font-display text-[clamp(1.1rem,2.45vw,2.95rem)] font-medium text-white/92">
-          A stronger Republic—powered by proof, voice, and action.
+          A stronger Republic—powered by proof, voice, and immediate action.
         </p>
       </div>
     </section>
@@ -2007,8 +2007,13 @@ function ProblemsPyramidSlide() {
               </div>
             ))}
           </div>
-          <div className="pyramid-base-reveal relative z-10 mx-auto mt-[clamp(.5rem,1.1vh,.95rem)] flex min-h-[clamp(3.2rem,6.5vh,5rem)] w-[96%] items-center justify-center border-t border-[#18bfe3]/35 bg-[#071012]/85 px-4 py-3 text-center font-display text-[clamp(.65rem,1.12vw,1.35rem)] font-bold tracking-[0.32em] text-[#c4ced1]">
-            TECHNOCRATIC NATIONALISM
+          <div className="pyramid-base-reveal relative z-10 mx-auto mt-[clamp(.5rem,1.1vh,.95rem)] flex min-h-[clamp(3.2rem,6.5vh,5rem)] w-[96%] flex-col items-center justify-center gap-2 border-t border-[#18bfe3]/35 bg-[#071012]/85 px-4 py-3 text-center font-display text-[#c4ced1]">
+            <p className="text-[clamp(.65rem,1.12vw,1.35rem)] font-bold tracking-[0.32em]">
+              TECHNOCRATIC NATIONALISM
+            </p>
+            <p className="text-[clamp(.65rem,.95vw,1.15rem)] font-medium leading-tight text-[#b9f2ff]">
+              Technology in service of citizen sovereignty.
+            </p>
           </div>
         </div>
       </div>
@@ -2020,7 +2025,9 @@ type ArchitectureNarrativeSlideProps = {
   eyebrow?: string;
   title: string;
   sectionTitle: string;
-  points: readonly string[];
+  points: readonly (string | { title: string; emphasis: string; description: string })[];
+  pointsLayout?: "rows" | "columns";
+  connector?: string;
   takeawayLabel: string;
   takeaway: string;
   videoEmbedUrl?: string;
@@ -2032,6 +2039,8 @@ function ArchitectureNarrativeSlide({
   title,
   sectionTitle,
   points,
+  pointsLayout = "rows",
+  connector,
   takeawayLabel,
   takeaway,
   videoEmbedUrl,
@@ -2057,21 +2066,46 @@ function ArchitectureNarrativeSlide({
             {sectionTitle}
           </h2>
 
-          <div className="mt-[clamp(.55rem,1.7vh,1.25rem)] divide-y divide-white/10 border-y border-white/10">
+          <div className={`mt-[clamp(.55rem,1.7vh,1.25rem)] ${pointsLayout === "columns" ? "grid gap-[clamp(.75rem,2vw,1.5rem)] md:grid-cols-2" : "divide-y divide-white/10 border-y border-white/10"}`}>
             {points.map((point, index) => (
               <div
-                key={point}
-                className="grid min-w-0 grid-cols-[clamp(2.4rem,5vw,4.5rem)_1fr] items-start gap-[clamp(.5rem,1.5vw,1.4rem)] py-[clamp(.55rem,1.35vh,1rem)]"
+                key={typeof point === "string" ? point : point.title}
+                className={`grid min-w-0 grid-cols-[clamp(2.4rem,5vw,4.5rem)_1fr] items-start gap-[clamp(.5rem,1.5vw,1.4rem)] py-[clamp(.55rem,1.35vh,1rem)] ${pointsLayout === "columns" ? "border-y border-white/10" : ""}`}
               >
                 <span className="font-mono text-[clamp(.62rem,min(.9vw,1.6vh),1rem)] font-bold tracking-[0.2em] text-[#18bfe3]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <p className="font-display text-[clamp(.74rem,min(1.18vw,1.95vh),1.4rem)] leading-[1.3] text-[#d2dde1]">
-                  {point}
-                </p>
+                {typeof point === "string" ? (
+                  <p className="font-display text-[clamp(.74rem,min(1.18vw,1.95vh),1.4rem)] leading-[1.3] text-[#d2dde1]">
+                    {point}
+                  </p>
+                ) : (
+                  <div className="min-w-0 font-display">
+                    <h3 className="text-[clamp(.85rem,min(1.5vw,2.5vh),1.8rem)] font-semibold leading-tight text-[#eaf2f4]">
+                      {point.title}
+                    </h3>
+                    <p className="mt-2 font-mono text-[clamp(.6rem,min(.85vw,1.45vh),1rem)] font-bold tracking-[0.16em] text-[#18bfe3]">
+                      {point.emphasis}
+                    </p>
+                    <p className="mt-2 text-[clamp(.74rem,min(1.18vw,1.95vh),1.4rem)] leading-[1.3] text-[#d2dde1]">
+                      {point.description}
+                    </p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
+          {connector ? (
+            <div className="mt-[clamp(.55rem,1.7vh,1.25rem)] text-center">
+              <div aria-hidden="true" className="mx-auto hidden w-[52%] md:block">
+                <div className="h-3 border-x border-b border-[#18bfe3]/45" />
+                <div className="mx-auto h-3 w-px bg-[#18bfe3]/45" />
+              </div>
+              <p className="text-balance font-mono text-[clamp(.65rem,min(1vw,1.7vh),1.15rem)] font-bold leading-tight tracking-[0.12em] text-[#b9f2ff]">
+                {connector}
+              </p>
+            </div>
+          ) : null}
         </article>
 
         <div className="relative mt-[clamp(.7rem,2.2vh,1.6rem)] shrink-0 overflow-hidden rounded-[clamp(.8rem,1.3vw,1rem)] border border-[#9beaff]/20 bg-[#071426]/78 px-[clamp(.8rem,3.2%,2.5rem)] py-[clamp(.65rem,1.5vh,1.25rem)] shadow-[0_18px_50px_rgba(0,0,0,0.2)] before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-[#18bfe3]">
@@ -2112,8 +2146,8 @@ function CivicOperatingSystemSlide() {
         "Anchors that signal on-chain as tamper-evident proof of public demand.",
         "Converts public will into lawful action—petitions, recalls, referenda, and coordinated campaigns—executed fast and cost-effectively.",
       ]}
-      takeawayLabel="Outcomes"
-      takeaway="Strengthened election trust via end-to-end integrity: paper ballots + secure digital rails (on-chain) + parallel audits for total transparency."
+      takeawayLabel="Outcome"
+      takeaway="Paper record + secure digital verification + independent audit = verifiable election integrity."
     />
   );
 }
@@ -2126,11 +2160,11 @@ function CivicConnectivitySlide() {
       sectionTitle="Anchoring the Digital Pulse into Physical Assets"
       points={[
         "AI-enabled technology anchors civic engagement in high-traffic public infrastructure—powering citizen-first media and scalable revenue verticals.",
-        "By owning the hardware, we control the narrative environment.",
+        "Owning the physical infrastructure gives us control over distribution, integration, and the citizen experience.",
         "A high-margin data and advertising rail generates recurring revenue while providing a critical public service.",
       ]}
       takeawayLabel="The Goal"
-      takeaway="Create a permanent, physical foundation for a new civic era—one that cannot be turned off or de-platformed by centralized interests."
+      takeaway="Create a permanent physical foundation for civic participation—distributed, commercially sustainable, and resilient."
     />
   );
 }
@@ -2146,13 +2180,14 @@ function StrategicAllianceSlide({
     <ArchitectureNarrativeSlide
       title="The Strategic Alliance"
       sectionTitle="A Global Distribution Pathway to Scale"
+      pointsLayout="columns"
       points={[
-        "X / xAI — Acceleration: Expand reach, participation, and adoption through AI and real-time distribution.",
-        "Sovereign Parallel Network — Resilience: Independently verifiable infrastructure preserves continuity when conventional channels change or become unavailable.",
-        "Together — Scale without dependency: Global distribution supported by a resilient parallel network.",
+        { title: "X / xAI", emphasis: "ACCELERATION", description: "Global distribution + AI intelligence." },
+        { title: "SOVEREIGN PARALLEL NETWORK", emphasis: "RESILIENCE", description: "Independent continuity + verification." },
       ]}
+      connector="TOGETHER: SCALE WITHOUT DEPENDENCY"
       takeawayLabel="The Bottom Line"
-      takeaway="Public participation → verified demand → lawful action. Lawful public participation should not have a single point of failure."
+      takeaway="A pathway from verified public participation to lawful action—built for digital-age speed, global scale, and resilient continuity."
       videoEmbedUrl={videoEmbedUrl}
       onOpenVideo={onOpenVideo}
     />
