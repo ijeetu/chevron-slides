@@ -33,7 +33,7 @@ export const viralFusionDeck = [
   { id: "physical-infrastructure", title: "Physical Infrastructure" },
   { id: "strategic-alliance", title: "The Strategic Alliance" },
   { id: "blueprint", title: "The Blueprint" },
-  { id: "execution-priorities", title: "Three Execution Priorities" },
+  { id: "what-if", title: "What If? — A Podcast Execution Engine" },
   { id: "podcast-strategy", title: "The Podcast Becomes the Strategy" },
   { id: "mo-gawdat", title: "Mo Gawdat" },
   { id: "samsung", title: "Samsung — Physical AI" },
@@ -45,10 +45,18 @@ export const viralFusionDeck = [
   { id: "x-energy", title: "X-energy — Advanced Energy Deployment" },
   { id: "patrick-soon-shiong", title: "Dr. Patrick Soon-Shiong" },
   { id: "brandon-cuevas", title: "Brandon Cuevas — Healthcare Economics" },
+  { id: "chad-bianco", title: "Sheriff Chad Bianco — Public Safety & Legislative Action" },
+  { id: "steve-davis", title: "Steve Davis / The Boring Company" },
   { id: "hedera-founders", title: "Mance Harmon & Dr. Leemon Baird" },
   { id: "michele-chan", title: "Michele B. Chan — The Execution Engine" },
-  { id: "chad-bianco", title: "Sheriff Chad Bianco — Public Safety" },
-  { id: "strategy-map", title: "Strategy Map" },
+  { id: "blueprint-in-motion", title: "The Blueprint in Motion" },
+  { id: "missing-variable", title: "The Missing Variable" },
+  { id: "acceleration-layer", title: "The Acceleration Layer" },
+  { id: "why-musk", title: "Why Musk" },
+  { id: "why-viral-fusion", title: "Why Viral Fusion" },
+  { id: "two-flywheels", title: "Two Flywheels" },
+  { id: "accumulated-execution", title: "The Moat — Accumulated Execution" },
+  { id: "california-proof", title: "California — Prove It Here" },
   { id: "black-swan", title: "California Black Swan" },
   { id: "sustainability", title: "Sustainability Model" },
   { id: "legislation", title: "Legislative Examples" },
@@ -72,8 +80,15 @@ const aliases: Record<string, ViralFusionSlideId> = {
   "#decks": "problems",
   "#presentation": "operating-system",
   "#global-opportunities": "operating-system",
-  "#strategymap": "strategy-map",
 };
+
+// The locked presentation retires these slides from its running order while
+// retaining their content on the existing standalone Strategy Map page.
+export function standaloneSlideDestination(hash: string) {
+  if (hash === "#strategymap" || hash === "#slide-strategy-map") return "/strategymap#map";
+  if (hash === "#slide-execution-priorities") return "/strategymap#intro";
+  return null;
+}
 
 export function pageFromHash(hash: string) {
   const id = aliases[hash] ?? hash.replace(/^#slide-/, "");

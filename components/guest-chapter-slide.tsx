@@ -1,9 +1,10 @@
 "use client";
 
-import { useId } from "react";
-import { ArrowRight, ArrowUpRight, ChevronDown, Play } from "lucide-react";
+import { useId, useRef } from "react";
+import { ArrowRight, ArrowUpRight, BookOpen, ChevronDown, Play, X } from "lucide-react";
 
 import type { GuestSlide } from "@/lib/guest-chapter";
+import { guestChapterNarration, guestChapterTransition } from "@/lib/guest-chapter-narration";
 import portraitCredits from "@/public/guest-chapter/credits.json";
 import styles from "./guest-chapter-slide.module.css";
 
@@ -53,6 +54,7 @@ const VISUALS: Record<GuestSlide["visual"], { title: string; description: string
   trust: { title: "A verifiable foundation", description: "Private records connect to defined events, provenance and independent verification through separated system layers.", code: "TRUST ARCHITECTURE" },
   production: { title: "One story. Every surface.", description: "A production control system routes one coherent story to a live stage, immersive environment and national distribution.", code: "LAUNCH ARCHITECTURE" },
   "public-safety": { title: "Experience into action", description: "Operating experience moves through expert scrutiny and the lawful policy process toward implementation and review.", code: "PUBLIC SAFETY" },
+  infrastructure: { title: "What better policy can unlock", description: "Transparent safety and permitting standards connect to repeatable infrastructure. Surface transportation, underground freight, and utilities create several layers of public capacity.", code: "INFRASTRUCTURE DEPLOYMENT" },
 };
 
 /** Purpose-built line diagrams keep the guest chapter in the deck's visual language. */
@@ -263,6 +265,25 @@ function GuestDiagram({ visual }: { visual: GuestSlide["visual"] }) {
         <text x="250" y="251" className={styles.diagramText} textAnchor="middle">A LAWFUL POLICY PROCESS</text>
       </>}
 
+      {visual === "infrastructure" && <>
+        <text x="250" y="41" className={styles.diagramText} textAnchor="middle">STANDARDS → PERMITTING → DEPLOYMENT</text>
+        <path d="M45 111H455M45 119H455" className={styles.strongLine} />
+        <path d="M62 85V108M89 85V108M116 85V108M143 85V108M170 85V108M197 85V108" className={styles.faintLine} />
+        <path d="M58 100H206L191 84H74Z" className={styles.panelOutline} />
+        <path d="M300 107V65H330V107M339 107V78H371V107M380 107V56H411V107" className={styles.line} />
+        <path d="M48 142H451M48 244H451" className={styles.faintLine} strokeDasharray="3 6" />
+        <path d="M71 160H429A23 23 0 0 1 429 206H71A23 23 0 0 1 71 160Z" className={styles.panelOutline} />
+        <path d="M87 187H412" className={styles.line} strokeDasharray="6 7" />
+        <rect x="137" y="174" width="63" height="17" className={styles.strongLine} />
+        <rect x="207" y="174" width="63" height="17" className={styles.strongLine} />
+        <path d="M286 182H361" className={styles.strongLine} markerEnd={arrow} />
+        <path d="M97 222H399M97 230H399" className={styles.line} />
+        <path d="M250 56V98M250 125V155" className={styles.line} strokeDasharray="3 5" />
+        <text x="250" y="139" className={styles.tinyText} textAnchor="middle">SURFACE TRANSPORTATION</text>
+        <text x="250" y="258" className={styles.tinyText} textAnchor="middle">UNDERGROUND FREIGHT · UTILITIES · CAPACITY</text>
+        {node(250, 111, 5)}
+      </>}
+
       <path d="M14 32V14H32M468 14H486V32M14 248V266H32M468 266H486V248" className={styles.cornerLine} />
     </svg>
   );
@@ -275,6 +296,9 @@ export function GuestChapterSlide({ slide, onContinue, onOpenVideo, nextLabel, p
     ? [{ asset: portraitSrc, person: portraitAlt || slide.name }]
     : portraitCredits.portraits.filter((portrait) => portrait.guestId === slide.id);
   const creditedPortraits = portraits.filter((portrait) => portrait.sourceUrl);
+  const script = guestChapterNarration[slide.id];
+  const scriptDialog = useRef<HTMLDialogElement>(null);
+  const scriptTitleId = useId();
 
   return (
     <section className={styles.root} aria-labelledby={titleId}>
@@ -319,7 +343,7 @@ export function GuestChapterSlide({ slide, onContinue, onOpenVideo, nextLabel, p
         </div>
 
         <div className={styles.invitation}>
-          <span className={styles.invitationLabel}>THE INVITATION</span>
+          <span className={styles.invitationLabel}>THE ASK</span>
           <p className="font-display">{slide.ask}</p>
         </div>
 
@@ -342,9 +366,18 @@ export function GuestChapterSlide({ slide, onContinue, onOpenVideo, nextLabel, p
               </div>
             </details>
           ) : <span className={styles.conversationLabel}>A CONVERSATION THAT BUILDS THE NEXT LAYER</span>}
+          <button type="button" className={styles.scriptButton} onClick={() => scriptDialog.current?.showModal()}><BookOpen size={15} aria-hidden="true" />Read voiceover</button>
           <button type="button" className={styles.continueButton} onClick={onContinue}>{nextLabel || "Continue"}<ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></button>
         </div>
       </div>
+      <dialog ref={scriptDialog} className={styles.scriptDialog} aria-labelledby={scriptTitleId} onKeyDown={(event) => event.stopPropagation()}>
+        <header><div><span>LOCKED EDITOR MASTER · SLIDE {script.sourceSlide}</span><h2 id={scriptTitleId}>{slide.name}</h2></div><button type="button" autoFocus onClick={() => scriptDialog.current?.close()} aria-label="Close voiceover script"><X size={20} /></button></header>
+        <div className={styles.scriptBody}>
+          <h3>VOICEOVER</h3><p>{script.narration}</p>
+          {slide.id === "michele-chan" && <><h3>TRANSITION TO THE BLUEPRINT IN MOTION</h3><p>{guestChapterTransition}</p></>}
+          {script.editorNotes && <details className={styles.editorNotes}><summary>Source clips and editor cues</summary><p>{script.editorNotes}</p></details>}
+        </div>
+      </dialog>
     </section>
   );
 }

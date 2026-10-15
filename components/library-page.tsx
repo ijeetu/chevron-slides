@@ -23,19 +23,18 @@ import {
 } from "lucide-react";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import {
-  StrategyMapContent,
-} from "@/components/strategy-map-page";
-import {
   BeneathNoiseIntroSlide,
   BeneathNoiseRecapSlide,
   GlobalIncentivesSlide,
   FinalBeneathNoiseSlide,
 } from "@/components/beneath-noise-slides";
-import { ExecutionPrioritiesSlide } from "@/components/execution-priorities-slide";
+import { WhatIfSlide } from "@/components/what-if-slide";
 import { PodcastStrategySlide } from "@/components/podcast-strategy-slide";
 import { GuestChapterSlide } from "@/components/guest-chapter-slide";
+import { AccelerationChapterSlide } from "@/components/acceleration-chapter-slide";
+import { FollowonChapterSlide } from "@/components/followon-chapter-slide";
 import { guestSlides } from "@/lib/guest-chapter";
-import { namedHashMatchesSlide, pageFromHash, slideIndex, viralFusionDeck } from "@/lib/viral-fusion-deck";
+import { namedHashMatchesSlide, pageFromHash, slideIndex, standaloneSlideDestination, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
 type Deck = {
   title: string;
@@ -2727,7 +2726,7 @@ export function LibraryPage() {
   const videoPlayerRef = useRef<HTMLIFrameElement>(null);
   const totalPages = viralFusionDeck.length;
   const activeSlide = viralFusionDeck[currentPage];
-  const isLightSlide = activeSlide.id === "execution-priorities" || activeSlide.id === "strategy-map";
+  const isLightSlide = false;
 
   const openVideo = (url: string) => {
     videoTriggerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -2741,6 +2740,11 @@ export function LibraryPage() {
 
   useEffect(() => {
     const applyHashPage = () => {
+      const standaloneDestination = standaloneSlideDestination(window.location.hash);
+      if (standaloneDestination) {
+        window.location.replace(standaloneDestination);
+        return;
+      }
       const page = pageFromHash(window.location.hash);
       if (page !== null) setCurrentPage(page);
       setHasResolvedInitialHash(true);
@@ -2830,7 +2834,7 @@ export function LibraryPage() {
       case "physical-infrastructure": return <CivicConnectivitySlide />;
       case "strategic-alliance": return <StrategicAllianceSlide videoEmbedUrl={vf8VideoEmbedUrl} onOpenVideo={openVideo} />;
       case "blueprint": return <IpoStrategySlide />;
-      case "execution-priorities": return <ExecutionPrioritiesSlide />;
+      case "what-if": return <WhatIfSlide onContinue={() => setCurrentPage(slideIndex("podcast-strategy"))} />;
       case "podcast-strategy": return <PodcastStrategySlide onContinue={() => setCurrentPage(slideIndex("mo-gawdat"))} />;
       case "mo-gawdat":
       case "samsung":
@@ -2842,10 +2846,18 @@ export function LibraryPage() {
       case "x-energy":
       case "patrick-soon-shiong":
       case "brandon-cuevas":
+      case "steve-davis":
       case "hedera-founders":
       case "michele-chan":
       case "chad-bianco": return <GuestChapterSlide slide={guestSlides[activeSlide.id]} nextLabel={viralFusionDeck[currentPage + 1]?.title} onContinue={() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1))} onOpenVideo={openVideo} />;
-      case "strategy-map": return <section className="presentation-scroll h-full w-full overflow-y-auto px-4 pb-28 pt-8 md:px-6"><StrategyMapContent /></section>;
+      case "blueprint-in-motion":
+      case "missing-variable":
+      case "acceleration-layer":
+      case "why-musk":
+      case "why-viral-fusion": return <AccelerationChapterSlide id={activeSlide.id} onContinue={() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1))} />;
+      case "two-flywheels":
+      case "accumulated-execution":
+      case "california-proof": return <FollowonChapterSlide id={activeSlide.id} />;
       case "black-swan": return <BlackSwanSlide />;
       case "sustainability": return <SectionTitleSlide title="Sustainability Model" />;
       case "legislation": return <SectionTitleSlide title="Legislative Examples" />;

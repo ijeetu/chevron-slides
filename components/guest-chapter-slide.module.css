@@ -611,6 +611,23 @@
   border-color: #9beaff;
 }
 
+.scriptButton { display: inline-flex; flex-shrink: 0; align-items: center; gap: 8px; min-height: 44px; padding: 8px 10px; margin-left: auto; border: 0; background: transparent; color: #a6c1cf; font-size: 10px; cursor: pointer; }
+.scriptButton:hover { color: var(--cyan); }
+.scriptButton:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.scriptDialog { width: min(820px, calc(100% - 32px)); max-height: 85dvh; padding: 0; border: 1px solid #365267; border-radius: 12px; background: #101e2b; color: #dbe7ee; box-shadow: 0 30px 100px #0009; }
+.scriptDialog::backdrop { background: #03090edb; backdrop-filter: blur(6px); }
+.scriptDialog > header { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 28px; border-bottom: 1px solid #ffffff15; background: #101e2b; }
+.scriptDialog header span { color: #8fb3cb; font-size: 9px; letter-spacing: 0.14em; }
+.scriptDialog h2 { margin: 8px 0 0; font-size: 24px; font-weight: 500; }
+.scriptDialog header button { display: flex; flex-shrink: 0; width: 40px; height: 40px; align-items: center; justify-content: center; border: 1px solid #ffffff20; border-radius: 50%; background: transparent; color: #b5d0e1; cursor: pointer; }
+.scriptDialog button:focus-visible, .editorNotes summary:focus-visible { outline: 2px solid #9beaff; outline-offset: 3px; }
+.scriptBody { padding: 12px 28px 28px; }
+.scriptBody h3 { margin: 24px 0 12px; color: #8cd9ff; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; }
+.scriptBody p { margin: 0; white-space: pre-line; font-size: 16px; line-height: 1.8; }
+.editorNotes { margin-top: 28px; padding-top: 16px; border-top: 1px solid #ffffff20; }
+.editorNotes summary { cursor: pointer; color: #8cd9ff; font-size: 12px; }
+.editorNotes p { padding-top: 18px; color: #a3b7c5; font-size: 13px; line-height: 1.8; }
+
 .continueButton:focus-visible,
 .sources summary:focus-visible,
 .sourceAction:focus-visible {
@@ -754,10 +771,12 @@
   }
   .actions {
     margin-top: 22px;
+    flex-wrap: wrap;
   }
   .continueButton {
     gap: 14px;
-    max-width: 49%;
+    flex-basis: 100%;
+    max-width: 100%;
   }
   .sourcePanel {
     width: calc(100vw - 52px);

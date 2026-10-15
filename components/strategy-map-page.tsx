@@ -757,10 +757,27 @@ const STRATEGY_MAP_STEPS = [
 
 export function StrategyMapWebPage() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [hasResolvedHash, setHasResolvedHash] = useState(false);
   const total = STRATEGY_MAP_STEPS.length;
 
   useEffect(() => {
+    const applyHash = () => {
+      setCurrentStep(window.location.hash === "#map" ? 1 : 0);
+      setHasResolvedHash(true);
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
+
+  useEffect(() => {
+    if (hasResolvedHash) window.history.replaceState(null, "", `#${STRATEGY_MAP_STEPS[currentStep].key}`);
+  }, [currentStep, hasResolvedHash]);
+
+  useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target;
+      if (target instanceof HTMLElement && (target.isContentEditable || target.closest("button, a, input, textarea, select, video, summary"))) return;
       if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
         event.preventDefault();
         setCurrentStep((step) => Math.min(step + 1, total - 1));
@@ -786,7 +803,7 @@ export function StrategyMapWebPage() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(0deg,rgba(92,108,123,0.08),transparent)]" />
 
-      <BackButton fallbackHref="/#strategymap" preferHistory={false} />
+      <BackButton fallbackHref="/#slide-blueprint" preferHistory={false} />
 
       <div className="relative z-10">{STRATEGY_MAP_STEPS[currentStep].render}</div>
 
