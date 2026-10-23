@@ -30,10 +30,9 @@ import {
 } from "@/components/beneath-noise-slides";
 import { WhatIfSlide } from "@/components/what-if-slide";
 import { PodcastStrategySlide } from "@/components/podcast-strategy-slide";
-import { GuestChapterSlide } from "@/components/guest-chapter-slide";
+import { GuestSeriesSlide } from "@/components/guest-series-slide";
 import { AccelerationChapterSlide } from "@/components/acceleration-chapter-slide";
 import { FollowonChapterSlide } from "@/components/followon-chapter-slide";
-import { guestSlides } from "@/lib/guest-chapter";
 import { namedHashMatchesSlide, pageFromHash, slideIndex, standaloneSlideDestination, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
 type Deck = {
@@ -2846,10 +2845,11 @@ export function LibraryPage() {
       case "x-energy":
       case "patrick-soon-shiong":
       case "brandon-cuevas":
+      case "spencer-pratt":
       case "steve-davis":
       case "hedera-founders":
       case "michele-chan":
-      case "chad-bianco": return <GuestChapterSlide slide={guestSlides[activeSlide.id]} nextLabel={viralFusionDeck[currentPage + 1]?.title} onContinue={() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1))} onOpenVideo={openVideo} />;
+      case "chad-bianco": return <GuestSeriesSlide key={activeSlide.id} id={activeSlide.id} nextLabel={viralFusionDeck[currentPage + 1]?.title} onContinue={() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1))} onOpenVideo={openVideo} />;
       case "blueprint-in-motion":
       case "missing-variable":
       case "acceleration-layer":

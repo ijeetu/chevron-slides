@@ -1,0 +1,16 @@
+{
+  "tool": "Built-in image_gen",
+  "purpose": "Clearly labeled concept artwork for slides 48 and 50. Neither image documents a real project, specific facility, event or confirmed arrangement.",
+  "assets": [
+    {
+      "path": "/guest-series/immersive-studio-concept.webp",
+      "source": "AI-generated concept artwork",
+      "prompt": "Use case: stylized-concept. Asset type: cinematic concept art for an executive presentation about a proposed immersive podcast production. Primary request: a sophisticated architectural visualization of an immersive LED-volume studio, camera pulling back to reveal the complete production environment. Wide 16:9 landscape composition. At the center of the studio are two EMPTY lounge chairs, a small table, microphones, a US flag as subtle set dressing. No people. Huge wraparound LED screens show cohesive imagery of California water infrastructure, energy systems, healthcare research and subtle digital trust evidence. Camera rigs and studio lighting are visible outside the LED volume so the production technology is understandable. Architectural concept render, realistic materials, navy and charcoal environment with restrained cyan and warm amber lighting. Centered wide-angle view, cinematic depth. No logos, no text, no names, no watermark. This must look like proposed production-design artwork, not photography of an actual interview or an actual specific studio facility."
+    },
+    {
+      "path": "/guest-series/water-recovery-concept.webp",
+      "source": "AI-generated concept artwork",
+      "prompt": "Use case: scientific-educational. Asset type: cinematic conceptual engineering illustration for a slide about California stormwater recovery, 16:9 landscape. Primary request: an elegant realistic 3D cutaway visualization of a generic Los Angeles urban watershed near the Pacific coast during rain. Surface stormwater flows along an existing concrete drainage channel toward the coast; the channel continues to ocean. At a separate engineered diversion point, SOME water travels down into a separate underground conveyance tunnel, away from the ocean and toward a clearly distinct water treatment facility, storage reservoir and a groundwater recharge basin inland. Emphasize plausible separation of channel, diversion tunnel, treatment, storage, and recharge. Geographic engineering concept with restrained blue cyan water and warm earth cutaway, cinematic but clear, no giant fictional machinery. Designed for an infrastructure engineering presentation, not a built or approved project. No people, no logos, no readable text, no numbers, no arrows, no watermark. Do not show all stormwater diverted or imply storm drains eliminated."
+    }
+  ]
+}
