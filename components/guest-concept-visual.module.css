@@ -82,6 +82,7 @@
 .stage { position: relative; min-width: 0; }
 .stageIndex { display: inline-flex; position: relative; z-index: 1; align-items: center; justify-content: center; width: 41px; height: 41px; margin-bottom: 23px; color: #90a7b2; border: 1px solid #3e5c6b; border-radius: 50%; background: #0c202f; font-size: 12px; font-variant-numeric: tabular-nums; transition: color .35s, border-color .35s, background .35s; }
 .stage strong { display: block; margin-bottom: 10px; font-size: 17px; font-weight: 550; letter-spacing: -.01em; line-height: 1.35; }
+.visual[data-kind="trust-verification"] .stage strong { font-size: 14px; overflow-wrap: anywhere; }
 .stage p { max-width: 122px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.65; }
 .stage small { display: block; margin-top: 19px; color: #768f9c; font-size: 9px; letter-spacing: .12em; }
 .activeStage .stageIndex { color: var(--cyan); border-color: var(--cyan); background: #12323f; }
@@ -147,6 +148,12 @@
   .vehicleFlow { gap: 8px; margin-left: 10px; margin-right: 10px; }.vehicleNode { padding: 16px 10px; }.vehicleNode strong { font-size: 14px; }.vehicleNode p { font-size: 10px; }
 }
 @media (max-width: 480px) { .visual { height: auto; min-height: 330px; } }
+@container guest-visual (min-width: 481px) and (max-width: 620px) {
+  .visual[data-kind="trust-verification"] .flowTrack { display: none; }
+  .visual[data-kind="trust-verification"] .flowStages { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
+  .visual[data-kind="trust-verification"] .stageIndex { margin-bottom: 12px; }
+  .visual[data-kind="trust-verification"] .stage p { max-width: none; }
+}
 @container guest-visual (max-width: 480px) {
   .heading { align-items: flex-start; }.headingTitle { line-height: 1.6; }.legend { padding-top: 3px; }
   .flow { margin-top: 15px; }.flowTrack { display: none; }

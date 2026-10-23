@@ -28,7 +28,7 @@ export const guestSeriesMedia: Record<string, GuestMedia[]> = {
     existing("samsung", 0, "AI Living · Intelligence in everyday life", "PRIMARY · Select the strongest 10–20 seconds showing natural, helpful AI integration. Place after the AI Living setup. The requested Phase One integration video has no supplied asset URL and is a separate production requirement."),
   ],
   "charles-adkins": [
-    existing("charles-adkins", 0, "Reference · Enterprise adoption and governance", "WRITTEN REFERENCE · Historical appointment article supporting enterprise adoption and governance research. This is not a video clip and does not establish Charles's current role. The revised chapter identifies his Hedera leadership roles as former positions; verify dates before production. No authentic interview footage URL was supplied."),
+    existing("charles-adkins", 0, "Reference · Enterprise adoption and governance", "WRITTEN REFERENCE · Historical appointment article supporting enterprise adoption and governance research. This is not a video clip and does not establish Charles's current role. The revised chapter invites Charles to pressure-test institutional requirements and assess whether Hedera fits them before any technology is selected. No authentic interview footage URL was supplied."),
   ],
   "palmer-luckey": [],
   ford: [
@@ -84,9 +84,9 @@ export const guestSeriesMedia: Record<string, GuestMedia[]> = {
   "spencer-pratt": [],
   "steve-davis": [],
   "hedera-founders": [
-    existing("hedera-founders", 0, "Mance · Governance and institutional adoption", "PRIMARY SOURCE · Existing Hedera/World Economic Forum excerpt. Target approximately 15–20 seconds for the concise introduction. The revised chapter asks whether the sovereign architecture can be built and tested; this source does not establish that it has passed evaluation. No supported embed was supplied."),
-    existing("hedera-founders", 1, "Leemon · AI provenance", "PRIMARY SOURCE · Existing provenance excerpt, approximately 12–20 seconds. Place in the later AI-accountability section, after the prototype concept. Identify the human actor, AI system, permission boundary, and evidence separately. No supported embed was supplied."),
-    existing("hedera-founders", 2, "Leemon · Human oversight and guardrails", "PRIMARY SOURCE · Existing human-approval and predefined-boundaries excerpt, approximately 20–30 seconds. Keep it focused so the chapter does not repeat the earlier cryptography tutorial. An audit log alone does not establish that an AI recommendation was correct. No supported embed was supplied."),
+    existing("hedera-founders", 0, "Mance · Governance and institutional adoption", "PRIMARY SOURCE · Existing Hedera/World Economic Forum excerpt. Target approximately 15–20 seconds for the concise introduction. Pair with a brief graphic distinguishing institutional governance from technical infrastructure. The revised chapter asks who sets the rules, controls access, and audits operators, then proposes an independently tested trust architecture without assuming Hedera is the answer. No supported embed was supplied."),
+    existing("hedera-founders", 1, "Leemon · AI provenance", "PRIMARY SOURCE · Existing provenance excerpt, approximately 12–20 seconds. Place in the later AI-accountability section, after the record-integrity example. Identify which AI system initiated an action, what informed it, who authorized it, and whether a human reviewed the outcome. No supported embed was supplied."),
+    existing("hedera-founders", 2, "Leemon · Human oversight and guardrails", "PRIMARY SOURCE · Existing human-approval and predefined-boundaries excerpt, approximately 20–30 seconds. Follow the provenance excerpt with a focused guardrails segment; combine the two into one concise sequence where possible. An audit log alone does not establish that an AI recommendation was correct. No supported embed was supplied."),
   ],
   "michele-chan": [
     existing("michele-chan", 0, "Production proof · The Dynamic Volume System", "PRIMARY SOURCE · Select the strongest 15–25 seconds showing reconfigurable LED walls, camera operation, and immersive scale. No precise bounds were supplied. Use authentic studio footage, then distinguish the proposed Shawn–Elon immersive production concept from an actual or confirmed interview."),

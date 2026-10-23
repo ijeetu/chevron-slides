@@ -4,7 +4,7 @@ import { useEffect, useId, useState, type ReactNode } from "react";
 import styles from "./guest-concept-visual.module.css";
 
 export type GuestConceptKind =
-  | "sovereign-core" | "trust-layers" | "proof-test" | "ai-accountability"
+  | "sovereign-core" | "trust-layers" | "trust-verification" | "proof-test" | "ai-accountability"
   | "water-recovery" | "desalination" | "feasibility" | "freight"
   | "legislative" | "participation" | "physical-network" | "vehicle"
   | "energy" | "health" | "health-economics" | "health-access"
@@ -17,6 +17,7 @@ type Stage = { title: string; detail: string; label?: string };
 const TITLES: Record<GuestConceptKind, string> = {
   "sovereign-core": "Sovereign core / public proof",
   "trust-layers": "Four distinct trust mechanisms",
+  "trust-verification": "Verified participation / independent audit",
   "proof-test": "Fictional verification test",
   "ai-accountability": "Accountable AI assistance",
   "water-recovery": "Water capture / conveyance / recovery",
@@ -48,7 +49,7 @@ function Shell({ kind, children, note, label = "Conceptual system" }: {
   kind: GuestConceptKind; children: ReactNode; note: string; label?: string;
 }) {
   const isDiagram = SVG_KINDS.has(kind);
-  return <section className={styles.visual} aria-label={TITLES[kind]}>
+  return <section className={styles.visual} data-kind={kind} aria-label={TITLES[kind]}>
     <div className={styles.heading}><span className={styles.headingTitle}>{TITLES[kind]}</span><span className={styles.legend}><i />{label}</span></div>
     <div className={`${styles.canvas} ${isDiagram ? styles.diagramCanvas : ""}`} tabIndex={isDiagram ? 0 : undefined} role={isDiagram ? "region" : undefined} aria-label={isDiagram ? `${TITLES[kind]} diagram; scroll horizontally on narrow screens` : undefined} onKeyDown={isDiagram ? (event) => { if (event.key === "ArrowLeft" || event.key === "ArrowRight") event.stopPropagation(); } : undefined}>{children}</div>
     {isDiagram && <p className={styles.scrollHint}>← Scroll diagram horizontally →</p>}
@@ -316,6 +317,10 @@ export function GuestConceptVisual({ kind, step = 0 }: Props) {
   if (kind === "parked-interface") return <ParkedInterface step={step} />;
   if (kind === "capability-network") return <CapabilityNetwork step={step} />;
   const flows: Record<Exclude<GuestConceptKind, "sovereign-core" | "water-recovery" | "desalination" | "proof-test" | "trust-layers" | "ai-accountability" | "freight" | "physical-network" | "vehicle" | "health-economics" | "policy-pathways" | "parked-interface" | "capability-network">, { stages: Stage[]; note: string; returnLabel?: string }> = {
+    "trust-verification": {
+      stages: [{ title: "VERIFIED PARTICIPATION", detail: "Check identity, eligibility and permission before participation" }, { title: "SECURE RECORD", detail: "Protect sensitive records in systems with controlled access" }, { title: "CRYPTOGRAPHIC PROOF", detail: "Commitments and proof references support checks for record changes" }, { title: "INDEPENDENT AUDIT", detail: "Reconcile permissioned evidence against the proof references" }],
+      note: "Record integrity does not by itself establish truth, eligibility, authorization or the integrity of the whole process.",
+    },
     feasibility: {
       stages: [{ title: "Define", detail: "Problem, route and public value", label: "SCOPE" }, { title: "Test", detail: "Engineering, impacts and economics", label: "EVIDENCE" }, { title: "Authorize", detail: "Independent review and lawful approvals", label: "GATE" }, { title: "Pilot", detail: "Bounded trial with stop criteria", label: "LEARN" }],
       note: "A concept is a starting hypothesis. Advance only when evidence supports the next commitment.", returnLabel: "Revise the proposal when evidence changes",
