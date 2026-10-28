@@ -1388,8 +1388,8 @@ function TulsiIntroVideoSlide() {
   );
 }
 
-function GeorgeVoiceover({ src, label }: { src: string; label: string }) {
-  return <BackgroundVoiceoverButton src={src} label={label} autoPlay={false} />;
+function GeorgeVoiceover({ src, label, secondary = false }: { src: string; label: string; secondary?: boolean }) {
+  return <BackgroundVoiceoverButton src={src} label={label} autoPlay={false} secondary={secondary} />;
 }
 
 function NoHeadlineVideoSlide() {
@@ -1573,11 +1573,13 @@ function BackgroundVoiceoverButton({
   label,
   autoPlayDelayMs = 0,
   autoPlay = true,
+  secondary = false,
 }: {
   src: string;
   label: string;
   autoPlayDelayMs?: number;
   autoPlay?: boolean;
+  secondary?: boolean;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const hasManualPlaybackRef = useRef(false);
@@ -1624,7 +1626,7 @@ function BackgroundVoiceoverButton({
         type="button"
         aria-label={isPlaying ? `Pause ${label}` : `Play ${label}`}
         onClick={toggleVoiceover}
-        className="fixed right-6 top-6 z-30 flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-black/65 text-white shadow-[0_14px_34px_rgba(0,0,0,0.34)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[#01c7f3]/75 hover:text-[#b9f2ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80 md:right-8 md:top-8"
+        className={`fixed ${secondary ? "right-20 md:right-24" : "right-6 md:right-8"} top-6 z-30 flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-black/65 text-white shadow-[0_14px_34px_rgba(0,0,0,0.34)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[#01c7f3]/75 hover:text-[#b9f2ff] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9beaff]/80 md:top-8`}
       >
         {isPlaying ? (
           <Pause className="h-5 w-5" strokeWidth={2.4} />
@@ -2840,9 +2842,9 @@ export function LibraryPage() {
       case "agenda": return <><GeorgeVoiceover src="/voices/george/slide05.mp3" label="Our Agenda — George voiceover" /><AgendaPage /></>;
       case "problems": return <ProblemsFocusSlide onOpenVideo={openVideo} />;
       case "beneath-noise": return <><GeorgeVoiceover src="/voices/george/slide07.mp3" label="Beneath the Noise — George voiceover" /><BeneathNoiseIntroSlide onOpenVideo={openVideo} /></>;
-      case "competition": return <ChapterContext number="01" title="THE COMPETITION FOR POWER"><TicMicPieSlide /></ChapterContext>;
+      case "competition": return <><GeorgeVoiceover src="/voices/george/slide08.mp3" label="The Competition for Power — George voiceover" secondary /><ChapterContext number="01" title="THE COMPETITION FOR POWER"><TicMicPieSlide /></ChapterContext></>;
       case "long-game": return <YearVideoSlide />;
-      case "technological-power": return <ChapterContext number="02" title="TECHNOLOGICAL POWER"><TechnocratsSlide figures={post2010TechnocratFigures} frameworkSequence voiceoverSrc="/voices/Technocrats_01.mp3" /></ChapterContext>;
+      case "technological-power": return <><GeorgeVoiceover src="/voices/george/slide10.mp3" label="Technological Power — George voiceover" secondary /><ChapterContext number="02" title="TECHNOLOGICAL POWER"><TechnocratsSlide figures={post2010TechnocratFigures} frameworkSequence voiceoverSrc="/voices/Technocrats_01.mp3" /></ChapterContext></>;
       case "networks": return <><GeorgeVoiceover src="/voices/george/slide11.mp3" label="The Power of Networks — George voiceover" /><GeorgeSorosVideoSlide /></>;
       case "global-incentives": return <GlobalIncentivesSlide onOpenVideo={openVideo} />;
       case "what-we-learned": return <><GeorgeVoiceover src="/voices/george/slide13.mp3" label="What We Learned — George voiceover" /><BeneathNoiseRecapSlide /></>;
