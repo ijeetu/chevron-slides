@@ -695,7 +695,7 @@ function YearVideoSlide() {
       />
       <audio
         ref={outroAudioRef}
-        src="/voices/2010_2.mp3"
+        src="/voices/george/slide09.mp3"
         preload="auto"
         onEnded={() => setIsNarrationPlaying(false)}
         onPause={() => setIsNarrationPlaying(false)}
@@ -1066,7 +1066,7 @@ function ArchitecturePillarsSlide() {
   return (
     <section className="relative flex h-full flex-col overflow-hidden px-[4%] py-6">
       <BackgroundVoiceoverButton
-        src="/voices/FivePillars.mp3"
+        src="/voices/george/slide14.mp3"
         label="Five architecture pillars voiceover"
       />
 
@@ -1370,6 +1370,28 @@ function ItsAllALieVideoSlide() {
   );
 }
 
+function TulsiIntroVideoSlide() {
+  return (
+    <section className="relative flex h-full items-center justify-center px-[5%]">
+      <div className="mx-auto w-full max-w-[64rem] overflow-hidden rounded-[1.45rem] border border-[#01c7f3]/38 bg-black p-1 shadow-[0_24px_70px_rgba(0,0,0,0.42)]">
+        <video
+          src="/tulsi-intro.mp4"
+          poster="/tulsi-intro-poster.jpg"
+          className="aspect-video h-full w-full rounded-[1.25rem] bg-black"
+          controls
+          autoPlay
+          playsInline
+          preload="auto"
+        />
+      </div>
+    </section>
+  );
+}
+
+function GeorgeVoiceover({ src, label }: { src: string; label: string }) {
+  return <BackgroundVoiceoverButton src={src} label={label} autoPlay={false} />;
+}
+
 function NoHeadlineVideoSlide() {
   return (
     <section className="relative flex h-full items-center justify-center px-[5%]">
@@ -1550,10 +1572,12 @@ function BackgroundVoiceoverButton({
   src,
   label,
   autoPlayDelayMs = 0,
+  autoPlay = true,
 }: {
   src: string;
   label: string;
   autoPlayDelayMs?: number;
+  autoPlay?: boolean;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const hasManualPlaybackRef = useRef(false);
@@ -1562,7 +1586,7 @@ function BackgroundVoiceoverButton({
   useEffect(() => pauseWhenAnotherAudioStarts(audioRef), []);
 
   useEffect(() => {
-    if (autoPlayDelayMs <= 0) return;
+    if (!autoPlay || autoPlayDelayMs <= 0) return;
 
     const timer = window.setTimeout(() => {
       const audio = audioRef.current;
@@ -1573,7 +1597,7 @@ function BackgroundVoiceoverButton({
     }, autoPlayDelayMs);
 
     return () => window.clearTimeout(timer);
-  }, [autoPlayDelayMs]);
+  }, [autoPlay, autoPlayDelayMs]);
 
   const toggleVoiceover = async () => {
     const audio = audioRef.current;
@@ -1612,7 +1636,7 @@ function BackgroundVoiceoverButton({
         ref={audioRef}
         src={src}
         preload="auto"
-        autoPlay={autoPlayDelayMs <= 0}
+        autoPlay={autoPlay && autoPlayDelayMs <= 0}
         onEnded={() => setIsPlaying(false)}
         onPause={() => setIsPlaying(false)}
         onPlay={(event) => {
@@ -1654,7 +1678,7 @@ function IpoStrategySlide() {
   return (
     <section className="flex h-full flex-col items-center justify-center px-[5%] py-6 text-center">
       <BackgroundVoiceoverButton
-        src="/voices/TheBlueprint.mp3"
+        src="/voices/george/slide33.mp3"
         label="The Blueprint voiceover"
       />
       <header className="mx-auto max-w-6xl">
@@ -2677,7 +2701,7 @@ function SectionTitleSlide({
 function ProblemsFocusSlide({ onOpenVideo }: { onOpenVideo: (url: string) => void }) {
   return (
     <section className="presentation-scroll flex h-full flex-col items-center justify-center overflow-y-auto px-6 py-24 text-center text-[#f4f2ec]">
-      <BackgroundVoiceoverButton src="/voices/Problems.mp3" label="Problems voiceover" />
+      <BackgroundVoiceoverButton src="/voices/george/slide06-george-1.mp3" label="Problems voiceover" />
       <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#9beaff]">The landscape, the players &amp; problems</p>
       <h1 className="mt-5 font-display text-[clamp(3rem,8vw,7.8rem)] font-semibold leading-none tracking-[-0.055em]">PROBLEMS</h1>
       <p className="mt-5 font-display text-[clamp(1.4rem,3vw,2.7rem)] text-[#c9dce7]">Insulation &amp; Noise</p>
@@ -2800,7 +2824,8 @@ export function LibraryPage() {
 
   const slideContent = () => {
     switch (activeSlide.id) {
-      case "anniversary": return <SectionTitleSlide title="1776 - 2026" introVoiceoverSrc="/voices/slide1.mp3" bottomCopy={<><p>250 Years</p><p className="mt-1">Does ‘We the People’ still rule?</p></>} />;
+      case "tulsi-intro": return <TulsiIntroVideoSlide />;
+      case "anniversary": return <SectionTitleSlide title="1776 - 2026" introVoiceoverSrc="/voices/george/slide02.mp3" bottomCopy={<><p>250 Years</p><p className="mt-1">Does ‘We the People’ still rule?</p></>} />;
       case "doge": return <SectionTitleSlide title="DOGE" introVoiceoverSrc="/voices/Slide3.mp3" bottomCopy={<><p>The Goal Isn’t to Catch Fraud Faster</p><p className="mt-1">The goal is to make fraud physically impossible.</p></>} />;
       case "children": return <SectionTitleSlide title="The Children" />;
       case "protect-children": return <GirlPage />;
@@ -2812,26 +2837,26 @@ export function LibraryPage() {
       case "public-demand": return <MagaPage />;
       case "america-first": return <ManifestoStatementsPage />;
       case "promise": return <PromisePage />;
-      case "agenda": return <AgendaPage />;
+      case "agenda": return <><GeorgeVoiceover src="/voices/george/slide05.mp3" label="Our Agenda — George voiceover" /><AgendaPage /></>;
       case "problems": return <ProblemsFocusSlide onOpenVideo={openVideo} />;
-      case "beneath-noise": return <BeneathNoiseIntroSlide onOpenVideo={openVideo} />;
+      case "beneath-noise": return <><GeorgeVoiceover src="/voices/george/slide07.mp3" label="Beneath the Noise — George voiceover" /><BeneathNoiseIntroSlide onOpenVideo={openVideo} /></>;
       case "competition": return <ChapterContext number="01" title="THE COMPETITION FOR POWER"><TicMicPieSlide /></ChapterContext>;
       case "long-game": return <YearVideoSlide />;
       case "technological-power": return <ChapterContext number="02" title="TECHNOLOGICAL POWER"><TechnocratsSlide figures={post2010TechnocratFigures} frameworkSequence voiceoverSrc="/voices/Technocrats_01.mp3" /></ChapterContext>;
-      case "networks": return <GeorgeSorosVideoSlide />;
+      case "networks": return <><GeorgeVoiceover src="/voices/george/slide11.mp3" label="The Power of Networks — George voiceover" /><GeorgeSorosVideoSlide /></>;
       case "global-incentives": return <GlobalIncentivesSlide onOpenVideo={openVideo} />;
-      case "what-we-learned": return <BeneathNoiseRecapSlide />;
+      case "what-we-learned": return <><GeorgeVoiceover src="/voices/george/slide13.mp3" label="What We Learned — George voiceover" /><BeneathNoiseRecapSlide /></>;
       case "five-pillars": return <ArchitecturePillarsSlide />;
       case "inspiration": return <IntroVideoSlide />;
-      case "founder": return <FounderQuoteSlide />;
+      case "founder": return <><GeorgeVoiceover src="/voices/george/slide24.mp3" label="Founder Principle — George voiceover" /><FounderQuoteSlide /></>;
       case "operating-system": return <SectionTitleSlide title="Operating System" />;
       case "viral-fusion": return <ViralFusionEarthSlide />;
       case "mission-vision": return <MissionVisionSlide />;
-      case "solving": return <ProblemsPyramidSlide />;
-      case "republic": return <SimpleRepublicSlide />;
-      case "civic-os": return <CivicOperatingSystemSlide />;
-      case "physical-infrastructure": return <CivicConnectivitySlide />;
-      case "strategic-alliance": return <StrategicAllianceSlide videoEmbedUrl={vf8VideoEmbedUrl} onOpenVideo={openVideo} />;
+      case "solving": return <><GeorgeVoiceover src="/voices/george/slide28.mp3" label="The Problems We’re Solving — George voiceover" /><ProblemsPyramidSlide /></>;
+      case "republic": return <><GeorgeVoiceover src="/voices/george/slide29.mp3" label="A Stronger Republic — George voiceover" /><SimpleRepublicSlide /></>;
+      case "civic-os": return <><GeorgeVoiceover src="/voices/george/slide30.mp3" label="Civic Operating System — George voiceover" /><CivicOperatingSystemSlide /></>;
+      case "physical-infrastructure": return <><GeorgeVoiceover src="/voices/george/slide31.mp3" label="Physical Infrastructure — George voiceover" /><CivicConnectivitySlide /></>;
+      case "strategic-alliance": return <><GeorgeVoiceover src="/voices/george/slide32.mp3" label="The Strategic Alliance — George voiceover" /><StrategicAllianceSlide videoEmbedUrl={vf8VideoEmbedUrl} onOpenVideo={openVideo} /></>;
       case "blueprint": return <IpoStrategySlide />;
       case "what-if": return <WhatIfSlide onContinue={() => setCurrentPage(slideIndex("podcast-strategy"))} />;
       case "podcast-strategy": return <PodcastStrategySlide onContinue={() => setCurrentPage(slideIndex("mo-gawdat"))} />;

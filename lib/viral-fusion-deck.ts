@@ -1,5 +1,6 @@
 // Stable slide identities keep links and navigation aligned when chapters move.
 export const viralFusionDeck = [
+  { id: "tulsi-intro", title: "Tulsi Gabbard — Opening" },
   { id: "anniversary", title: "1776 — 2026" },
   { id: "doge", title: "DOGE" },
   { id: "children", title: "The Children" },
