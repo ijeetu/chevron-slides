@@ -93,11 +93,10 @@ export function BeneathNoiseIntroSlide({ onOpenVideo }: { onOpenVideo: OpenVideo
 
 const recapSteps = [
   { number: null, title: "VISIBLE PROBLEMS" },
-  { number: null, title: "BENEATH THE NOISE" },
   { number: "01", title: "COMPETING CENTERS OF POWER" },
-  { number: "02", title: "THE RISE OF TECHNOLOGICAL POWER" },
-  { number: "03", title: "NETWORKED POLITICAL INFLUENCE" },
-  { number: "04", title: "GLOBAL INCENTIVES & CONSEQUENCES" },
+  { number: "02", title: "TECHNOLOGICAL POWER" },
+  { number: "03", title: "NETWORKED INFLUENCE" },
+  { number: "04", title: "GLOBAL INCENTIVES" },
 ] as const;
 
 export function BeneathNoiseRecapSlide() {
@@ -133,7 +132,7 @@ export function BeneathNoiseRecapSlide() {
         <div className="mx-auto mt-4 max-w-[46rem] border-t border-[#9beaff]/25 pt-4 sm:mt-5 sm:pt-5">
           <ChapterLabel>THE QUESTION</ChapterLabel>
           <p className="mt-2 font-display text-[1.25rem] font-medium leading-[1.3] tracking-[-0.025em] text-[#f4f2ec] sm:text-[1.75rem] lg:text-[2rem]">
-            How do citizens regain meaningful agency over what comes next?
+            How do citizens gain meaningful agency over what comes next?
           </p>
         </div>
       </div>

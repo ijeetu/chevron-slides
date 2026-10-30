@@ -2,17 +2,8 @@
 export const viralFusionDeck = [
   { id: "tulsi-intro", title: "Tulsi Gabbard — Opening" },
   { id: "anniversary", title: "1776 — 2026" },
-  { id: "doge", title: "DOGE" },
   { id: "children", title: "The Children" },
   { id: "protect-children", title: "Protecting the Children" },
-  { id: "accountability", title: "Absolute Accountability" },
-  { id: "flag", title: "America" },
-  { id: "all-a-lie", title: "It’s All a Lie" },
-  { id: "hope", title: "The Future" },
-  { id: "change", title: "Change Is Coming" },
-  { id: "public-demand", title: "The People Demand Something Better" },
-  { id: "america-first", title: "America First Blueprint" },
-  { id: "promise", title: "The Promise" },
   { id: "agenda", title: "Our Agenda" },
   { id: "problems", title: "Problems — Insulation & Noise" },
   { id: "beneath-noise", title: "Beneath the Noise" },
@@ -82,6 +73,15 @@ const aliases: Record<string, ViralFusionSlideId> = {
   "#decks": "problems",
   "#presentation": "operating-system",
   "#global-opportunities": "operating-system",
+  "#slide-doge": "anniversary",
+  "#slide-accountability": "anniversary",
+  "#slide-flag": "anniversary",
+  "#slide-all-a-lie": "anniversary",
+  "#slide-hope": "anniversary",
+  "#slide-change": "anniversary",
+  "#slide-public-demand": "anniversary",
+  "#slide-america-first": "anniversary",
+  "#slide-promise": "anniversary",
 };
 
 // The locked presentation retires these slides from its running order while

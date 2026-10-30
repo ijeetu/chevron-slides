@@ -5,6 +5,7 @@ import { ArrowRight, ArrowUpRight, BookOpen, ChevronLeft, ChevronRight, Film, Pa
 import { guestSeries, type GuestSeriesId } from "@/lib/guest-series";
 import { guestSeriesMedia } from "@/lib/guest-series-media";
 import { guestSeriesSourceSlides } from "@/lib/guest-series-source";
+import { slideIndex } from "@/lib/viral-fusion-deck";
 import credits from "@/public/guest-chapter/credits.json";
 import { GuestConceptVisual } from "./guest-concept-visual";
 import { GuestStateEvidence } from "./guest-state-evidence";
@@ -99,7 +100,7 @@ export function GuestSeriesSlide({ id, onContinue, onOpenVideo, nextLabel }: Pro
     <section ref={scrollArea} className={styles.root} aria-labelledby={titleId}>
       <div className={styles.frame}>
         <header className={styles.header}>
-          <div className={styles.chapter}><span>{String(slide.number).padStart(2, "0")}</span><div><p>THE GUEST SERIES</p><h1 id={titleId}>{slide.name}</h1></div></div>
+          <div className={styles.chapter}><span>{String(slideIndex(id) + 1).padStart(2, "0")}</span><div><p>THE GUEST SERIES</p><h1 id={titleId}>{slide.name}</h1></div></div>
           <p className={styles.layer}>{slide.layer}</p>
         </header>
 

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { type ReactNode, type RefObject, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type ReactNode, type RefObject, useEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
@@ -33,6 +33,10 @@ import { PodcastStrategySlide } from "@/components/podcast-strategy-slide";
 import { GuestSeriesSlide } from "@/components/guest-series-slide";
 import { AccelerationChapterSlide } from "@/components/acceleration-chapter-slide";
 import { FollowonChapterSlide } from "@/components/followon-chapter-slide";
+import { OpeningScriptPanel } from "@/components/opening-script-panel";
+import { RevisedAnniversarySlide, ChildrenPyramidSlide, NetworkPowerSlide, GlobalIncentivesMapSlide, RevisedFivePillarsSlide } from "@/components/opening-landscape-slides";
+import { RevisedCivicOperatingSystemSlide, RevisedCivicConnectivitySlide, RevisedStrategicAllianceSlide, RevisedBlueprintSlide } from "@/components/opening-architecture-slides";
+import { RevisedCompetitionSlide, RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
 import { namedHashMatchesSlide, pageFromHash, slideIndex, standaloneSlideDestination, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
 type Deck = {
@@ -230,24 +234,20 @@ const elonFocusTechnocratFigures: TechnocratFigure[] = technocratFigures.map((fi
 
 const agendaItems = [
   {
-    title: "The Landscape & The Players",
-    description: "Systemic problems and the key stakeholders.",
+    title: "The Landscape",
+    description: "What is broken, what is changing, and why the current system is no longer enough.",
   },
   {
-    title: "Core Infrastructure & Distribution",
-    description: "Phase 1 technology meets new media rails.",
+    title: "The Architecture",
+    description: "The technology, infrastructure, legislation, media, trust, and distribution required to build something different.",
   },
   {
-    title: "Project 2026 & Strategy",
-    description: "Manifesto preview, pre-launch, and go-to-market.",
+    title: "The Alliance",
+    description: "The people and companies capable of moving each piece.",
   },
   {
-    title: "Commercialization & Longevity",
-    description: "IPO, sustainability model, verticals, and legislative action.",
-  },
-  {
-    title: "The Musk Alliance & Next Steps",
-    description: "Strategic alignment probability and the call to action.",
+    title: "The Musk Conversation",
+    description: "Where everything that survives scrutiny comes together—and the next phase begins.",
   },
 ] as const;
 
@@ -1245,7 +1245,7 @@ function IntroVideoSlide() {
                 : `${slideTitleTypography} text-[#f4f2ec]`
             }
           >
-            {isTrumpPlaying ? "JANUARY 6, 2021" : "Introduction"}
+            {isTrumpPlaying ? "JANUARY 6, 2021" : "Inspiration"}
           </h1>
           <div className="mx-auto mt-4 h-px w-44 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.86),transparent)]" />
           <p
@@ -1880,7 +1880,7 @@ function ViralFusionEarthSlide() {
             Viral Fusion
           </h1>
           <p className="mt-6 text-[clamp(1.05rem,2vw,2.15rem)] font-medium tracking-[0.015em] text-[#e7f7fb]">
-            Connecting Voices Into Engines For Change
+            Connecting voices. Powering change.
           </p>
         </header>
       </div>
@@ -1892,13 +1892,13 @@ const missionVisionItems = [
   {
     number: "01",
     title: "Our Mission",
-    body: "Return power to the people by rebuilding institutions with technology that unlocks civic trust and economic value at scale.",
+    body: "Return power to the people by rebuilding public institutions with technology that unlocks civic trust and economic value at scale.",
     letter: "M",
   },
   {
     number: "02",
     title: "Our Vision",
-    body: "Make public will impossible to ignore by turning civic engagement into a data-driven engine for systemic reform.",
+    body: "Make the public will impossible to ignore by turning raw civic engagement into a data-driven engine for structural reform.",
     letter: "V",
   },
 ] as const;
@@ -1907,7 +1907,7 @@ function MissionVisionSlide() {
   return (
     <section className="presentation-scroll relative h-full w-full overflow-y-auto text-[#f7f8f8] md:overflow-hidden">
 
-      <div className="relative mx-auto flex min-h-full w-[92%] flex-col justify-center py-[clamp(1rem,4vh,3rem)] md:h-full md:w-[89%]">
+      <div className="relative mx-auto flex min-h-full w-[92%] flex-col justify-center pb-32 pt-24 md:h-full md:w-[89%] md:py-[clamp(1rem,4vh,3rem)]">
         <p className="font-display text-[clamp(.68rem,min(1.35vw,2.2vh),1.65rem)] font-medium tracking-[0.09em] text-[#b8c0c3]">
           MISSION &amp; VISION
         </p>
@@ -1918,7 +1918,7 @@ function MissionVisionSlide() {
           <div className="h-px w-[12%] bg-[#18bfe3]" />
         </div>
 
-        <div className="mt-[clamp(.7rem,2vh,1.8rem)] grid shrink-0 grid-cols-2 gap-[clamp(.55rem,1.5vw,1.25rem)]">
+        <div className="mt-[clamp(.7rem,2vh,1.8rem)] grid shrink-0 grid-cols-1 gap-[clamp(.55rem,1.5vw,1.25rem)] md:grid-cols-2">
           {missionVisionItems.map((item) => (
             <article
               key={item.title}
@@ -1932,7 +1932,7 @@ function MissionVisionSlide() {
                 {item.title}
               </h2>
               <div className="mt-[clamp(.55rem,2vh,1.5rem)] border-l-[clamp(1px,.22vw,3px)] border-[#18bfe3] pl-[clamp(.55rem,5%,1.5rem)]">
-                <p className="relative z-10 max-w-[42rem] font-display text-[clamp(.7rem,min(1.42vw,2.25vh),1.72rem)] leading-[1.4] text-[#d0d8db]">
+                <p className="relative z-10 max-w-[42rem] font-display text-base leading-[1.5] text-[#d0d8db] md:text-[clamp(.7rem,min(1.42vw,2.25vh),1.72rem)]">
                   {item.body}
                 </p>
               </div>
@@ -1996,7 +1996,7 @@ function SimpleRepublicSlide() {
           Connectivity. Tools. Uncompromised Decision-Making.
         </h1>
         <p className="mt-[2.2%] font-display text-[clamp(1.1rem,2.45vw,2.95rem)] font-medium text-white/92">
-          A stronger Republic—powered by proof, voice, and immediate action.
+          A stronger Republic—powered by proof, voice, and action.
         </p>
       </div>
     </section>
@@ -2022,16 +2022,16 @@ const problemTiers = [
 
 function ProblemsPyramidSlide() {
   return (
-    <section className="relative h-full w-full overflow-hidden text-[#f7f8f8]">
+    <section className="presentation-scroll relative h-full w-full overflow-x-hidden overflow-y-auto text-[#f7f8f8] md:overflow-hidden">
 
-      <div className="relative mx-auto grid h-full w-[89%] grid-cols-[29%_1fr] items-center gap-[5%] py-[7%]">
+      <div className="relative mx-auto flex min-h-full w-[89%] flex-col justify-center gap-7 pb-32 pt-24 md:grid md:h-full md:grid-cols-[29%_1fr] md:items-center md:gap-[5%] md:py-[7%]">
         <div className="flex min-h-0 min-w-0 flex-col justify-center">
           <p className="font-display text-[clamp(.82rem,1.4vw,1.65rem)] text-[#b8c0c3]">The Problems</p>
-          <h1 className="mt-2 whitespace-nowrap font-display text-[clamp(2.15rem,4.15vw,5.1rem)] font-bold leading-[.94] tracking-[-0.05em]">
+          <h1 className="mt-2 font-display text-[clamp(2.15rem,4.15vw,5.1rem)] font-bold leading-[.94] tracking-[-0.05em]">
             We’re Solving
           </h1>
           <div className="mt-[7%] h-px w-24 bg-[linear-gradient(90deg,#01c7f3,transparent)]" />
-          <figure className="relative mt-[7%] h-[42vh] min-h-[12rem] max-h-[24rem] w-full overflow-hidden rounded-[clamp(1rem,2vw,2rem)] border border-[#9beaff]/20 bg-[#07111c] shadow-[0_25px_70px_rgba(5,20,30,0.28)]">
+          <figure className="relative mt-[7%] hidden h-[42vh] min-h-[12rem] max-h-[24rem] w-full overflow-hidden rounded-[clamp(1rem,2vw,2rem)] border border-[#9beaff]/20 bg-[#07111c] shadow-[0_25px_70px_rgba(5,20,30,0.28)] md:block">
             <Image
               src="/mainslides/assets/ai-technology-unsplash.jpg"
               alt="Blue neon technology hardware"
@@ -2044,22 +2044,22 @@ function ProblemsPyramidSlide() {
           </figure>
         </div>
 
-        <div className="relative flex min-h-0 min-w-0 flex-col justify-center">
+        <div className="relative flex w-full min-h-0 min-w-0 flex-col justify-center">
           <div className="pointer-events-none absolute bottom-[3%] left-1/2 h-[94%] w-[94%] -translate-x-1/2 bg-[linear-gradient(180deg,rgba(1,199,243,0.025),rgba(1,199,243,0.12))] [clip-path:polygon(50%_0,100%_100%,0_100%)]" />
           <div className="relative z-10 flex flex-col gap-[clamp(.4rem,1vh,.85rem)]">
             {problemTiers.map((tier, tierIndex) => (
               <div
                 key={tier.join("-")}
-                className="mx-auto grid w-full gap-[1.7%]"
+                className={`mx-auto grid w-full gap-2 md:w-[var(--tier-width)] md:gap-[1.7%] md:[grid-template-columns:var(--tier-columns)] ${tier.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}
                 style={{
-                  gridTemplateColumns: `repeat(${tier.length}, minmax(0, 1fr))`,
-                  width: `${42 + tierIndex * 14.5}%`,
-                }}
+                  "--tier-columns": `repeat(${tier.length}, minmax(0, 1fr))`,
+                  "--tier-width": `${42 + tierIndex * 14.5}%`,
+                } as CSSProperties}
               >
                 {tier.map((label, itemIndex) => (
                   <div
                     key={label}
-                    className="pyramid-item-reveal flex min-h-[clamp(3.6rem,8.3vh,6.25rem)] items-center justify-center rounded-[clamp(.6rem,1vw,1rem)] border border-[#5b6d73]/55 bg-[#091114]/82 px-[4%] py-3 text-center font-display text-[clamp(.65rem,1.04vw,1.25rem)] font-medium leading-[1.18] text-[#f2f5f5] shadow-[0_10px_28px_rgba(0,0,0,0.18)] backdrop-blur-sm"
+                    className="pyramid-item-reveal flex min-h-[clamp(3.6rem,8.3vh,6.25rem)] items-center justify-center rounded-[clamp(.6rem,1vw,1rem)] border border-[#5b6d73]/55 bg-[#091114]/82 px-[4%] py-3 text-center font-display text-[.85rem] font-medium leading-[1.3] text-[#f2f5f5] shadow-[0_10px_28px_rgba(0,0,0,0.18)] backdrop-blur-sm md:text-[clamp(.65rem,1.04vw,1.25rem)]"
                     style={{
                       animationDelay: `${(problemTiers.slice(0, tierIndex).reduce((count, row) => count + row.length, 0) + itemIndex) * 170}ms`,
                     }}
@@ -2448,9 +2448,6 @@ function AgendaPage() {
                   <p className="font-display text-[1.05rem] leading-[1.08] text-[#f4f2ec] sm:text-[1.22rem] lg:text-[1.35rem]">
                     {item.title}
                   </p>
-                  <p className="mt-1 text-[0.78rem] leading-5 text-[#b8ccd7] sm:text-[0.86rem]">
-                    {item.description}
-                  </p>
                 </div>
               </li>
             ))}
@@ -2742,7 +2739,6 @@ function SectionTitleSlide({
 function ProblemsFocusSlide({ onOpenVideo }: { onOpenVideo: (url: string) => void }) {
   return (
     <section className="presentation-scroll flex h-full flex-col items-center justify-center overflow-y-auto px-6 py-24 text-center text-[#f4f2ec]">
-      <BackgroundVoiceoverButton src="/voices/george/slide06-george-1.mp3" label="Problems voiceover" />
       <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#9beaff]">The landscape, the players &amp; problems</p>
       <h1 className="mt-5 font-display text-[clamp(3rem,8vw,7.8rem)] font-semibold leading-none tracking-[-0.055em]">PROBLEMS</h1>
       <p className="mt-5 font-display text-[clamp(1.4rem,3vw,2.7rem)] text-[#c9dce7]">Insulation &amp; Noise</p>
@@ -2866,39 +2862,30 @@ export function LibraryPage() {
   const slideContent = () => {
     switch (activeSlide.id) {
       case "tulsi-intro": return <TulsiIntroVideoSlide />;
-      case "anniversary": return <SectionTitleSlide title="1776 - 2026" introVoiceoverSrc="/voices/george/slide02.mp3" bottomCopy={<><p>250 Years</p><p className="mt-1">Does ‘We the People’ still rule?</p></>} />;
-      case "doge": return <SectionTitleSlide title="DOGE" introVoiceoverSrc="/voices/Slide3.mp3" bottomCopy={<><p>The Goal Isn’t to Catch Fraud Faster</p><p className="mt-1">The goal is to make fraud physically impossible.</p></>} />;
-      case "children": return <SectionTitleSlide title="The Children" />;
+      case "anniversary": return <RevisedAnniversarySlide onOpenVideo={openVideo} />;
+      case "children": return <ChildrenPyramidSlide />;
       case "protect-children": return <GirlPage />;
-      case "accountability": return <QuestionSlide question={openingQuestions[1]} />;
-      case "flag": return <FullScreenFlagSlide src="/flag1.webm" />;
-      case "all-a-lie": return <ItsAllALieVideoSlide />;
-      case "hope": return <QuestionSlide question={openingQuestions[0]} />;
-      case "change": return <NoHeadlineVideoSlide />;
-      case "public-demand": return <MagaPage />;
-      case "america-first": return <ManifestoStatementsPage />;
-      case "promise": return <PromisePage />;
-      case "agenda": return <><GeorgeVoiceover src="/voices/george/slide05.mp3" label="Our Agenda — George voiceover" /><AgendaPage /></>;
+      case "agenda": return <AgendaPage />;
       case "problems": return <ProblemsFocusSlide onOpenVideo={openVideo} />;
-      case "beneath-noise": return <><GeorgeVoiceover src="/voices/george/slide07.mp3" label="Beneath the Noise — George voiceover" /><BeneathNoiseIntroSlide onOpenVideo={openVideo} /></>;
-      case "competition": return <><GeorgeVoiceover src="/voices/george/slide08.mp3" label="The Competition for Power — George voiceover" secondary /><ChapterContext number="01" title="THE COMPETITION FOR POWER"><TicMicPieSlide /></ChapterContext></>;
-      case "long-game": return <YearVideoSlide />;
-      case "technological-power": return <><GeorgeVoiceover src="/voices/george/slide10.mp3" label="Technological Power — George voiceover" secondary /><ChapterContext number="02" title="TECHNOLOGICAL POWER"><TechnocratsSlide figures={post2010TechnocratFigures} frameworkSequence voiceoverSrc="/voices/Technocrats_01.mp3" /></ChapterContext></>;
-      case "networks": return <><GeorgeVoiceover src="/voices/george/slide11.mp3" label="The Power of Networks — George voiceover" /><GeorgeSorosVideoSlide /></>;
-      case "global-incentives": return <GlobalIncentivesSlide onOpenVideo={openVideo} />;
-      case "what-we-learned": return <><GeorgeVoiceover src="/voices/george/slide13.mp3" label="What We Learned — George voiceover" /><BeneathNoiseRecapSlide /></>;
-      case "five-pillars": return <ArchitecturePillarsSlide />;
+      case "beneath-noise": return <BeneathNoiseIntroSlide onOpenVideo={openVideo} />;
+      case "competition": return <RevisedCompetitionSlide />;
+      case "long-game": return <RevisedLongGameSlide onOpenVideo={openVideo} />;
+      case "technological-power": return <RevisedTechnologicalPowerSlide />;
+      case "networks": return <NetworkPowerSlide onOpenVideo={openVideo} />;
+      case "global-incentives": return <GlobalIncentivesMapSlide onOpenVideo={openVideo} />;
+      case "what-we-learned": return <BeneathNoiseRecapSlide />;
+      case "five-pillars": return <RevisedFivePillarsSlide />;
       case "inspiration": return <IntroVideoSlide />;
-      case "founder": return <><GeorgeVoiceover src="/voices/george/slide24.mp3" label="Founder Principle — George voiceover" /><FounderQuoteSlide /></>;
+      case "founder": return <FounderQuoteSlide />;
       case "operating-system": return <SectionTitleSlide title="Operating System" />;
       case "viral-fusion": return <ViralFusionEarthSlide />;
       case "mission-vision": return <MissionVisionSlide />;
-      case "solving": return <><GeorgeVoiceover src="/voices/george/slide28.mp3" label="The Problems We’re Solving — George voiceover" /><ProblemsPyramidSlide /></>;
-      case "republic": return <><GeorgeVoiceover src="/voices/george/slide29.mp3" label="A Stronger Republic — George voiceover" /><SimpleRepublicSlide /></>;
-      case "civic-os": return <><GeorgeVoiceover src="/voices/george/slide30.mp3" label="Civic Operating System — George voiceover" /><CivicOperatingSystemSlide /></>;
-      case "physical-infrastructure": return <><GeorgeVoiceover src="/voices/george/slide31.mp3" label="Physical Infrastructure — George voiceover" /><CivicConnectivitySlide /></>;
-      case "strategic-alliance": return <><GeorgeVoiceover src="/voices/george/slide32.mp3" label="The Strategic Alliance — George voiceover" /><StrategicAllianceSlide videoEmbedUrl={vf8VideoEmbedUrl} onOpenVideo={openVideo} /></>;
-      case "blueprint": return <IpoStrategySlide />;
+      case "solving": return <ProblemsPyramidSlide />;
+      case "republic": return <SimpleRepublicSlide />;
+      case "civic-os": return <RevisedCivicOperatingSystemSlide />;
+      case "physical-infrastructure": return <RevisedCivicConnectivitySlide />;
+      case "strategic-alliance": return <RevisedStrategicAllianceSlide />;
+      case "blueprint": return <RevisedBlueprintSlide />;
       case "what-if": return <WhatIfSlide onContinue={() => setCurrentPage(slideIndex("podcast-strategy"))} />;
       case "podcast-strategy": return <PodcastStrategySlide onContinue={() => setCurrentPage(slideIndex("mo-gawdat"))} />;
       case "mo-gawdat":
@@ -2943,6 +2930,7 @@ export function LibraryPage() {
       <main inert={Boolean(activeVideoEmbedUrl)} className="relative z-10 h-full w-full">
         <div key={activeSlide.id} ref={pageContainerRef} data-slide-id={activeSlide.id} aria-label={activeSlide.title} className="h-full min-h-0 overflow-hidden">
           {slideContent()}
+          <OpeningScriptPanel slideId={activeSlide.id} />
         </div>
       </main>
 

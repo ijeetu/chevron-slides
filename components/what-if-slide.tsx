@@ -1,29 +1,40 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { BookOpen, Pause, Play, RotateCcw, SkipForward, X } from "lucide-react";
+import { ArrowRight, BookOpen, Pause, Play, RotateCcw, SkipForward, X } from "lucide-react";
 import { whatIfSlide } from "@/lib/what-if-slide";
 import styles from "./what-if-slide.module.css";
 
-// This clock animates the editorial build. It does not synthesize or play audio.
+// This clock is a visual rehearsal; it does not synthesize or play audio.
 function useWhatIfSequence() {
   const [elapsed, setElapsed] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [preview, setPreview] = useState(false);
+  const sharedScriptPaused = useRef<boolean | null>(null);
   const duration = whatIfSlide.durationMs;
   const finished = elapsed >= duration;
 
   useEffect(() => {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => {
-      setReducedMotion(preference.matches);
-      if (preference.matches) setElapsed(duration);
-    };
+    const update = () => { setReducedMotion(preference.matches); if (preference.matches) setElapsed(duration); };
     update();
     preference.addEventListener("change", update);
     return () => preference.removeEventListener("change", update);
   }, [duration]);
+
+  useEffect(() => {
+    const onScriptVisibility = (event: Event) => {
+      if ((event as CustomEvent<{ open: boolean }>).detail.open) {
+        setPaused((value) => { sharedScriptPaused.current = value; return true; });
+      } else if (sharedScriptPaused.current !== null) {
+        setPaused(sharedScriptPaused.current);
+        sharedScriptPaused.current = null;
+      }
+    };
+    window.addEventListener("opening-script-visibility", onScriptVisibility);
+    return () => window.removeEventListener("opening-script-visibility", onScriptVisibility);
+  }, []);
 
   useEffect(() => {
     if (paused || reducedMotion || finished) return;
@@ -54,65 +65,36 @@ export function WhatIfSlide({ onContinue }: { onContinue?: () => void } = {}) {
   const scriptTitleId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const previouslyPaused = useRef(false);
-  const continued = useRef(false);
   const overview = sequence.preview || sequence.reducedMotion;
   const stage = [...whatIfSlide.stages].reverse().find((cue) => sequence.elapsed >= cue.startMs) ?? whatIfSlide.stages[0];
   const blackout = !overview && stage.id === "blackout";
   const silentTitle = !overview && stage.id === "silent-title";
   const thesis = !overview && stage.id === "execution-engine";
-  const pulse = ["convene", "expose", "challenge", "connect"].includes(stage.id);
-  const dimmed = !overview && (stage.id === "reality-check" || pulse);
   const opening = !overview && stage.id === "opening";
 
-  useEffect(() => {
-    if (!sequence.finished) continued.current = false;
-    if (sequence.finished && !overview && !continued.current) {
-      continued.current = true;
-      onContinue?.();
-    }
-  }, [sequence.finished, overview, onContinue]);
-
-  const openScript = () => {
-    previouslyPaused.current = sequence.paused;
-    sequence.setPaused(true);
-    dialogRef.current?.showModal();
-  };
+  const openScript = () => { previouslyPaused.current = sequence.paused; sequence.setPaused(true); dialogRef.current?.showModal(); };
 
   return <section className={styles.root} data-stage={overview ? "complete" : stage.id} data-paused={sequence.paused} data-blackout={blackout} data-silent-title={silentTitle} data-thesis={thesis} data-opening={opening} data-overview={overview} aria-labelledby={titleId}>
     <div className={styles.frame}>
-      <div className={styles.orbits} aria-hidden="true" data-converged={overview || sequence.elapsed >= 33000}><i /><i /><i /></div>
-      <div className={styles.composition} aria-hidden={blackout || silentTitle}>
+      <div className={styles.composition} aria-hidden={blackout || silentTitle || thesis}>
         <header className={styles.header}>
           <h1 id={titleId} className="font-display">{whatIfSlide.title}</h1>
-          <p data-visible={!opening}>{whatIfSlide.subtitle}</p>
+          <p data-visible={overview}>{whatIfSlide.subtitle}</p>
         </header>
-        <ol className={styles.questions} data-dimmed={dimmed}>
-          {whatIfSlide.questions.map((question, index) => {
+        <ol className={styles.sections}>
+          {whatIfSlide.sections.map((section, index) => {
             const visible = overview || index < stage.visibleQuestions;
-            return <li key={question} data-visible={visible} aria-hidden={!visible}>
-              <span className={styles.questionNumber} aria-hidden="true">{index + 1}</span>
-              <p className="font-display">{question}</p>
+            return <li key={section.title} data-visible={visible} aria-hidden={!visible}>
+              <span className={styles.sectionNumber} aria-hidden="true">0{index + 1}</span>
+              <div><h2>{section.title}</h2><p className="font-display">{section.text}</p></div>
             </li>;
           })}
         </ol>
-        <div className={styles.closing}>
-          {overview ? <>
-            <p className={`${styles.overviewStatement} font-display`}>{whatIfSlide.finalStatement}.</p>
-            <p className={styles.footer}>{whatIfSlide.footer}</p>
-          </> : <div className={styles.pulseArea} aria-live="off">
-            {pulse && <p key={stage.id} className={`${styles.pulseWord} font-display`}>{stage.label.toUpperCase()}.</p>}
-          </div>}
-        </div>
+        {overview && <p className={`${styles.overviewStatement} font-display`}>{whatIfSlide.finalStatement}</p>}
       </div>
 
-      {thesis && <div className={styles.thesis}>
-        <p>THIS IS THE EXPERIMENT.</p>
-        <h2 className="font-display">CAN A PODCAST<br />BECOME AN<br /><span>EXECUTION ENGINE?</span></h2>
-      </div>}
-
-      {silentTitle && <div className={styles.silentTitle}>
-        <h2 className="font-display">THE PODCAST<br />BECOMES THE STRATEGY</h2>
-      </div>}
+      {thesis && <div className={styles.thesis}><h2 className="font-display">CAN A PODCAST<br />BECOME AN<br /><span>EXECUTION ENGINE?</span></h2></div>}
+      {silentTitle && <div className={styles.silentTitle}><h2 className="font-display">THE PODCAST<br />BECOMES THE STRATEGY.</h2></div>}
 
       <div className={styles.controls} role="group" aria-label="Slide animation controls">
         {!sequence.reducedMotion && <>
@@ -123,7 +105,7 @@ export function WhatIfSlide({ onContinue }: { onContinue?: () => void } = {}) {
           </>}
         </>}
         <button onClick={openScript} aria-label="Read slide voiceover" title="Read voiceover"><BookOpen size={16} /></button>
-        <span className={styles.sequenceStatus}>{sequence.finished ? "COMPLETE" : sequence.paused ? "PAUSED" : ""}</span>
+        {sequence.finished && onContinue && <button className={styles.continueButton} onClick={onContinue}>Strategy map <ArrowRight size={16} /></button>}
       </div>
     </div>
 
