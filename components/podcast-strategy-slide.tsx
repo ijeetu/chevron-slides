@@ -13,7 +13,7 @@ export const PODCAST_CAPABILITY_GROUPS = [
   { name: "MEDIA & DISTRIBUTION", description: "Production • Public Understanding • Reach", Icon: Radio },
 ] as const;
 
-// Estimated visual rehearsal, independent of the production voiceover. Reveal
+// Estimated visual milestones run independently of narration owned by the deck. Reveal
 // the podcast, categories, relationships, closing, and AI focus in that order.
 const MILESTONES = [0, 3000, 7000, 11000, 15000, 19000, 31000, 48000, 67000, 80000];
 const LAST_STAGE = MILESTONES.length - 1;
@@ -24,7 +24,6 @@ function useStrategySequence() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [replay, setReplay] = useState(0);
   const [overview, setOverview] = useState(false);
-  const sharedScriptPaused = useRef<boolean | null>(null);
 
   useEffect(() => {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -32,19 +31,6 @@ function useStrategySequence() {
     update();
     preference.addEventListener("change", update);
     return () => preference.removeEventListener("change", update);
-  }, []);
-
-  useEffect(() => {
-    const onScriptVisibility = (event: Event) => {
-      if ((event as CustomEvent<{ open: boolean }>).detail.open) {
-        setPaused((value) => { sharedScriptPaused.current = value; return true; });
-      } else if (sharedScriptPaused.current !== null) {
-        setPaused(sharedScriptPaused.current);
-        sharedScriptPaused.current = null;
-      }
-    };
-    window.addEventListener("opening-script-visibility", onScriptVisibility);
-    return () => window.removeEventListener("opening-script-visibility", onScriptVisibility);
   }, []);
 
   useEffect(() => {

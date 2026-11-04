@@ -1,18 +1,17 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { ArrowRight, Cable, ChevronRight, Cpu, Leaf, Orbit, Pause, Play, RadioTower, RotateCcw, SkipForward } from "lucide-react";
 import styles from "./opening-landscape-slides.module.css";
 
 type MediaProps = { onOpenVideo?: (url: string) => void };
 
-// These controls rehearse the visual build; they do not claim to play narration.
+// These controls manage the visual build; the deck owns slide narration.
 function useVisualBuild(labels: readonly string[], interval = 5500) {
   const [stage, setStage] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const beforeScript = useRef(false);
   useEffect(() => {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => {
@@ -23,15 +22,6 @@ function useVisualBuild(labels: readonly string[], interval = 5500) {
     preference.addEventListener("change", update);
     return () => preference.removeEventListener("change", update);
   }, [labels.length]);
-  useEffect(() => {
-    const handleScript = (event: Event) => {
-      const open = (event as CustomEvent<{ open: boolean }>).detail.open;
-      if (open) setPlaying(current => { beforeScript.current = current; return false; });
-      else setPlaying(beforeScript.current);
-    };
-    window.addEventListener("opening-script-visibility", handleScript);
-    return () => window.removeEventListener("opening-script-visibility", handleScript);
-  }, []);
   useEffect(() => {
     if (!playing || reducedMotion || stage >= labels.length - 1) return;
     const timer = window.setTimeout(() => setStage(value => Math.min(value + 1, labels.length - 1)), interval);
@@ -48,7 +38,7 @@ function useVisualBuild(labels: readonly string[], interval = 5500) {
 }
 
 function BuildControls({ build }: { build: ReturnType<typeof useVisualBuild> }) {
-  return <div className={styles.controls} role="group" aria-label="Visual rehearsal controls" onKeyDown={event => event.stopPropagation()}>
+  return <div className={styles.controls} role="group" aria-label="Slide animation controls" onKeyDown={event => event.stopPropagation()}>
     <button type="button" onClick={build.replay} aria-label="Replay visual sequence" title="Replay visual sequence"><RotateCcw size={16} /></button>
     {!build.reducedMotion && <button type="button" onClick={build.toggle} aria-label={build.playing ? "Pause visual sequence" : "Play visual sequence"} title={build.playing ? "Pause visual sequence" : "Play visual sequence"}>{build.playing ? <Pause size={16} /> : <Play size={16} />}</button>}
     <button type="button" onClick={build.next} disabled={build.last} aria-label="Next visual scene" title="Next visual scene"><ChevronRight size={17} /></button>
@@ -57,11 +47,11 @@ function BuildControls({ build }: { build: ReturnType<typeof useVisualBuild> }) 
   </div>;
 }
 
-function SlideFrame({ children, title, eyebrow, build }: { children: ReactNode; title: string; eyebrow?: string; build: ReturnType<typeof useVisualBuild> }) {
+function SlideFrame({ children, title, eyebrow, build, centeredHeader = false }: { children: ReactNode; title: string; eyebrow?: string; build: ReturnType<typeof useVisualBuild>; centeredHeader?: boolean }) {
   const titleId = useId();
   return <section className={styles.root} aria-labelledby={titleId} data-reduced-motion={build.reducedMotion} data-scene={build.stage}>
     <div className={styles.frame}>
-      <header className={styles.header}>{eyebrow && <p>{eyebrow}</p>}<h1 id={titleId} className="font-display">{title}</h1></header>
+      <header className={`${styles.header} ${centeredHeader ? styles.centeredHeader : ""}`}>{eyebrow && <p>{eyebrow}</p>}<h1 id={titleId} className="font-display">{title}</h1></header>
       {children}
     </div>
     <BuildControls build={build} />
@@ -79,7 +69,7 @@ const ANNIVERSARY_SCENES = ["250 years", "A movement", "The Constitution", "Acco
 export function RevisedAnniversarySlide({ onOpenVideo }: MediaProps = {}) {
   const build = useVisualBuild(ANNIVERSARY_SCENES, 9000);
   const { stage } = build;
-  return <SlideFrame title="1776–2026" eyebrow="250 YEARS" build={build}>
+  return <SlideFrame title="1776–2026" eyebrow="250 YEARS" build={build} centeredHeader>
     <div className={styles.anniversary} key={stage}>
       {(stage === 0 || stage === 6) && <div className={styles.anniversaryTitle}>
         <span className={styles.yearsRule} aria-hidden="true" />
@@ -122,7 +112,7 @@ const PROBLEM_TIERS = [
 
 export function ChildrenPyramidSlide() {
   const build = useVisualBuild(PYRAMID_SCENES, 14000);
-  return <SlideFrame title="The problems we must understand" build={build}>
+  return <SlideFrame title="The problems we must understand" build={build} centeredHeader>
     <div className={styles.pyramid}>
       <div className={styles.pyramidGlow} aria-hidden="true" />
       <div className={styles.childrenApex} data-visible={build.stage >= 1} aria-hidden={build.stage < 1}>CHILDREN</div>

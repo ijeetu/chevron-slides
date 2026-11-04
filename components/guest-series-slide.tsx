@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { ArrowRight, ArrowUpRight, BookOpen, ChevronLeft, ChevronRight, Film, Pause, Play, RotateCcw, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Film, Pause, Play, RotateCcw, X } from "lucide-react";
 import { guestSeries, type GuestSeriesId } from "@/lib/guest-series";
 import { guestSeriesMedia } from "@/lib/guest-series-media";
-import { guestSeriesSourceSlides } from "@/lib/guest-series-source";
 import { slideIndex } from "@/lib/viral-fusion-deck";
 import credits from "@/public/guest-chapter/credits.json";
 import { GuestConceptVisual } from "./guest-concept-visual";
@@ -30,23 +29,19 @@ function playable(value?: string): value is string {
   } catch { return false; }
 }
 
-/** A silent, presenter-controlled visual sequence. No narration player is mounted. */
+/** Scene controls manage the visual sequence; the deck owns slide narration. */
 export function GuestSeriesSlide({ id, onContinue, onOpenVideo, nextLabel }: Props) {
   const slide = guestSeries[id];
   const [sceneIndex, setSceneIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const [scriptFilter, setScriptFilter] = useState("all");
-  const reference = useRef<HTMLDialogElement>(null);
   const mediaDialog = useRef<HTMLDialogElement>(null);
   const scrollArea = useRef<HTMLElement>(null);
   const titleId = useId();
-  const scriptTitle = useId();
   const mediaTitle = useId();
   const scene = slide.scenes[sceneIndex];
   const duration = (scene.seconds ?? 12) * 1000;
   const media = guestSeriesMedia[id] ?? [];
-  const source = guestSeriesSourceSlides.find((record) => record.id === id);
   const portraits = credits.portraits.filter((portrait) => portrait.guestId === id);
   const activeClip = scene.clip === undefined ? undefined : media[scene.clip];
   const progress = Math.min(100, elapsed / duration * 100);
@@ -78,11 +73,6 @@ export function GuestSeriesSlide({ id, onContinue, onOpenVideo, nextLabel }: Pro
     setIsPlaying(false);
     setElapsed(0);
     setSceneIndex(index);
-  }
-
-  function openReference() {
-    setIsPlaying(false);
-    reference.current?.showModal();
   }
 
   function openMedia() {
@@ -131,7 +121,7 @@ export function GuestSeriesSlide({ id, onContinue, onOpenVideo, nextLabel }: Pro
             <button type="button" className={styles.playButton} onClick={() => {
               if (!isPlaying && sceneIndex === slide.scenes.length - 1 && elapsed >= duration) { setSceneIndex(0); setElapsed(0); }
               setIsPlaying((value) => !value);
-            }} aria-label={isPlaying ? "Pause silent visual sequence" : "Play silent visual sequence"} title="Play visual sequence without narration">{isPlaying ? <Pause size={16} /> : <Play size={16} fill="currentColor" />}</button>
+            }} aria-label={isPlaying ? "Pause visual sequence" : "Play visual sequence"} title={isPlaying ? "Pause visual sequence" : "Play visual sequence"}>{isPlaying ? <Pause size={16} /> : <Play size={16} fill="currentColor" />}</button>
             <div className={styles.sceneSteps}>{slide.scenes.map((item, index) => <button type="button" key={item.label} onClick={() => selectScene(index)} aria-current={index === sceneIndex ? "step" : undefined} aria-label={`Scene ${index + 1}: ${item.label}`} title={item.label}><span>{index === sceneIndex && <i style={{ width: `${isPlaying || elapsed > 0 ? progress : 100}%` }} />}</span><em>{item.label}</em></button>)}</div>
             <div className={styles.stepButtons}>
               <button type="button" onClick={() => selectScene(Math.max(0, sceneIndex - 1))} disabled={sceneIndex === 0} aria-label="Previous scene"><ChevronLeft size={18} /></button>
@@ -142,24 +132,15 @@ export function GuestSeriesSlide({ id, onContinue, onOpenVideo, nextLabel }: Pro
           <div className={styles.utilities}>
             <button type="button" onClick={() => selectScene(0)} aria-label="Restart visual sequence"><RotateCcw size={14} /><span>Restart</span></button>
             <button type="button" onClick={openMedia}><Film size={15} /><span>Footage &amp; sources</span><small>{media.length}</small></button>
-            <button type="button" onClick={openReference}><BookOpen size={15} /><span>Script &amp; direction</span></button>
             <button type="button" className={styles.continue} onClick={onContinue}><span>{sceneIndex === slide.scenes.length - 1 ? nextLabel || "Continue" : id === "michele-chan" ? "Next chapter" : "Next guest"}</span><ArrowRight size={17} /></button>
           </div>
         </div>
       </div>
 
-      <dialog ref={reference} className={styles.dialog} aria-labelledby={scriptTitle} onKeyDown={(event) => event.stopPropagation()}>
-        <header><div><p>GUEST SERIES MASTER · SLIDE {slide.number}</p><h2 id={scriptTitle}>{slide.name}</h2></div><button type="button" onClick={() => reference.current?.close()} aria-label="Close script and direction" autoFocus><X size={21} /></button></header>
-        <div className={styles.referenceTools}><label>Show<select value={scriptFilter} onChange={(event) => setScriptFilter(event.target.value)}><option value="all">Complete source</option><option value="script">Conversation script</option><option value="editor">Production cues and reference</option></select></label><span>21 October 2026 · Script text only</span></div>
-        <div className={styles.referenceBody}>
-          {source?.paragraphs.filter((paragraph) => paragraph.text && (scriptFilter === "all" || (scriptFilter === "script" ? ["narrator", "george"].includes(paragraph.kind) : !["narrator", "george"].includes(paragraph.kind)))).map((paragraph) => <p key={paragraph.sourceParagraph} data-kind={paragraph.kind}>{paragraph.text}</p>)}
-        </div>
-      </dialog>
-
       <dialog ref={mediaDialog} className={styles.dialog} aria-labelledby={mediaTitle} onKeyDown={(event) => event.stopPropagation()}>
         <header><div><p>FOOTAGE &amp; SOURCE MATERIAL</p><h2 id={mediaTitle}>{slide.name}</h2></div><button type="button" onClick={() => mediaDialog.current?.close()} aria-label="Close footage and sources" autoFocus><X size={21} /></button></header>
         <div className={styles.mediaBody}>
-          {media.length === 0 && <p className={styles.emptyMedia}>The production master calls for authentic footage. No playable source was supplied for this guest. The visual sequence remains available.</p>}
+          {media.length === 0 && <p className={styles.emptyMedia}>No video excerpts are available for this guest.</p>}
           {media.map((item, index) => <article className={styles.mediaItem} key={`${item.label}-${index}`}><span className={styles.mediaIndex}>{String(index + 1).padStart(2, "0")}</span><div><h3>{item.label}</h3><p>{item.note}</p><div className={styles.mediaActions}>{playable(item.embedUrl) && <button type="button" onClick={() => watch(item.embedUrl!)}><Play size={13} fill="currentColor" />Watch excerpt</button>}<a href={item.url} target="_blank" rel="noopener noreferrer">Open full source<ArrowUpRight size={14} /></a></div></div></article>)}
           {portraits.length > 0 && <div className={styles.photoCredits}><h3>Photography</h3>{portraits.map((portrait) => <p key={portrait.asset}><a href={portrait.sourceUrl} target="_blank" rel="noopener noreferrer">{portrait.person}: {portrait.credit}<ArrowUpRight size={12} /></a><span>{portrait.license} {portrait.changes}</span></p>)}</div>}
           {slide.scenes.some((item) => item.image) && <div className={styles.photoCredits}><h3>Concept artwork</h3><p><a href="/guest-series/credits.json" target="_blank" rel="noopener noreferrer">AI-generated concept artwork and prompts<ArrowUpRight size={12} /></a><span>Illustrative production and engineering concepts. Authentic footage is listed separately above.</span></p></div>}

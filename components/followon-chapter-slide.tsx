@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
-import { ArrowRight, BookOpen, Box, Check, Code2, MapPin, Pause, Play, Radio, RotateCcw, Scale, SkipForward, UsersRound, X } from "lucide-react";
+import { useEffect, useId, useState, type CSSProperties } from "react";
+import { ArrowRight, Box, Check, Code2, MapPin, Pause, Play, Radio, RotateCcw, Scale, SkipForward, UsersRound } from "lucide-react";
 import { civicCapabilities, followonSlides, moatCapabilities, technologyCapabilities, type FollowonSlideId } from "@/lib/followon-chapter";
 import styles from "./followon-chapter-slide.module.css";
 
-// The supplied documents contain scripts and editorial timings, not recordings.
-// This clock rehearses the visual build and never synthesizes or starts audio.
+// This clock controls the visual build independently of narration owned by the deck.
 function useSequence(duration: number) {
   const [elapsed, setElapsed] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -192,18 +191,9 @@ function CaliforniaProof({ elapsed, overview }: { elapsed: number; overview: boo
 function FollowonContent({ id }: { id: FollowonSlideId }) {
   const slide = followonSlides[id];
   const sequence = useSequence(slide.durationMs);
-  const dialog = useRef<HTMLDialogElement>(null);
-  const previouslyPaused = useRef(false);
   const titleId = useId();
-  const scriptTitleId = useId();
   const stage = slide.stages.find((item) => sequence.elapsed >= item.startMs && sequence.elapsed < item.endMs) ?? slide.stages[slide.stages.length - 1];
   const finalMoat = id === "accumulated-execution" && sequence.elapsed >= 86500 && !sequence.overview;
-
-  function readVoiceover() {
-    previouslyPaused.current = sequence.paused;
-    sequence.setPaused(true);
-    dialog.current?.showModal();
-  }
 
   return <section className={styles.root} data-slide={id} data-final={finalMoat} data-opening={id === "accumulated-execution" && sequence.elapsed < 12000} data-paused={sequence.paused} aria-labelledby={titleId}>
     <div className={styles.frame}>
@@ -216,15 +206,10 @@ function FollowonContent({ id }: { id: FollowonSlideId }) {
           {!sequence.finished && <><button onClick={() => sequence.setPaused(!sequence.paused)} aria-label={sequence.paused ? "Resume slide animation" : "Pause slide animation"} title={sequence.paused ? "Resume" : "Pause"}>{sequence.paused ? <Play size={16} /> : <Pause size={16} />}</button></>}
           {!sequence.overview && <button onClick={sequence.complete} aria-label="Show complete slide" title="Show complete slide"><SkipForward size={16} /></button>}
         </>}
-        <button onClick={readVoiceover} aria-label="Read slide voiceover" title="Read voiceover"><BookOpen size={16} /></button>
         <span className={styles.controlStatus}>{sequence.finished ? "COMPLETE" : sequence.paused ? "PAUSED" : "VISUAL BUILD"}</span>
       </div>
       <span className={styles.screenReaderOnly}>Current visual stage: {stage.label}. {stage.description}</span>
     </div>
-    <dialog ref={dialog} className={styles.transcript} aria-labelledby={scriptTitleId} onClose={() => sequence.setPaused(previouslyPaused.current)} onKeyDown={(event) => event.stopPropagation()}>
-      <header><div><span>VOICEOVER SCRIPT · {Math.round(slide.durationMs / 1000)} SEC VISUAL TARGET</span><h2 id={scriptTitleId}>{slide.title}</h2></div><button autoFocus onClick={() => dialog.current?.close()} aria-label="Close voiceover script"><X size={20} /></button></header>
-      <div className={styles.scriptBody}><p className={styles.scriptNote}>{slide.timingNote}</p>{slide.speakerCues.map((cue, index) => <div className={styles.speakerCue} key={index}><h3>{cue.speaker}<small>{cue.performance}</small></h3><p>{cue.text}</p></div>)}</div>
-    </dialog>
   </section>;
 }
 

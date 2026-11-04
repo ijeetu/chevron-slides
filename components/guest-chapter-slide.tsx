@@ -1,10 +1,9 @@
 "use client";
 
-import { useId, useRef } from "react";
-import { ArrowRight, ArrowUpRight, BookOpen, ChevronDown, Play, X } from "lucide-react";
+import { useId } from "react";
+import { ArrowRight, ArrowUpRight, ChevronDown, Play } from "lucide-react";
 
 import type { GuestSlide } from "@/lib/guest-chapter";
-import { guestChapterNarration, guestChapterTransition } from "@/lib/guest-chapter-narration";
 import portraitCredits from "@/public/guest-chapter/credits.json";
 import styles from "./guest-chapter-slide.module.css";
 
@@ -296,9 +295,6 @@ export function GuestChapterSlide({ slide, onContinue, onOpenVideo, nextLabel, p
     ? [{ asset: portraitSrc, person: portraitAlt || slide.name }]
     : portraitCredits.portraits.filter((portrait) => portrait.guestId === slide.id);
   const creditedPortraits = portraits.filter((portrait) => portrait.sourceUrl);
-  const script = guestChapterNarration[slide.id];
-  const scriptDialog = useRef<HTMLDialogElement>(null);
-  const scriptTitleId = useId();
 
   return (
     <section className={styles.root} aria-labelledby={titleId}>
@@ -366,18 +362,9 @@ export function GuestChapterSlide({ slide, onContinue, onOpenVideo, nextLabel, p
               </div>
             </details>
           ) : <span className={styles.conversationLabel}>A CONVERSATION THAT BUILDS THE NEXT LAYER</span>}
-          <button type="button" className={styles.scriptButton} onClick={() => scriptDialog.current?.showModal()}><BookOpen size={15} aria-hidden="true" />Read voiceover</button>
           <button type="button" className={styles.continueButton} onClick={onContinue}>{nextLabel || "Continue"}<ArrowRight size={17} strokeWidth={1.5} aria-hidden="true" /></button>
         </div>
       </div>
-      <dialog ref={scriptDialog} className={styles.scriptDialog} aria-labelledby={scriptTitleId} onKeyDown={(event) => event.stopPropagation()}>
-        <header><div><span>LOCKED EDITOR MASTER · SLIDE {script.sourceSlide}</span><h2 id={scriptTitleId}>{slide.name}</h2></div><button type="button" autoFocus onClick={() => scriptDialog.current?.close()} aria-label="Close voiceover script"><X size={20} /></button></header>
-        <div className={styles.scriptBody}>
-          <h3>VOICEOVER</h3><p>{script.narration}</p>
-          {slide.id === "michele-chan" && <><h3>TRANSITION TO THE BLUEPRINT IN MOTION</h3><p>{guestChapterTransition}</p></>}
-          {script.editorNotes && <details className={styles.editorNotes}><summary>Source clips and editor cues</summary><p>{script.editorNotes}</p></details>}
-        </div>
-      </dialog>
     </section>
   );
 }

@@ -1,17 +1,16 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
-import { ArrowRight, BookOpen, Pause, Play, RotateCcw, SkipForward, X } from "lucide-react";
+import { useEffect, useId, useState } from "react";
+import { ArrowRight, Pause, Play, RotateCcw, SkipForward } from "lucide-react";
 import { whatIfSlide } from "@/lib/what-if-slide";
 import styles from "./what-if-slide.module.css";
 
-// This clock is a visual rehearsal; it does not synthesize or play audio.
+// This clock controls the visual build; the deck owns slide narration.
 function useWhatIfSequence() {
   const [elapsed, setElapsed] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [preview, setPreview] = useState(false);
-  const sharedScriptPaused = useRef<boolean | null>(null);
   const duration = whatIfSlide.durationMs;
   const finished = elapsed >= duration;
 
@@ -22,19 +21,6 @@ function useWhatIfSequence() {
     preference.addEventListener("change", update);
     return () => preference.removeEventListener("change", update);
   }, [duration]);
-
-  useEffect(() => {
-    const onScriptVisibility = (event: Event) => {
-      if ((event as CustomEvent<{ open: boolean }>).detail.open) {
-        setPaused((value) => { sharedScriptPaused.current = value; return true; });
-      } else if (sharedScriptPaused.current !== null) {
-        setPaused(sharedScriptPaused.current);
-        sharedScriptPaused.current = null;
-      }
-    };
-    window.addEventListener("opening-script-visibility", onScriptVisibility);
-    return () => window.removeEventListener("opening-script-visibility", onScriptVisibility);
-  }, []);
 
   useEffect(() => {
     if (paused || reducedMotion || finished) return;
@@ -52,7 +38,7 @@ function useWhatIfSequence() {
   }, [duration, paused, reducedMotion, finished]);
 
   return {
-    elapsed, paused, reducedMotion, preview, finished, setPaused,
+    elapsed, paused, reducedMotion, preview, finished,
     toggle: () => setPaused((value) => !value),
     replay: () => { setPreview(false); setElapsed(reducedMotion ? duration : 0); setPaused(false); },
     complete: () => { setPreview(true); setElapsed(duration); setPaused(false); },
@@ -62,17 +48,12 @@ function useWhatIfSequence() {
 export function WhatIfSlide({ onContinue }: { onContinue?: () => void } = {}) {
   const sequence = useWhatIfSequence();
   const titleId = useId();
-  const scriptTitleId = useId();
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const previouslyPaused = useRef(false);
   const overview = sequence.preview || sequence.reducedMotion;
   const stage = [...whatIfSlide.stages].reverse().find((cue) => sequence.elapsed >= cue.startMs) ?? whatIfSlide.stages[0];
   const blackout = !overview && stage.id === "blackout";
   const silentTitle = !overview && stage.id === "silent-title";
   const thesis = !overview && stage.id === "execution-engine";
   const opening = !overview && stage.id === "opening";
-
-  const openScript = () => { previouslyPaused.current = sequence.paused; sequence.setPaused(true); dialogRef.current?.showModal(); };
 
   return <section className={styles.root} data-stage={overview ? "complete" : stage.id} data-paused={sequence.paused} data-blackout={blackout} data-silent-title={silentTitle} data-thesis={thesis} data-opening={opening} data-overview={overview} aria-labelledby={titleId}>
     <div className={styles.frame}>
@@ -104,18 +85,8 @@ export function WhatIfSlide({ onContinue }: { onContinue?: () => void } = {}) {
             <button onClick={sequence.complete} aria-label="Show complete slide" title="Show complete slide"><SkipForward size={16} /></button>
           </>}
         </>}
-        <button onClick={openScript} aria-label="Read slide voiceover" title="Read voiceover"><BookOpen size={16} /></button>
         {sequence.finished && onContinue && <button className={styles.continueButton} onClick={onContinue}>Strategy map <ArrowRight size={16} /></button>}
       </div>
     </div>
-
-    <dialog ref={dialogRef} className={styles.transcript} aria-labelledby={scriptTitleId} onClose={() => sequence.setPaused(previouslyPaused.current)} onKeyDown={(event) => event.stopPropagation()}>
-      <header><div><span>VOICEOVER SCRIPT</span><h2 id={scriptTitleId}>{whatIfSlide.title}</h2></div><button autoFocus onClick={() => dialogRef.current?.close()} aria-label="Close voiceover script"><X size={20} /></button></header>
-      <div className={styles.scriptBody}>
-        <p className={styles.scriptNote}>{whatIfSlide.timingNote}</p>
-        {whatIfSlide.speakerCues.map((cue, index) => <div className={styles.speakerCue} key={index}><h3>{cue.speaker}</h3><p className={styles.performance}>{cue.performance}</p><p>{cue.text}</p></div>)}
-        <div className={styles.speakerCue}><h3>TITLE REVEAL — NO VOICEOVER</h3><p>{whatIfSlide.finalStatement}</p></div>
-      </div>
-    </dialog>
   </section>;
 }

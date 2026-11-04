@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
-import { BookOpen, Check, Pause, Play, RotateCcw, SkipForward, X } from "lucide-react";
+import { useEffect, useId, useState, type CSSProperties } from "react";
+import { Check, Pause, Play, RotateCcw, SkipForward } from "lucide-react";
 import { accelerationSlides, type AccelerationSlideId, type AccelerationStage } from "@/lib/acceleration-chapter";
 import styles from "./acceleration-chapter-slide.module.css";
 
-// These are visual rehearsals of the supplied editorial timings. No recorded
-// voiceover was supplied for this chapter, so playback never starts audio.
+// These timings drive the visual build independently of narration owned by the deck.
 function useSequence(durationMs: number) {
   const [elapsed, setElapsed] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -45,7 +44,6 @@ function useSequence(durationMs: number) {
     preview,
     finished: elapsed >= durationMs,
     toggle: () => setPaused((value) => !value),
-    setPaused,
     replay: () => { setPreview(false); setElapsed(reducedMotion ? durationMs : 0); setPaused(false); },
     complete: () => { setPreview(true); setElapsed(durationMs); setPaused(false); },
   };
@@ -158,11 +156,9 @@ function Velocity({ stage, elapsed, finished }: { stage: AccelerationStage; elap
   </div>;
 }
 
-export function AccelerationChapterSlide({ id, onContinue }: { id: AccelerationSlideId; onContinue?: () => void }) {
+export function AccelerationChapterSlide({ id }: { id: AccelerationSlideId; onContinue?: () => void }) {
   const slide = accelerationSlides[id];
   const sequence = useSequence(slide.durationMs);
-  const transcriptRef = useRef<HTMLDialogElement>(null);
-  const previouslyPaused = useRef(false);
   const titleReveal = id === "acceleration-layer";
   const stage = [...slide.stages].reverse().find((item) => sequence.elapsed >= item.startMs) ?? slide.stages[0];
   const activeIds = sequence.finished ? slide.nodes.map((node) => node.id) : stage?.activeNodeIds ?? [];
@@ -170,10 +166,6 @@ export function AccelerationChapterSlide({ id, onContinue }: { id: AccelerationS
   const comparisonVisible = civic && (sequence.finished || sequence.elapsed >= 92000);
   const coreActive = civic || sequence.finished || (id === "blueprint-in-motion" ? stage.id !== "assembly" : stage.id !== "dormant");
   const blackout = id === "why-musk" && stage.id === "black" && !sequence.preview && !sequence.reducedMotion;
-
-  useEffect(() => {
-    if (id === "why-musk" && sequence.finished && !sequence.preview && !sequence.reducedMotion) onContinue?.();
-  }, [id, sequence.finished, sequence.preview, sequence.reducedMotion, onContinue]);
 
   return <section className={styles.root} data-tone={civic ? "gold" : "blue"} data-title-reveal={titleReveal} data-reduced-motion={sequence.reducedMotion} data-paused={sequence.paused} data-blackout={blackout} data-stage={sequence.preview ? "complete" : stage.id} aria-labelledby="acceleration-slide-title">
     <div className={styles.frame}>
@@ -203,14 +195,8 @@ export function AccelerationChapterSlide({ id, onContinue }: { id: AccelerationS
             <button onClick={sequence.complete} aria-label="Show complete slide" title="Show complete slide"><SkipForward size={16} /></button>
           </>}
         </>}
-        {!titleReveal && <button onClick={() => { previouslyPaused.current = sequence.paused; sequence.setPaused(true); transcriptRef.current?.showModal(); }} aria-label="Read slide voiceover" title="Read voiceover"><BookOpen size={16} /></button>}
         <span className={styles.sequenceStatus}>{sequence.finished ? "COMPLETE" : sequence.paused ? "PAUSED" : ""}</span>
       </div>
     </div>
-
-    {!titleReveal && <dialog ref={transcriptRef} className={styles.transcript} aria-labelledby="acceleration-script-title" onClose={() => sequence.setPaused(previouslyPaused.current)} onKeyDown={(event) => event.stopPropagation()}>
-      <header><div><span>VOICEOVER SCRIPT</span><h2 id="acceleration-script-title">{slide.title}</h2></div><button autoFocus onClick={() => transcriptRef.current?.close()} aria-label="Close voiceover script"><X size={20} /></button></header>
-      <div className={styles.scriptBody}><p className={styles.scriptNote}>{slide.timingNote}</p>{slide.speakerCues.map((cue, index) => <div className={styles.speakerCue} key={index}><h3>{cue.speaker}</h3><p>{cue.text.trim()}</p></div>)}</div>
-    </dialog>}
   </section>;
 }

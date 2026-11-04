@@ -6,14 +6,12 @@ import styles from "./opening-architecture-slides.module.css";
 
 type SlideProps = { onContinue?: () => void };
 
-// These clocks rehearse the visual build only. Recorded narration for the
-// revised master has not been supplied, so no existing audio is played here.
+// These clocks control the visual build; the deck owns slide narration.
 function useVisualRehearsal(durationMs: number) {
   const [elapsed, setElapsed] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [preview, setPreview] = useState(false);
-  const [scriptOpen, setScriptOpen] = useState(false);
   const finished = elapsed >= durationMs;
 
   useEffect(() => {
@@ -31,24 +29,18 @@ function useVisualRehearsal(durationMs: number) {
   }, [durationMs]);
 
   useEffect(() => {
-    const update = (event: Event) => setScriptOpen(Boolean((event as CustomEvent<{ open: boolean }>).detail?.open));
-    window.addEventListener("opening-script-visibility", update);
-    return () => window.removeEventListener("opening-script-visibility", update);
-  }, []);
-
-  useEffect(() => {
-    if (paused || reducedMotion || finished || scriptOpen) return;
+    if (paused || reducedMotion || finished) return;
     let previous = performance.now();
     const timer = window.setInterval(() => {
       const now = performance.now();
-      // A hidden tab or open script dialog must not consume the visual build.
+      // Suspend the visual build while the tab is hidden or a dialog is open.
       const suspended = document.hidden || Boolean(document.querySelector("dialog[open]"));
       const delta = suspended ? 0 : now - previous;
       previous = now;
       setElapsed((time) => Math.min(durationMs, time + delta));
     }, 100);
     return () => window.clearInterval(timer);
-  }, [durationMs, paused, reducedMotion, finished, scriptOpen]);
+  }, [durationMs, paused, reducedMotion, finished]);
 
   return {
     elapsed,
@@ -71,11 +63,11 @@ function useVisualRehearsal(durationMs: number) {
 type Rehearsal = ReturnType<typeof useVisualRehearsal>;
 
 function Controls({ sequence, onContinue, children }: { sequence: Rehearsal; onContinue?: () => void; children?: ReactNode }) {
-  return <div className={styles.controls} role="group" aria-label="Visual rehearsal controls">
-    <span className={styles.controlLabel}>{sequence.all ? "COMPLETE VIEW" : sequence.finished ? "REHEARSAL COMPLETE" : "VISUAL REHEARSAL"}</span>
+  return <div className={styles.controls} role="group" aria-label="Slide animation controls">
+    <span className={styles.controlLabel}>{sequence.all || sequence.finished ? "COMPLETE" : ""}</span>
     {!sequence.reducedMotion && <>
-      <button type="button" onClick={sequence.replay} aria-label="Replay visual rehearsal" title="Replay visual rehearsal"><RotateCcw size={15} /></button>
-      {!sequence.finished && <button type="button" onClick={sequence.toggle} aria-label={sequence.paused ? "Resume visual rehearsal" : "Pause visual rehearsal"} title={sequence.paused ? "Resume" : "Pause"}>{sequence.paused ? <Play size={15} /> : <Pause size={15} />}</button>}
+      <button type="button" onClick={sequence.replay} aria-label="Replay slide animation" title="Replay slide animation"><RotateCcw size={15} /></button>
+      {!sequence.finished && <button type="button" onClick={sequence.toggle} aria-label={sequence.paused ? "Resume slide animation" : "Pause slide animation"} title={sequence.paused ? "Resume" : "Pause"}>{sequence.paused ? <Play size={15} /> : <Pause size={15} />}</button>}
     </>}
     <button type="button" onClick={sequence.complete} aria-label="Show complete slide" title="Show complete slide"><SkipForward size={15} /><span>Show complete</span></button>
     {children}

@@ -33,7 +33,7 @@ import { PodcastStrategySlide } from "@/components/podcast-strategy-slide";
 import { GuestSeriesSlide } from "@/components/guest-series-slide";
 import { AccelerationChapterSlide } from "@/components/acceleration-chapter-slide";
 import { FollowonChapterSlide } from "@/components/followon-chapter-slide";
-import { OpeningScriptPanel } from "@/components/opening-script-panel";
+import { SlideVoiceover } from "@/components/slide-voiceover";
 import { RevisedAnniversarySlide, ChildrenPyramidSlide, NetworkPowerSlide, GlobalIncentivesMapSlide, RevisedFivePillarsSlide } from "@/components/opening-landscape-slides";
 import { RevisedCivicOperatingSystemSlide, RevisedCivicConnectivitySlide, RevisedStrategicAllianceSlide, RevisedBlueprintSlide } from "@/components/opening-architecture-slides";
 import { RevisedCompetitionSlide, RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
@@ -1221,6 +1221,8 @@ function IntroVideoSlide() {
 
     video.currentTime = 0;
     void video.play().catch(() => undefined);
+
+    return () => video.pause();
   }, [videoPhase]);
 
   const returnToGeorge = () => {
@@ -1377,8 +1379,12 @@ function TulsiIntroVideoSlide() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    let disposed = false;
 
     const unmute = () => {
+      if (disposed) return;
+      window.removeEventListener("pointerdown", unmute);
+      window.removeEventListener("keydown", unmute);
       video.muted = false;
       setIsMuted(false);
       void video.play().catch(() => undefined);
@@ -1389,6 +1395,7 @@ function TulsiIntroVideoSlide() {
     // click, tap or key press anywhere.
     video.muted = false;
     void video.play().catch(() => {
+      if (disposed) return;
       video.muted = true;
       setIsMuted(true);
       void video.play().catch(() => undefined);
@@ -1397,8 +1404,10 @@ function TulsiIntroVideoSlide() {
     });
 
     return () => {
+      disposed = true;
       window.removeEventListener("pointerdown", unmute);
       window.removeEventListener("keydown", unmute);
+      video.pause();
     };
   }, []);
 
@@ -1699,10 +1708,6 @@ function BlackSwanSlide() {
         height={992}
         sizes="100vw"
         className="h-full w-full border border-white/30 object-fill"
-      />
-      <BackgroundVoiceoverButton
-        src="/voices/blackswan.mp3"
-        label="California Black Swan voiceover"
       />
     </section>
   );
@@ -2790,7 +2795,6 @@ export function LibraryPage() {
 
   const openVideo = (url: string) => {
     videoTriggerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    document.querySelectorAll("audio").forEach((audio) => audio.pause());
     setIsVideoLoading(true);
     setActiveVideoEmbedUrl(url);
   };
@@ -2915,10 +2919,10 @@ export function LibraryPage() {
       case "sustainability": return <SectionTitleSlide title="Sustainability Model" />;
       case "legislation": return <SectionTitleSlide title="Legislative Examples" />;
       case "musk-alliance": return <MuskAllianceVideoSlide />;
-      case "technology-alliance": return <TechnocratsSlide figures={elonFocusTechnocratFigures} elonFocusSequence voiceoverSrc="/slide-19-voiceover.mp3" voiceoverDelayMs={3000} />;
+      case "technology-alliance": return <TechnocratsSlide figures={elonFocusTechnocratFigures} elonFocusSequence />;
       case "global-frameworks": return <FinalBeneathNoiseSlide />;
       case "playbook": return <SectionTitleSlide title="OUR PLAYBOOK" />;
-      case "project-2026": return <SectionTitleSlide title="PROJECT 2026" voiceoverSrc="/project-2026-nrusa%20copy%202.mp3" introVoiceoverSrc="/project2026intro.mp3" />;
+      case "project-2026": return <SectionTitleSlide title="PROJECT 2026" />;
       case "purpose": return <LivingWithPurposeSlide />;
       case "call-to-action": return <ExecutionCallToActionSlide />;
     }
@@ -2929,8 +2933,8 @@ export function LibraryPage() {
       <div className={"pointer-events-none absolute inset-0 [background-size:28px_28px] " + (isLightSlide ? "opacity-40 [background-image:linear-gradient(rgba(17,22,28,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,22,28,0.05)_1px,transparent_1px)]" : "opacity-20 [background-image:linear-gradient(rgba(184,203,218,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(184,203,218,0.08)_1px,transparent_1px)]")} />
       <main inert={Boolean(activeVideoEmbedUrl)} className="relative z-10 h-full w-full">
         <div key={activeSlide.id} ref={pageContainerRef} data-slide-id={activeSlide.id} aria-label={activeSlide.title} className="h-full min-h-0 overflow-hidden">
-          {slideContent()}
-          <OpeningScriptPanel slideId={activeSlide.id} />
+          {hasResolvedInitialHash && slideContent()}
+          {hasResolvedInitialHash && <SlideVoiceover slideId={activeSlide.id} title={activeSlide.title} suspended={Boolean(activeVideoEmbedUrl)} />}
         </div>
       </main>
 
