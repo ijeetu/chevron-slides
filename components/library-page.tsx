@@ -34,9 +34,10 @@ import { GuestSeriesSlide } from "@/components/guest-series-slide";
 import { AccelerationChapterSlide } from "@/components/acceleration-chapter-slide";
 import { FollowonChapterSlide } from "@/components/followon-chapter-slide";
 import { SlideVoiceover } from "@/components/slide-voiceover";
-import { RevisedAnniversarySlide, ChildrenPyramidSlide, NetworkPowerSlide, GlobalIncentivesMapSlide, RevisedFivePillarsSlide } from "@/components/opening-landscape-slides";
+import { ChildrenPyramidSlide, NetworkPowerSlide, GlobalIncentivesMapSlide, RevisedFivePillarsSlide } from "@/components/opening-landscape-slides";
 import { RevisedCivicOperatingSystemSlide, RevisedCivicConnectivitySlide, RevisedStrategicAllianceSlide, RevisedBlueprintSlide } from "@/components/opening-architecture-slides";
 import { RevisedCompetitionSlide, RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
+import { ColinIntroSlide, ExecutingVisionSlide, LongGameCues, NetworkCues, TechnologicalPowerCues, WeBuildItCue } from "@/components/script-2611-slides";
 import { namedHashMatchesSlide, pageFromHash, slideIndex, standaloneSlideDestination, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
 type Deck = {
@@ -2866,18 +2867,19 @@ export function LibraryPage() {
   const slideContent = () => {
     switch (activeSlide.id) {
       case "tulsi-intro": return <TulsiIntroVideoSlide />;
-      case "anniversary": return <RevisedAnniversarySlide onOpenVideo={openVideo} />;
+      case "colin-intro": return <ColinIntroSlide />;
       case "children": return <ChildrenPyramidSlide />;
       case "protect-children": return <GirlPage />;
       case "agenda": return <AgendaPage />;
       case "problems": return <ProblemsFocusSlide onOpenVideo={openVideo} />;
       case "beneath-noise": return <BeneathNoiseIntroSlide onOpenVideo={openVideo} />;
       case "competition": return <RevisedCompetitionSlide />;
-      case "long-game": return <RevisedLongGameSlide onOpenVideo={openVideo} />;
-      case "technological-power": return <RevisedTechnologicalPowerSlide />;
-      case "networks": return <NetworkPowerSlide onOpenVideo={openVideo} />;
+      case "long-game": return <><RevisedLongGameSlide onOpenVideo={openVideo} /><LongGameCues /></>;
+      case "technological-power": return <><RevisedTechnologicalPowerSlide /><TechnologicalPowerCues /></>;
+      case "networks": return <><NetworkPowerSlide onOpenVideo={openVideo} /><NetworkCues /></>;
       case "global-incentives": return <GlobalIncentivesMapSlide onOpenVideo={openVideo} />;
-      case "what-we-learned": return <BeneathNoiseRecapSlide />;
+      case "what-we-learned": return <><BeneathNoiseRecapSlide /><WeBuildItCue /></>;
+      case "executing-vision": return <ExecutingVisionSlide />;
       case "five-pillars": return <RevisedFivePillarsSlide />;
       case "inspiration": return <IntroVideoSlide />;
       case "founder": return <FounderQuoteSlide />;

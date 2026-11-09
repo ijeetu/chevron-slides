@@ -1,9 +1,12 @@
 // Stable slide identities keep links and navigation aligned when chapters move.
 export const viralFusionDeck = [
-  { id: "tulsi-intro", title: "Tulsi Gabbard — Opening" },
-  { id: "anniversary", title: "1776 — 2026" },
-  { id: "children", title: "The Children" },
-  { id: "protect-children", title: "Protecting the Children" },
+  // Opening chapter order follows VF_Pres_11.08.26.docx (slides 1–22). The former
+  // "1776 — 2026" slide is hidden: its content now lives in the opening video and in
+  // "Executing the Vision". Its component and media remain in the codebase.
+  { id: "tulsi-intro", title: "From Promises to Action" },
+  { id: "colin-intro", title: "Colin Heaton — Personal Introduction" },
+  { id: "children", title: "From History to Action" },
+  { id: "protect-children", title: "From Problems to Solutions" },
   { id: "agenda", title: "Our Agenda" },
   { id: "problems", title: "Problems — Insulation & Noise" },
   { id: "beneath-noise", title: "Beneath the Noise" },
@@ -13,12 +16,13 @@ export const viralFusionDeck = [
   { id: "networks", title: "03 — The Power of Networks" },
   { id: "global-incentives", title: "04 — Global Incentives" },
   { id: "what-we-learned", title: "Beneath the Noise — What We Learned" },
+  { id: "executing-vision", title: "Executing the Vision" },
+  { id: "inspiration", title: "Introduction" },
+  { id: "mission-vision", title: "Mission & Vision" },
   { id: "five-pillars", title: "Five Pillars" },
-  { id: "inspiration", title: "Inspiration" },
   { id: "founder", title: "Founder Principle" },
   { id: "operating-system", title: "Operating System" },
   { id: "viral-fusion", title: "Viral Fusion" },
-  { id: "mission-vision", title: "Mission & Vision" },
   { id: "solving", title: "The Problems We’re Solving" },
   { id: "republic", title: "A Stronger Republic" },
   { id: "civic-os", title: "Civic Operating System" },
@@ -73,15 +77,15 @@ const aliases: Record<string, ViralFusionSlideId> = {
   "#decks": "problems",
   "#presentation": "operating-system",
   "#global-opportunities": "operating-system",
-  "#slide-doge": "anniversary",
-  "#slide-accountability": "anniversary",
-  "#slide-flag": "anniversary",
-  "#slide-all-a-lie": "anniversary",
-  "#slide-hope": "anniversary",
-  "#slide-change": "anniversary",
-  "#slide-public-demand": "anniversary",
-  "#slide-america-first": "anniversary",
-  "#slide-promise": "anniversary",
+  "#slide-doge": "tulsi-intro",
+  "#slide-accountability": "tulsi-intro",
+  "#slide-flag": "tulsi-intro",
+  "#slide-all-a-lie": "tulsi-intro",
+  "#slide-hope": "tulsi-intro",
+  "#slide-change": "tulsi-intro",
+  "#slide-public-demand": "tulsi-intro",
+  "#slide-america-first": "tulsi-intro",
+  "#slide-promise": "tulsi-intro",
 };
 
 // The locked presentation retires these slides from its running order while

@@ -1,9 +1,9 @@
+import { deckScript2611, scriptTracks } from "./deck-script-2611";
 import type { ViralFusionSlideId } from "./viral-fusion-deck";
 
 // Recording filenames retain the original slide numbers. Stable IDs keep the
 // narration attached to its subject when slides are reordered.
-export const slideVoiceovers: Partial<Record<ViralFusionSlideId, readonly string[]>> = {
-  anniversary: ["/voices/george/slide02.mp3"],
+const earlierVoiceovers: Partial<Record<ViralFusionSlideId, readonly string[]>> = {
   children: ["/voices/george/slide03.mp3"],
   "protect-children": ["/voices/george/slide04.mp3"],
   agenda: ["/voices/george/slide05.mp3"],
@@ -25,4 +25,16 @@ export const slideVoiceovers: Partial<Record<ViralFusionSlideId, readonly string
   "black-swan": ["/voices/blackswan.mp3"],
   "technology-alliance": ["/slide-19-voiceover.mp3"],
   "project-2026": ["/project2026intro.mp3", "/project-2026-nrusa%20copy%202.mp3"],
+};
+
+// Slides 3–22 follow the 11.08.26 script: their voiceover is George's new lines (and
+// Colin Heaton's once recorded) in script order. A slide in that script with no audio
+// yet stays silent rather than playing the earlier, now outdated recording.
+const revised = Object.fromEntries(
+  (Object.keys(deckScript2611) as ViralFusionSlideId[]).map((id) => [id, scriptTracks(id) ?? []]),
+) as Partial<Record<ViralFusionSlideId, readonly string[]>>;
+
+export const slideVoiceovers: Partial<Record<ViralFusionSlideId, readonly string[]>> = {
+  ...earlierVoiceovers,
+  ...revised,
 };

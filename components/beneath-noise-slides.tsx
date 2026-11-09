@@ -104,8 +104,8 @@ export function BeneathNoiseRecapSlide() {
     <ChapterSlide label="Beneath the Noise: What We Learned">
       <div className="mx-auto w-full max-w-4xl text-center">
         <header>
-          <ChapterLabel>BENEATH THE NOISE:</ChapterLabel>
-          <h1 className="mt-2 font-display text-[1.85rem] font-semibold leading-[1.12] tracking-[-0.035em] sm:text-[2.6rem] lg:text-[3rem]">
+          {/* 11.08.26 script: the intermediate "BENEATH THE NOISE" label is removed. */}
+          <h1 className="font-display text-[1.85rem] font-semibold leading-[1.12] tracking-[-0.035em] sm:text-[2.6rem] lg:text-[3rem]">
             WHAT WE LEARNED
           </h1>
         </header>

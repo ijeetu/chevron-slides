@@ -52,9 +52,6 @@ function guestSpeech(id: string) {
 
 /** Spoken source copy for slides without a recorded voiceover. */
 export const slideNarration: Partial<Record<ViralFusionSlideId, string>> = {
-  "global-incentives": openingSpeech("global-incentives", [[562, 591], [594, 602]]),
-  "viral-fusion": openingSpeech("viral-fusion", [[754, 755]]),
-  "mission-vision": openingSpeech("mission-vision", [[761, 764]]),
   "what-if": cueText(whatIfSlide.speakerCues),
   "podcast-strategy": openingSpeech("podcast-strategy", [[1477, 1484], [1501, 1515], [1526, 1533], [1537, 1542], [1555, 1556], [1559, 1562]]),
   "mo-gawdat": guestSpeech("mo-gawdat"),

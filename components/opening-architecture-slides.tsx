@@ -123,7 +123,7 @@ export function RevisedCivicOperatingSystemSlide({ onContinue }: SlideProps) {
         </ol>
         <div className={styles.civicOutcome} data-visible={show(11000)} aria-hidden={!show(11000)}>
           <p className={styles.eyebrow}>OUTCOME</p>
-          <p>Turning verified public sentiment into actionable intelligence for California&apos;s legislative rollout.</p>
+          <p>Paper record + secure digital verification + independent audit = verifiable election integrity.</p>
         </div>
       </div>
       <div className={styles.phaseTwo} data-visible={show(17000)} aria-hidden={!show(17000)}>
