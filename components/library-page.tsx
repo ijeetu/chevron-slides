@@ -1373,66 +1373,21 @@ function ItsAllALieVideoSlide() {
   );
 }
 
+// Full opening chapter ("From Promises to Action", 32 min) hosted on Vimeo.
+const OPENING_CHAPTER_VIMEO_URL =
+  "https://player.vimeo.com/video/1245226744?h=30f7fb0c19&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1";
+
 function TulsiIntroVideoSlide() {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [isMuted, setIsMuted] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    let disposed = false;
-
-    const unmute = () => {
-      if (disposed) return;
-      window.removeEventListener("pointerdown", unmute);
-      window.removeEventListener("keydown", unmute);
-      video.muted = false;
-      setIsMuted(false);
-      void video.play().catch(() => undefined);
-    };
-
-    // Browsers block autoplay with sound until the viewer interacts with the
-    // page. Fall back to muted playback and turn the sound on at the first
-    // click, tap or key press anywhere.
-    video.muted = false;
-    void video.play().catch(() => {
-      if (disposed) return;
-      video.muted = true;
-      setIsMuted(true);
-      void video.play().catch(() => undefined);
-      window.addEventListener("pointerdown", unmute, { once: true });
-      window.addEventListener("keydown", unmute, { once: true });
-    });
-
-    return () => {
-      disposed = true;
-      window.removeEventListener("pointerdown", unmute);
-      window.removeEventListener("keydown", unmute);
-      video.pause();
-    };
-  }, []);
-
   return (
     <section className="fixed inset-0 z-0 bg-black">
-      <video
-        ref={videoRef}
-        src="/tulsi-intro.mp4"
-        poster="/tulsi-intro-poster.jpg"
-        className="h-full w-full object-cover"
-        autoPlay
-        playsInline
-        preload="auto"
-        onVolumeChange={(event) => setIsMuted(event.currentTarget.muted)}
+      <iframe
+        src={OPENING_CHAPTER_VIMEO_URL}
+        title="From Promises to Action — opening chapter"
+        className="h-full w-full"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
       />
-      {isMuted ? (
-        <button
-          type="button"
-          className="absolute left-1/2 top-6 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/25 bg-black/70 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_14px_34px_rgba(0,0,0,0.34)] backdrop-blur-sm transition-all hover:border-[#01c7f3]/75 hover:text-[#b9f2ff]"
-        >
-          <Volume2 className="h-4 w-4" strokeWidth={2.4} />
-          Tap for sound
-        </button>
-      ) : null}
     </section>
   );
 }
