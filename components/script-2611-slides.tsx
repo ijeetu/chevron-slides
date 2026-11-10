@@ -20,7 +20,7 @@ export function ColinIntroSlide() {
           ))}
         </ul>
         <p className="mx-auto mt-6 max-w-2xl text-sm leading-6 text-[#a9bcc8] sm:text-base">
-          Historical documentary production — preserving the stories and lessons of the past.
+          Preserving the stories and lessons of the past — and bringing them to new audiences.
         </p>
       </div>
     </section>
@@ -106,4 +106,84 @@ export function NetworkCues() {
 /** Slide 14 — George's answer. */
 export function WeBuildItCue() {
   return <VoiceoverCues cues={[{ src: george("s14b"), from: 0, to: Number.POSITIVE_INFINITY, render: () => <CueStatement>WE BUILD IT.</CueStatement> }]} />;
+}
+
+const colinTrack = (file: string) => `/voices/colin-2611/${file}.mp3`;
+
+/** Slide 22 — Phase One teaser at the end of Colin's opening, before George begins. */
+export function PhysicalInfrastructureCues() {
+  return (
+    <VoiceoverCues
+      cues={[
+        { src: colinTrack("c22a"), from: 31.5, to: Number.POSITIVE_INFINITY, render: () => (
+          <div className="text-center">
+            <p className="text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-[#9beaff]">Coming up</p>
+            <p className="mt-3 font-display text-[clamp(2rem,5vw,4rem)] font-semibold tracking-[-0.02em] text-[#f4f2ec]">PHASE ONE</p>
+            <p className="mt-2 font-display text-[clamp(1.1rem,2.6vw,2rem)] font-semibold tracking-[0.04em] text-[#dbe6ec]">HIGH-TRAFFIC DEPLOYMENT NETWORK</p>
+            <p className="mt-3 text-sm text-[#a9bcc8]">Locations and rollout strategy to follow</p>
+          </div>
+        ) },
+      ]}
+    />
+  );
+}
+
+function Node({ title, sub, state }: { title: string; sub: string; state: "on" | "off" | "core" }) {
+  const tone =
+    state === "core" ? "border-[#9beaff] bg-[#12283a]" : state === "on" ? "border-[#9beaff]/45 bg-[#101f2d]" : "border-red-400/50 bg-[#2a1416]/70 opacity-70";
+  return (
+    <div className={`rounded-2xl border px-4 py-3 text-center transition-all duration-700 ${tone}`}>
+      <p className="font-display text-[0.85rem] font-semibold tracking-[0.04em] text-[#f4f2ec] sm:text-base">{title}</p>
+      <p className={`mt-1 text-[0.7rem] sm:text-xs ${state === "off" ? "text-red-300" : "text-[#a9bcc8]"}`}>{sub}</p>
+    </div>
+  );
+}
+
+/** Slide 23 — interoperability hub, resilience (normal → X unavailable), and the closing progression. */
+export function StrategicAllianceCues() {
+  const hub = (
+    <div className="mx-auto w-full max-w-3xl text-center">
+      <p className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-[#9beaff]">Platforms connect to Viral Fusion — they do not replace it</p>
+      <div className="grid gap-3 sm:grid-cols-3">
+        <Node title="X + xAI" sub="Preferred strategic alliance" state="on" />
+        <Node title="META / FACEBOOK" sub="Potential integration" state="on" />
+        <Node title="OTHER PLATFORMS" sub="Future options" state="on" />
+      </div>
+      <p className="my-3 text-[#9beaff]" aria-hidden="true">↓ ↓ ↓</p>
+      <Node title="VIRAL FUSION — CIVIC OPERATING SYSTEM" sub="Verified participation · Public sentiment · Auditable records" state="core" />
+    </div>
+  );
+  const resilience = (xDown: boolean) => (
+    <div className="mx-auto w-full max-w-3xl text-center">
+      <p className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-[#9beaff]">
+        {xDown ? "Hypothetical — X becomes unavailable" : "Proposed architecture — normal operation"}
+      </p>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <Node title={xDown ? "X ACCESS" : "X + xAI"} sub={xDown ? "Restricted or unavailable" : "Acceleration layer · Connected"} state={xDown ? "off" : "on"} />
+        <Node title="SOVEREIGN NETWORK" sub={xDown ? "Core services continue where permitted" : "Independent continuity layer · Operational"} state="on" />
+      </div>
+      <p className="my-3 text-[#9beaff]" aria-hidden="true">↓</p>
+      <Node
+        title={xDown ? "VIRAL FUSION REMAINS INDEPENDENTLY ACCESSIBLE" : "VIRAL FUSION CIVIC OPERATING SYSTEM"}
+        sub={xDown ? "Intended outcome, subject to lawful access and independent technical operation" : "Verified participation · Public sentiment · Auditable records"}
+        state="core"
+      />
+    </div>
+  );
+  return (
+    <VoiceoverCues
+      cues={[
+        { src: colinTrack("c23a"), from: 38.7, to: Number.POSITIVE_INFINITY, render: () => hub },
+        { src: george("g23a"), from: 0, to: Number.POSITIVE_INFINITY, render: () => resilience(false) },
+        { src: george("g23b"), from: 0, to: 11.8, render: () => resilience(false) },
+        { src: george("g23b"), from: 11.8, to: Number.POSITIVE_INFINITY, render: () => resilience(true) },
+        { src: colinTrack("c23c"), from: 20.3, to: Number.POSITIVE_INFINITY, render: (p) => (
+          <div className="text-center">
+            <CueSteps steps={["VOICE", "VERIFICATION", "ACTION"]} progress={p * (6.3 / 2.6)} />
+            <p className="mt-5 font-display text-[clamp(1rem,2.2vw,1.6rem)] font-semibold tracking-[0.12em] text-[#9beaff]">DISTRIBUTION + RESILIENCE</p>
+          </div>
+        ) },
+      ]}
+    />
+  );
 }

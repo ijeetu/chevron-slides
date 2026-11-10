@@ -17,9 +17,9 @@ export type VoiceoverCue = {
   render: (progress: number) => ReactNode;
 };
 
-type Position = { src: string; time: number };
+export type Position = { src: string; time: number };
 
-function useVoiceoverPosition() {
+export function useVoiceoverPosition() {
   const [position, setPosition] = useState<Position | null>(null);
   useEffect(() => {
     let frame = 0;

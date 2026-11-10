@@ -20,7 +20,6 @@ const earlierVoiceovers: Partial<Record<ViralFusionSlideId, readonly string[]>> 
   republic: ["/voices/george/slide29.mp3"],
   "civic-os": ["/voices/george/slide30.mp3"],
   "physical-infrastructure": ["/voices/george/slide31.mp3"],
-  "strategic-alliance": ["/voices/george/slide32.mp3"],
   blueprint: ["/voices/george/slide33.mp3"],
   "black-swan": ["/voices/blackswan.mp3"],
   "technology-alliance": ["/slide-19-voiceover.mp3"],

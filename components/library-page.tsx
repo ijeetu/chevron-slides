@@ -35,9 +35,10 @@ import { AccelerationChapterSlide } from "@/components/acceleration-chapter-slid
 import { FollowonChapterSlide } from "@/components/followon-chapter-slide";
 import { SlideVoiceover } from "@/components/slide-voiceover";
 import { ChildrenPyramidSlide, NetworkPowerSlide, GlobalIncentivesMapSlide, RevisedFivePillarsSlide } from "@/components/opening-landscape-slides";
-import { RevisedCivicOperatingSystemSlide, RevisedCivicConnectivitySlide, RevisedStrategicAllianceSlide, RevisedBlueprintSlide } from "@/components/opening-architecture-slides";
+import { RevisedCivicConnectivitySlide, RevisedStrategicAllianceSlide, RevisedBlueprintSlide } from "@/components/opening-architecture-slides";
 import { RevisedCompetitionSlide, RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
-import { ColinIntroSlide, ExecutingVisionSlide, LongGameCues, NetworkCues, TechnologicalPowerCues, WeBuildItCue } from "@/components/script-2611-slides";
+import { CivicOsDiagramSlide } from "@/components/civic-os-diagram-slide";
+import { ColinIntroSlide, ExecutingVisionSlide, LongGameCues, NetworkCues, PhysicalInfrastructureCues, StrategicAllianceCues, TechnologicalPowerCues, WeBuildItCue } from "@/components/script-2611-slides";
 import { namedHashMatchesSlide, pageFromHash, slideIndex, standaloneSlideDestination, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
 type Deck = {
@@ -2843,9 +2844,9 @@ export function LibraryPage() {
       case "mission-vision": return <MissionVisionSlide />;
       case "solving": return <ProblemsPyramidSlide />;
       case "republic": return <SimpleRepublicSlide />;
-      case "civic-os": return <RevisedCivicOperatingSystemSlide />;
-      case "physical-infrastructure": return <RevisedCivicConnectivitySlide />;
-      case "strategic-alliance": return <RevisedStrategicAllianceSlide />;
+      case "civic-os": return <CivicOsDiagramSlide />;
+      case "physical-infrastructure": return <><RevisedCivicConnectivitySlide /><PhysicalInfrastructureCues /></>;
+      case "strategic-alliance": return <><RevisedStrategicAllianceSlide /><StrategicAllianceCues /></>;
       case "blueprint": return <RevisedBlueprintSlide />;
       case "what-if": return <WhatIfSlide onContinue={() => setCurrentPage(slideIndex("podcast-strategy"))} />;
       case "podcast-strategy": return <PodcastStrategySlide onContinue={() => setCurrentPage(slideIndex("mo-gawdat"))} />;
