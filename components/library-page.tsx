@@ -2391,24 +2391,24 @@ function AgendaPage() {
         <div className="mx-auto mt-4 h-px w-40 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
       </header>
 
-      <div className="relative mt-6 w-full max-w-4xl overflow-hidden rounded-[2.15rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.94),rgba(20,35,48,0.97)_50%,rgba(14,27,39,0.97))] px-5 py-5 text-left shadow-[0_34px_90px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-7 sm:py-6">
+      <div className="relative mt-10 w-full max-w-3xl overflow-hidden rounded-[2rem] bg-[linear-gradient(145deg,rgba(38,58,75,0.94),rgba(20,35,48,0.97)_50%,rgba(14,27,39,0.97))] px-6 py-3 text-left shadow-[0_34px_90px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.04)] sm:px-10 sm:py-4">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-30%,rgba(1,199,243,0.15),transparent_45%),linear-gradient(115deg,rgba(255,255,255,0.04),transparent_30%,transparent_70%,rgba(1,199,243,0.035))]" />
         <div className="pointer-events-none absolute inset-x-20 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.82),transparent)]" />
         <div className="pointer-events-none absolute -left-px top-8 h-16 w-px bg-gradient-to-b from-transparent via-[#01c7f3]/42 to-transparent" />
         <div className="pointer-events-none absolute -right-px bottom-8 h-16 w-px bg-gradient-to-b from-transparent via-[#8fa8bd]/35 to-transparent" />
-        <div className="relative mx-auto max-w-3xl">
-          <ol className="space-y-2">
+        <div className="relative">
+          <ol className="divide-y divide-[rgba(155,234,255,0.1)]">
             {agendaItems.map((item, index) => (
-              <li
-                key={item.title}
-                className="grid grid-cols-[2rem_1fr] items-start gap-3 border-b border-white/8 pb-2"
-              >
-                <span className="pt-1 text-right text-[0.74rem] font-semibold text-[#6f8798]">
+              <li key={item.title} className="grid grid-cols-[2.5rem_1fr] items-baseline gap-4 py-4 sm:grid-cols-[3rem_1fr] sm:gap-6 sm:py-5">
+                <span className="font-display text-sm font-semibold tabular-nums tracking-[0.12em] text-[#01c7f3]/80 sm:text-base">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <p className="font-display text-[1.05rem] leading-[1.08] text-[#f4f2ec] sm:text-[1.22rem] lg:text-[1.35rem]">
+                  <p className="font-display text-[1.25rem] font-medium leading-tight tracking-[-0.01em] text-[#f4f2ec] sm:text-[1.5rem] lg:text-[1.65rem]">
                     {item.title}
+                  </p>
+                  <p className="mt-1.5 text-[0.82rem] leading-relaxed text-[#93a8b6] sm:text-[0.92rem]">
+                    {item.description}
                   </p>
                 </div>
               </li>
