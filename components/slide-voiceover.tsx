@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import { SyntheticSlideVoiceover } from "@/components/synthetic-slide-voiceover";
-import { slideVoiceovers } from "@/lib/slide-voiceovers";
+import { slideVoiceoverVideoGates, slideVoiceovers } from "@/lib/slide-voiceovers";
 import type { ViralFusionSlideId } from "@/lib/viral-fusion-deck";
 
 type Props = {
@@ -21,11 +21,15 @@ type PlaybackController = {
 
 function RecordedSlideVoiceover({ slideId, title, suspended }: Props) {
   const tracks = slideVoiceovers[slideId]!;
+  const videoGates = slideVoiceoverVideoGates[slideId] ?? [];
   const audioRef = useRef<HTMLAudioElement>(null);
   const controllerRef = useRef<PlaybackController | null>(null);
   const suspendedRef = useRef(suspended);
   const previouslySuspendedRef = useRef(suspended);
-  const wantsPlaybackRef = useRef(true);
+  // A slide whose first track follows its video stays quiet until the video has played.
+  const awaitingVideoRef = useRef(videoGates.includes(0));
+  const wantsPlaybackRef = useRef(!awaitingVideoRef.current);
+  const videoPlayedRef = useRef(false);
   const resumeAfterSuspensionRef = useRef(false);
   const [trackIndex, setTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -110,16 +114,27 @@ function RecordedSlideVoiceover({ slideId, title, suspended }: Props) {
 
     const controller: PlaybackController = {
       play: () => {
+        awaitingVideoRef.current = false;
         if (audio.ended) audio.currentTime = 0;
         if (audio.error) audio.load();
         startPlayback(true);
       },
       pause: () => {
+        awaitingVideoRef.current = false;
         wantsPlaybackRef.current = false;
         resumeAfterSuspensionRef.current = false;
         stopPlayback();
       },
       suspend: () => {
+        videoPlayedRef.current = true;
+        if (awaitingVideoRef.current) {
+          // The presenter opened the video this track follows: continue once it closes.
+          awaitingVideoRef.current = false;
+          wantsPlaybackRef.current = true;
+          resumeAfterSuspensionRef.current = true;
+          stopPlayback();
+          return;
+        }
         resumeAfterSuspensionRef.current = wantsPlaybackRef.current && (!audio.paused || pendingPlay);
         stopPlayback();
       },
@@ -146,6 +161,11 @@ function RecordedSlideVoiceover({ slideId, title, suspended }: Props) {
       removeGestureRetry();
       setIsPlaying(false);
       if (trackIndex + 1 < tracks.length) {
+        if (videoGates.includes(trackIndex + 1) && !videoPlayedRef.current) {
+          // Hold the next track until the presenter plays the slide's video.
+          awaitingVideoRef.current = true;
+          wantsPlaybackRef.current = false;
+        }
         setTrackIndex(trackIndex + 1);
       } else {
         wantsPlaybackRef.current = false;
@@ -176,7 +196,7 @@ function RecordedSlideVoiceover({ slideId, title, suspended }: Props) {
       audio.removeEventListener("error", onError);
       if (controllerRef.current === controller) controllerRef.current = null;
     };
-  }, [slideId, trackIndex, tracks]);
+  }, [slideId, trackIndex, tracks, videoGates]);
 
   useEffect(() => {
     if (suspended && !previouslySuspendedRef.current) controllerRef.current?.suspend();

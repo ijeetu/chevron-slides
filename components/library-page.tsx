@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import {
-  BeneathNoiseIntroSlide,
+  BENEATH_NOISE_POWER_VIDEO_URL,
   BeneathNoiseRecapSlide,
   GlobalIncentivesSlide,
   FinalBeneathNoiseSlide,
@@ -34,9 +34,9 @@ import { GuestSeriesSlide } from "@/components/guest-series-slide";
 import { AccelerationChapterSlide } from "@/components/acceleration-chapter-slide";
 import { FollowonChapterSlide } from "@/components/followon-chapter-slide";
 import { SlideVoiceover } from "@/components/slide-voiceover";
-import { ChildrenPyramidSlide, NetworkPowerSlide, GlobalIncentivesMapSlide, RevisedFivePillarsSlide } from "@/components/opening-landscape-slides";
+import { NetworkPowerSlide, GlobalIncentivesMapSlide, RevisedFivePillarsSlide } from "@/components/opening-landscape-slides";
 import { RevisedCivicConnectivitySlide, RevisedStrategicAllianceSlide, RevisedBlueprintSlide } from "@/components/opening-architecture-slides";
-import { RevisedCompetitionSlide, RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
+import { RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
 import { CivicOsDiagramSlide } from "@/components/civic-os-diagram-slide";
 import { ColinIntroSlide, ExecutingVisionSlide, LongGameCues, NetworkCues, PhysicalInfrastructureCues, StrategicAllianceCues, TechnologicalPowerCues, WeBuildItCue } from "@/components/script-2611-slides";
 import { namedHashMatchesSlide, pageFromHash, slideIndex, standaloneSlideDestination, viralFusionDeck } from "@/lib/viral-fusion-deck";
@@ -711,7 +711,11 @@ function YearVideoSlide() {
   );
 }
 
-function TicMicPieSlide() {
+/**
+ * The three complexes, with TIC growing as the chart moves. On Slide 9 (11.11 revision)
+ * it opens the slide in place of Colin's narration and hands off to the Chapter 01 video.
+ */
+function TicMicPieSlide({ onOpenVideo }: { onOpenVideo?: (url: string) => void } = {}) {
   const [transitionProgress, setTransitionProgress] = useState(0);
 
   useEffect(() => {
@@ -767,10 +771,12 @@ function TicMicPieSlide() {
 
   return (
     <section className="presentation-scroll relative h-full overflow-x-hidden overflow-y-auto px-[5%] pb-28 pt-8 lg:flex lg:items-center lg:justify-center lg:pb-20">
-      <BackgroundVoiceoverButton
-        src="/voices/ThreeComplexes.mp3"
-        label="Three Complexes voiceover"
-      />
+      {onOpenVideo ? null : (
+        <BackgroundVoiceoverButton
+          src="/voices/ThreeComplexes.mp3"
+          label="Three Complexes voiceover"
+        />
+      )}
       <div className="pointer-events-none absolute left-[9%] top-[30%] h-[25rem] w-[25rem] -translate-y-1/2 rounded-full bg-[#2ea66b]/12 blur-[110px]" />
       <div className="pointer-events-none absolute left-[27%] top-[70%] h-[25rem] w-[25rem] -translate-y-1/2 rounded-full bg-[#3f6fc8]/14 blur-[110px]" />
       <div className="pointer-events-none absolute right-[12%] top-1/2 h-[27rem] w-[27rem] -translate-y-1/2 rounded-full bg-[#c0392b]/12 blur-[110px]" />
@@ -892,6 +898,16 @@ function TicMicPieSlide() {
               The speaker contends that the world is entering a structural transition in which long-term investment shifts from perpetual military conflict toward AI, energy, robotics, and digital infrastructure as the primary engines of economic growth.
             </p>
           </div>
+          {onOpenVideo ? (
+            <button
+              type="button"
+              onClick={() => onOpenVideo(BENEATH_NOISE_POWER_VIDEO_URL)}
+              className="group mt-7 inline-flex min-h-12 items-center gap-3 rounded-full border border-[#9beaff]/35 bg-[#9beaff]/[0.08] px-5 py-3 text-[0.78rem] font-semibold tracking-[0.08em] text-[#9beaff] transition-colors hover:border-[#9beaff]/70 hover:bg-[#9beaff]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9beaff] sm:px-6 sm:text-[0.85rem]"
+            >
+              <Play aria-hidden="true" className="h-4 w-4 fill-current" />
+              WATCH THE COMPETITION FOR POWER
+            </button>
+          ) : null}
         </article>
       </div>
     </section>
@@ -2824,12 +2840,9 @@ export function LibraryPage() {
     switch (activeSlide.id) {
       case "tulsi-intro": return <TulsiIntroVideoSlide />;
       case "colin-intro": return <ColinIntroSlide />;
-      case "children": return <ChildrenPyramidSlide />;
-      case "protect-children": return <GirlPage />;
       case "agenda": return <AgendaPage />;
       case "problems": return <ProblemsFocusSlide onOpenVideo={openVideo} />;
-      case "beneath-noise": return <BeneathNoiseIntroSlide onOpenVideo={openVideo} />;
-      case "competition": return <RevisedCompetitionSlide />;
+      case "competition": return <TicMicPieSlide onOpenVideo={openVideo} />;
       case "long-game": return <><RevisedLongGameSlide onOpenVideo={openVideo} /><LongGameCues /></>;
       case "technological-power": return <><RevisedTechnologicalPowerSlide /><TechnologicalPowerCues /></>;
       case "networks": return <><NetworkPowerSlide onOpenVideo={openVideo} /><NetworkCues /></>;

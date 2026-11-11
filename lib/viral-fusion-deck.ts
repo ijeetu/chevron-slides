@@ -2,14 +2,13 @@
 export const viralFusionDeck = [
   // Opening chapter order follows VF_Pres_11.08.26.docx (slides 1–22). The former
   // "1776 — 2026" slide is hidden: its content now lives in the opening video and in
-  // "Executing the Vision". Its component and media remain in the codebase.
+  // "Executing the Vision". VF_Pres_11.9.26 (revised 11.11) also moves the Problems
+  // Triangle / children slides into the opening video and removes the Beneath the Noise
+  // title card. Their components and media remain in the codebase.
   { id: "tulsi-intro", title: "From Promises to Action" },
   { id: "colin-intro", title: "Colin Heaton — Personal Introduction" },
-  { id: "children", title: "From History to Action" },
-  { id: "protect-children", title: "From Problems to Solutions" },
   { id: "agenda", title: "Our Agenda" },
   { id: "problems", title: "Problems — Insulation & Noise" },
-  { id: "beneath-noise", title: "Beneath the Noise" },
   { id: "competition", title: "01 — The Competition for Power" },
   { id: "long-game", title: "02 — The Long Game" },
   { id: "technological-power", title: "02 — Technological Power" },
@@ -86,6 +85,9 @@ const aliases: Record<string, ViralFusionSlideId> = {
   "#slide-public-demand": "tulsi-intro",
   "#slide-america-first": "tulsi-intro",
   "#slide-promise": "tulsi-intro",
+  "#slide-children": "tulsi-intro",
+  "#slide-protect-children": "tulsi-intro",
+  "#slide-beneath-noise": "competition",
 };
 
 // The locked presentation retires these slides from its running order while

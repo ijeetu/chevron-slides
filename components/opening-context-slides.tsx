@@ -88,7 +88,6 @@ export function RevisedLongGameSlide({ onOpenVideo }: ContextProps) {
         </li>)}
       </ol>
     </div>
-    <p className="mt-6 max-w-5xl border-t border-[#9beaff]/20 pt-5 font-display text-[clamp(1.25rem,2vw,2rem)] leading-[1.25] tracking-[-.025em]">Why not understand the system—<br className="hidden sm:block" />build something better—and change it?</p>
   </ContextFrame>;
 }
 
@@ -104,7 +103,7 @@ export function RevisedTechnologicalPowerSlide() {
   const titleId = useId();
   return <ContextFrame labelledBy={titleId}>
     <ContextHeader title="Technological Power" chapter="02" titleId={titleId} />
-    <p className="mt-4 max-w-4xl text-sm leading-relaxed text-[#b3c7d4] sm:text-[clamp(.9rem,1.4vw,1.25rem)]">The technologies defining the next century—and a public role in shaping them.</p>
+    <p className="mt-4 max-w-4xl text-sm leading-relaxed text-[#b3c7d4] sm:text-[clamp(.9rem,1.4vw,1.25rem)]">An effort to build technologies with the potential to shape the next century.</p>
     <ol className="mt-8 grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-5 sm:gap-4 lg:mt-10">
       {technologyFields.map(({ label, Icon }) => <li key={label} className="flex min-h-[130px] min-w-0 flex-col items-center justify-center rounded-2xl border border-[#9beaff]/20 bg-[linear-gradient(145deg,rgba(31,57,75,.65),rgba(11,27,40,.8))] px-3 py-5 text-center sm:min-h-[160px] sm:px-4">
         <Icon size={31} strokeWidth={1.35} className="shrink-0 text-[#9beaff]" aria-hidden="true" />
@@ -114,18 +113,8 @@ export function RevisedTechnologicalPowerSlide() {
     <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-center text-[10px] font-medium uppercase tracking-[.08em] text-[#97b8cb] sm:gap-4 sm:text-xs">
       <span>Mobilize capital</span><ArrowRight size={14} className="text-[#9beaff]/60" aria-hidden="true" /><span>Expand domestic capability</span><ArrowRight size={14} className="text-[#9beaff]/60" aria-hidden="true" /><span>Align government and industry</span>
     </div>
-    <div className="mt-8 border-t border-[#9beaff]/25 pt-6 sm:mt-9">
-      <p className="text-[10px] font-semibold tracking-[.16em] text-[#9beaff] sm:text-xs">PUBLIC PARTICIPATION IN THE ARCHITECTURE</p>
-      <div className="mt-4 grid gap-5 md:grid-cols-3 md:gap-8">
-        {[
-          { question: "What gets built?", detail: "Where technology is deployed." },
-          { question: "Under what rules?", detail: "The safeguards and institutions around it." },
-          { question: "For whose benefit?", detail: "Who ultimately benefits." },
-        ].map(({ question, detail }) => <div key={question}>
-          <h2 className="font-display text-[clamp(1.35rem,2.35vw,2.3rem)] font-medium leading-[1.15] tracking-[-.025em]">{question}</h2>
-          <p className="mt-2 text-xs leading-relaxed text-[#a7bfce] sm:text-sm">{detail}</p>
-        </div>)}
-      </div>
-    </div>
+    <p className="mt-10 border-t border-[#9beaff]/25 pt-6 font-display text-[clamp(1.35rem,2.4vw,2.4rem)] font-medium leading-[1.2] tracking-[-.025em]">
+      More than technological progress. <span className="text-[#9beaff]">A strategy for national power.</span>
+    </p>
   </ContextFrame>;
 }

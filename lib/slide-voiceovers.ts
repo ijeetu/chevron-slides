@@ -1,14 +1,11 @@
-import { deckScript2611, scriptTracks } from "./deck-script-2611";
+import { deckScript2611, scriptTracks, scriptVideoGates } from "./deck-script-2611";
 import type { ViralFusionSlideId } from "./viral-fusion-deck";
 
 // Recording filenames retain the original slide numbers. Stable IDs keep the
 // narration attached to its subject when slides are reordered.
 const earlierVoiceovers: Partial<Record<ViralFusionSlideId, readonly string[]>> = {
-  children: ["/voices/george/slide03.mp3"],
-  "protect-children": ["/voices/george/slide04.mp3"],
   agenda: ["/voices/george/slide05.mp3"],
   problems: ["/voices/george/slide06.mp3"],
-  "beneath-noise": ["/voices/george/slide07.mp3"],
   competition: ["/voices/george/slide08.mp3"],
   "long-game": ["/voices/george/slide09.mp3"],
   "technological-power": ["/voices/george/slide10.mp3"],
@@ -37,3 +34,11 @@ export const slideVoiceovers: Partial<Record<ViralFusionSlideId, readonly string
   ...earlierVoiceovers,
   ...revised,
 };
+
+/**
+ * Tracks spoken after a slide's video. The voiceover stops before such a track and
+ * continues from it once the presenter has opened and closed the video.
+ */
+export const slideVoiceoverVideoGates: Partial<Record<ViralFusionSlideId, readonly number[]>> = Object.fromEntries(
+  (Object.keys(deckScript2611) as ViralFusionSlideId[]).map((id) => [id, scriptVideoGates(id)]),
+);

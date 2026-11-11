@@ -64,27 +64,46 @@ export function ExecutingVisionSlide() {
 }
 
 const george = (file: string) => `/voices/george-2611/${file}.mp3`;
+const colinTrack = (file: string) => `/voices/colin-2611/${file}.mp3`;
 
-/** Slide 10 — the long game: persistence → influence, then George's closing challenge. */
+/** Slide 10 — the long game: persistence → influence as George says it. */
 export function LongGameCues() {
   return (
     <VoiceoverCues
       cues={[
         // span set so each step lands as George says it (28.6s, 31.0s, 33.1s, 34.0s)
         { src: george("s10a"), from: 28.4, to: 34.0 + 1.6, render: (p) => <CueSteps steps={["PERSISTENCE", "CAPABILITY", "SCALE", "INFLUENCE"]} progress={p * (7.2 / 5.6)} /> },
-        { src: george("s10b"), from: 7.6, to: 14.8, render: () => <CueStatement>“Why accept it as inevitable?”</CueStatement> },
-        { src: george("s10b"), from: 14.9, to: Number.POSITIVE_INFINITY, render: () => <CueStatement>That is American!</CueStatement> },
       ]}
     />
   );
 }
 
-/** Slide 11 — the key statement. */
+/**
+ * CueSteps reveals step i once progress reaches i / steps.length. This maps a cue's
+ * progress to that scale so each step appears at its own time (seconds into the cue).
+ */
+function atTimes(times: readonly number[], span: number) {
+  return (progress: number) => (times.filter((t) => progress * span >= t).length - 1) / times.length;
+}
+
+/** Slide 11 — technological power, then the move from technology to networks (Colin). */
 export function TechnologicalPowerCues() {
+  const colinC11a = colinTrack("c11a");
+  const colinC11b = colinTrack("c11b");
+  // Seconds into each take where Colin names each item.
+  const tech = { from: 19.0, to: 26.0, at: [0.2, 1.8, 2.8, 4.5, 5.3] };
+  const network = { from: 21.3, to: 40.2, at: [0.2, 1.0, 2.1, 3.7, 4.9, 5.7, 7.1, 8.2] };
   return (
     <VoiceoverCues
       cues={[
-        { src: george("s11b"), from: 2.3, to: 6.6, render: () => <CueStatement eyebrow="We're proposing something different">Participation in the architecture itself</CueStatement> },
+        { src: colinC11a, from: tech.from, to: tech.to, render: (p) => (
+          <CueSteps steps={["ARTIFICIAL INTELLIGENCE", "ROBOTICS", "ADVANCED MANUFACTURING", "ENERGY", "DIGITAL INFRASTRUCTURE"]} progress={atTimes(tech.at, tech.to - tech.from)(p)} />
+        ) },
+        { src: colinC11a, from: 40.2, to: Number.POSITIVE_INFINITY, render: () => <CueStatement eyebrow="More than technological progress">A strategy for national power.</CueStatement> },
+        { src: colinC11b, from: network.from, to: network.to, render: (p) => (
+          <CueSteps eyebrow="Behind public policy sits another architecture" steps={["DONORS", "FOUNDATIONS", "ADVOCACY ORGANIZATIONS", "POLITICAL NETWORKS", "MEDIA", "LEGAL INSTITUTIONS", "PRIVATE CAPITAL", "COMPETING CENTERS OF INFLUENCE"]} progress={atTimes(network.at, network.to - network.from)(p)} />
+        ) },
+        { src: colinC11b, from: 42.9, to: Number.POSITIVE_INFINITY, render: () => <CueStatement eyebrow="Another form of power">THE NETWORK</CueStatement> },
       ]}
     />
   );
@@ -108,7 +127,6 @@ export function WeBuildItCue() {
   return <VoiceoverCues cues={[{ src: george("s14b"), from: 0, to: Number.POSITIVE_INFINITY, render: () => <CueStatement>WE BUILD IT.</CueStatement> }]} />;
 }
 
-const colinTrack = (file: string) => `/voices/colin-2611/${file}.mp3`;
 
 /** Slide 22 — Phase One teaser at the end of Colin's opening, before George begins. */
 export function PhysicalInfrastructureCues() {
