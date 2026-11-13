@@ -7,8 +7,9 @@ import { SlideDeck } from "@/components/slide-deck";
 import { parseSlides } from "@/lib/parse-slides";
 
 export const metadata: Metadata = {
-  title: "Chevron Strategic Briefing Summary",
-  description: "Executive summary slide deck generated from summaryslides.md",
+  title: "Special Projects Initiative Recap | Viral Fusion",
+  description:
+    "A recap of Viral Fusion’s Special Projects Initiative, strategic alliances, and path toward lasting outcomes for California.",
 };
 
 export default function SummaryPage() {
