@@ -38,6 +38,7 @@ import { NetworkPowerSlide, GlobalIncentivesMapSlide, RevisedFivePillarsSlide } 
 import { RevisedCivicConnectivitySlide, RevisedStrategicAllianceSlide, RevisedBlueprintSlide } from "@/components/opening-architecture-slides";
 import { RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
 import { CivicOsDiagramSlide } from "@/components/civic-os-diagram-slide";
+import { useVoiceoverPosition } from "@/components/voiceover-cues";
 import { ColinIntroSlide, ExecutingVisionSlide, LongGameCues, NetworkCues, PhysicalInfrastructureCues, StrategicAllianceCues, TechnologicalPowerCues, WeBuildItCue } from "@/components/script-2611-slides";
 import { namedHashMatchesSlide, pageFromHash, slideIndex, standaloneSlideDestination, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
@@ -914,6 +915,72 @@ function TicMicPieSlide({ onOpenVideo }: { onOpenVideo?: (url: string) => void }
   );
 }
 
+// Slide 9 (VF_Pres_11.13.26): play the Chapter 01 video; then only the pie chart, which enters
+// on the left, rolls to the right and disappears as George finishes his first sentence
+// ("…isn't the point." ends 3.3s into s09); then the technology leaders.
+const COMPETITION_TRACK = "/voices/george-2611/s09.mp3";
+const PIE_EXIT = 3.6;
+
+function RollingPie({ progress }: { progress: number }) {
+  const segments = [
+    { label: "FIC", share: 1 + progress * 0.45, color: "#2ea66b" },
+    { label: "MIC", share: 1 - progress * 0.68, color: "#3f6fc8" },
+    { label: "TIC", share: 1 + progress * 0.55, color: "#c0392b" },
+  ];
+  const total = segments.reduce((sum, s) => sum + s.share, 0);
+  const r = 90, c = 2 * Math.PI * r;
+  let offset = 0;
+  const opacity = Math.min(1, progress / 0.15, (1 - progress) / 0.2);
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute left-1/2 top-1/2 h-[min(56vh,30rem)] w-[min(56vh,30rem)]"
+      style={{
+        transform: `translate(calc(-50% + ${(-38 + 76 * progress).toFixed(2)}vw), -50%) rotate(${(progress * 300).toFixed(1)}deg)`,
+        opacity: Math.max(0, opacity),
+      }}
+    >
+      <svg viewBox="0 0 240 240" className="h-full w-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+        {segments.map((seg) => {
+          const len = (seg.share / total) * c;
+          const el = <circle key={seg.label} cx="120" cy="120" r={r} fill="none" stroke={seg.color} strokeWidth="58" strokeDasharray={`${len - 3} ${c - len + 3}`} strokeDashoffset={-offset} />;
+          offset += len;
+          return el;
+        })}
+        <circle cx="120" cy="120" r="58" fill="#0b1724" stroke="rgba(255,255,255,0.12)" />
+        <text x="120" y="128" textAnchor="middle" className="fill-[#f4f2ec] font-display" fontSize="26" fontWeight="800" transform={`rotate(${(-progress * 300).toFixed(1)} 120 120)`}>TIC</text>
+      </svg>
+    </div>
+  );
+}
+
+function CompetitionSequenceSlide({ onOpenVideo }: { onOpenVideo: (url: string) => void }) {
+  const position = useVoiceoverPosition();
+  const time = position?.src === COMPETITION_TRACK ? position.time : 0;
+  const started = time > 0.02;
+  if (started && time >= PIE_EXIT) return <TechnocratsSlide />;
+  return (
+    <section className="relative flex h-full items-center justify-center overflow-hidden px-6 text-center">
+      {started ? (
+        <RollingPie progress={Math.min(1, time / PIE_EXIT)} />
+      ) : (
+        <div className="mx-auto max-w-3xl">
+          <p className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#9beaff] sm:text-xs">Beneath the Noise // 01</p>
+          <h1 className={`${slideTitleTypography} mt-4 text-[#f4f2ec]`}>The Competition for Power</h1>
+          <button
+            type="button"
+            onClick={() => onOpenVideo(BENEATH_NOISE_POWER_VIDEO_URL)}
+            className="group mt-10 inline-flex min-h-12 items-center gap-3 rounded-full border border-[#9beaff]/35 bg-[#9beaff]/[0.08] px-6 py-3 text-[0.85rem] font-semibold tracking-[0.08em] text-[#9beaff] transition-colors hover:border-[#9beaff]/70 hover:bg-[#9beaff]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9beaff]"
+          >
+            <Play aria-hidden="true" className="h-4 w-4 fill-current" />
+            WATCH THE COMPETITION FOR POWER
+          </button>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function TechnocratsSlide({
   figures = technocratFigures,
   frameworkSequence = false,
@@ -1168,8 +1235,10 @@ function IntroVideoSlide() {
   const trumpVideoRef = useRef<HTMLVideoElement | null>(null);
   const hasTriggeredTrumpRef = useRef(false);
   const transitionTimersRef = useRef<number[]>([]);
-  const [videoPhase, setVideoPhase] = useState<"george" | "trump" | "hold" | "return">("george");
-  // Public captions finish the sentence at 85.219s; the next begins at 85.279s.
+  const [videoPhase, setVideoPhase] = useState<"george" | "trump" | "hold" | "return" | "ended">("george");
+  // VF_Pres_11.13.26: "Finish video @0:31". The video stops there, before the
+  // January 6 splice below (captions finish that sentence at 85.219s).
+  const georgeEndTime = 31;
   const georgeSpliceTime = 85.25;
 
   useEffect(() => () => transitionTimersRef.current.forEach(window.clearTimeout), []);
@@ -1209,6 +1278,13 @@ function IntroVideoSlide() {
           : message.method === "getCurrentTime"
             ? message.value
             : undefined;
+
+      if ((currentTime ?? 0) >= georgeEndTime && !hasTriggeredTrumpRef.current) {
+        hasTriggeredTrumpRef.current = true;
+        sendVimeoCommand("pause");
+        setVideoPhase("ended");
+        return;
+      }
 
       if ((currentTime ?? 0) >= georgeSpliceTime && !hasTriggeredTrumpRef.current) {
         hasTriggeredTrumpRef.current = true;
@@ -1392,7 +1468,7 @@ function ItsAllALieVideoSlide() {
 
 // Full opening chapter ("From Promises to Action", 26 min) hosted on Vimeo.
 const OPENING_CHAPTER_VIMEO_URL =
-  "https://player.vimeo.com/video/1246637900?h=34dfffe9ca&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1";
+  "https://player.vimeo.com/video/1247283682?h=2c62d192dc&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1";
 
 function TulsiIntroVideoSlide() {
   return (
@@ -2720,7 +2796,7 @@ function ProblemsFocusSlide({ onOpenVideo }: { onOpenVideo: (url: string) => voi
       <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#9beaff]">The landscape, the players &amp; problems</p>
       <h1 className="mt-5 font-display text-[clamp(3rem,8vw,7.8rem)] font-semibold leading-none tracking-[-0.055em]">PROBLEMS</h1>
       <p className="mt-5 font-display text-[clamp(1.4rem,3vw,2.7rem)] text-[#c9dce7]">Insulation &amp; Noise</p>
-      <button type="button" onClick={() => onOpenVideo("https://player.vimeo.com/video/1160310972?h=9fde73efd4&autoplay=1")} className="mt-10 inline-flex min-h-12 items-center gap-3 rounded-full border border-[#9beaff]/40 bg-[#9beaff]/[0.08] px-6 py-3 text-sm font-semibold text-[#9beaff] transition-colors hover:bg-[#9beaff]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9beaff]">
+      <button type="button" onClick={() => onOpenVideo("https://player.vimeo.com/video/1247282703?h=1a099cf015&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1")} className="mt-10 inline-flex min-h-12 items-center gap-3 rounded-full border border-[#9beaff]/40 bg-[#9beaff]/[0.08] px-6 py-3 text-sm font-semibold text-[#9beaff] transition-colors hover:bg-[#9beaff]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9beaff]">
         <Play size={17} fill="currentColor" /> Watch Video <ArrowRight size={17} />
       </button>
     </section>
@@ -2842,7 +2918,7 @@ export function LibraryPage() {
       case "colin-intro": return <ColinIntroSlide />;
       case "agenda": return <AgendaPage />;
       case "problems": return <ProblemsFocusSlide onOpenVideo={openVideo} />;
-      case "competition": return <TicMicPieSlide onOpenVideo={openVideo} />;
+      case "competition": return <CompetitionSequenceSlide onOpenVideo={openVideo} />;
       case "long-game": return <><RevisedLongGameSlide onOpenVideo={openVideo} /><LongGameCues /></>;
       case "technological-power": return <><RevisedTechnologicalPowerSlide /><TechnologicalPowerCues /></>;
       case "networks": return <><NetworkPowerSlide onOpenVideo={openVideo} /><NetworkCues /></>;

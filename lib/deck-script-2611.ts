@@ -38,7 +38,7 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
   ],
   problems: [
     colin("c07a", "Let's start with what people experience every day. Problems that consume people's attention—and shape their lives."),
-    { ...g("s07b", "What you just saw is the world millions of people experience. The problems directly in front of them. I believe these problems, I call insulation and noise, serve a purpose. To keep people overwhelmed. Distracted. And divided. These problems allow decisions involving far greater power, control, and profit to create opportunities to consolidate power, influence, and wealth. I call these Beneath the Noise."), afterVideo: true },
+    { ...g("s07b", "What you just saw is the world millions of people experience. The problems directly in front of them. I believe these problems, I call insulation and noise, serve a purpose. To keep people overwhelmed. Distracted. And divided. These problems allow decisions involving far greater power, control, and profit to create opportunities to consolidate power, influence, and wealth. I call these problems Beneath the Noise."), afterVideo: true },
   ],
   competition: [
     // 11.11 revision: no narration — the pie chart moves, then the Chapter 01 video plays.
@@ -47,7 +47,7 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
   "long-game": [
     colin("c10a", "Go back far enough— and many technologies now shaping national power were once considered unrealistic. Artificial intelligence at scale. Reusable rockets. Autonomous systems. Private space infrastructure. Software transforming government. Entire industries rebuilt around technology. Some of the people leading these developments spent decades pursuing ideas others doubted could succeed. So to understand their influence today— we need to understand what it took to get here. Let's go back."),
     { ...g("s10a", "Critics dismissed the vision. The technology failed. Capital disappeared. Timelines slipped. But they stayed in the arena. They built. Failed. Raised capital. Lost capital. Rebuilt. And tried again. Over time, ideas once considered impossible became valuable capabilities. Those capabilities entered— Industry. Defense. Government. Capital markets. And national infrastructure. Persistence became capability. Capability became scale. And scale became influence."), afterVideo: true },
-    colin("c10b", "That is the long game."),
+    colin("c10b", "And that is the long game."),
   ],
   "technological-power": [
     colin("c11a", "Don't get lost in the personalities. Look at what they represent. Technology is becoming one of the defining sources of economic— military— and geopolitical power. Across their different ambitions, one pattern emerges: An effort to build technologies with the potential to shape the next century. Artificial intelligence. Robotics. Advanced manufacturing. Energy. Digital infrastructure. Then accelerate their development. Remove barriers. Mobilize capital. Expand domestic capability. And increasingly— bring government and industry together to move faster. This is more than technological progress. It is a strategy for national power."),
@@ -57,10 +57,10 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
     g("s12a", "Technology companies demonstrate how innovation— capital— and infrastructure— can compound power. And those capabilities can do extraordinary things. Strengthen our military. Support law enforcement. Protect our communities. But technological power is only part of the picture."),
     colin("c12a", "Political influence can compound too. Over decades— foundations— donors— advocacy organizations— legal groups— media— research institutions— and political networks— can form an ecosystem capable of shaping public debate— public policy— and institutional priorities. One of the most debated examples is the network associated with George Soros and the Open Society Foundations. Supporters describe its work as philanthropy advancing democracy— civil society— and human rights. Critics see something more consequential: A long-term architecture of political and institutional influence. This segment examines that argument."),
     { ...g("s12b", "Whatever conclusion you draw about Soros himself— the larger lesson matters. Networks compound power. Capital alone is powerful. But connect it to— Institutions. Media. Law. Politics. Research. And organized action. And it becomes something much larger. It becomes durable. Distributed. And capable of influencing decisions long after any single election— or individual— is gone."), afterVideo: true },
-    colin("c12b", "And this is where the balance of power can change. Because historically— building influence at this scale took decades. But what happens when technology compresses that timeline? What happens when citizens can— Organize. Understand. Create change. And pursue lawful reform— faster than traditional institutions were designed to operate?"),
+    colin("c12b", "Power is not only held by people. It is embedded in networks. And this is where the balance of power can change. Because historically— building influence at this scale took decades. But what happens when technology compresses that timeline? What happens when citizens can— Organize. Understand. Create change. And pursue lawful reform— faster than traditional institutions were designed to operate?"),
     g("s12c", "Then the advantage of established networks could begin to weaken. Not because one powerful network replaces another— but because citizens gain infrastructure of their own."),
     colin("c12c", "And when networks cross borders— connecting capital— policy— technology— and institutions— the scale changes again. Because beyond domestic influence— the competition becomes global. And so does the opportunity."),
-    g("s12d", "Because our vision is global too."),
+    g("s12d", "Because our vision is global."),
   ],
   "global-incentives": [
     colin("c13", "Political networks are one layer. But beyond domestic politics, the forces become global. In the next video, Andrei Jikh explores four competing explanations for how some of these forces may be interacting. Iranian economic warfare. Transnational capital. American energy strategy. And a geopolitical interpretation shaped by religious prophecy. Different actors. Different motives. Different theories. But one question connects them: What happens when powerful interests pursue their own objectives—and those interests collide? And what happens to ordinary people caught in the middle? This is not one prediction. It is a map of competing incentives. Let's watch."),
@@ -78,9 +78,7 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
     g("s15d", "I want you to see what becomes possible when we combine the raw distribution power of a podcast— with a strong strategy, the right operational tools, intelligence, and people who share a common purpose. Not simply to start another conversation. But to put a series of actions into motion. To demonstrate through execution what America First can mean. And through the results we achieve— build the foundation for the movement and new political party we envision."),
     g("s15e", "TPUSA was a turning point. This platform is what comes next."),
   ],
-  inspiration: [
-    g("s16", "We can partner to help make this happen."),
-  ],
+  // inspiration (Slide 16): 11.13.26 removes George's "We can partner…" voiceover; the video ends at 0:31.
   "mission-vision": [
     g("s17", "Our Mission: Return power to the people by rebuilding public institutions with technology that unlocks civic trust and economic value at scale. Our Vision: Make the public will impossible to ignore by turning raw civic engagement into a data-driven engine for structural reform."),
   ],

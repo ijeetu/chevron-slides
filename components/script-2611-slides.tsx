@@ -114,8 +114,15 @@ export function NetworkCues() {
   return (
     <VoiceoverCues
       cues={[
-        { src: george("s12b"), from: 11.0, to: 24.0, render: (p) => (
-          <CueSteps eyebrow="Networks compound power" steps={["INSTITUTIONS", "MEDIA", "LAW", "POLITICS", "RESEARCH", "ORGANIZED ACTION"]} progress={p * (13 / 6.6)} />
+        { src: george("s12b"), from: 11.0, to: 20.2, render: (p) => (
+          <CueSteps eyebrow="Networks compound power" steps={["INSTITUTIONS", "MEDIA", "LAW", "POLITICS", "RESEARCH", "ORGANIZED ACTION"]} progress={p * (9.2 / 6.6)} />
+        ) },
+        // 11.13.26: bring "It becomes durable. Distributed." on screen (20.3s, 21.7s).
+        { src: george("s12b"), from: 20.2, to: 28.9, render: (p) => (
+          <div className="text-center">
+            <CueStatement eyebrow="Networks compound power">It becomes durable.</CueStatement>
+            <p className={`mt-4 font-display text-[clamp(2rem,5vw,4.6rem)] font-semibold tracking-[-0.03em] text-[#9beaff] transition-opacity duration-500 ${p * 8.7 >= 1.5 ? "opacity-100" : "opacity-0"}`}>Distributed.</p>
+          </div>
         ) },
       ]}
     />
