@@ -33,7 +33,8 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
     colin("c04", "I usually tell the stories of history. Today, we have an opportunity to help make it. The challenges facing our society are extraordinary. And we're going to examine them. Because before we can change the future, we must understand the problems we're trying to solve."),
   ],
   agenda: [
-    g("s06", "Our agenda."),
+    // 11.16.26: "Our agenda." in Colin's voice, leading into his walk through the four sections
+    colin("c06a", "Our agenda."),
     colin("c06", "First— The Landscape. The problems we face, the systems shaping them, and why conventional approaches may no longer be enough. Then— The Architecture. The technology, legislation, infrastructure, media, and trust required to build something different. Then— The Alliance. The people and companies capable of bringing those pieces together. And finally— The Musk Conversation. Where the ideas, relationships, and capabilities that withstand scrutiny come together— and the next phase could begin."),
   ],
   problems: [
@@ -46,7 +47,7 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
   ],
   "long-game": [
     colin("c10a", "Go back far enough— and many technologies now shaping national power were once considered unrealistic. Artificial intelligence at scale. Reusable rockets. Autonomous systems. Private space infrastructure. Software transforming government. Entire industries rebuilt around technology. Some of the people leading these developments spent decades pursuing ideas others doubted could succeed. So to understand their influence today— we need to understand what it took to get here. Let's go back."),
-    { ...g("s10a", "Critics dismissed the vision. The technology failed. Capital disappeared. Timelines slipped. But they stayed in the arena. They built. Failed. Raised capital. Lost capital. Rebuilt. And tried again. Over time, ideas once considered impossible became valuable capabilities. Those capabilities entered— Industry. Defense. Government. Capital markets. And national infrastructure. Persistence became capability. Capability became scale. And scale became influence."), afterVideo: true },
+    { ...g("s10a", "Critics dismissed their vision. The technology failed. Capital disappeared. Timelines slipped. But they stayed in the arena. They built. Failed. Raised capital. Lost capital. Rebuilt. And tried again. Over time, ideas once considered impossible became valuable capabilities. Those capabilities entered— Industry. Defense. Government. Capital markets. And national infrastructure. Persistence became capability. Capability became scale. And scale became influence."), afterVideo: true },
     colin("c10b", "And that is the long game."),
   ],
   "technological-power": [
@@ -56,7 +57,7 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
   networks: [
     g("s12a", "Technology companies demonstrate how innovation— capital— and infrastructure— can compound power. And those capabilities can do extraordinary things. Strengthen our military. Support law enforcement. Protect our communities. But technological power is only part of the picture."),
     colin("c12a", "Political influence can compound too. Over decades— foundations— donors— advocacy organizations— legal groups— media— research institutions— and political networks— can form an ecosystem capable of shaping public debate— public policy— and institutional priorities. One of the most debated examples is the network associated with George Soros and the Open Society Foundations. Supporters describe its work as philanthropy advancing democracy— civil society— and human rights. Critics see something more consequential: A long-term architecture of political and institutional influence. This segment examines that argument."),
-    { ...g("s12b", "Whatever conclusion you draw about Soros himself— the larger lesson matters. Networks compound power. Capital alone is powerful. But connect it to— Institutions. Media. Law. Politics. Research. And organized action. And it becomes something much larger. It becomes durable. Distributed. And capable of influencing decisions long after any single election— or individual— is gone."), afterVideo: true },
+    { ...g("s12b", "Whatever conclusion you draw about Soros himself— the larger lesson matters. Networks compound power. Capital alone is powerful. But connect it to— Institutions. Media. Law. Politics. Research. And organized action. It becomes something much larger. It becomes durable. Distributed. And capable of influencing decisions long after any single election— or individual— is gone."), afterVideo: true },
     colin("c12b", "Power is not only held by people. It is embedded in networks. And this is where the balance of power can change. Because historically— building influence at this scale took decades. But what happens when technology compresses that timeline? What happens when citizens can— Organize. Understand. Create change. And pursue lawful reform— faster than traditional institutions were designed to operate?"),
     g("s12c", "Then the advantage of established networks could begin to weaken. Not because one powerful network replaces another— but because citizens gain infrastructure of their own."),
     colin("c12c", "And when networks cross borders— connecting capital— policy— technology— and institutions— the scale changes again. Because beyond domestic influence— the competition becomes global. And so does the opportunity."),

@@ -915,41 +915,74 @@ function TicMicPieSlide({ onOpenVideo }: { onOpenVideo?: (url: string) => void }
   );
 }
 
-// Slide 9 (VF_Pres_11.13.26): play the Chapter 01 video; then only the pie chart, which enters
-// on the left, rolls to the right and disappears as George finishes his first sentence
-// ("…isn't the point." ends 3.3s into s09); then the technology leaders.
+// Slide 9 (VF_Pres_11.16.26): after the Chapter 01 video the pie chart holds on the left with
+// TIC, MIC and FIC labelled while George says "…isn't the point." (ends 3.3s into s09), then rolls
+// to the right and disappears; the technology leaders arrive on "…technology leaders" (7.1s).
 const COMPETITION_TRACK = "/voices/george-2611/s09.mp3";
-const PIE_EXIT = 3.6;
+const PIE_HOLD = 3.3;
+const PIE_EXIT = 6.6;
 
-function RollingPie({ progress }: { progress: number }) {
-  const segments = [
-    { label: "FIC", share: 1 + progress * 0.45, color: "#2ea66b" },
-    { label: "MIC", share: 1 - progress * 0.68, color: "#3f6fc8" },
-    { label: "TIC", share: 1 + progress * 0.55, color: "#c0392b" },
-  ];
-  const total = segments.reduce((sum, s) => sum + s.share, 0);
+const PIE_COMPLEXES = [
+  { label: "FIC", name: "Financial-Industrial Complex", grow: 0.45, color: "#2ea66b" },
+  { label: "MIC", name: "Military-Industrial Complex", grow: -0.68, color: "#3f6fc8" },
+  { label: "TIC", name: "Technological-Industrial Complex", grow: 0.55, color: "#c0392b" },
+];
+
+function RollingPie({ time }: { time: number }) {
+  const growth = Math.min(1, time / PIE_HOLD);
+  const roll = Math.max(0, Math.min(1, (time - PIE_HOLD) / (PIE_EXIT - PIE_HOLD)));
+  const eased = roll * roll * (3 - 2 * roll);
+  const segments = PIE_COMPLEXES.map((c) => ({ ...c, share: 1 + growth * c.grow }));
+  const total = segments.reduce((sum, seg) => sum + seg.share, 0);
   const r = 90, c = 2 * Math.PI * r;
+  const angle = eased * 320;
   let offset = 0;
-  const opacity = Math.min(1, progress / 0.15, (1 - progress) / 0.2);
+  const pieOpacity = Math.min(1, time / 0.5, (1 - roll) / 0.25);
+  const legendOpacity = Math.min(1, Math.max(0, (time - 0.3) / 0.6), Math.max(0, 1 - roll * 3));
   return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute left-1/2 top-1/2 h-[min(56vh,30rem)] w-[min(56vh,30rem)]"
-      style={{
-        transform: `translate(calc(-50% + ${(-38 + 76 * progress).toFixed(2)}vw), -50%) rotate(${(progress * 300).toFixed(1)}deg)`,
-        opacity: Math.max(0, opacity),
-      }}
-    >
-      <svg viewBox="0 0 240 240" className="h-full w-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
-        {segments.map((seg) => {
-          const len = (seg.share / total) * c;
-          const el = <circle key={seg.label} cx="120" cy="120" r={r} fill="none" stroke={seg.color} strokeWidth="58" strokeDasharray={`${len - 3} ${c - len + 3}`} strokeDashoffset={-offset} />;
-          offset += len;
-          return el;
-        })}
-        <circle cx="120" cy="120" r="58" fill="#0b1724" stroke="rgba(255,255,255,0.12)" />
-        <text x="120" y="128" textAnchor="middle" className="fill-[#f4f2ec] font-display" fontSize="26" fontWeight="800" transform={`rotate(${(-progress * 300).toFixed(1)} 120 120)`}>TIC</text>
-      </svg>
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+      <div
+        className="absolute left-1/2 top-1/2 h-[min(46vh,26rem,34vw)] w-[min(46vh,26rem,34vw)]"
+        style={{
+          transform: `translate(calc(-50% + ${(-22 + 64 * eased).toFixed(2)}vw), -50%) rotate(${angle.toFixed(1)}deg)`,
+          opacity: Math.max(0, pieOpacity),
+        }}
+      >
+        <svg viewBox="0 0 240 240" className="h-full w-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+          {segments.map((seg) => {
+            const len = (seg.share / total) * c;
+            const mid = ((offset + len / 2) / c) * 2 * Math.PI;
+            const el = (
+              <g key={seg.label}>
+                <circle cx="120" cy="120" r={r} fill="none" stroke={seg.color} strokeWidth="58" strokeDasharray={`${len - 3} ${c - len + 3}`} strokeDashoffset={-offset} transform="rotate(-90 120 120)" />
+                <text
+                  x={120 + r * Math.sin(mid)}
+                  y={120 - r * Math.cos(mid) + 6}
+                  textAnchor="middle"
+                  className="fill-white font-display"
+                  fontSize="17"
+                  fontWeight="800"
+                  transform={`rotate(${(-angle).toFixed(1)} ${120 + r * Math.sin(mid)} ${120 - r * Math.cos(mid)})`}
+                >
+                  {seg.label}
+                </text>
+              </g>
+            );
+            offset += len;
+            return el;
+          })}
+          <circle cx="120" cy="120" r="58" fill="#0b1724" stroke="rgba(255,255,255,0.12)" />
+        </svg>
+      </div>
+      <ul className="absolute right-[8vw] top-1/2 grid -translate-y-1/2 gap-5 text-left" style={{ opacity: legendOpacity }}>
+        {PIE_COMPLEXES.map((cx) => (
+          <li key={cx.label} className="flex items-center gap-4">
+            <span className="h-4 w-4 rounded-full" style={{ background: cx.color }} />
+            <span className="font-display text-[clamp(1.4rem,2.6vw,2.4rem)] font-extrabold text-[#f4f2ec]">{cx.label}</span>
+            <span className="text-[clamp(0.85rem,1.3vw,1.15rem)] uppercase tracking-[0.18em] text-[#a9bcc8]">{cx.name}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -962,7 +995,7 @@ function CompetitionSequenceSlide({ onOpenVideo }: { onOpenVideo: (url: string) 
   return (
     <section className="relative flex h-full items-center justify-center overflow-hidden px-6 text-center">
       {started ? (
-        <RollingPie progress={Math.min(1, time / PIE_EXIT)} />
+        <RollingPie time={time} />
       ) : (
         <div className="mx-auto max-w-3xl">
           <p className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-[#9beaff] sm:text-xs">Beneath the Noise // 01</p>
@@ -2473,7 +2506,21 @@ function PlaceholderCtaPage() {
   );
 }
 
+// 11.16.26: each agenda section lights up as Colin introduces it ("The Landscape" 1.3s,
+// "The Architecture" 9.9s, "The Alliance" 18.5s, "The Musk Conversation" 24.4s into c06).
+const AGENDA_INTRO_TRACK = "/voices/colin-2611/c06a.mp3";
+const AGENDA_TRACK = "/voices/colin-2611/c06.mp3";
+const AGENDA_MARKS = [1.3, 9.9, 18.5, 24.4];
+
 function AgendaPage() {
+  const position = useVoiceoverPosition();
+  // -1: before Colin reaches the first section; null: not narrating, show every section
+  const active =
+    position?.src === AGENDA_INTRO_TRACK
+      ? -1
+      : position?.src === AGENDA_TRACK
+        ? AGENDA_MARKS.filter((mark) => position.time >= mark).length - 1
+        : null;
   return (
     <section className="flex h-full flex-col items-center justify-center text-center">
       <header className="mx-auto max-w-3xl">
@@ -2491,7 +2538,14 @@ function AgendaPage() {
         <div className="relative">
           <ol className="divide-y divide-[rgba(155,234,255,0.1)]">
             {agendaItems.map((item, index) => (
-              <li key={item.title} className="grid grid-cols-[2.5rem_1fr] items-baseline gap-4 py-4 sm:grid-cols-[3rem_1fr] sm:gap-6 sm:py-5">
+              <li
+                key={item.title}
+                className="relative grid grid-cols-[2.5rem_1fr] items-baseline gap-4 py-4 transition-[opacity,transform] duration-700 sm:grid-cols-[3rem_1fr] sm:gap-6 sm:py-5"
+                style={active === null ? undefined : { opacity: index === active ? 1 : index < active ? 0.55 : 0.22, transform: index === active ? "translateX(0.4rem)" : undefined }}
+              >
+                {active === index ? (
+                  <span aria-hidden="true" className="absolute -left-6 top-1/2 h-10 w-[3px] -translate-y-1/2 rounded-full bg-[#01c7f3] shadow-[0_0_18px_rgba(1,199,243,0.8)] sm:-left-10" />
+                ) : null}
                 <span className="font-display text-sm font-semibold tabular-nums tracking-[0.12em] text-[#01c7f3]/80 sm:text-base">
                   {String(index + 1).padStart(2, "0")}
                 </span>

@@ -22,6 +22,14 @@ export function ColinIntroSlide() {
         <p className="mx-auto mt-6 max-w-2xl text-sm leading-6 text-[#a9bcc8] sm:text-base">
           Preserving the stories and lessons of the past — and bringing them to new audiences.
         </p>
+        {/* 11.16.26: his history channels */}
+        <div className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-3">
+          {["The Forgotten History Channel", "Heaton's History"].map((channel) => (
+            <span key={channel} className="rounded-full border border-[#9beaff]/35 bg-[#9beaff]/[0.08] px-5 py-2 text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-[#9beaff] sm:text-sm">
+              {channel}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -71,8 +79,8 @@ export function LongGameCues() {
   return (
     <VoiceoverCues
       cues={[
-        // span set so each step lands as George says it (28.6s, 31.0s, 33.1s, 34.0s)
-        { src: george("s10a"), from: 28.4, to: 34.0 + 1.6, render: (p) => <CueSteps steps={["PERSISTENCE", "CAPABILITY", "SCALE", "INFLUENCE"]} progress={p * (7.2 / 5.6)} /> },
+        // span set so each step lands as George says it (28.7s, 31.1s, 33.2s, 34.1s; 11.16.26 "their vision" adds 0.1s)
+        { src: george("s10a"), from: 28.5, to: 34.1 + 1.6, render: (p) => <CueSteps steps={["PERSISTENCE", "CAPABILITY", "SCALE", "INFLUENCE"]} progress={p * (7.2 / 5.6)} /> },
       ]}
     />
   );
@@ -109,11 +117,64 @@ export function TechnologicalPowerCues() {
   );
 }
 
+/** Example cards, each revealed at its own second into the cue. */
+function ExampleCards({ eyebrow, cards, elapsed }: { eyebrow?: string; cards: readonly { at: number; title: string; example: string }[]; elapsed: number }) {
+  return (
+    <div className="mx-auto max-w-6xl text-center">
+      {eyebrow ? <p className="mb-6 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#9beaff] sm:text-xs">{eyebrow}</p> : null}
+      <ul className="grid gap-4 sm:grid-cols-3">
+        {cards.map((card) => (
+          <li
+            key={card.title}
+            className={`rounded-2xl border border-[#9beaff]/25 bg-[#0d1d2b]/85 px-6 py-6 text-left shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition-[opacity,transform] duration-500 ${elapsed >= card.at ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+          >
+            <p className="font-display text-[clamp(1.05rem,2vw,1.7rem)] font-semibold tracking-[0.04em] text-[#f4f2ec]">{card.title}</p>
+            <p className="mt-3 text-[clamp(0.85rem,1.3vw,1.05rem)] leading-relaxed text-[#a9bcc8]">{card.example}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 /** Slide 12 — networks compound power. */
 export function NetworkCues() {
+  const s12a = george("s12a");
+  const c12a = colinTrack("c12a");
+  // 11.16.26: examples on screen to strengthen the section (times are seconds into each take).
+  const compound = { from: 1.7, to: 7.0 };
+  const serve = { from: 10.4, to: 15.5 };
+  const ecosystem = { from: 3.8, to: 13.2, at: [0.2, 1.2, 2.2, 3.9, 5.0, 6.2, 7.6] };
   return (
     <VoiceoverCues
       cues={[
+        { src: s12a, from: compound.from, to: compound.to, render: (p) => (
+          <ExampleCards eyebrow="How technology companies compound power" elapsed={p * (compound.to - compound.from)} cards={[
+            { at: 0.2, title: "INNOVATION", example: "SpaceX made rockets reusable, cutting the cost of reaching orbit." },
+            { at: 1.3, title: "CAPITAL", example: "Private investment now funds frontier AI at the scale of national budgets." },
+            { at: 2.2, title: "INFRASTRUCTURE", example: "Starlink's satellite network delivers connectivity almost anywhere on Earth." },
+          ]} />
+        ) },
+        { src: s12a, from: serve.from, to: serve.to, render: (p) => (
+          <ExampleCards eyebrow="Those capabilities can do extraordinary things" elapsed={p * (serve.to - serve.from)} cards={[
+            { at: 0.2, title: "STRENGTHEN OUR MILITARY", example: "Anduril autonomous defense systems · Palantir battlefield software" },
+            { at: 1.5, title: "SUPPORT LAW ENFORCEMENT", example: "Body cameras and digital evidence systems used by police nationwide" },
+            { at: 3.2, title: "PROTECT OUR COMMUNITIES", example: "Starlink restoring connectivity to disaster zones" },
+          ]} />
+        ) },
+        { src: c12a, from: ecosystem.from, to: ecosystem.to, render: (p) => (
+          <CueSteps eyebrow="Political influence can compound too" steps={["FOUNDATIONS", "DONORS", "ADVOCACY ORGANIZATIONS", "LEGAL GROUPS", "MEDIA", "RESEARCH INSTITUTIONS", "POLITICAL NETWORKS"]} progress={atTimes(ecosystem.at, ecosystem.to - ecosystem.from)(p)} />
+        ) },
+        { src: c12a, from: 13.2, to: 19.6, render: (p) => (
+          <CueSteps eyebrow="An ecosystem capable of shaping" steps={["PUBLIC DEBATE", "PUBLIC POLICY", "INSTITUTIONAL PRIORITIES"]} progress={atTimes([2.0, 3.2, 4.4], 6.4)(p)} />
+        ) },
+        { src: c12a, from: 19.9, to: 39.6, render: (p) => (
+          <ExampleCards eyebrow="One of the most debated examples" elapsed={p * 19.7} cards={[
+            { at: 3.2, title: "GEORGE SOROS · OPEN SOCIETY FOUNDATIONS", example: "One of the world's largest private funders of civil-society groups" },
+            { at: 6.2, title: "SUPPORTERS SEE", example: "Philanthropy advancing democracy, civil society and human rights" },
+            { at: 13.5, title: "CRITICS SEE", example: "A long-term architecture of political and institutional influence" },
+          ]} />
+        ) },
         { src: george("s12b"), from: 11.0, to: 20.2, render: (p) => (
           <CueSteps eyebrow="Networks compound power" steps={["INSTITUTIONS", "MEDIA", "LAW", "POLITICS", "RESEARCH", "ORGANIZED ACTION"]} progress={p * (9.2 / 6.6)} />
         ) },
