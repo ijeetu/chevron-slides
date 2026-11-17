@@ -27,6 +27,9 @@ export const viralFusionDeck = [
   { id: "civic-os", title: "Civic Operating System" },
   { id: "physical-infrastructure", title: "Physical Infrastructure" },
   { id: "strategic-alliance", title: "The Strategic Alliance" },
+  // VF_Pres_11.17.26 Slide 24 — The Architecture Comes Together (Part One) and Why Action Matters (Part Two)
+  { id: "architecture", title: "The Architecture Comes Together" },
+  { id: "need-for-action", title: "Why the Need for Action Matters" },
   { id: "blueprint", title: "The Blueprint" },
   { id: "what-if", title: "What If? — A Podcast Execution Engine" },
   { id: "podcast-strategy", title: "The Podcast Becomes the Strategy" },

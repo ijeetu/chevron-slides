@@ -81,7 +81,8 @@ export function CivicOsDiagramSlide() {
             <p className="flex items-center justify-center gap-2 font-display text-[clamp(1.2rem,2.6vw,2rem)] font-semibold tracking-[0.04em] text-[#f4f2ec]">
               <BadgeCheck className="text-[#9beaff]" size={26} aria-hidden="true" /> VERIFIABLE TRUST
             </p>
-            <p className="mt-1 text-[0.78rem] text-[#a9bcc8]">The intended design standard—not blind reliance on software</p>
+            {/* 11.17.26: outcome statement */}
+            <p className="mt-1 text-[0.78rem] text-[#a9bcc8]"><span className="font-semibold tracking-[0.18em] text-[#9beaff]">OUTCOME</span> — Paper record + secure digital verification + independent audit = verifiable election integrity.</p>
           </div>
 
           <ul className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[0.7rem] font-semibold tracking-[0.18em] text-[#9beaff] sm:text-xs">

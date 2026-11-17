@@ -39,6 +39,7 @@ import { RevisedCivicConnectivitySlide, RevisedStrategicAllianceSlide, RevisedBl
 import { RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
 import { CivicOsDiagramSlide } from "@/components/civic-os-diagram-slide";
 import { useVoiceoverPosition } from "@/components/voiceover-cues";
+import { ArchitectureSlide, NeedForActionSlide } from "@/components/architecture-slides";
 import { ColinIntroSlide, ExecutingVisionSlide, LongGameCues, NetworkCues, PhysicalInfrastructureCues, StrategicAllianceCues, TechnologicalPowerCues, WeBuildItCue } from "@/components/script-2611-slides";
 import { namedHashMatchesSlide, pageFromHash, slideIndex, standaloneSlideDestination, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
@@ -1271,7 +1272,7 @@ function IntroVideoSlide() {
   const [videoPhase, setVideoPhase] = useState<"george" | "trump" | "hold" | "return" | "ended">("george");
   // VF_Pres_11.13.26: "Finish video @0:31". The video stops there, before the
   // January 6 splice below (captions finish that sentence at 85.219s).
-  const georgeEndTime = 31;
+  const georgeEndTime = 32; // 11.17.26: finish at 0:32 "…to help make this happen"
   const georgeSpliceTime = 85.25;
 
   useEffect(() => () => transitionTimersRef.current.forEach(window.clearTimeout), []);
@@ -1990,9 +1991,24 @@ const missionVisionItems = [
   },
 ] as const;
 
+// 11.17.26: "Our Mission" lights up as George reads it, then "Our Vision" ("Our vision." at 10.4s
+// into s17); when he finishes, "Driving Real Impact" fills the screen.
+const MISSION_TRACK = "/voices/george-2611/s17.mp3";
+
 function MissionVisionSlide() {
+  const position = useVoiceoverPosition();
+  const narrating = position?.src === MISSION_TRACK;
+  const time = narrating ? position.time : 0;
+  const active = !narrating ? null : time < 10.3 ? 0 : time < 18.8 ? 1 : 2;
   return (
     <section className="presentation-scroll relative h-full w-full overflow-y-auto text-[#f7f8f8] md:overflow-hidden">
+      <div
+        aria-hidden={active !== 2}
+        className={`pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-center bg-[#07101a]/90 px-6 text-center backdrop-blur-sm transition-opacity duration-700 ${active === 2 ? "opacity-100" : "opacity-0"}`}
+      >
+        <p className="font-display text-[clamp(.8rem,1.4vw,1.2rem)] font-medium tracking-[0.3em] text-[#9beaff]">MISSION &amp; VISION</p>
+        <p className="mt-4 font-display text-[clamp(3rem,10vw,9rem)] font-bold leading-none tracking-[-0.045em] text-[#f4f2ec]">Driving Real Impact</p>
+      </div>
 
       <div className="relative mx-auto flex min-h-full w-[92%] flex-col justify-center pb-32 pt-24 md:h-full md:w-[89%] md:py-[clamp(1rem,4vh,3rem)]">
         <p className="font-display text-[clamp(.68rem,min(1.35vw,2.2vh),1.65rem)] font-medium tracking-[0.09em] text-[#b8c0c3]">
@@ -2006,10 +2022,11 @@ function MissionVisionSlide() {
         </div>
 
         <div className="mt-[clamp(.7rem,2vh,1.8rem)] grid shrink-0 grid-cols-1 gap-[clamp(.55rem,1.5vw,1.25rem)] md:grid-cols-2">
-          {missionVisionItems.map((item) => (
+          {missionVisionItems.map((item, index) => (
             <article
               key={item.title}
-              className="relative min-h-[clamp(9rem,25vh,18rem)] min-w-0 overflow-hidden rounded-[clamp(.8rem,1.6vw,1.75rem)] border border-[#9beaff]/20 bg-[linear-gradient(145deg,rgba(38,58,75,0.74),rgba(14,27,39,0.88))] px-[clamp(.7rem,6%,3rem)] py-[clamp(.7rem,2.4vh,2rem)] shadow-[0_24px_65px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.04)]"
+              style={active === 0 || active === 1 ? { opacity: index === active ? 1 : 0.3, transform: index === active ? "scale(1.02)" : undefined } : undefined}
+              className="relative min-h-[clamp(9rem,25vh,18rem)] transition-[opacity,transform] duration-700 min-w-0 overflow-hidden rounded-[clamp(.8rem,1.6vw,1.75rem)] border border-[#9beaff]/20 bg-[linear-gradient(145deg,rgba(38,58,75,0.74),rgba(14,27,39,0.88))] px-[clamp(.7rem,6%,3rem)] py-[clamp(.7rem,2.4vh,2rem)] shadow-[0_24px_65px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.04)]"
             >
               <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.72),transparent)]" />
               <span className="font-mono text-[clamp(.6rem,min(1vw,1.6vh),1.15rem)] font-bold tracking-[0.28em] text-[#18bfe3]">
@@ -2367,6 +2384,20 @@ function GirlPage() {
         </div>
       </article>
     </section>
+  );
+}
+
+// 11.17.26 (Five Pillars): bring back "The people demand something better." and fade it out
+// as Colin begins ("If citizens are going to meaningfully shape what comes next…").
+function FivePillarsLeadIn() {
+  const position = useVoiceoverPosition();
+  if (position?.src !== "/voices/colin-2611/c18.mp3") return null;
+  const opacity = Math.max(0, Math.min(1, 1 - (position.time - 0.8) / 2.6));
+  if (opacity <= 0) return null;
+  return (
+    <div className="pointer-events-none fixed inset-0 z-20" style={{ opacity }}>
+      <MagaPage />
+    </div>
   );
 }
 
@@ -2979,7 +3010,7 @@ export function LibraryPage() {
       case "global-incentives": return <GlobalIncentivesMapSlide onOpenVideo={openVideo} />;
       case "what-we-learned": return <><BeneathNoiseRecapSlide /><WeBuildItCue /></>;
       case "executing-vision": return <ExecutingVisionSlide />;
-      case "five-pillars": return <RevisedFivePillarsSlide />;
+      case "five-pillars": return <><RevisedFivePillarsSlide /><FivePillarsLeadIn /></>;
       case "inspiration": return <IntroVideoSlide />;
       case "founder": return <FounderQuoteSlide />;
       case "operating-system": return <SectionTitleSlide title="Operating System" />;
@@ -2990,6 +3021,8 @@ export function LibraryPage() {
       case "civic-os": return <CivicOsDiagramSlide />;
       case "physical-infrastructure": return <><RevisedCivicConnectivitySlide /><PhysicalInfrastructureCues /></>;
       case "strategic-alliance": return <><RevisedStrategicAllianceSlide /><StrategicAllianceCues /></>;
+      case "architecture": return <ArchitectureSlide />;
+      case "need-for-action": return <NeedForActionSlide />;
       case "blueprint": return <RevisedBlueprintSlide />;
       case "what-if": return <WhatIfSlide onContinue={() => setCurrentPage(slideIndex("podcast-strategy"))} />;
       case "podcast-strategy": return <PodcastStrategySlide onContinue={() => setCurrentPage(slideIndex("mo-gawdat"))} />;

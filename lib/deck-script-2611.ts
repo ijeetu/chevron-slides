@@ -61,14 +61,14 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
     colin("c12b", "Power is not only held by people. It is embedded in networks. And this is where the balance of power can change. Because historically— building influence at this scale took decades. But what happens when technology compresses that timeline? What happens when citizens can— Organize. Understand. Create change. And pursue lawful reform— faster than traditional institutions were designed to operate?"),
     g("s12c", "Then the advantage of established networks could begin to weaken. Not because one powerful network replaces another— but because citizens gain infrastructure of their own."),
     colin("c12c", "And when networks cross borders— connecting capital— policy— technology— and institutions— the scale changes again. Because beyond domestic influence— the competition becomes global. And so does the opportunity."),
-    g("s12d", "Because our vision is global."),
+    // 11.17.26: "Because our vision is global too." removed
   ],
   "global-incentives": [
     colin("c13", "Political networks are one layer. But beyond domestic politics, the forces become global. In the next video, Andrei Jikh explores four competing explanations for how some of these forces may be interacting. Iranian economic warfare. Transnational capital. American energy strategy. And a geopolitical interpretation shaped by religious prophecy. Different actors. Different motives. Different theories. But one question connects them: What happens when powerful interests pursue their own objectives—and those interests collide? And what happens to ordinary people caught in the middle? This is not one prediction. It is a map of competing incentives. Let's watch."),
   ],
   "what-we-learned": [
-    colin("c14a", "Pull back. What have we actually seen? At the surface— the problems people experience every day. Beneath them— competing centers of power. Technology becoming a source of national influence. Networks capable of accumulating power over decades. And global systems operating according to different incentives. Different players. Different motives. Different theories. But one recurring concern: Many of the decisions shaping people's lives are made at levels where ordinary citizens have little direct influence."),
-    g("s14a", "And that is why we went beneath the noise. Not simply to expose problems. To identify what is missing. If capital can organize— If industries can organize— If political networks can organize— And if technology can organize— Then We the People need infrastructure capable of organizing too. Not merely to complain. To understand. To verify. To coordinate. To participate. And ultimately— To act. Because our Republic cannot be preserved by promises alone. It requires action."),
+    // 11.17.26: Colin's "Pull back…" recap removed
+    g("s14a", "We went beneath the noise. Not simply to expose problems. To identify what is missing. If capital can organize— If industries can organize— If political networks can organize— And if technology can organize— Then We the People need infrastructure capable of organizing too. Not merely to complain. To understand. To verify. To coordinate. To participate. And ultimately— To act. Because our Republic cannot be preserved by promises alone. It requires action."),
     colin("c14b", "So the question becomes— How do citizens gain meaningful agency over what comes next?"),
     g("s14b", "We build it."),
   ],
@@ -86,10 +86,10 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
   "five-pillars": [
     colin("c18", "If citizens are going to meaningfully shape what comes next— they need more than a voice. They need the infrastructure to act."),
     g("s18a", "Look at the board. Technology. Connectivity. Sustainability. Media Rails. A Powerful Ecosystem. Individually— they are capabilities. Connected— they become infrastructure. Technology creates capability. Connectivity creates scale. Sustainability creates longevity. Media Rails create understanding and distribution. And the ecosystem brings together the people— capital— institutions— and expertise— required to turn opportunity into action. Because— action is the ultimate currency of freedom."),
-    g("s18b", "Every pillar serves one objective: Shorten the distance between public voice and lawful action. Deploy. Integrate. Build new rails. Scale. And as these pillars work together— citizens become participants in shaping what comes next. This is the Blueprint we're preparing to put into action. And I'll show you how we intend to build it— and the part you can play in making it happen."),
+    g("s18b", "Every pillar serves one objective: Shorten the distance between public voice and lawful action. Deploy. Integrate. Build new rails. Scale. And as these pillars work together— citizens become participants in shaping what comes next. This is the Blueprint from a high level."),
   ],
   "operating-system": [
-    g("s19", "Let's take a look at our operating system."),
+    g("s19", "Our operation system."),
   ],
   "viral-fusion": [
     g("s20", "We call it Viral Fusion. And it will connect voices and power change. However, Phase 1 has a different priority."),
@@ -115,6 +115,21 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
     colin("c23b", "And that independence becomes even more important as the architecture expands internationally. Different countries. Different laws. Different cultures. Different risks. But one shared challenge: How can lawful public participation remain accessible when the environment around it becomes unstable? Technology can amplify a voice. But reaching people is not enough. The infrastructure carrying that voice must also be designed to remain available— verifiable— and resilient— when it matters most."),
     { speaker: "george", src: "/voices/george-2611/g23c.mp3", text: "Every nation will require its own safeguards. Its own legal framework. Its own implementation. But the principle travels: lawful public participation should never depend on a single gatekeeper. And lawful public will should have a resilient path to be heard. That is how a civic platform becomes something larger. Not merely national infrastructure. An architecture capable of scaling globally—without surrendering its independence." },
     colin("c23c", "The bottom line: Public participation— can become verified public demand. Verified demand— can provide the foundation for lawful action. And distribution and resilience determine how far— and how reliably— that participation can reach. The objective is to dramatically shorten the distance between— voice— verification— and action. At the speed of the digital age."),
+  ],
+  // VF_Pres_11.17.26 Slide 24, Part One — what we can build.
+  architecture: [
+    colin("c24", "What we've just outlined is more than an application. It is the foundation of a new civic infrastructure. A Civic Operating System designed to verify the citizen— capture the public will— and establish an auditable record of participation. A physical network designed to bring that technology into everyday life— expanding access— reach— and commercial sustainability. A strategic distribution model that could harness the extraordinary capabilities of X and xAI— while remaining compatible with other platforms. And a Sovereign Parallel Network— designed to preserve essential civic functions— without dependence on any single company, platform, or gatekeeper. Together, these capabilities create the foundation for something greater."),
+    g("s24a", "Think about what this makes possible. A citizen's voice can be authenticated. Their participation can be measured. Their collective will can become visible— and independently verifiable. Not merely another opinion. Not another conversation that disappears tomorrow. A record of who participated, what they expressed, and the public demand that emerges. A record that can be examined. Challenged. And verified. Can you see how powerful this is? And I'm going to show you how we intend to turn that verified public demand into a foundation for organized, lawful action."),
+    g("s24b", "Because the objective was never simply to build another technology platform. It was to give We the People the infrastructure to participate in shaping our future. And what we've outlined is only the beginning. Phase One establishes the foundation. Phase Two is where we intend to turn that foundation into action."),
+  ],
+  // Slide 24, Part Two — why the need for action matters.
+  "need-for-action": [
+    g("s24c", "Why keep depending on Washington to deliver the change our country needs?"),
+    g("s24d", "Election confidence remains a serious issue. Americans disagree about how elections should be administered— how voting systems should be verified— and what safeguards are necessary to earn public trust."),
+    g("s24e", "The future belongs to We the People. It's time we provide the tools that empower those with the best ideas to help shape it."),
+    g("s24f", "Immigration is another example of how expectations, government policy, and actual outcomes can diverge. Presidents make commitments. Then policies change."),
+    g("s24g", "Whatever our political differences, we cannot place the entire future of our Republic in the hands of any single president, party, or institution. We now have technological capabilities previous generations could scarcely imagine. The question is whether we are prepared to put them to work."),
+    g("s24h", "Our Republic was never meant to survive on promises alone. Its future depends on what its people are willing to do to preserve it."),
   ],
 };
 

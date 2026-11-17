@@ -1,34 +1,39 @@
 "use client";
 
-import { CueStatement, CueSteps, VoiceoverCues } from "@/components/voiceover-cues";
+import { CueStatement, CueSteps, VoiceoverCues, useVoiceoverPosition } from "@/components/voiceover-cues";
 
-/** Slide 3 — Colin Heaton's personal introduction (VF_Pres_11.08.26). */
+/** Slide 3 — Colin Heaton's personal introduction (VF_Pres_11.08.26; photo, books and channels per 11.16–11.17.26). */
 export function ColinIntroSlide() {
-  const credentials = ["Military historian", "Author", "Former professor", "U.S. Army & Marine Corps veteran"];
+  const credentials = ["Military historian", "Author", "Former professor", "U.S. Army & Marine Corps veteran", "Historical film & documentary consultant"];
   return (
     <section className="flex h-full items-center justify-center px-6">
-      <div className="mx-auto w-full max-w-4xl text-center">
-        <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[#9beaff] sm:text-xs">Personal introduction</p>
-        <h1 className="mt-4 font-display text-[clamp(3rem,8vw,6.5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-[#f4f2ec]">Colin Heaton</h1>
-        <div className="mx-auto mt-6 h-px w-48 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)]" />
-        <ul className="mx-auto mt-7 flex max-w-3xl flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[0.95rem] text-[#dbe6ec] sm:text-lg">
-          {credentials.map((item, i) => (
-            <li key={item} className="flex items-center gap-3">
-              {i > 0 ? <span aria-hidden="true" className="text-[#9beaff]/60">·</span> : null}
-              {item}
-            </li>
-          ))}
-        </ul>
-        <p className="mx-auto mt-6 max-w-2xl text-sm leading-6 text-[#a9bcc8] sm:text-base">
-          Preserving the stories and lessons of the past — and bringing them to new audiences.
-        </p>
-        {/* 11.16.26: his history channels */}
-        <div className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-3">
-          {["The Forgotten History Channel", "Heaton's History"].map((channel) => (
-            <span key={channel} className="rounded-full border border-[#9beaff]/35 bg-[#9beaff]/[0.08] px-5 py-2 text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-[#9beaff] sm:text-sm">
-              {channel}
-            </span>
-          ))}
+      <div className="mx-auto grid w-full max-w-5xl items-center gap-10 md:grid-cols-[auto_1fr]">
+        <div className="mx-auto w-40 overflow-hidden rounded-[1.4rem] border border-[#9beaff]/30 shadow-[0_24px_60px_rgba(0,0,0,0.45)] sm:w-48 md:w-56">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/colin/colin-heaton.png" alt="Colin D. Heaton" className="aspect-[312/438] h-full w-full object-cover" />
+        </div>
+        <div className="text-center md:text-left">
+          <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[#9beaff] sm:text-xs">Introducing the narrator</p>
+          <h1 className="mt-4 font-display text-[clamp(2.8rem,7vw,5.8rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-[#f4f2ec]">Colin D. Heaton</h1>
+          <div className="mx-auto mt-5 h-px w-48 bg-[linear-gradient(90deg,transparent,rgba(1,199,243,0.78),transparent)] md:mx-0 md:bg-[linear-gradient(90deg,rgba(1,199,243,0.78),transparent)]" />
+          <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[0.95rem] text-[#dbe6ec] sm:text-lg md:justify-start">
+            {credentials.map((item, i) => (
+              <li key={item} className="flex items-center gap-3">
+                {i > 0 ? <span aria-hidden="true" className="text-[#9beaff]/60">·</span> : null}
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-sm leading-6 text-[#a9bcc8] sm:text-base">
+            Author of <em className="text-[#f4f2ec]">Above the Reich</em> and <em className="text-[#f4f2ec]">Above the Pacific</em>
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+            {["The Forgotten History Channel", "Heaton's History"].map((channel) => (
+              <span key={channel} className="rounded-full border border-[#9beaff]/35 bg-[#9beaff]/[0.08] px-5 py-2 text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-[#9beaff] sm:text-sm">
+                {channel}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -36,10 +41,37 @@ export function ColinIntroSlide() {
 }
 
 /** Slide 15 — Executing the Vision: 250 YEARS, then TPUSA archival footage under George. */
+// 11.17.26: the slide opens on 1776–2026, fades to 250 YEARS, then EXECUTING THE VISION,
+// over the 5.6s lead-in of s15a before George begins.
+const VISION_TITLES = [
+  { text: "1776 – 2026", from: 0, to: 1.9 },
+  { text: "250 YEARS", from: 1.9, to: 3.7 },
+  { text: "EXECUTING THE VISION", from: 3.7, to: 5.4 },
+];
+
+function VisionTitleSequence() {
+  const position = useVoiceoverPosition();
+  if (position?.src !== "/voices/george-2611/s15a.mp3" || !(position.time < 5.6)) return null;
+  const t = position.time;
+  return (
+    <div className="pointer-events-none fixed inset-0 z-20 flex items-center justify-center bg-[#07101a]">
+      {VISION_TITLES.map((title) => {
+        const opacity = Math.max(0, Math.min(1, (t - title.from) / 0.45, (title.to - t) / 0.45));
+        return (
+          <p key={title.text} className="absolute font-display text-[clamp(2.6rem,8vw,7rem)] font-semibold tracking-[-0.02em] text-[#f4f2ec]" style={{ opacity }}>
+            {title.text}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 export function ExecutingVisionSlide() {
   const closing = "/voices/george-2611/s15e.mp3";
   return (
     <section className="flex h-full items-center justify-center px-6 py-10">
+      <VisionTitleSequence />
       <div className="mx-auto grid w-full max-w-6xl items-center gap-10 md:grid-cols-[1.2fr_0.8fr]">
         <div className="text-center md:text-left">
           <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[#9beaff] sm:text-xs">Executing the vision</p>
