@@ -229,10 +229,49 @@ export function WeBuildItCue() {
 
 
 /** Slide 22 — Phase One teaser at the end of Colin's opening, before George begins. */
+const AI_LADY_SCENES = [
+  { at: 10.9, src: "/physical/ai-lady-mall.webp", label: "Shopping mall", caption: "Public engagement" },
+  { at: 16.4, src: "/physical/ai-lady-office.webp", label: "Office", caption: "Information & services" },
+  { at: 21.5, src: "/physical/ai-lady-dmv.webp", label: "DMV", caption: "Government services · conceptual future implementation" },
+  { at: 26.0, src: "/physical/ai-lady-classroom.webp", label: "Classroom", caption: "Education · teacher-led" },
+] as const;
+
+/** Slide 22 — the AI Lady on displays in four environments, presented as one connected network. */
+function AiLadyScenes({ time }: { time: number }) {
+  const current = AI_LADY_SCENES.reduce((found, scene, i) => (time >= scene.at ? i : found), 0);
+  return (
+    <div className="pointer-events-none fixed inset-0 bg-[#07101a]">
+      {AI_LADY_SCENES.map((scene, i) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={scene.src}
+          src={scene.src}
+          alt={`AI civic assistant on a connected display — ${scene.label}`}
+          className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-1000 ${i === current ? "scale-105 opacity-100" : "scale-100 opacity-0"}`}
+          style={{ transitionDuration: i === current ? "1000ms, 6000ms" : "1000ms, 1000ms" }}
+        />
+      ))}
+      <div className="absolute inset-x-0 top-0 h-48 bg-[linear-gradient(180deg,rgba(7,16,26,0.9),transparent)]" />
+      <div className="absolute left-6 top-6 max-w-[calc(100vw-7rem)] text-left sm:left-10 sm:top-8">
+        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#9beaff] sm:text-xs">One connected network</p>
+        <p className="mt-2 font-display text-[clamp(1.4rem,3vw,2.4rem)] font-semibold tracking-[0.02em] text-[#f4f2ec]">{AI_LADY_SCENES[current].label}</p>
+        <p className="mt-1 text-sm text-[#a9bcc8]">{AI_LADY_SCENES[current].caption}</p>
+        <ol className="mt-4 flex items-center gap-2" aria-hidden="true">
+          {AI_LADY_SCENES.map((scene, i) => (
+            <li key={scene.src} className={`h-1.5 rounded-full transition-all duration-700 ${i <= current ? "w-10 bg-[#01c7f3]" : "w-5 bg-white/25"}`} />
+          ))}
+        </ol>
+      </div>
+    </div>
+  );
+}
+
 export function PhysicalInfrastructureCues() {
   return (
     <VoiceoverCues
       cues={[
+        // 11.17.26 editor cue: the same AI Lady across four connected environments, then the Phase One teaser.
+        { src: colinTrack("c22a"), from: 10.9, to: 31.5, render: (p) => <AiLadyScenes time={10.9 + p * 20.6} /> },
         { src: colinTrack("c22a"), from: 31.5, to: Number.POSITIVE_INFINITY, render: () => (
           <div className="text-center">
             <p className="text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-[#9beaff]">Coming up</p>
