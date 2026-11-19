@@ -7,6 +7,8 @@ export const viralFusionDeck = [
   // title card. Their components and media remain in the codebase.
   { id: "tulsi-intro", title: "From Promises to Action" },
   { id: "colin-intro", title: "Colin Heaton — Personal Introduction" },
+  // VF_Pres_11.17.26 (rev 2): George's introduction video moves to Slide 3, right after Colin.
+  { id: "inspiration", title: "Introduction" },
   { id: "agenda", title: "Our Agenda" },
   { id: "problems", title: "Problems — Insulation & Noise" },
   { id: "competition", title: "01 — The Competition for Power" },
@@ -16,10 +18,9 @@ export const viralFusionDeck = [
   { id: "global-incentives", title: "04 — Global Incentives" },
   { id: "what-we-learned", title: "Beneath the Noise — What We Learned" },
   { id: "executing-vision", title: "Executing the Vision" },
-  { id: "inspiration", title: "Introduction" },
   { id: "mission-vision", title: "Mission & Vision" },
   { id: "five-pillars", title: "Five Pillars" },
-  { id: "founder", title: "Founder Principle" },
+  // 11.18.26: the Founder Principle quote (former Slide 15) is replaced — Five Pillars leads into the Operation System.
   { id: "operating-system", title: "Operating System" },
   { id: "viral-fusion", title: "Viral Fusion" },
   { id: "solving", title: "The Problems We’re Solving" },
@@ -27,9 +28,7 @@ export const viralFusionDeck = [
   { id: "civic-os", title: "Civic Operating System" },
   { id: "physical-infrastructure", title: "Physical Infrastructure" },
   { id: "strategic-alliance", title: "The Strategic Alliance" },
-  // VF_Pres_11.17.26 Slide 24 — The Architecture Comes Together (Part One) and Why Action Matters (Part Two)
-  { id: "architecture", title: "The Architecture Comes Together" },
-  { id: "need-for-action", title: "Why the Need for Action Matters" },
+  // VF_Pres_11.18.26 strikes Slide 18 onward ("The Architecture Comes Together"); George will provide new content.
   { id: "blueprint", title: "The Blueprint" },
   { id: "what-if", title: "What If? — A Podcast Execution Engine" },
   { id: "podcast-strategy", title: "The Podcast Becomes the Strategy" },

@@ -12,7 +12,6 @@ const earlierVoiceovers: Partial<Record<ViralFusionSlideId, readonly string[]>> 
   networks: ["/voices/george/slide11.mp3"],
   "what-we-learned": ["/voices/george/slide13.mp3"],
   "five-pillars": ["/voices/george/slide14.mp3"],
-  founder: ["/voices/george/slide24.mp3"],
   solving: ["/voices/george/slide28.mp3"],
   republic: ["/voices/george/slide29.mp3"],
   "civic-os": ["/voices/george/slide30.mp3"],

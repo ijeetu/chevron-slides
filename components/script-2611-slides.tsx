@@ -106,11 +106,61 @@ export function ExecutingVisionSlide() {
 const george = (file: string) => `/voices/george-2611/${file}.mp3`;
 const colinTrack = (file: string) => `/voices/colin-2611/${file}.mp3`;
 
-/** Slide 10 — the long game: persistence → influence as George says it. */
+/**
+ * 11.17.26 (rev 2): a photo for each example as Colin names it (seconds into c10a).
+ * Rockets: SpaceX (CC0). Ghost X: U.S. Army photo (public domain). Musk: U.S. Air Force photo (public domain).
+ * The AI data center, orbital data center and Warhound images are illustrative renders.
+ */
+const LONG_GAME_EXAMPLES = [
+  { at: 7.1, src: "/long-game/ai-at-scale.webp", title: "Artificial intelligence at scale", caption: "OpenAI · Google DeepMind · Anthropic · xAI · Meta", note: "Illustrative" },
+  { at: 9.3, src: "/long-game/reusable-rockets.webp", title: "Reusable rockets", caption: "SpaceX Falcon Heavy side boosters landing, 2018", note: "Photo: SpaceX" },
+  { at: 11.0, src: "/long-game/anduril-ghost-x.webp", title: "Autonomous systems", caption: "Anduril Ghost X at Redstone Arsenal", note: "Photo: U.S. Army" },
+  { at: 12.6, src: "/long-game/space-data-center.webp", title: "Private space infrastructure", caption: "AI data centers in orbit", note: "Concept render" },
+  { at: 14.4, src: "/mainslides/VF1.jpg", title: "Software transforming government", caption: "Viral Fusion — connecting voices into engines for change", note: "" },
+  { at: 16.7, src: "/long-game/warhound.webp", title: "Entire industries rebuilt around technology", caption: "Warhound — advanced canine genetics & cybernetics (Colossal Biosciences · Anduril)", note: "Illustrative" },
+] as const;
+
+function LongGameExamples({ time }: { time: number }) {
+  const current = LONG_GAME_EXAMPLES.reduce((found, item, i) => (time >= item.at ? i : found), 0);
+  const people = time >= 20.0;
+  return (
+    <div className="pointer-events-none fixed inset-0 bg-[#07101a]">
+      {LONG_GAME_EXAMPLES.map((item, i) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img key={item.src} src={item.src} alt={item.title} className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${!people && i === current ? "opacity-100" : "opacity-0"}`} />
+      ))}
+      <div className={`absolute inset-0 flex items-center justify-center bg-[#07101a] px-6 transition-opacity duration-700 ${people ? "opacity-100" : "opacity-0"}`}>
+        <div className="flex max-w-4xl flex-col items-center gap-8 text-center md:flex-row md:text-left">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/long-game/elon-musk.webp" alt="Elon Musk" className="h-[min(52vh,26rem)] rounded-[1.4rem] border border-[#9beaff]/30 object-cover shadow-[0_24px_60px_rgba(0,0,0,0.45)]" />
+          <div>
+            <p className="text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-[#9beaff] sm:text-xs">Decades pursuing ideas others doubted</p>
+            <p className="mt-3 font-display text-[clamp(2rem,4.6vw,4rem)] font-semibold leading-none tracking-[-0.03em] text-[#f4f2ec]">Elon Musk</p>
+            <p className="mt-3 text-sm text-[#a9bcc8]">SpaceX · Tesla · Starlink · xAI</p>
+            <p className="mt-6 text-[0.65rem] uppercase tracking-[0.2em] text-white/40">Photo: U.S. Air Force</p>
+          </div>
+        </div>
+      </div>
+      {!people ? (
+        <>
+          <div className="absolute inset-x-0 top-0 h-48 bg-[linear-gradient(180deg,rgba(7,16,26,0.9),transparent)]" />
+          <div className="absolute left-6 top-6 max-w-[calc(100vw-7rem)] sm:left-10 sm:top-8">
+            <p className="font-display text-[clamp(1.5rem,3.4vw,2.8rem)] font-semibold tracking-[-0.01em] text-[#f4f2ec]">{LONG_GAME_EXAMPLES[current].title}</p>
+            <p className="mt-1 text-sm text-[#cfe3ec]">{LONG_GAME_EXAMPLES[current].caption}</p>
+            {LONG_GAME_EXAMPLES[current].note ? <p className="mt-1 text-[0.65rem] uppercase tracking-[0.2em] text-white/45">{LONG_GAME_EXAMPLES[current].note}</p> : null}
+          </div>
+        </>
+      ) : null}
+    </div>
+  );
+}
+
+/** Slide 10 — the long game: example photos as Colin names them, then persistence → influence as George says it. */
 export function LongGameCues() {
   return (
     <VoiceoverCues
       cues={[
+        { src: colinTrack("c10a"), from: 7.1, to: 26.2, render: (p) => <LongGameExamples time={7.1 + p * 19.1} /> },
         // span set so each step lands as George says it (28.7s, 31.1s, 33.2s, 34.1s; 11.16.26 "their vision" adds 0.1s)
         { src: george("s10a"), from: 28.5, to: 34.1 + 1.6, render: (p) => <CueSteps steps={["PERSISTENCE", "CAPABILITY", "SCALE", "INFLUENCE"]} progress={p * (7.2 / 5.6)} /> },
       ]}
@@ -149,64 +199,11 @@ export function TechnologicalPowerCues() {
   );
 }
 
-/** Example cards, each revealed at its own second into the cue. */
-function ExampleCards({ eyebrow, cards, elapsed }: { eyebrow?: string; cards: readonly { at: number; title: string; example: string }[]; elapsed: number }) {
-  return (
-    <div className="mx-auto max-w-6xl text-center">
-      {eyebrow ? <p className="mb-6 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-[#9beaff] sm:text-xs">{eyebrow}</p> : null}
-      <ul className="grid gap-4 sm:grid-cols-3">
-        {cards.map((card) => (
-          <li
-            key={card.title}
-            className={`rounded-2xl border border-[#9beaff]/25 bg-[#0d1d2b]/85 px-6 py-6 text-left shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition-[opacity,transform] duration-500 ${elapsed >= card.at ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
-          >
-            <p className="font-display text-[clamp(1.05rem,2vw,1.7rem)] font-semibold tracking-[0.04em] text-[#f4f2ec]">{card.title}</p>
-            <p className="mt-3 text-[clamp(0.85rem,1.3vw,1.05rem)] leading-relaxed text-[#a9bcc8]">{card.example}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-/** Slide 12 — networks compound power. */
+/** Slide 12 — networks compound power. 11.17.26 (rev 2): the lead-in narration and its examples are removed; the video plays after the title. */
 export function NetworkCues() {
-  const s12a = george("s12a");
-  const c12a = colinTrack("c12a");
-  // 11.16.26: examples on screen to strengthen the section (times are seconds into each take).
-  const compound = { from: 1.7, to: 7.0 };
-  const serve = { from: 10.4, to: 15.5 };
-  const ecosystem = { from: 3.8, to: 13.2, at: [0.2, 1.2, 2.2, 3.9, 5.0, 6.2, 7.6] };
   return (
     <VoiceoverCues
       cues={[
-        { src: s12a, from: compound.from, to: compound.to, render: (p) => (
-          <ExampleCards eyebrow="How technology companies compound power" elapsed={p * (compound.to - compound.from)} cards={[
-            { at: 0.2, title: "INNOVATION", example: "SpaceX made rockets reusable, cutting the cost of reaching orbit." },
-            { at: 1.3, title: "CAPITAL", example: "Private investment now funds frontier AI at the scale of national budgets." },
-            { at: 2.2, title: "INFRASTRUCTURE", example: "Starlink's satellite network delivers connectivity almost anywhere on Earth." },
-          ]} />
-        ) },
-        { src: s12a, from: serve.from, to: serve.to, render: (p) => (
-          <ExampleCards eyebrow="Those capabilities can do extraordinary things" elapsed={p * (serve.to - serve.from)} cards={[
-            { at: 0.2, title: "STRENGTHEN OUR MILITARY", example: "Anduril autonomous defense systems · Palantir battlefield software" },
-            { at: 1.5, title: "SUPPORT LAW ENFORCEMENT", example: "Body cameras and digital evidence systems used by police nationwide" },
-            { at: 3.2, title: "PROTECT OUR COMMUNITIES", example: "Starlink restoring connectivity to disaster zones" },
-          ]} />
-        ) },
-        { src: c12a, from: ecosystem.from, to: ecosystem.to, render: (p) => (
-          <CueSteps eyebrow="Political influence can compound too" steps={["FOUNDATIONS", "DONORS", "ADVOCACY ORGANIZATIONS", "LEGAL GROUPS", "MEDIA", "RESEARCH INSTITUTIONS", "POLITICAL NETWORKS"]} progress={atTimes(ecosystem.at, ecosystem.to - ecosystem.from)(p)} />
-        ) },
-        { src: c12a, from: 13.2, to: 19.6, render: (p) => (
-          <CueSteps eyebrow="An ecosystem capable of shaping" steps={["PUBLIC DEBATE", "PUBLIC POLICY", "INSTITUTIONAL PRIORITIES"]} progress={atTimes([2.0, 3.2, 4.4], 6.4)(p)} />
-        ) },
-        { src: c12a, from: 19.9, to: 39.6, render: (p) => (
-          <ExampleCards eyebrow="One of the most debated examples" elapsed={p * 19.7} cards={[
-            { at: 3.2, title: "GEORGE SOROS · OPEN SOCIETY FOUNDATIONS", example: "One of the world's largest private funders of civil-society groups" },
-            { at: 6.2, title: "SUPPORTERS SEE", example: "Philanthropy advancing democracy, civil society and human rights" },
-            { at: 13.5, title: "CRITICS SEE", example: "A long-term architecture of political and institutional influence" },
-          ]} />
-        ) },
         { src: george("s12b"), from: 11.0, to: 20.2, render: (p) => (
           <CueSteps eyebrow="Networks compound power" steps={["INSTITUTIONS", "MEDIA", "LAW", "POLITICS", "RESEARCH", "ORGANIZED ACTION"]} progress={p * (9.2 / 6.6)} />
         ) },
@@ -280,6 +277,8 @@ export function PhysicalInfrastructureCues() {
             <p className="mt-3 text-sm text-[#a9bcc8]">Locations and rollout strategy to follow</p>
           </div>
         ) },
+        // 11.18.26: "It is permanence." on screen as George says it (2.9s into s22c).
+        { src: george("s22c"), from: 2.9, to: Number.POSITIVE_INFINITY, render: () => <CueStatement eyebrow="Bigger than distribution">It is permanence.</CueStatement> },
       ]}
     />
   );
@@ -330,13 +329,26 @@ export function StrategicAllianceCues() {
   return (
     <VoiceoverCues
       cues={[
-        { src: colinTrack("c23a"), from: 38.7, to: Number.POSITIVE_INFINITY, render: () => hub },
+        // 11.18.26 order: Colin c23a → George g23n → Colin c23e → George g23a, g23b → Colin c23b → George g23d → Colin c23d → George g23f, g23c → Colin c23c → George g23e
+        { src: george("g23n"), from: 0, to: Number.POSITIVE_INFINITY, render: () => hub },
+        { src: colinTrack("c23e"), from: 0, to: Number.POSITIVE_INFINITY, render: () => hub },
         { src: george("g23a"), from: 0, to: Number.POSITIVE_INFINITY, render: () => resilience(false) },
-        { src: george("g23b"), from: 0, to: 11.8, render: () => resilience(false) },
-        { src: george("g23b"), from: 11.8, to: Number.POSITIVE_INFINITY, render: () => resilience(true) },
-        { src: colinTrack("c23c"), from: 20.3, to: Number.POSITIVE_INFINITY, render: (p) => (
+        { src: george("g23b"), from: 0, to: Number.POSITIVE_INFINITY, render: () => resilience(false) },
+        { src: colinTrack("c23b"), from: 0, to: 8.9, render: () => resilience(false) },
+        // "Think about the countries that blocked X…"
+        { src: colinTrack("c23b"), from: 8.9, to: Number.POSITIVE_INFINITY, render: () => resilience(true) },
+        { src: george("g23d"), from: 0, to: Number.POSITIVE_INFINITY, render: () => resilience(true) },
+        { src: colinTrack("c23d"), from: 0, to: 7.7, render: () => resilience(false) },
+        // "The other ensures the infrastructure can endure."
+        { src: colinTrack("c23d"), from: 7.7, to: Number.POSITIVE_INFINITY, render: () => resilience(true) },
+        { src: george("g23f"), from: 0, to: Number.POSITIVE_INFINITY, render: () => <CueStatement eyebrow="Together">Scale without dependency.</CueStatement> },
+        { src: george("g23c"), from: 0, to: Number.POSITIVE_INFINITY, render: () => <CueStatement eyebrow="Scaling globally">Without surrendering its independence.</CueStatement> },
+        { src: colinTrack("c23c"), from: 1.5, to: Number.POSITIVE_INFINITY, render: (p) => (
+          <CueSteps eyebrow="The bottom line" steps={["PUBLIC PARTICIPATION", "VERIFIED PUBLIC DEMAND", "LAWFUL ACTION"]} progress={atTimes([0.1, 1.9, 7.4], 15.45)(p)} />
+        ) },
+        { src: george("g23e"), from: 3.2, to: Number.POSITIVE_INFINITY, render: (p) => (
           <div className="text-center">
-            <CueSteps steps={["VOICE", "VERIFICATION", "ACTION"]} progress={p * (6.3 / 2.6)} />
+            <CueSteps steps={["VOICE", "VERIFICATION", "ACTION"]} progress={atTimes([0.1, 1.2, 2.5], 5.54)(p)} />
             <p className="mt-5 font-display text-[clamp(1rem,2.2vw,1.6rem)] font-semibold tracking-[0.12em] text-[#9beaff]">DISTRIBUTION + RESILIENCE</p>
           </div>
         ) },

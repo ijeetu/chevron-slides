@@ -39,7 +39,6 @@ import { RevisedCivicConnectivitySlide, RevisedStrategicAllianceSlide, RevisedBl
 import { RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
 import { CivicOsDiagramSlide } from "@/components/civic-os-diagram-slide";
 import { useVoiceoverPosition } from "@/components/voiceover-cues";
-import { ArchitectureSlide, NeedForActionSlide } from "@/components/architecture-slides";
 import { ColinIntroSlide, ExecutingVisionSlide, LongGameCues, NetworkCues, PhysicalInfrastructureCues, StrategicAllianceCues, TechnologicalPowerCues, WeBuildItCue } from "@/components/script-2611-slides";
 import { namedHashMatchesSlide, pageFromHash, slideIndex, standaloneSlideDestination, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
@@ -2060,24 +2059,6 @@ function MissionVisionSlide() {
   );
 }
 
-function FounderQuoteSlide() {
-  return (
-    <section className="relative flex h-full w-full items-center justify-center overflow-hidden text-[#f7f8f8]">
-
-      <Image
-        src="/mainslides/BG2-optimized.webp"
-        alt="George Partsch IV on rebuilding trusted institutions"
-        width={2200}
-        height={930}
-        priority
-        sizes="90vw"
-        quality={88}
-        className="relative h-auto max-h-[82vh] w-[90%] object-contain"
-      />
-    </section>
-  );
-}
-
 function SimpleRepublicSlide() {
   return (
     <section className="relative flex h-full w-full items-center justify-center overflow-hidden text-white">
@@ -2393,7 +2374,18 @@ function FivePillarsLeadIn() {
   const position = useVoiceoverPosition();
   if (position?.src !== "/voices/colin-2611/c18.mp3") return null;
   const opacity = Math.max(0, Math.min(1, 1 - (position.time - 0.8) / 2.6));
-  if (opacity <= 0) return null;
+  // 11.18.26: then "High Level Overview" on screen; it fades as George begins and the Five Pillars creative appears.
+  if (opacity <= 0) {
+    if (position.time < 4.0) return null;
+    return (
+      <div className="pointer-events-none fixed inset-0 z-20 flex items-center justify-center bg-[#07101a]/85 backdrop-blur-sm motion-safe:animate-[fadeIn_.6s_ease-out]">
+        <div className="text-center">
+          <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[#9beaff] sm:text-xs">The Blueprint</p>
+          <p className="mt-4 font-display text-[clamp(2.4rem,6.4vw,6rem)] font-semibold leading-none tracking-[-0.035em] text-[#f4f2ec]">High Level Overview</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="pointer-events-none fixed inset-0 z-20" style={{ opacity }}>
       <MagaPage />
@@ -2982,6 +2974,13 @@ export function LibraryPage() {
     if (window.location.hash !== hash) window.history.replaceState(null, "", hash);
   }, [currentPage, hasResolvedInitialHash, activeSlide.id]);
 
+  // VF_Pres_11.18.26 Slide 14: "Operation System" holds for 2 seconds, then moves into Viral Fusion and its voiceover.
+  useEffect(() => {
+    if (activeSlide.id !== "operating-system" || activeVideoEmbedUrl) return;
+    const timer = window.setTimeout(() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1)), 2000);
+    return () => window.clearTimeout(timer);
+  }, [activeSlide.id, activeVideoEmbedUrl, totalPages]);
+
   useEffect(() => {
     document.documentElement.dataset.resourcesTone = isLightSlide ? "light" : "dark";
     return () => { delete document.documentElement.dataset.resourcesTone; };
@@ -3012,7 +3011,6 @@ export function LibraryPage() {
       case "executing-vision": return <ExecutingVisionSlide />;
       case "five-pillars": return <><RevisedFivePillarsSlide /><FivePillarsLeadIn /></>;
       case "inspiration": return <IntroVideoSlide />;
-      case "founder": return <FounderQuoteSlide />;
       case "operating-system": return <SectionTitleSlide title="Operating System" />;
       case "viral-fusion": return <ViralFusionEarthSlide />;
       case "mission-vision": return <MissionVisionSlide />;
@@ -3021,8 +3019,6 @@ export function LibraryPage() {
       case "civic-os": return <CivicOsDiagramSlide />;
       case "physical-infrastructure": return <><RevisedCivicConnectivitySlide /><PhysicalInfrastructureCues /></>;
       case "strategic-alliance": return <><RevisedStrategicAllianceSlide /><StrategicAllianceCues /></>;
-      case "architecture": return <ArchitectureSlide />;
-      case "need-for-action": return <NeedForActionSlide />;
       case "blueprint": return <RevisedBlueprintSlide />;
       case "what-if": return <WhatIfSlide onContinue={() => setCurrentPage(slideIndex("podcast-strategy"))} />;
       case "podcast-strategy": return <PodcastStrategySlide onContinue={() => setCurrentPage(slideIndex("mo-gawdat"))} />;

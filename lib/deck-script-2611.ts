@@ -1,7 +1,7 @@
 import type { ViralFusionSlideId } from "./viral-fusion-deck";
 
 /**
- * Spoken script for slides 3–22 of "VF_Pres_11.08.26.docx" (From Promises to Action),
+ * Spoken script (revised through VF_Pres_11.18.26) for slides 3–22 of "VF_Pres_11.08.26.docx" (From Promises to Action),
  * with the 11.9.26 revision of Colin's introduction.
  *
  * Each slide lists its spoken segments in order. A segment with `src` has audio and
@@ -30,7 +30,7 @@ const colin = (file: string | readonly string[], text: string): ScriptSegment =>
 export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptSegment[]>> = {
   "colin-intro": [
     colin("c03", "I'm Colin Heaton. I'm a military historian, author, former professor, and veteran of the United States Army and Marine Corps. For decades, I've studied history, interviewed veterans, and worked to preserve the stories and lessons of the past. Helping to bring those stories to new audiences. Today, I'm here supporting a fellow Patriot."),
-    colin("c04", "I usually tell the stories of history. Today, we have an opportunity to help make it. The challenges facing our society are extraordinary. And we're going to examine them. Because before we can change the future, we must understand the problems we're trying to solve."),
+    colin("c04", "I usually tell the stories of history. Today, we have an opportunity to help make it."),
   ],
   agenda: [
     // 11.16.26: "Our agenda." in Colin's voice, leading into his walk through the four sections
@@ -55,20 +55,18 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
     colin("c11b", "And that leads to a harder question. If the technology exists— the capital exists— the talent exists— and powerful institutions recognize the need for change— why is changing the system itself still so difficult? Because technology is only one layer of power. Behind public policy sits another architecture. Donors. Foundations. Advocacy organizations. Political networks. Media. Legal institutions. Private capital. And competing centers of influence. Technology may determine what is possible. But networks can determine what becomes funded, permitted, adopted, and institutionalized. Which brings us to another form of power. The network."),
   ],
   networks: [
-    g("s12a", "Technology companies demonstrate how innovation— capital— and infrastructure— can compound power. And those capabilities can do extraordinary things. Strengthen our military. Support law enforcement. Protect our communities. But technological power is only part of the picture."),
-    colin("c12a", "Political influence can compound too. Over decades— foundations— donors— advocacy organizations— legal groups— media— research institutions— and political networks— can form an ecosystem capable of shaping public debate— public policy— and institutional priorities. One of the most debated examples is the network associated with George Soros and the Open Society Foundations. Supporters describe its work as philanthropy advancing democracy— civil society— and human rights. Critics see something more consequential: A long-term architecture of political and institutional influence. This segment examines that argument."),
+    // 11.17.26 (rev 2): the title shows, then the Power of Networks video plays — no lead-in narration.
     { ...g("s12b", "Whatever conclusion you draw about Soros himself— the larger lesson matters. Networks compound power. Capital alone is powerful. But connect it to— Institutions. Media. Law. Politics. Research. And organized action. It becomes something much larger. It becomes durable. Distributed. And capable of influencing decisions long after any single election— or individual— is gone."), afterVideo: true },
-    colin("c12b", "Power is not only held by people. It is embedded in networks. And this is where the balance of power can change. Because historically— building influence at this scale took decades. But what happens when technology compresses that timeline? What happens when citizens can— Organize. Understand. Create change. And pursue lawful reform— faster than traditional institutions were designed to operate?"),
+    colin("c12b", "And this is where the balance of power can change. Because historically— building influence at this scale took decades. But what happens when technology compresses that timeline? What happens when citizens can— Organize. Understand. Create change. And pursue lawful reform— faster than traditional institutions were designed to operate?"),
     g("s12c", "Then the advantage of established networks could begin to weaken. Not because one powerful network replaces another— but because citizens gain infrastructure of their own."),
-    colin("c12c", "And when networks cross borders— connecting capital— policy— technology— and institutions— the scale changes again. Because beyond domestic influence— the competition becomes global. And so does the opportunity."),
     // 11.17.26: "Because our vision is global too." removed
   ],
   "global-incentives": [
-    colin("c13", "Political networks are one layer. But beyond domestic politics, the forces become global. In the next video, Andrei Jikh explores four competing explanations for how some of these forces may be interacting. Iranian economic warfare. Transnational capital. American energy strategy. And a geopolitical interpretation shaped by religious prophecy. Different actors. Different motives. Different theories. But one question connects them: What happens when powerful interests pursue their own objectives—and those interests collide? And what happens to ordinary people caught in the middle? This is not one prediction. It is a map of competing incentives. Let's watch."),
+    colin("c13", "Political networks are one layer. But beyond domestic politics, the forces become global. In the next video, Andrei Jikh explores four competing explanations for how some of these forces may be interacting. Iranian economic warfare. Transnational capital. American energy strategy. And a geopolitical interpretation shaped by religious prophecy. Different actors. Different motives. Different theories. Let's watch."),
   ],
   "what-we-learned": [
     // 11.17.26: Colin's "Pull back…" recap removed
-    g("s14a", "We went beneath the noise. Not simply to expose problems. To identify what is missing. If capital can organize— If industries can organize— If political networks can organize— And if technology can organize— Then We the People need infrastructure capable of organizing too. Not merely to complain. To understand. To verify. To coordinate. To participate. And ultimately— To act. Because our Republic cannot be preserved by promises alone. It requires action."),
+    g("s14a", "We went beneath the noise. Not simply to expose problems. To identify what is missing. If capital can organize— If industries can organize— If political networks can organize— And if technology can organize— Then We the People need infrastructure capable of organizing too. Because our Republic cannot be preserved by promises alone. It requires action."),
     colin("c14b", "So the question becomes— How do citizens gain meaningful agency over what comes next?"),
     g("s14b", "We build it."),
   ],
@@ -88,49 +86,44 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
     g("s18a", "Look at the board. Technology. Connectivity. Sustainability. Media Rails. A Powerful Ecosystem. Individually— they are capabilities. Connected— they become infrastructure. Technology creates capability. Connectivity creates scale. Sustainability creates longevity. Media Rails create understanding and distribution. And the ecosystem brings together the people— capital— institutions— and expertise— required to turn opportunity into action. Because— action is the ultimate currency of freedom."),
     g("s18b", "Every pillar serves one objective: Shorten the distance between public voice and lawful action. Deploy. Integrate. Build new rails. Scale. And as these pillars work together— citizens become participants in shaping what comes next. This is the Blueprint from a high level."),
   ],
-  "operating-system": [
-    g("s19", "Our operation system."),
-  ],
+  // 11.18.26: "Our operation system." removed — the slide holds 2 seconds, then Viral Fusion follows.
   "viral-fusion": [
     g("s20", "We call it Viral Fusion. And it will connect voices and power change. However, Phase 1 has a different priority."),
   ],
+  // 11.18.26: Colin and George alternate; George's "But when official elections are involved…" lead-in removed.
   "civic-os": [
     colin("c21", "Phase One begins with a Civic Operating System built around three core functions. First — Verify the Citizen. Second — Capture the Public Will. Record legitimate participation and real-time public sentiment. Third — Verify the Signal. Anchor defined events through tamper-evident digital records, creating an auditable record of public demand."),
-    g("s21a", "But when official elections are involved— there is a higher standard. Citizens should never be asked to blindly trust software. The technology should support the election— not replace the safeguards around it. That means: paper ballots for the physical record— secure digital rails for verification and traceability— and independent parallel audits for accountability. Three layers. One purpose: make the result independently verifiable."),
-    g("s21b", "Paper provides the physical record. Digital systems help establish integrity and traceability. Independent audits challenge both. The goal is not blind trust. It is verifiable trust. And paper is not the ideology. Verification is."),
+    g("s21a", "That means: paper ballots for the physical record— secure digital rails for verification and traceability— and independent parallel audits for accountability."),
+    colin("c21b", "Three layers. One purpose: make the result independently verifiable."),
+    g("s21b", "Paper provides the physical record. Digital systems help establish integrity and traceability. Independent audits challenge both."),
+    colin("c21c", "The goal is not blind trust. It is verifiable trust. And paper is not the ideology. Verification is."),
     g("s21c", "Because one day— technology may meet a higher standard of: security— privacy— accessibility— auditability— and public confidence than paper can provide on its own. Our architecture is designed for that future. The objective is not simply to digitize the old system. It is to replace outdated processes with something more secure— more efficient— more verifiable— and ultimately more participatory. Paper is the bridge. Verification is the standard. And the architecture is designed to evolve. And it will."),
   ],
+  // 11.18.26: speakers alternate — Colin takes the commercial engine and resilience lead-in, George "That is the model" and the close.
   "physical-infrastructure": [
     colin("c22a", "Digital participation is one layer. But meaningful reach requires infrastructure beyond the screen in someone's hand. A distributed network of intelligent, connected assets— positioned where people already live, work, travel, and gather. These are more than advertising displays. They are designed to become physical gateways into the civic ecosystem. Bringing public-interest information into everyday environments— connecting citizens to digital participation— and extending the platform's reach into the physical world."),
-    g("s22a", "And this is where ownership matters. If we control the physical infrastructure— we control the environment. The distribution. The integration. The user experience. And the applications built on top of it. That creates a commercial engine around the civic layer: advertising— media— enterprise services— brand partnerships— data and analytics— and future AI applications."),
-    g("s22b", "The objective is not infrastructure dependent on donations— grants— or one political cycle. The commercial engine helps finance the public infrastructure. It maintains it. Expands it. Upgrades it. And gives the system an economic reason to endure."),
-    colin("c22b", "That is the model. A physical civic network supported by commercial activity— designed to sustain itself beyond any single campaign, platform, or political moment."),
-    g("s22c", "And that brings us to the final reason this physical layer matters: resilience. A civic system this important should not disappear because: one platform changes its rules— restricts access— loses relevance— or shuts down. So the objective is bigger than distribution. It is permanence. A durable physical foundation— connected to digital systems— commercially sustainable— and resilient enough to support a new civic era."),
+    g("s22a", "And this is where ownership matters. If we control the physical infrastructure— we control the environment. The distribution. The integration. The user experience. And the applications built on top of it."),
+    colin("c22b", "That creates a commercial engine around the civic layer: advertising— media— enterprise services— brand partnerships— data and analytics— and future AI applications. The objective is not infrastructure dependent on donations— grants— or one political cycle. The commercial engine helps finance the public infrastructure. It maintains it. Expands it. Upgrades it. And gives the system an economic reason to endure."),
+    g("s22b", "That is the model. A physical civic network supported by commercial activity— designed to sustain itself beyond any single campaign, platform, or political moment."),
+    colin("c22c", "And that brings us to the final reason this physical layer matters: resilience. A civic system this important should not disappear because: one platform changes its rules— restricts access— loses relevance— or shuts down."),
+    g("s22c", "So the objective is bigger than distribution. It is permanence. A durable physical foundation— connected to digital systems— commercially sustainable— and resilient enough to support a new civic era."),
   ],
-  // Slide 23 (11.9.26): Colin's new narration around George's existing recording, split in three.
+  // Slide 17 (11.18.26): Colin and George alternate; the international section is removed.
   "strategic-alliance": [
-    colin("c23a", "The physical layer gives the Civic Operating System a presence in the real world. But participation reaches its full potential when it can move at scale. A strategic alliance with X and xAI could create an extraordinary opportunity— connecting civic participation— real-time information— artificial intelligence— and global distribution. Accelerating understanding. Participation. And adoption. X and xAI represent our preferred strategic alliance. But the extent of that relationship will depend on the vision we share— the capabilities each party brings— and the value we can create together. Viral Fusion is not designed to be dependent on X. The Civic Operating System is intended to operate independently— while supporting integration with other compatible platforms— including Facebook and other distribution networks, where permitted. The partnership strategy can evolve. But the independence of the civic infrastructure remains fundamental."),
-    { speaker: "george", src: "/voices/george-2611/g23a.mp3", text: "But acceleration without resilience creates dependency. And there is one principle we cannot compromise: No civic infrastructure this important should have a single point of failure. Not one company. Not one platform. Not one distribution channel. Not even an extraordinary one." },
-    { speaker: "george", src: "/voices/george-2611/g23b.mp3", text: "That is why the architecture includes a second rail: A Sovereign Parallel Network. Independent. Verifiable. Redundant. Designed to preserve continuity when conventional channels are: disrupted— restricted— unavailable— or simply change. X and xAI give us acceleration. The parallel network gives us resilience. One helps us reach the world. The other ensures the infrastructure can endure. Together— they create scale without dependency." },
-    colin("c23b", "And that independence becomes even more important as the architecture expands internationally. Different countries. Different laws. Different cultures. Different risks. But one shared challenge: How can lawful public participation remain accessible when the environment around it becomes unstable? Technology can amplify a voice. But reaching people is not enough. The infrastructure carrying that voice must also be designed to remain available— verifiable— and resilient— when it matters most."),
-    { speaker: "george", src: "/voices/george-2611/g23c.mp3", text: "Every nation will require its own safeguards. Its own legal framework. Its own implementation. But the principle travels: lawful public participation should never depend on a single gatekeeper. And lawful public will should have a resilient path to be heard. That is how a civic platform becomes something larger. Not merely national infrastructure. An architecture capable of scaling globally—without surrendering its independence." },
-    colin("c23c", "The bottom line: Public participation— can become verified public demand. Verified demand— can provide the foundation for lawful action. And distribution and resilience determine how far— and how reliably— that participation can reach. The objective is to dramatically shorten the distance between— voice— verification— and action. At the speed of the digital age."),
+    colin("c23a", "The physical layer gives the Civic Operating System a presence in the real world. But participation reaches its full potential when it can move at scale. A strategic alliance with X and xAI could create an extraordinary opportunity— connecting civic participation— real-time information— artificial intelligence— and global distribution. Accelerating understanding. Participation. And adoption. X and xAI represent our preferred strategic alliance."),
+    g("g23n", "Viral Fusion is not designed to be dependent on X. The Civic Operating System is intended to operate independently— while supporting integration with other compatible platforms— including Facebook and other distribution networks."),
+    colin("c23e", "The partnership strategy can evolve. But the independence of the civic infrastructure remains fundamental."),
+    g("g23a", "But acceleration without resilience creates dependency. And there is one principle we cannot compromise: No civic infrastructure this important should have a single point of failure."),
+    g("g23b", "That is why the architecture includes a second rail: A Sovereign Parallel Network."),
+    colin("c23b", "Designed to preserve continuity when conventional channels are: disrupted— restricted— unavailable— or simply change. Think about the countries that blocked X because of misinformation."),
+    g("g23d", "Now imagine those citizens still having access to Viral Fusion to control and distribute irrefutable data."),
+    colin("c23d", "X and xAI give us acceleration. The parallel network gives us resilience. One helps us reach the world. The other ensures the infrastructure can endure."),
+    g("g23f", "Together— they create scale without dependency."),
+    g("g23c", "An architecture capable of scaling globally—without surrendering its independence."),
+    colin("c23c", "The bottom line: Public participation— can become verified public demand. Verified demand— can provide the foundation for lawful action. And distribution and resilience determine how far— and how reliably— that participation can reach."),
+    g("g23e", "The objective is to dramatically shorten the distance between— voice— verification— and action. At the speed of the digital age."),
   ],
-  // VF_Pres_11.17.26 Slide 24, Part One — what we can build.
-  architecture: [
-    colin("c24", "What we've just outlined is more than an application. It is the foundation of a new civic infrastructure. A Civic Operating System designed to verify the citizen— capture the public will— and establish an auditable record of participation. A physical network designed to bring that technology into everyday life— expanding access— reach— and commercial sustainability. A strategic distribution model that could harness the extraordinary capabilities of X and xAI— while remaining compatible with other platforms. And a Sovereign Parallel Network— designed to preserve essential civic functions— without dependence on any single company, platform, or gatekeeper. Together, these capabilities create the foundation for something greater."),
-    g("s24a", "Think about what this makes possible. A citizen's voice can be authenticated. Their participation can be measured. Their collective will can become visible— and independently verifiable. Not merely another opinion. Not another conversation that disappears tomorrow. A record of who participated, what they expressed, and the public demand that emerges. A record that can be examined. Challenged. And verified. Can you see how powerful this is? And I'm going to show you how we intend to turn that verified public demand into a foundation for organized, lawful action."),
-    g("s24b", "Because the objective was never simply to build another technology platform. It was to give We the People the infrastructure to participate in shaping our future. And what we've outlined is only the beginning. Phase One establishes the foundation. Phase Two is where we intend to turn that foundation into action."),
-  ],
-  // Slide 24, Part Two — why the need for action matters.
-  "need-for-action": [
-    g("s24c", "Why keep depending on Washington to deliver the change our country needs?"),
-    g("s24d", "Election confidence remains a serious issue. Americans disagree about how elections should be administered— how voting systems should be verified— and what safeguards are necessary to earn public trust."),
-    g("s24e", "The future belongs to We the People. It's time we provide the tools that empower those with the best ideas to help shape it."),
-    g("s24f", "Immigration is another example of how expectations, government policy, and actual outcomes can diverge. Presidents make commitments. Then policies change."),
-    g("s24g", "Whatever our political differences, we cannot place the entire future of our Republic in the hands of any single president, party, or institution. We now have technological capabilities previous generations could scarcely imagine. The question is whether we are prepared to put them to work."),
-    g("s24h", "Our Republic was never meant to survive on promises alone. Its future depends on what its people are willing to do to preserve it."),
-  ],
+  // 11.18.26: Slide 18 onward ("The Architecture Comes Together" and "Why the Need for Action Matters") is struck — George will provide new content.
 };
 
 /** Audio tracks for a slide, in script order, skipping segments still waiting for a recording. */

@@ -11,7 +11,8 @@ import { useVoiceoverPosition } from "@/components/voiceover-cues";
  * each voiceover track. Phase Two (petitions, recalls, referenda) is deliberately not
  * shown on this slide.
  */
-const TRACKS = ["/voices/colin-2611/c21.mp3", "/voices/george-2611/s21a.mp3", "/voices/george-2611/s21b.mp3", "/voices/george-2611/s21c.mp3"];
+// VF_Pres_11.18.26: Colin and George alternate (c21 → s21a → c21b → s21b → c21c → s21c).
+const TRACKS = ["c21", "s21a", "c21b", "s21b", "c21c", "s21c"].map((f) => `/voices/${f.startsWith("c") ? "colin" : "george"}-2611/${f}.mp3`);
 
 function useStage() {
   const position = useVoiceoverPosition();
@@ -23,14 +24,16 @@ function useStage() {
     will: after(0, 7.6),
     signal: after(0, 14.1),
     election: after(1, 0),
-    paper: after(1, 13.5),
-    rails: after(1, 16.2),
-    audits: after(1, 19.8),
-    trust: after(2, 8.7),
-    qualities: [3.8, 5.0, 6.3, 7.4, 9.0].map((at) => after(3, at)),
-    conclusion: after(3, 27.8),
+    paper: after(1, 0.6),
+    rails: after(1, 3.4),
+    audits: after(1, 6.7),
+    // Colin: "It is verifiable trust."
+    trust: after(4, 2.5),
+    qualities: [3.8, 5.0, 6.3, 7.4, 9.0].map((at) => after(5, at)),
+    // "Paper is the bridge." (0.9s pause added before it)
+    conclusion: after(5, 28.7),
     // which election layer George is describing right now
-    focus: track === 1 ? (t >= 19.8 ? 2 : t >= 16.2 ? 1 : t >= 13.5 ? 0 : -1) : -1,
+    focus: track === 1 ? (t >= 6.7 ? 2 : t >= 3.4 ? 1 : t >= 0.6 ? 0 : -1) : -1,
   };
 }
 
