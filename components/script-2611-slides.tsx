@@ -243,7 +243,7 @@ function AiLadyScenes({ time }: { time: number }) {
           key={scene.src}
           src={scene.src}
           alt={`AI civic assistant on a connected display — ${scene.label}`}
-          className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-1000 ${i === current ? "scale-105 opacity-100" : "scale-100 opacity-0"}`}
+          className={`absolute inset-0 h-full w-full object-cover object-[72%_50%] transition-[opacity,transform] duration-1000 ${i === current ? "scale-105 opacity-100" : "scale-100 opacity-0"}`}
           style={{ transitionDuration: i === current ? "1000ms, 6000ms" : "1000ms, 1000ms" }}
         />
       ))}
