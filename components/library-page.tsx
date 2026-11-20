@@ -1499,9 +1499,9 @@ function ItsAllALieVideoSlide() {
   );
 }
 
-// Full opening chapter ("From Promises to Action", 26 min) hosted on Vimeo.
+// Full opening chapter (slide1_full, 30 min) hosted on Vimeo.
 const OPENING_CHAPTER_VIMEO_URL =
-  "https://player.vimeo.com/video/1247283682?h=2c62d192dc&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1";
+  "https://player.vimeo.com/video/1248776836?h=0289a05b1c&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1";
 
 function TulsiIntroVideoSlide() {
   return (
