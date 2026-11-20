@@ -225,12 +225,11 @@ export function WeBuildItCue() {
 }
 
 
-/** Slide 22 — Phase One teaser at the end of Colin's opening, before George begins. */
 const AI_LADY_SCENES = [
-  { at: 10.9, src: "/physical/ai-lady-mall.webp", label: "Shopping mall", caption: "Public engagement" },
-  { at: 16.4, src: "/physical/ai-lady-office.webp", label: "Office", caption: "Information & services" },
-  { at: 21.5, src: "/physical/ai-lady-dmv.webp", label: "DMV", caption: "Government services · conceptual future implementation" },
-  { at: 26.0, src: "/physical/ai-lady-classroom.webp", label: "Classroom", caption: "Education · teacher-led" },
+  { at: 0, src: "/physical/ai-lady-mall.webp", label: "Shopping mall", caption: "Public engagement" },
+  { at: 4.4, src: "/physical/ai-lady-office.webp", label: "Office", caption: "Information & services" },
+  { at: 8.8, src: "/physical/ai-lady-dmv.webp", label: "DMV", caption: "Government services · conceptual future implementation" },
+  { at: 13.2, src: "/physical/ai-lady-classroom.webp", label: "Classroom", caption: "Education · teacher-led" },
 ] as const;
 
 /** Slide 22 — the AI Lady on displays in four environments, presented as one connected network. */
@@ -267,16 +266,9 @@ export function PhysicalInfrastructureCues() {
   return (
     <VoiceoverCues
       cues={[
-        // 11.17.26 editor cue: the same AI Lady across four connected environments, then the Phase One teaser.
-        { src: colinTrack("c22a"), from: 10.9, to: 31.5, render: (p) => <AiLadyScenes time={10.9 + p * 20.6} /> },
-        { src: colinTrack("c22a"), from: 31.5, to: Number.POSITIVE_INFINITY, render: () => (
-          <div className="text-center">
-            <p className="text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-[#9beaff]">Coming up</p>
-            <p className="mt-3 font-display text-[clamp(2rem,5vw,4rem)] font-semibold tracking-[-0.02em] text-[#f4f2ec]">PHASE ONE</p>
-            <p className="mt-2 font-display text-[clamp(1.1rem,2.6vw,2rem)] font-semibold tracking-[0.04em] text-[#dbe6ec]">HIGH-TRAFFIC DEPLOYMENT NETWORK</p>
-            <p className="mt-3 text-sm text-[#a9bcc8]">Locations and rollout strategy to follow</p>
-          </div>
-        ) },
+        // 11.19.26: the AI Lady scenes run across Colin's "These are more than advertising displays…" (c22a2);
+        // the Phase One teaser that followed them is struck.
+        { src: colinTrack("c22a2"), from: 0, to: Number.POSITIVE_INFINITY, render: (p) => <AiLadyScenes time={p * 17.6} /> },
         // 11.18.26: "It is permanence." on screen as George says it (2.9s into s22c).
         { src: george("s22c"), from: 2.9, to: Number.POSITIVE_INFINITY, render: () => <CueStatement eyebrow="Bigger than distribution">It is permanence.</CueStatement> },
       ]}
@@ -344,7 +336,7 @@ export function StrategicAllianceCues() {
         { src: george("g23f"), from: 0, to: Number.POSITIVE_INFINITY, render: () => <CueStatement eyebrow="Together">Scale without dependency.</CueStatement> },
         { src: george("g23c"), from: 0, to: Number.POSITIVE_INFINITY, render: () => <CueStatement eyebrow="Scaling globally">Without surrendering its independence.</CueStatement> },
         { src: colinTrack("c23c"), from: 1.5, to: Number.POSITIVE_INFINITY, render: (p) => (
-          <CueSteps eyebrow="The bottom line" steps={["PUBLIC PARTICIPATION", "VERIFIED PUBLIC DEMAND", "LAWFUL ACTION"]} progress={atTimes([0.1, 1.9, 7.4], 15.45)(p)} />
+          <CueSteps eyebrow="The bottom line" steps={["PUBLIC PARTICIPATION", "VERIFIED PUBLIC DEMAND", "LAWFUL ACTION"]} progress={atTimes([0.1, 1.9, 8.0], 16.65)(p)} />
         ) },
         { src: george("g23e"), from: 3.2, to: Number.POSITIVE_INFINITY, render: (p) => (
           <div className="text-center">

@@ -84,7 +84,8 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
   "five-pillars": [
     colin("c18", "If citizens are going to meaningfully shape what comes next— they need more than a voice. They need the infrastructure to act."),
     g("s18a", "Look at the board. Technology. Connectivity. Sustainability. Media Rails. A Powerful Ecosystem. Individually— they are capabilities. Connected— they become infrastructure. Technology creates capability. Connectivity creates scale. Sustainability creates longevity. Media Rails create understanding and distribution. And the ecosystem brings together the people— capital— institutions— and expertise— required to turn opportunity into action. Because— action is the ultimate currency of freedom."),
-    g("s18b", "Every pillar serves one objective: Shorten the distance between public voice and lawful action. Deploy. Integrate. Build new rails. Scale. And as these pillars work together— citizens become participants in shaping what comes next. This is the Blueprint from a high level."),
+    // 11.19.26: George's "Every pillar serves one objective…" closing is struck; Colin delivers the new line.
+    colin("c18b", "And every pillar shortens the distance between public voice and lawful action. This is the Blueprint from a high level."),
   ],
   // 11.18.26: "Our operation system." removed — the slide holds 2 seconds, then Viral Fusion follows.
   "viral-fusion": [
@@ -101,22 +102,24 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
   ],
   // 11.18.26: speakers alternate — Colin takes the commercial engine and resilience lead-in, George "That is the model" and the close.
   "physical-infrastructure": [
-    colin("c22a", "Digital participation is one layer. But meaningful reach requires infrastructure beyond the screen in someone's hand. A distributed network of intelligent, connected assets— positioned where people already live, work, travel, and gather. These are more than advertising displays. They are designed to become physical gateways into the civic ecosystem. Bringing public-interest information into everyday environments— connecting citizens to digital participation— and extending the platform's reach into the physical world."),
+    colin("c22a", "Digital participation is one layer. But meaningful reach requires infrastructure beyond the screen in someone's hand. A distributed network of intelligent, connected assets— positioned where people already live, work, travel, and gather."),
+    // 11.19.26: "Here's a glimpse of George's Vision", then the gas station footage plays (opened automatically).
+    colin("c22g", "Here's a glimpse of George's vision."),
+    { ...colin("c22a2", "These are more than advertising displays. They are designed to become physical gateways into the civic ecosystem. Bringing public-interest information into everyday environments— connecting citizens to digital participation— and extending the platform's reach into the physical world."), afterVideo: true },
     g("s22a", "And this is where ownership matters. If we control the physical infrastructure— we control the environment. The distribution. The integration. The user experience. And the applications built on top of it."),
     colin("c22b", "That creates a commercial engine around the civic layer: advertising— media— enterprise services— brand partnerships— data and analytics— and future AI applications. The objective is not infrastructure dependent on donations— grants— or one political cycle. The commercial engine helps finance the public infrastructure. It maintains it. Expands it. Upgrades it. And gives the system an economic reason to endure."),
     g("s22b", "That is the model. A physical civic network supported by commercial activity— designed to sustain itself beyond any single campaign, platform, or political moment."),
-    colin("c22c", "And that brings us to the final reason this physical layer matters: resilience. A civic system this important should not disappear because: one platform changes its rules— restricts access— loses relevance— or shuts down."),
-    g("s22c", "So the objective is bigger than distribution. It is permanence. A durable physical foundation— connected to digital systems— commercially sustainable— and resilient enough to support a new civic era."),
+    g("s22c", "So the objective is bigger than distribution. It is permanence."),
   ],
   // Slide 17 (11.18.26): Colin and George alternate; the international section is removed.
   "strategic-alliance": [
     colin("c23a", "The physical layer gives the Civic Operating System a presence in the real world. But participation reaches its full potential when it can move at scale. A strategic alliance with X and xAI could create an extraordinary opportunity— connecting civic participation— real-time information— artificial intelligence— and global distribution. Accelerating understanding. Participation. And adoption. X and xAI represent our preferred strategic alliance."),
     g("g23n", "Viral Fusion is not designed to be dependent on X. The Civic Operating System is intended to operate independently— while supporting integration with other compatible platforms— including Facebook and other distribution networks."),
     colin("c23e", "The partnership strategy can evolve. But the independence of the civic infrastructure remains fundamental."),
-    g("g23a", "But acceleration without resilience creates dependency. And there is one principle we cannot compromise: No civic infrastructure this important should have a single point of failure."),
+    g("g23a", "Because acceleration without resilience creates dependency. And there is one principle we cannot compromise: No civic infrastructure this important should have a single point of failure."),
     g("g23b", "That is why the architecture includes a second rail: A Sovereign Parallel Network."),
     colin("c23b", "Designed to preserve continuity when conventional channels are: disrupted— restricted— unavailable— or simply change. Think about the countries that blocked X because of misinformation."),
-    g("g23d", "Now imagine those citizens still having access to Viral Fusion to control and distribute irrefutable data."),
+    g("g23d", "Now imagine those citizens still having access to Viral Fusion to control and distribute irrefutable data. Their voice."),
     colin("c23d", "X and xAI give us acceleration. The parallel network gives us resilience. One helps us reach the world. The other ensures the infrastructure can endure."),
     g("g23f", "Together— they create scale without dependency."),
     g("g23c", "An architecture capable of scaling globally—without surrendering its independence."),

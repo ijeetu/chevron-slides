@@ -2368,6 +2368,29 @@ function GirlPage() {
   );
 }
 
+// 11.19.26 (Physical Infrastructure): George's gas station footage, opened as soon as Colin finishes
+// "Here's a glimpse of George's vision." Colin continues when it ends (or is closed).
+const GAS_STATION_VIDEO_URL =
+  "https://player.vimeo.com/video/1208158930?h=84c1408dc2&badge=0&autopause=0&player_id=gas-station&app_id=58479&autoplay=1&api=1";
+
+function GasStationVideoAutoOpen({ onOpenVideo }: { onOpenVideo: (url: string) => void }) {
+  const openRef = useRef(onOpenVideo);
+  openRef.current = onOpenVideo;
+  useEffect(() => {
+    // "ended" does not bubble, so listen in the capture phase for the slide voiceover's lead-in line.
+    const onEnded = (event: Event) => {
+      const audio = event.target;
+      if (!(audio instanceof HTMLAudioElement) || !audio.hasAttribute("data-slide-voiceover")) return;
+      if (decodeURI(new URL(audio.currentSrc || audio.src, window.location.href).pathname) === "/voices/colin-2611/c22g.mp3") {
+        openRef.current(GAS_STATION_VIDEO_URL);
+      }
+    };
+    document.addEventListener("ended", onEnded, true);
+    return () => document.removeEventListener("ended", onEnded, true);
+  }, []);
+  return null;
+}
+
 // 11.17.26 (Five Pillars): bring back "The people demand something better." and fade it out
 // as Colin begins ("If citizens are going to meaningfully shape what comes next…").
 function FivePillarsLeadIn() {
@@ -2928,6 +2951,24 @@ export function LibraryPage() {
     setActiveVideoEmbedUrl(null);
   };
 
+  // Close the gas station footage on its own when it finishes, so Colin picks up straight away.
+  useEffect(() => {
+    if (activeVideoEmbedUrl !== GAS_STATION_VIDEO_URL) return;
+    const send = (method: string, value?: string) =>
+      videoPlayerRef.current?.contentWindow?.postMessage(JSON.stringify(value ? { method, value } : { method }), "https://player.vimeo.com");
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin !== "https://player.vimeo.com" || event.source !== videoPlayerRef.current?.contentWindow) return;
+      let message = event.data;
+      if (typeof message === "string") {
+        try { message = JSON.parse(message); } catch { return; }
+      }
+      if (message?.event === "ready") { send("addEventListener", "ended"); send("addEventListener", "finish"); }
+      if (message?.event === "ended" || message?.event === "finish") setActiveVideoEmbedUrl(null);
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [activeVideoEmbedUrl]);
+
   useEffect(() => {
     const applyHashPage = () => {
       const standaloneDestination = standaloneSlideDestination(window.location.hash);
@@ -3017,7 +3058,7 @@ export function LibraryPage() {
       case "solving": return <ProblemsPyramidSlide />;
       case "republic": return <SimpleRepublicSlide />;
       case "civic-os": return <CivicOsDiagramSlide />;
-      case "physical-infrastructure": return <><RevisedCivicConnectivitySlide /><PhysicalInfrastructureCues /></>;
+      case "physical-infrastructure": return <><RevisedCivicConnectivitySlide /><PhysicalInfrastructureCues /><GasStationVideoAutoOpen onOpenVideo={openVideo} /></>;
       case "strategic-alliance": return <><RevisedStrategicAllianceSlide /><StrategicAllianceCues /></>;
       case "blueprint": return <RevisedBlueprintSlide />;
       case "what-if": return <WhatIfSlide onContinue={() => setCurrentPage(slideIndex("podcast-strategy"))} />;
