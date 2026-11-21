@@ -36,10 +36,10 @@ import { FollowonChapterSlide } from "@/components/followon-chapter-slide";
 import { SlideVoiceover } from "@/components/slide-voiceover";
 import { NetworkPowerSlide, GlobalIncentivesMapSlide, RevisedFivePillarsSlide } from "@/components/opening-landscape-slides";
 import { RevisedCivicConnectivitySlide, RevisedStrategicAllianceSlide, RevisedBlueprintSlide } from "@/components/opening-architecture-slides";
-import { RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
+import { LONG_GAME_VIDEO_URL, RevisedLongGameSlide, RevisedTechnologicalPowerSlide } from "@/components/opening-context-slides";
 import { CivicOsDiagramSlide } from "@/components/civic-os-diagram-slide";
-import { useVoiceoverPosition } from "@/components/voiceover-cues";
-import { ColinIntroSlide, ExecutingVisionSlide, LongGameCues, NetworkCues, PhysicalInfrastructureCues, StrategicAllianceCues, TechnologicalPowerCues, WeBuildItCue } from "@/components/script-2611-slides";
+import { useVoiceoverEnded, useVoiceoverPosition } from "@/components/voiceover-cues";
+import { ColinIntroSlide, ExecutingVisionSlide, LongGameCues, NetworkCues, OperatingSystemIntroSlide, PhysicalInfrastructureCues, StrategicAllianceCues, TechnologicalPowerCues, WeBuildItCue } from "@/components/script-2611-slides";
 import { namedHashMatchesSlide, pageFromHash, slideIndex, standaloneSlideDestination, viralFusionDeck } from "@/lib/viral-fusion-deck";
 
 type Deck = {
@@ -1998,12 +1998,32 @@ function MissionVisionSlide() {
   const position = useVoiceoverPosition();
   const narrating = position?.src === MISSION_TRACK;
   const time = narrating ? position.time : 0;
-  const active = !narrating ? null : time < 10.3 ? 0 : time < 18.8 ? 1 : 2;
+  // 11.20.26: open on "Driving Real Impact" (s17 now has a 2.8s lead-in), then only the Mission
+  // card, then only the Vision card, centered as George reads each; the full slide follows.
+  const intro = narrating && time < 2.8;
+  const spoken = !narrating || intro || !Number.isFinite(time) ? null : time < 13.1 ? 0 : 1;
+  const spokenItem = spoken === null ? null : missionVisionItems[spoken];
   return (
     <section className="presentation-scroll relative h-full w-full overflow-y-auto text-[#f7f8f8] md:overflow-hidden">
       <div
-        aria-hidden={active !== 2}
-        className={`pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-center bg-[#07101a]/90 px-6 text-center backdrop-blur-sm transition-opacity duration-700 ${active === 2 ? "opacity-100" : "opacity-0"}`}
+        aria-hidden={spokenItem === null}
+        className={`pointer-events-none fixed inset-0 z-20 flex items-center justify-center bg-[#07101a] px-6 transition-opacity duration-700 ${spokenItem ? "opacity-100" : "opacity-0"}`}
+      >
+        {spokenItem ? (
+          <article key={spokenItem.title} className="relative w-full max-w-3xl overflow-hidden rounded-[1.75rem] border border-[#9beaff]/25 bg-[linear-gradient(145deg,rgba(38,58,75,0.74),rgba(14,27,39,0.88))] px-[clamp(1.4rem,5%,3.5rem)] py-[clamp(1.4rem,5vh,3rem)] shadow-[0_24px_65px_rgba(0,0,0,0.3)]">
+            <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.72),transparent)]" />
+            <span className="font-mono text-[clamp(.7rem,1.1vw,1.1rem)] font-bold tracking-[0.28em] text-[#18bfe3]">{spokenItem.number}</span>
+            <h2 className="mt-3 font-display text-[clamp(2rem,4.6vw,4.2rem)] font-bold leading-none">{spokenItem.title}</h2>
+            <div className="mt-6 border-l-[3px] border-[#18bfe3] pl-5">
+              <p className="font-display text-[clamp(1.1rem,2.1vw,1.9rem)] leading-[1.45] text-[#d0d8db]">{spokenItem.body}</p>
+            </div>
+            <span className="pointer-events-none absolute bottom-[-8%] right-[4%] font-display text-[clamp(6rem,16vw,14rem)] font-bold leading-none text-transparent [-webkit-text-stroke:1px_rgba(155,234,255,0.10)]">{spokenItem.letter}</span>
+          </article>
+        ) : null}
+      </div>
+      <div
+        aria-hidden={!intro}
+        className={`pointer-events-none fixed inset-0 z-30 flex flex-col items-center justify-center bg-[#07101a] px-6 text-center transition-opacity duration-700 ${intro ? "opacity-100" : "opacity-0"}`}
       >
         <p className="font-display text-[clamp(.8rem,1.4vw,1.2rem)] font-medium tracking-[0.3em] text-[#9beaff]">MISSION &amp; VISION</p>
         <p className="mt-4 font-display text-[clamp(3rem,10vw,9rem)] font-bold leading-none tracking-[-0.045em] text-[#f4f2ec]">Driving Real Impact</p>
@@ -2024,7 +2044,6 @@ function MissionVisionSlide() {
           {missionVisionItems.map((item, index) => (
             <article
               key={item.title}
-              style={active === 0 || active === 1 ? { opacity: index === active ? 1 : 0.3, transform: index === active ? "scale(1.02)" : undefined } : undefined}
               className="relative min-h-[clamp(9rem,25vh,18rem)] transition-[opacity,transform] duration-700 min-w-0 overflow-hidden rounded-[clamp(.8rem,1.6vw,1.75rem)] border border-[#9beaff]/20 bg-[linear-gradient(145deg,rgba(38,58,75,0.74),rgba(14,27,39,0.88))] px-[clamp(.7rem,6%,3rem)] py-[clamp(.7rem,2.4vh,2rem)] shadow-[0_24px_65px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.04)]"
             >
               <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(155,234,255,0.72),transparent)]" />
@@ -2373,21 +2392,11 @@ function GirlPage() {
 const GAS_STATION_VIDEO_URL =
   "https://player.vimeo.com/video/1208158930?h=84c1408dc2&badge=0&autopause=0&player_id=gas-station&app_id=58479&autoplay=1&api=1";
 
+// 11.20.26: the Competition for Power video closes on its own too, so the pie chart and George follow it.
+const AUTO_CLOSE_VIDEO_URLS = new Set([GAS_STATION_VIDEO_URL, LONG_GAME_VIDEO_URL, BENEATH_NOISE_POWER_VIDEO_URL]);
+
 function GasStationVideoAutoOpen({ onOpenVideo }: { onOpenVideo: (url: string) => void }) {
-  const openRef = useRef(onOpenVideo);
-  openRef.current = onOpenVideo;
-  useEffect(() => {
-    // "ended" does not bubble, so listen in the capture phase for the slide voiceover's lead-in line.
-    const onEnded = (event: Event) => {
-      const audio = event.target;
-      if (!(audio instanceof HTMLAudioElement) || !audio.hasAttribute("data-slide-voiceover")) return;
-      if (decodeURI(new URL(audio.currentSrc || audio.src, window.location.href).pathname) === "/voices/colin-2611/c22g.mp3") {
-        openRef.current(GAS_STATION_VIDEO_URL);
-      }
-    };
-    document.addEventListener("ended", onEnded, true);
-    return () => document.removeEventListener("ended", onEnded, true);
-  }, []);
+  useVoiceoverEnded("/voices/colin-2611/c22g.mp3", () => onOpenVideo(GAS_STATION_VIDEO_URL));
   return null;
 }
 
@@ -2951,9 +2960,10 @@ export function LibraryPage() {
     setActiveVideoEmbedUrl(null);
   };
 
-  // Close the gas station footage on its own when it finishes, so Colin picks up straight away.
+  // Close these videos on their own when they finish, so the voiceover picks up straight away
+  // (the gas station footage before Colin; 11.20.26: the Long Game video before George).
   useEffect(() => {
-    if (activeVideoEmbedUrl !== GAS_STATION_VIDEO_URL) return;
+    if (!activeVideoEmbedUrl || !AUTO_CLOSE_VIDEO_URLS.has(activeVideoEmbedUrl)) return;
     const send = (method: string, value?: string) =>
       videoPlayerRef.current?.contentWindow?.postMessage(JSON.stringify(value ? { method, value } : { method }), "https://player.vimeo.com");
     const onMessage = (event: MessageEvent) => {
@@ -3015,10 +3025,11 @@ export function LibraryPage() {
     if (window.location.hash !== hash) window.history.replaceState(null, "", hash);
   }, [currentPage, hasResolvedInitialHash, activeSlide.id]);
 
-  // VF_Pres_11.18.26 Slide 14: "Operation System" holds for 2 seconds, then moves into Viral Fusion and its voiceover.
+  // VF_Pres_11.18.26 Slide 14: "Operation System" holds, then moves into Viral Fusion and its voiceover.
+  // 11.20.26: the title moves left, fades and turns into Viral Fusion (3 seconds) before the deck moves on.
   useEffect(() => {
     if (activeSlide.id !== "operating-system" || activeVideoEmbedUrl) return;
-    const timer = window.setTimeout(() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1)), 2000);
+    const timer = window.setTimeout(() => setCurrentPage((page) => Math.min(page + 1, totalPages - 1)), 3200);
     return () => window.clearTimeout(timer);
   }, [activeSlide.id, activeVideoEmbedUrl, totalPages]);
 
@@ -3052,11 +3063,9 @@ export function LibraryPage() {
       case "executing-vision": return <ExecutingVisionSlide />;
       case "five-pillars": return <><RevisedFivePillarsSlide /><FivePillarsLeadIn /></>;
       case "inspiration": return <IntroVideoSlide />;
-      case "operating-system": return <SectionTitleSlide title="Operating System" />;
+      case "operating-system": return <OperatingSystemIntroSlide />;
       case "viral-fusion": return <ViralFusionEarthSlide />;
       case "mission-vision": return <MissionVisionSlide />;
-      case "solving": return <ProblemsPyramidSlide />;
-      case "republic": return <SimpleRepublicSlide />;
       case "civic-os": return <CivicOsDiagramSlide />;
       case "physical-infrastructure": return <><RevisedCivicConnectivitySlide /><PhysicalInfrastructureCues /><GasStationVideoAutoOpen onOpenVideo={openVideo} /></>;
       case "strategic-alliance": return <><RevisedStrategicAllianceSlide /><StrategicAllianceCues /></>;

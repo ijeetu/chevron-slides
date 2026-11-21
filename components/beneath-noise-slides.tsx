@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 export const BENEATH_NOISE_POWER_VIDEO_URL =
-  "https://player.vimeo.com/video/1208320570?h=27898b1a19&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1";
+  "https://player.vimeo.com/video/1208320570?h=27898b1a19&badge=0&autopause=0&player_id=competition&app_id=58479&autoplay=1&api=1";
 
 export const BENEATH_NOISE_GLOBAL_VIDEO_URL =
   "https://www.youtube.com/embed/6CN5UBeEwrU";
@@ -129,12 +129,7 @@ export function BeneathNoiseRecapSlide() {
           ))}
         </ol>
 
-        <div className="mx-auto mt-4 max-w-[46rem] border-t border-[#9beaff]/25 pt-4 sm:mt-5 sm:pt-5">
-          <ChapterLabel>THE QUESTION</ChapterLabel>
-          <p className="mt-2 font-display text-[1.25rem] font-medium leading-[1.3] tracking-[-0.025em] text-[#f4f2ec] sm:text-[1.75rem] lg:text-[2rem]">
-            How do citizens gain meaningful agency over what comes next?
-          </p>
-        </div>
+        {/* 11.20.26: Colin's question ("How do citizens gain meaningful agency…") is struck, so it leaves the slide too. */}
       </div>
     </ChapterSlide>
   );

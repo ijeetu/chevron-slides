@@ -4,6 +4,7 @@ import { useEffect, useId, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { ArrowRight, Cable, ChevronRight, Cpu, Leaf, Orbit, Pause, Play, RadioTower, RotateCcw, SkipForward } from "lucide-react";
 import styles from "./opening-landscape-slides.module.css";
+import { useVoiceoverPosition } from "@/components/voiceover-cues";
 
 type MediaProps = { onOpenVideo?: (url: string) => void };
 
@@ -124,25 +125,47 @@ export function ChildrenPyramidSlide() {
   </SlideFrame>;
 }
 
-const NETWORK_SCENES = ["Capital", "Institutions", "Media", "Law", "Politics", "Research", "Organized action", "Durable. Distributed.", "Infrastructure for citizens"] as const;
 const NETWORK_NODES = ["INSTITUTIONS", "MEDIA", "LAW", "POLITICS", "RESEARCH", "ORGANIZED ACTION"] as const;
+const NETWORK_VIDEO_URL = "https://www.youtube.com/embed/vsVTsB_SaGQ?autoplay=1";
 
+/**
+ * 11.20.26: THE POWER OF NETWORKS starts alone in the middle of the screen, then the video plays.
+ * George's voice then comes in over a cleaned-up slide: capital at the center, six connections around it.
+ */
 export function NetworkPowerSlide({ onOpenVideo }: MediaProps = {}) {
-  const build = useVisualBuild(NETWORK_SCENES, 4000);
-  return <SlideFrame title="THE POWER OF NETWORKS" eyebrow="BENEATH THE NOISE // 03" build={build}>
-    <div className={styles.networkComposition}>
-      <div className={styles.networkBoard}>
-        <div className={styles.networkCenter}><span className={styles.eyebrow}>{build.stage >= 8 ? "CITIZEN" : "CONNECTED"}</span><strong className="font-display">{build.stage >= 8 ? "INFRASTRUCTURE" : "CAPITAL"}</strong></div>
-        <div className={styles.networkNodes}>{NETWORK_NODES.map((node, index) => <div key={node} data-visible={build.stage >= index + 1} aria-hidden={build.stage < index + 1}><i aria-hidden="true" /><span className="font-display">{node}</span></div>)}</div>
+  const [opened, setOpened] = useState(false);
+  const open = () => {
+    setOpened(true);
+    if (onOpenVideo) onOpenVideo(NETWORK_VIDEO_URL); else window.open(NETWORK_VIDEO_URL, "_blank", "noopener,noreferrer");
+  };
+  useEffect(() => {
+    if (opened || !onOpenVideo) return;
+    const timer = window.setTimeout(() => { setOpened(true); onOpenVideo(NETWORK_VIDEO_URL); }, 2800);
+    return () => window.clearTimeout(timer);
+  }, [opened, onOpenVideo]);
+  if (!opened) {
+    return <section className="flex h-full w-full flex-col items-center justify-center px-6 text-center text-[#f4f2ec]">
+      <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[#9beaff] sm:text-xs">Beneath the Noise // 03</p>
+      <h1 className="mt-4 font-display text-[clamp(2.8rem,8vw,7rem)] font-semibold leading-[0.95] tracking-[-0.04em]">THE POWER OF NETWORKS</h1>
+      <button type="button" onClick={open} className="mt-10 inline-flex items-center gap-2 rounded-full border border-[#9beaff]/40 px-5 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9beaff] hover:bg-[#9beaff]/10"><Play size={14} aria-hidden="true" />Play the documentary</button>
+    </section>;
+  }
+  return <section className="presentation-scroll flex h-full w-full flex-col items-center overflow-y-auto px-6 pb-24 pt-16 text-[#f4f2ec]" aria-labelledby="network-power-title">
+    <div className="my-auto flex w-full flex-col items-center">
+    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[#9beaff] sm:text-xs">Beneath the Noise // 03</p>
+    <h1 id="network-power-title" className="mt-3 text-center font-display text-[clamp(2rem,4.6vw,4.2rem)] font-semibold leading-none tracking-[-0.04em]">The Power of Networks</h1>
+    <div className="relative mt-10 grid w-full max-w-4xl grid-cols-2 items-center gap-3 sm:grid-cols-3 sm:gap-4">
+      {NETWORK_NODES.slice(0, 3).map(node => <span key={node} className="rounded-xl border border-[#9beaff]/25 bg-[#9beaff]/[0.06] px-3 py-4 text-center text-[11px] font-semibold tracking-[0.14em] text-[#dbe6ec] sm:text-sm">{node}</span>)}
+      <div className="col-span-2 my-2 flex flex-col items-center justify-center rounded-2xl border border-[#9beaff]/50 bg-[radial-gradient(ellipse_at_center,rgba(42,83,108,.55),rgba(11,26,39,.9))] py-6 sm:col-span-3 sm:my-4 sm:py-8">
+        <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#9beaff]">Connected</span>
+        <strong className="mt-1 font-display text-[clamp(1.8rem,4vw,3.2rem)] tracking-[-0.03em]">CAPITAL</strong>
       </div>
-      <div className={styles.networkConclusion}>
-        <p className={styles.eyebrow}>NETWORKS COMPOUND POWER</p>
-        <h2 className="font-display">{build.stage >= 8 ? <>Citizens gain<br /><em>infrastructure of their own.</em></> : build.stage >= 7 ? <>Durable.<br /><em>Distributed.</em></> : <>Power is embedded<br /><em>in networks.</em></>}</h2>
-        <MediaButton url="https://www.youtube.com/embed/vsVTsB_SaGQ?autoplay=1" onOpenVideo={onOpenVideo} onPlay={build.pause}>Watch the documentary</MediaButton>
-        <p className={styles.caption}>George Soros &amp; the Open Society ecosystem</p>
-      </div>
+      {NETWORK_NODES.slice(3).map(node => <span key={node} className="rounded-xl border border-[#9beaff]/25 bg-[#9beaff]/[0.06] px-3 py-4 text-center text-[11px] font-semibold tracking-[0.14em] text-[#dbe6ec] sm:text-sm">{node}</span>)}
     </div>
-  </SlideFrame>;
+    <p className="mt-8 font-display text-[clamp(1.2rem,2.4vw,2rem)] tracking-[-0.02em] text-[#9beaff]">Networks compound power.</p>
+    <button type="button" onClick={open} className="mt-5 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9bb8ca] hover:text-[#9beaff]"><Play size={12} aria-hidden="true" />Replay the documentary</button>
+    </div>
+  </section>;
 }
 
 const GLOBAL_SCENES = ["Widening the lens", "Competing incentives", "Everyday consequences", "Four interpretations", "Everything connects"] as const;
@@ -184,19 +207,25 @@ const PILLARS = [
 ] as const;
 const PILLAR_SCENES = ["Five pillars", "Technology", "Connectivity", "Sustainability", "Media Rails", "A Powerful Ecosystem", "Hard-wired to action"] as const;
 
+// Seconds into George's s18a where he names each pillar, then "Because— action is the ultimate currency of freedom."
+const PILLAR_VOICE_TIMES = [1.5, 2.6, 3.5, 4.85, 6.1, 33.8] as const;
+
 export function RevisedFivePillarsSlide() {
   const build = useVisualBuild(PILLAR_SCENES, 5500);
+  // 11.20.26: the board was staying empty under George's narration — each pillar now appears as he names it,
+  // and the completed graphic holds through his closing statement.
+  const position = useVoiceoverPosition();
+  const voiceStage = position?.src === "/voices/george-2611/s18a.mp3" ? PILLAR_VOICE_TIMES.filter(t => position.time >= t).length : null;
+  const stage = voiceStage ?? build.stage;
   return <SlideFrame title="FIVE PILLARS" eyebrow="HARD-WIRED TO ACTION" build={build}>
     <div className={styles.pillars}>
-      {PILLARS.map(({ name, detail, Icon }, index) => <article key={name} data-visible={build.stage >= index + 1} aria-hidden={build.stage < index + 1}>
+      {PILLARS.map(({ name, detail, Icon }, index) => <article key={name} data-visible={stage >= index + 1} aria-hidden={stage < index + 1}>
         <span className={styles.pillarNumber}>0{index + 1}</span><Icon size={36} strokeWidth={1.3} aria-hidden="true" /><h2 className="font-display">{name}</h2><p>{detail}</p>
       </article>)}
     </div>
-    <div className={styles.pillarOutcome} data-visible={build.stage >= 6} aria-hidden={build.stage < 6}>
-      <p className={styles.eyebrow}>ONE OBJECTIVE</p>
-      <h2 className="font-display">Shorten the distance between</h2>
-      <div className={styles.actionRail}><span>PUBLIC VOICE</span><i aria-hidden="true" /><ArrowRight size={26} aria-hidden="true" /><strong>LAWFUL ACTION</strong></div>
-      <p className={styles.actionMethods}>DEPLOY <span>·</span> INTEGRATE <span>·</span> BUILD NEW RAILS <span>·</span> SCALE</p>
+    {/* 11.20.26: the struck "Shorten the distance… Deploy. Integrate…" closing gives way to George's final line. */}
+    <div className={styles.pillarOutcome} data-visible={stage >= 6} aria-hidden={stage < 6}>
+      <h2 className="font-display">Action is the ultimate currency of freedom.</h2>
     </div>
   </SlideFrame>;
 }

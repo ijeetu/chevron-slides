@@ -23,8 +23,7 @@ export const viralFusionDeck = [
   // 11.18.26: the Founder Principle quote (former Slide 15) is replaced — Five Pillars leads into the Operation System.
   { id: "operating-system", title: "Operating System" },
   { id: "viral-fusion", title: "Viral Fusion" },
-  { id: "solving", title: "The Problems We’re Solving" },
-  { id: "republic", title: "A Stronger Republic" },
+  // VF_Pres_11.20.26 removes Slides 17–18 ("The Problems We’re Solving" and "A Stronger Republic").
   { id: "civic-os", title: "Civic Operating System" },
   { id: "physical-infrastructure", title: "Physical Infrastructure" },
   { id: "strategic-alliance", title: "The Strategic Alliance" },

@@ -1,11 +1,14 @@
 "use client";
 
-import { useId, useState, type ReactNode } from "react";
+import { useEffect, useId, useState, type ReactNode } from "react";
+import { useVoiceoverEnded, useVoiceoverPosition } from "@/components/voiceover-cues";
 import { ArrowRight, Bot, Cpu, Factory, Network, Play, Zap } from "lucide-react";
 
 type ContextProps = { onOpenVideo?: (url: string) => void };
 
-const longGameVideo = "https://player.vimeo.com/video/1206848346?h=a76eaac1c9&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1";
+// api=1 lets the deck hear the player's "ended" event and close the video on its own.
+export const LONG_GAME_VIDEO_URL = "https://player.vimeo.com/video/1206848346?h=a76eaac1c9&badge=0&autopause=0&player_id=long-game&app_id=58479&autoplay=1&api=1";
+const longGameVideo = LONG_GAME_VIDEO_URL;
 
 function ContextFrame({ children, labelledBy }: { children: ReactNode; labelledBy: string }) {
   return <section aria-labelledby={labelledBy} className="presentation-scroll flex h-full w-full flex-col overflow-y-auto px-[6%] pb-[132px] pt-[82px] text-[#f4f2ec]">
@@ -56,23 +59,49 @@ export function RevisedCompetitionSlide() {
   </ContextFrame>;
 }
 
-const longGameSteps = [
-  { title: "PERSISTENCE", body: "Build. Fail. Rebuild. Try again." },
-  { title: "CAPABILITY", body: "Turn ideas into working technology." },
-  { title: "SCALE", body: "Expand into industry and infrastructure." },
-  { title: "INFLUENCE", body: "Become part of the systems governments depend upon." },
-] as const;
+// 11.20.26: the small text under each step is removed.
+const longGameSteps = ["PERSISTENCE", "CAPABILITY", "SCALE", "INFLUENCE"] as const;
 
 export function RevisedLongGameSlide({ onOpenVideo }: ContextProps) {
   const titleId = useId();
   const [inlineVideo, setInlineVideo] = useState(false);
-  const play = () => onOpenVideo ? onOpenVideo(longGameVideo) : setInlineVideo(true);
+  const [watched, setWatched] = useState(false);
+  const [enlarging, setEnlarging] = useState(false);
+  const play = () => {
+    setWatched(true);
+    if (onOpenVideo) onOpenVideo(longGameVideo); else setInlineVideo(true);
+  };
+  // 11.20.26: on "Let's go back." the card enlarges for 1.5 seconds, then the video plays.
+  useVoiceoverEnded("/voices/colin-2611/c10a.mp3", () => setEnlarging(true));
+  useEffect(() => {
+    if (!enlarging) return;
+    const timer = window.setTimeout(() => { setEnlarging(false); play(); }, 1500);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enlarging]);
+  // After the video, George speaks over the slide while Peter Thiel's photo stays on screen.
+  const position = useVoiceoverPosition();
+  const afterVideo = !enlarging && (watched || (position?.src === "/voices/george-2611/s10a.mp3" && position.time > 0.2) || position?.src === "/voices/george-2611/s10b.mp3");
   return <ContextFrame labelledBy={titleId}>
+    {enlarging ? <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-30 flex items-center justify-center bg-[#07101a]/85">
+      <div className="flex aspect-video w-[min(88vw,150vh)] animate-[longGameEnlarge_1.5s_ease-out_forwards] flex-col items-center justify-center rounded-[24px] border border-[#9beaff]/40 bg-[radial-gradient(ellipse_at_center,rgba(42,83,108,.55),#07121e_75%)]">
+        <span className="flex h-20 w-20 items-center justify-center rounded-full border border-[#9beaff]/60 bg-[#9beaff]/[.08] text-[#9beaff]"><Play size={32} fill="currentColor" strokeWidth={1.2} className="ml-1" /></span>
+        <span className="mt-6 font-display text-[clamp(2.4rem,6vw,5.5rem)] font-semibold tracking-[-.03em]">Let&apos;s go back.</span>
+      </div>
+      <style>{`@keyframes longGameEnlarge { from { transform: scale(.55); opacity: .6 } to { transform: scale(1); opacity: 1 } }`}</style>
+    </div> : null}
     <ContextHeader title="The Long Game" chapter="02" titleId={titleId} />
     <div className="mt-7 grid items-center gap-8 lg:mt-8 lg:grid-cols-[1.12fr_.88fr] lg:gap-14">
       <div>
         <div className="relative aspect-video overflow-hidden rounded-[20px] border border-[#9beaff]/25 bg-[#07121e]">
-          {inlineVideo ? <iframe src={longGameVideo} title="The Long Game — archival video" className="absolute inset-0 h-full w-full" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /> : <button type="button" onClick={play} className="group absolute inset-0 flex h-full w-full flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_center,rgba(42,83,108,.45),transparent_75%)] px-8 text-center transition-colors hover:bg-[#142a3b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-5px] focus-visible:outline-[#9beaff]">
+          {afterVideo && !inlineVideo ? <figure className="absolute inset-0 m-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/long-game/peter-thiel.webp" alt="Peter Thiel" className="h-full w-full object-cover" />
+            <figcaption className="absolute inset-x-0 bottom-0 bg-[linear-gradient(0deg,rgba(7,16,26,.85),transparent)] px-5 pb-4 pt-10">
+              <span className="font-display text-[clamp(1.1rem,1.8vw,1.7rem)] font-semibold">Peter Thiel</span>
+            </figcaption>
+            <button type="button" onClick={play} aria-label="Watch The Long Game again" className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full border border-[#9beaff]/50 bg-[#07121e]/70 text-[#9beaff] hover:bg-[#142a3b]"><Play size={16} fill="currentColor" strokeWidth={1.2} className="ml-0.5" /></button>
+          </figure> : inlineVideo ? <iframe src={longGameVideo} title="The Long Game — archival video" className="absolute inset-0 h-full w-full" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /> : <button type="button" onClick={play} className="group absolute inset-0 flex h-full w-full flex-col items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_center,rgba(42,83,108,.45),transparent_75%)] px-8 text-center transition-colors hover:bg-[#142a3b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-5px] focus-visible:outline-[#9beaff]">
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(155,234,255,.14)_1px,transparent_1px),linear-gradient(90deg,rgba(155,234,255,.14)_1px,transparent_1px)] [background-size:35px_35px]" />
             <span className="relative flex h-14 w-14 items-center justify-center rounded-full border border-[#9beaff]/50 bg-[#9beaff]/[.06] text-[#9beaff] transition-transform group-hover:scale-105 sm:h-16 sm:w-16"><Play size={23} fill="currentColor" strokeWidth={1.2} className="ml-1" /></span>
             <span className="relative mt-5 font-display text-[clamp(1.2rem,2vw,2rem)] font-medium tracking-[-.02em]">Let&apos;s go back.</span>
@@ -82,9 +111,9 @@ export function RevisedLongGameSlide({ onOpenVideo }: ContextProps) {
         <p className="mt-4 max-w-[36rem] text-sm leading-relaxed text-[#a9c0cf]">Ideas once at the margins became part of industry, defense, government, and national infrastructure.</p>
       </div>
       <ol className="list-none p-0">
-        {longGameSteps.map((step, index) => <li key={step.title} className="relative grid grid-cols-[26px_1fr] gap-4 border-b border-[#9beaff]/15 py-4 first:pt-0 last:border-0 lg:py-5">
-          <span className="pt-1 font-mono text-[10px] tracking-[.13em] text-[#68a9c3]">0{index + 1}</span>
-          <div><h2 className="font-display text-[clamp(1.1rem,1.7vw,1.65rem)] font-semibold leading-none tracking-[-.02em] text-[#9beaff]">{step.title}</h2><p className="mt-2 text-xs leading-relaxed text-[#afc4d2] sm:text-[13px]">{step.body}</p></div>
+        {longGameSteps.map((step, index) => <li key={step} className="relative grid grid-cols-[26px_1fr] items-center gap-4 border-b border-[#9beaff]/15 py-4 first:pt-0 last:border-0 lg:py-5">
+          <span className="font-mono text-[10px] tracking-[.13em] text-[#68a9c3]">0{index + 1}</span>
+          <h2 className="font-display text-[clamp(1.1rem,1.7vw,1.65rem)] font-semibold leading-none tracking-[-.02em] text-[#9beaff]">{step}</h2>
         </li>)}
       </ol>
     </div>

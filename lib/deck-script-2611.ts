@@ -1,7 +1,7 @@
 import type { ViralFusionSlideId } from "./viral-fusion-deck";
 
 /**
- * Spoken script (revised through VF_Pres_11.18.26) for slides 3–22 of "VF_Pres_11.08.26.docx" (From Promises to Action),
+ * Spoken script (revised through VF_Pres_11.20.26) for slides 3–22 of "VF_Pres_11.08.26.docx" (From Promises to Action),
  * with the 11.9.26 revision of Colin's introduction.
  *
  * Each slide lists its spoken segments in order. A segment with `src` has audio and
@@ -46,9 +46,10 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
     { ...g("s09", "Whether every part of that thesis proves correct isn't the point. The more important question is how a relatively small group of technology leaders accumulated this level of influence. The companies. The capital. The networks. The government relationships. The infrastructure. None of it appeared overnight. It was built over decades. And to understand their influence today, we need to understand how it was created. Because power rarely appears suddenly. It compounds. And some of the people shaping the future— have been playing the long game for decades."), afterVideo: true },
   ],
   "long-game": [
-    colin("c10a", "Go back far enough— and many technologies now shaping national power were once considered unrealistic. Artificial intelligence at scale. Reusable rockets. Autonomous systems. Private space infrastructure. Software transforming government. Entire industries rebuilt around technology. Some of the people leading these developments spent decades pursuing ideas others doubted could succeed. So to understand their influence today— we need to understand what it took to get here. Let's go back."),
-    { ...g("s10a", "Critics dismissed their vision. The technology failed. Capital disappeared. Timelines slipped. But they stayed in the arena. They built. Failed. Raised capital. Lost capital. Rebuilt. And tried again. Over time, ideas once considered impossible became valuable capabilities. Those capabilities entered— Industry. Defense. Government. Capital markets. And national infrastructure. Persistence became capability. Capability became scale. And scale became influence."), afterVideo: true },
-    colin("c10b", "And that is the long game."),
+    colin("c10a", "Go back far enough— and many technologies now shaping national power were once considered unrealistic. Artificial intelligence at scale. Reusable rockets. Autonomous systems. Private space infrastructure. Entire industries rebuilt around technology. Some of the people leading these developments spent decades pursuing ideas others doubted could succeed. So to understand their influence today— we need to understand what it took to get here. Let's go back."),
+    { ...g("s10a", "Critics dismissed their vision. Technology failed. Capital disappeared. Timelines slipped. But they stayed in the arena. They built. Failed. Raised capital. Lost capital. Rebuilt. And tried again. Over time, ideas once considered impossible became valuable capabilities. Those capabilities entered— Industry. Defense. Government. Capital markets. And national infrastructure. Persistence became capability. Capability became scale. And scale became influence."), afterVideo: true },
+    // 11.20.26: George closes the slide after a pause (Colin's line struck).
+    g("s10b", "And that is the long game."),
   ],
   "technological-power": [
     colin("c11a", "Don't get lost in the personalities. Look at what they represent. Technology is becoming one of the defining sources of economic— military— and geopolitical power. Across their different ambitions, one pattern emerges: An effort to build technologies with the potential to shape the next century. Artificial intelligence. Robotics. Advanced manufacturing. Energy. Digital infrastructure. Then accelerate their development. Remove barriers. Mobilize capital. Expand domestic capability. And increasingly— bring government and industry together to move faster. This is more than technological progress. It is a strategy for national power."),
@@ -58,21 +59,21 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
     // 11.17.26 (rev 2): the title shows, then the Power of Networks video plays — no lead-in narration.
     { ...g("s12b", "Whatever conclusion you draw about Soros himself— the larger lesson matters. Networks compound power. Capital alone is powerful. But connect it to— Institutions. Media. Law. Politics. Research. And organized action. It becomes something much larger. It becomes durable. Distributed. And capable of influencing decisions long after any single election— or individual— is gone."), afterVideo: true },
     colin("c12b", "And this is where the balance of power can change. Because historically— building influence at this scale took decades. But what happens when technology compresses that timeline? What happens when citizens can— Organize. Understand. Create change. And pursue lawful reform— faster than traditional institutions were designed to operate?"),
-    g("s12c", "Then the advantage of established networks could begin to weaken. Not because one powerful network replaces another— but because citizens gain infrastructure of their own."),
+    g("s12c", "Then the advantage of established networks could begin to weaken. Because citizens gain infrastructure of their own."),
     // 11.17.26: "Because our vision is global too." removed
   ],
   "global-incentives": [
-    colin("c13", "Political networks are one layer. But beyond domestic politics, the forces become global. In the next video, Andrei Jikh explores four competing explanations for how some of these forces may be interacting. Iranian economic warfare. Transnational capital. American energy strategy. And a geopolitical interpretation shaped by religious prophecy. Different actors. Different motives. Different theories. Let's watch."),
+    colin("c13", "Political networks are one layer. But beyond domestic politics, the forces become global. In the next video, Andrei Jikh explores four competing explanations: The Iranian economic warfare. Transnational capital. American energy strategy. And a geopolitical interpretation shaped by religious prophecy. Let's watch."),
   ],
   "what-we-learned": [
     // 11.17.26: Colin's "Pull back…" recap removed
-    g("s14a", "We went beneath the noise. Not simply to expose problems. To identify what is missing. If capital can organize— If industries can organize— If political networks can organize— And if technology can organize— Then We the People need infrastructure capable of organizing too. Because our Republic cannot be preserved by promises alone. It requires action."),
-    colin("c14b", "So the question becomes— How do citizens gain meaningful agency over what comes next?"),
+    g("s14a", "If capital can organize— If industries can organize— If political networks can organize— And if technology can organize— Then We the People need infrastructure capable of organizing too. Because our Republic cannot be preserved by promises alone. It requires action."),
+    // 11.20.26: "We went beneath the noise…" and Colin's "So the question becomes…" struck.
     g("s14b", "We build it."),
   ],
   "executing-vision": [
     g("s15a", "A movement can start with one man— someone who executes a strong vision with absolute conviction and puts in the time. His vision— look at what it became."),
-    g("s15b", "But the people are ready for more than talk and debate. We've had plenty of that over the decades. And simply showing up to vote hasn't always delivered the results people were promised. So I have to ask you: Do our votes count? With absolute certainty? And how do we actually hold our leaders accountable— to the promises they've made to the people, and the oath they've sworn to the Constitution?"),
+    g("s15b", "The people are ready for more than talk and debate. We've had plenty of that over the decades. And simply showing up to vote hasn't always delivered the results people were promised. So I have to ask you: Do our votes count? With absolute certainty? And how do we actually hold our leaders accountable— to the promises they've made to the people, and the oath they've sworn to the Constitution?"),
     g("s15c", "What do we do when our constitutional republic is no longer working for “We the People”? When our elected representatives serve interests other than those of the citizens they're supposed to represent? When political leaders speak of protecting our democracy— yet the system doesn't provide a meaningful way to create change?"),
     g("s15d", "I want you to see what becomes possible when we combine the raw distribution power of a podcast— with a strong strategy, the right operational tools, intelligence, and people who share a common purpose. Not simply to start another conversation. But to put a series of actions into motion. To demonstrate through execution what America First can mean. And through the results we achieve— build the foundation for the movement and new political party we envision."),
     g("s15e", "TPUSA was a turning point. This platform is what comes next."),
@@ -84,12 +85,12 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
   "five-pillars": [
     colin("c18", "If citizens are going to meaningfully shape what comes next— they need more than a voice. They need the infrastructure to act."),
     g("s18a", "Look at the board. Technology. Connectivity. Sustainability. Media Rails. A Powerful Ecosystem. Individually— they are capabilities. Connected— they become infrastructure. Technology creates capability. Connectivity creates scale. Sustainability creates longevity. Media Rails create understanding and distribution. And the ecosystem brings together the people— capital— institutions— and expertise— required to turn opportunity into action. Because— action is the ultimate currency of freedom."),
-    // 11.19.26: George's "Every pillar serves one objective…" closing is struck; Colin delivers the new line.
-    colin("c18b", "And every pillar shortens the distance between public voice and lawful action. This is the Blueprint from a high level."),
+    // 11.20.26: Colin's "And every pillar shortens the distance…" closing is struck too.
   ],
   // 11.18.26: "Our operation system." removed — the slide holds 2 seconds, then Viral Fusion follows.
   "viral-fusion": [
-    g("s20", "We call it Viral Fusion. And it will connect voices and power change. However, Phase 1 has a different priority."),
+    // 11.21.26: George's revised line, sent in chat with the 11.20.26 deck ("However, Phase 1 has a different priority." struck).
+    g("s20", "We call it Viral Fusion. A platform designed to connect voices and empower change. And Phase 1 begins with the foundation of our democracy—protecting the vote."),
   ],
   // 11.18.26: Colin and George alternate; George's "But when official elections are involved…" lead-in removed.
   "civic-os": [

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /**
  * On-screen moments timed to the slide voiceover.
@@ -36,6 +36,27 @@ export function useVoiceoverPosition() {
     return () => cancelAnimationFrame(frame);
   }, []);
   return position;
+}
+
+/**
+ * Calls `onEnded` when the slide voiceover finishes the track at `src`. It listens for the
+ * audio element's "ended" event (which keeps firing in a hidden tab, unlike animation frames).
+ */
+export function useVoiceoverEnded(src: string, onEnded: () => void) {
+  const callback = useRef(onEnded);
+  useEffect(() => {
+    callback.current = onEnded;
+  });
+  useEffect(() => {
+    // "ended" does not bubble, so listen in the capture phase.
+    const handle = (event: Event) => {
+      const audio = event.target;
+      if (!(audio instanceof HTMLAudioElement) || !audio.hasAttribute("data-slide-voiceover")) return;
+      if (decodeURI(new URL(audio.currentSrc || audio.src, window.location.href).pathname) === src) callback.current();
+    };
+    document.addEventListener("ended", handle, true);
+    return () => document.removeEventListener("ended", handle, true);
+  }, [src]);
 }
 
 export function VoiceoverCues({ cues }: { cues: readonly VoiceoverCue[] }) {
