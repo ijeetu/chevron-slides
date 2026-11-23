@@ -10,7 +10,8 @@ export function ColinIntroSlide() {
       <div className="mx-auto grid w-full max-w-5xl items-center gap-10 md:grid-cols-[auto_1fr]">
         <div className="mx-auto w-40 overflow-hidden rounded-[1.4rem] border border-[#9beaff]/30 shadow-[0_24px_60px_rgba(0,0,0,0.45)] sm:w-48 md:w-56">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/colin/colin-heaton.png" alt="Colin D. Heaton" className="aspect-[312/438] h-full w-full object-cover" />
+          {/* 11.22.26: the suit portrait George sent, lightly touched up (light, skin tone, studio backdrop). */}
+          <img src="/colin/colin-heaton-suit.webp" alt="Colin D. Heaton" className="aspect-[2/3] h-full w-full object-cover object-top" />
         </div>
         <div className="text-center md:text-left">
           <p className="text-[0.72rem] font-semibold uppercase tracking-[0.34em] text-[#9beaff] sm:text-xs">Introducing the narrator</p>

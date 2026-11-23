@@ -19,10 +19,14 @@ function useStage() {
   const track = position ? TRACKS.indexOf(position.src) : -1;
   const t = position?.time ?? 0;
   const after = (i: number, at: number) => track > i || (track === i && t >= at);
+  // 11.22.26: c21 now opens with 2.6s of silence while the title holds large in the center.
+  const lead = 2.6;
   return {
-    citizen: after(0, 5.3),
-    will: after(0, 7.6),
-    signal: after(0, 14.1),
+    intro: track === 0 && t < 2.1,
+    phaseOne: after(0, lead),
+    citizen: after(0, lead + 5.3),
+    will: after(0, lead + 7.6),
+    signal: after(0, lead + 14.1),
     election: after(1, 0),
     paper: after(1, 0.6),
     rails: after(1, 3.4),
@@ -37,11 +41,11 @@ function useStage() {
   };
 }
 
-function Card({ icon, title, body, lit, focus = false }: { icon: ReactNode; title: string; body: string; lit: boolean; focus?: boolean }) {
+function Card({ icon, title, body, lit, focus = false, hideUntilLit = false }: { icon: ReactNode; title: string; body: string; lit: boolean; focus?: boolean; hideUntilLit?: boolean }) {
   return (
     <div
       className={`flex flex-col items-center rounded-2xl border px-4 py-4 text-center transition-all duration-700 sm:py-5 ${
-        lit ? "border-[#9beaff]/45 bg-[#12283a]/90 opacity-100" : "border-white/10 bg-[#101c28]/60 opacity-35"
+        lit ? "translate-y-0 border-[#9beaff]/45 bg-[#12283a]/90 opacity-100" : hideUntilLit ? "translate-y-3 border-white/10 bg-[#101c28]/60 opacity-0" : "border-white/10 bg-[#101c28]/60 opacity-35"
       } ${focus ? "scale-[1.04] border-[#9beaff] shadow-[0_0_40px_rgba(155,234,255,0.25)]" : ""}`}
     >
       <span className="text-[#9beaff]">{icon}</span>
@@ -56,18 +60,28 @@ export function CivicOsDiagramSlide() {
   const qualities = ["SECURITY", "PRIVACY", "ACCESSIBILITY", "AUDITABILITY", "PUBLIC CONFIDENCE"];
   return (
     <section className="flex h-full items-center justify-center overflow-y-auto px-5 py-8">
-      <div className="mx-auto w-full max-w-5xl text-center">
-        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.3em] text-[#9beaff] sm:text-xs">Civic Operating System</p>
-        <h1 className="mt-2 font-display text-[clamp(1.4rem,3vw,2.4rem)] font-semibold tracking-[-0.02em] text-[#f4f2ec]">AUTHENTICATING THE FUTURE OF REPRESENTATION</h1>
+      {/* 11.22.26: the title starts large in the center of the screen, then moves to the left as Colin begins. */}
+      <div aria-hidden="true" className={`pointer-events-none fixed inset-0 z-20 flex items-center justify-center bg-[#07101a] px-6 transition-opacity duration-700 ${s.intro ? "opacity-100" : "opacity-0"}`}>
+        <p className={`max-w-5xl text-center font-display text-[clamp(2.4rem,6.5vw,5.8rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-[#f4f2ec] transition-transform duration-700 ease-in-out ${s.intro ? "translate-x-0 scale-100" : "-translate-x-[28vw] -translate-y-[30vh] scale-50"}`}>
+          Authenticating the Future of Representation
+        </p>
+      </div>
+      <div className="mx-auto w-full max-w-5xl">
+        <header className="text-left">
+          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.3em] text-[#9beaff] sm:text-xs">Civic Operating System</p>
+          <h1 className="mt-2 font-display text-[clamp(1.6rem,3.4vw,2.8rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-[#f4f2ec]">Authenticating the Future of Representation</h1>
+        </header>
 
-        <p className="mt-5 text-left text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#a9bcc8]">Phase One — three core functions</p>
-        <div className="mt-2 grid gap-3 sm:grid-cols-3">
-          <Card icon={<UserCheck size={22} />} title="01 — VERIFY THE CITIZEN" body="Authenticate identity and participation eligibility" lit={s.citizen} />
-          <Card icon={<Users size={22} />} title="02 — CAPTURE THE PUBLIC WILL" body="Record legitimate participation and public sentiment" lit={s.will} />
-          <Card icon={<Files size={22} />} title="03 — VERIFY THE SIGNAL" body="Create tamper-evident, auditable participation records" lit={s.signal} />
+        <p className={`mt-6 font-display text-[clamp(1.1rem,2.2vw,1.7rem)] font-semibold tracking-[-0.01em] text-[#9beaff] transition-all duration-700 ${s.phaseOne ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}>
+          Phase One <span className="text-[#a9bcc8]">— three core functions</span>
+        </p>
+        <div className="mt-3 grid gap-3 text-center sm:grid-cols-3">
+          <Card icon={<UserCheck size={22} />} title="01 — VERIFY THE CITIZEN" body="Authenticate identity and participation eligibility" lit={s.citizen} hideUntilLit />
+          <Card icon={<Users size={22} />} title="02 — CAPTURE THE PUBLIC WILL" body="Record legitimate participation and public sentiment" lit={s.will} hideUntilLit />
+          <Card icon={<Files size={22} />} title="03 — VERIFY THE SIGNAL" body="Create tamper-evident, auditable participation records" lit={s.signal} hideUntilLit />
         </div>
 
-        <div className={`transition-all duration-700 ${s.election ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+        <div className={`text-center transition-all duration-700 ${s.election ? "opacity-100" : "pointer-events-none opacity-0"}`}>
           <p className="mt-4 flex items-center justify-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[#a9bcc8]">
             <ArrowDown size={14} aria-hidden="true" /> Additional safeguards for official elections
           </p>

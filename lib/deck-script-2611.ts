@@ -1,7 +1,7 @@
 import type { ViralFusionSlideId } from "./viral-fusion-deck";
 
 /**
- * Spoken script (revised through VF_Pres_11.20.26) for slides 3–22 of "VF_Pres_11.08.26.docx" (From Promises to Action),
+ * Spoken script (revised through VF_Pres_11.22.26) for slides 3–22 of "VF_Pres_11.08.26.docx" (From Promises to Action),
  * with the 11.9.26 revision of Colin's introduction.
  *
  * Each slide lists its spoken segments in order. A segment with `src` has audio and
@@ -28,9 +28,10 @@ const colin = (file: string | readonly string[], text: string): ScriptSegment =>
 });
 
 export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptSegment[]>> = {
+  // 11.22.26: Colin's introduction is rewritten and now hands over to George ("I'd like to introduce George Partsch.").
   "colin-intro": [
-    colin("c03", "I'm Colin Heaton. I'm a military historian, author, former professor, and veteran of the United States Army and Marine Corps. For decades, I've studied history, interviewed veterans, and worked to preserve the stories and lessons of the past. Helping to bring those stories to new audiences. Today, I'm here supporting a fellow Patriot."),
-    colin("c04", "I usually tell the stories of history. Today, we have an opportunity to help make it."),
+    colin("c03", "I'm Colin Heaton—author, military historian, former professor, veteran of both the United States Army and Marine Corps, and co-founder of the Forgotten History Channel. For decades, I've interviewed heroes and preserved the vital lessons of the past to help shape the leaders of tomorrow. Today, I'm standing with one of those leaders—a fellow Patriot—helping to share a vision, a strategy, and the technology with the power to change our future."),
+    colin("c04", "I usually tell the stories of history. Today, we have the chance to make it. I'd like to introduce George Partsch."),
   ],
   agenda: [
     // 11.16.26: "Our agenda." in Colin's voice, leading into his walk through the four sections
@@ -73,14 +74,15 @@ export const deckScript2611: Partial<Record<ViralFusionSlideId, readonly ScriptS
   ],
   "executing-vision": [
     g("s15a", "A movement can start with one man— someone who executes a strong vision with absolute conviction and puts in the time. His vision— look at what it became."),
-    g("s15b", "The people are ready for more than talk and debate. We've had plenty of that over the decades. And simply showing up to vote hasn't always delivered the results people were promised. So I have to ask you: Do our votes count? With absolute certainty? And how do we actually hold our leaders accountable— to the promises they've made to the people, and the oath they've sworn to the Constitution?"),
-    g("s15c", "What do we do when our constitutional republic is no longer working for “We the People”? When our elected representatives serve interests other than those of the citizens they're supposed to represent? When political leaders speak of protecting our democracy— yet the system doesn't provide a meaningful way to create change?"),
-    g("s15d", "I want you to see what becomes possible when we combine the raw distribution power of a podcast— with a strong strategy, the right operational tools, intelligence, and people who share a common purpose. Not simply to start another conversation. But to put a series of actions into motion. To demonstrate through execution what America First can mean. And through the results we achieve— build the foundation for the movement and new political party we envision."),
+    // 11.22.26: George's middle section is rewritten (recounts and audits since 2000).
+    g("s15b", "But the people are ready for more than talk and debate. We've had decades of that. Simply showing up to vote hasn't delivered the results people were promised. Since the year 2000, we've seen dozens of statewide recounts and tens of thousands of audits—yet millions of Americans are still left asking: Do our votes count with absolute certainty?"),
+    g("s15c", "What do we do when our constitutional republic stops working for “We the People”—when leaders speak of protecting democracy, yet the system offers no real way to hold them accountable?"),
+    g("s15d", "I want you to see what becomes possible when we combine the raw distribution power of a podcast with a clear strategy, operational tools, intelligence, and people united by purpose. Not to start another conversation—but to put action into motion. To prove through execution what America First actually looks like. And through the results we achieve, build the foundation for the movement—and the new political party—we envision."),
     g("s15e", "TPUSA was a turning point. This platform is what comes next."),
   ],
   // inspiration (Slide 16): 11.13.26 removes George's "We can partner…" voiceover; the video ends at 0:31.
   "mission-vision": [
-    g("s17", "Our Mission: Return power to the people by rebuilding public institutions with technology that unlocks civic trust and economic value at scale. Our Vision: Make the public will impossible to ignore by turning raw civic engagement into a data-driven engine for structural reform."),
+    g("s17", "Our Mission: Return power to the people through technology that builds civic trust, modernizes institutions, and creates economic value at scale. Our Vision: Make the public will impossible to ignore—turning civic engagement into an unstoppable engine for structural reform."),
   ],
   "five-pillars": [
     colin("c18", "If citizens are going to meaningfully shape what comes next— they need more than a voice. They need the infrastructure to act."),

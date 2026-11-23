@@ -1271,14 +1271,17 @@ function IntroVideoSlide() {
   const [videoPhase, setVideoPhase] = useState<"george" | "trump" | "hold" | "return" | "ended">("george");
   // VF_Pres_11.13.26: "Finish video @0:31". The video stops there, before the
   // January 6 splice below (captions finish that sentence at 85.219s).
-  const georgeEndTime = 32; // 11.17.26: finish at 0:32 "…to help make this happen"
-  const georgeSpliceTime = 85.25;
+  // 11.22.26: George's introduction now comes from the Viral Fusion Presentation recording
+  // (vimeo.com/1106898871): "My name is George Partsch…" (0:22.7) through "…protecting the future of freedom." (1:18.2).
+  const georgeStartTime = 22.7;
+  const georgeEndTime = 78.3;
+  const georgeSpliceTime = Number.POSITIVE_INFINITY; // the January 6 splice belonged to the earlier cut
 
   useEffect(() => () => transitionTimersRef.current.forEach(window.clearTimeout), []);
 
-  const sendVimeoCommand = (method: "play" | "pause" | "addEventListener" | "getCurrentTime", value?: string) => {
+  const sendVimeoCommand = (method: "play" | "pause" | "addEventListener" | "getCurrentTime" | "setCurrentTime", value?: string | number) => {
     georgeVideoRef.current?.contentWindow?.postMessage(
-      JSON.stringify(value ? { method, value } : { method }),
+      JSON.stringify(value !== undefined ? { method, value } : { method }),
       "https://player.vimeo.com",
     );
   };
@@ -1302,6 +1305,7 @@ function IntroVideoSlide() {
 
       if (message.event === "ready") {
         sendVimeoCommand("addEventListener", "timeupdate");
+        sendVimeoCommand("setCurrentTime", georgeStartTime);
         return;
       }
 
@@ -1397,7 +1401,7 @@ function IntroVideoSlide() {
             <div className="relative aspect-video">
               <iframe
                 ref={georgeVideoRef}
-                src="https://player.vimeo.com/video/1207181653?h=98b4a337c2&badge=0&autopause=0&api=1&player_id=george-intro&app_id=58479&autoplay=1"
+                src="https://player.vimeo.com/video/1106898871?h=b6d7cc9d40&badge=0&autopause=0&api=1&player_id=george-intro&app_id=58479&autoplay=1#t=22.7s"
                 title="George introduction video"
                 className="h-full w-full"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
@@ -1979,13 +1983,13 @@ const missionVisionItems = [
   {
     number: "01",
     title: "Our Mission",
-    body: "Return power to the people by rebuilding public institutions with technology that unlocks civic trust and economic value at scale.",
+    body: "Return power to the people through technology that builds civic trust, modernizes institutions, and creates economic value at scale.",
     letter: "M",
   },
   {
     number: "02",
     title: "Our Vision",
-    body: "Make the public will impossible to ignore by turning raw civic engagement into a data-driven engine for structural reform.",
+    body: "Make the public will impossible to ignore—turning civic engagement into an unstoppable engine for structural reform.",
     letter: "V",
   },
 ] as const;
@@ -2001,7 +2005,7 @@ function MissionVisionSlide() {
   // 11.20.26: open on "Driving Real Impact" (s17 now has a 2.8s lead-in), then only the Mission
   // card, then only the Vision card, centered as George reads each; the full slide follows.
   const intro = narrating && time < 2.8;
-  const spoken = !narrating || intro || !Number.isFinite(time) ? null : time < 13.1 ? 0 : 1;
+  const spoken = !narrating || intro || !Number.isFinite(time) ? null : time < 12.9 ? 0 : 1;
   const spokenItem = spoken === null ? null : missionVisionItems[spoken];
   return (
     <section className="presentation-scroll relative h-full w-full overflow-y-auto text-[#f7f8f8] md:overflow-hidden">
